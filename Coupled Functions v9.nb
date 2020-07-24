@@ -1,0 +1,2063 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     88043,       2055]
+NotebookOptionsPosition[     81710,       1954]
+NotebookOutlinePosition[     82065,       1970]
+CellTagsIndexPosition[     82022,       1967]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Coupled Functions", "Section",
+ CellChangeTimes->{{3.646132431389743*^9, 3.646132435055749*^9}, {
+  3.659521527764338*^9, 
+  3.659521528666133*^9}},ExpressionUUID->"ccfb8823-5ee3-4dd1-a5ef-\
+635366e928a6"],
+
+Cell[TextData[{
+ StyleBox["  \[Copyright]  Copyright, Kenric Nelson, 2020\n\n   This program \
+is free software: you can redistribute it and/or modify\n    it under the \
+terms of the GNU General Public License as published by\n    the Free \
+Software Foundation, either version 3 of the License, or\n    (at your \
+option) any later version.\n\n    This program is distributed in the hope \
+that it will be useful,\n    but WITHOUT ANY WARRANTY; without even the \
+implied warranty of\n    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. \
+ See the\n    GNU General Public License for more details.\n\n    You should \
+have received a copy of the GNU General Public License\n    along with this \
+program.  If not, see <https://www.gnu.org/licenses/>",
+  FontSlant->"Italic"],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.8046130577546253`*^9, 3.804613061773901*^9}, {
+  3.804613116770612*^9, 3.804613161352187*^9}, {3.804613193767625*^9, 
+  3.804613240144112*^9}, {3.804613481342988*^9, 
+  3.804613484230505*^9}},ExpressionUUID->"7c49f273-00ef-49a0-8d02-\
+e2387935c131"],
+
+Cell[TextData[{
+ "\n\nRev. 9\nAdd translators between the coupling (\[Kappa]), risk (",
+ StyleBox["r",
+  FontSlant->"Italic"],
+ "), and Tsallis (",
+ StyleBox["q",
+  FontSlant->"Italic"],
+ ")\n\nRev. 8 \na) Added clear and memory to each function.  When the \
+notebook is run it will clear the memory of that function. Each time the \
+function is executed the result will be stored in memory, so that computation \
+with the same inputs does not need to be repeated.\nb) reordered coupling \
+input to be consistent with StudentsTDistribution and related Wolfram \
+functions\n\nRev. 7 Removed the parameter alpha from the definition of the \
+coupled exponential and logarithm.  This is preparation for experimenting on \
+the proper two-parameter definitions for the functions.\n\nRev. 6 Added \
+Weighted Generalized Mean\n\nRev. 5 Modified Coupled Product so that \
+dimension used on outer exponent is d times Length[xList]\n\nRev. 4  Added \
+Coupled Sine and Cosine Functions\n\tPrototype initiated of Coupled Product \
+and Coupled Sum with structure of ",
+ StyleBox["Mathematica",
+  FontSlant->"Italic"],
+ " Product and Sum functions\n"
+}], "Text",
+ CellChangeTimes->{{3.6595215509218407`*^9, 3.659521632481785*^9}, {
+  3.661687835162488*^9, 3.661687871629945*^9}, {3.6624693428599777`*^9, 
+  3.6624693996300163`*^9}, {3.671541604033004*^9, 3.671541635348763*^9}, {
+  3.6820727716854057`*^9, 3.6820727827391*^9}, {3.684851915742679*^9, 
+  3.684851986312261*^9}, {3.7439505795379753`*^9, 3.743950580064905*^9}, {
+  3.80010696813774*^9, 3.800106974297241*^9}, {3.8010465437258787`*^9, 
+  3.801046584733327*^9}, {3.8033969426368427`*^9, 3.803396946122506*^9}, {
+  3.803396980127831*^9, 3.803397057222413*^9}, {3.803397717432239*^9, 
+  3.80339775835087*^9}, {3.804520928861504*^9, 3.804520972117885*^9}, {
+  3.8046130443342752`*^9, 3.8046130545975237`*^9}, {3.8046132929883823`*^9, 
+  3.804613341179738*^9}},ExpressionUUID->"3483005b-8452-4ec6-83c3-\
+8e0bbc08b62e"],
+
+Cell[CellGroupData[{
+
+Cell["Coupled Exponential", "Subsection",
+ CellChangeTimes->{{3.646132643363847*^9, 
+  3.6461326462342515`*^9}},ExpressionUUID->"81a76452-688a-45bd-98be-\
+669c9ee70463"],
+
+Cell[TextData[{
+ "The variable ",
+ StyleBox["x ",
+  FontSlant->"Italic"],
+ "is applied to a coupled exponential function.  ",
+ StyleBox["\[Kappa]",
+  FontSlant->"Italic"],
+ " controls the degree of nonlinear statistical coupling, where ",
+ StyleBox["\[Kappa] ",
+  FontSlant->"Italic"],
+ "= 0 is linear domain of an exponential function.  ",
+ StyleBox["d ",
+  FontSlant->"Italic"],
+ "and ",
+ StyleBox["\[Alpha]",
+  FontSlant->"Italic"],
+ " should match the dimension and power (",
+ StyleBox["x = ",
+  FontSlant->"Italic"],
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["y", "\[Alpha]"], TraditionalForm]],
+  FontSlant->"Italic",ExpressionUUID->"6bb497f7-4b61-4038-8498-039633248b44"],
+ ") of the variable ",
+ StyleBox["x.\n\n",
+  FontSlant->"Italic"],
+ "Inputs\nx - variable to which coupled exponential is applied\n\[Kappa] - \
+coupling parameter which modifies the coupled exponential function\nd - \
+dimension, should be equal to the dimension of x\n"
+}], "Text",
+ CellChangeTimes->{{3.654415927952281*^9, 3.6544161904666653`*^9}, {
+  3.6546922522633457`*^9, 3.654692365382756*^9}, {3.654692672840823*^9, 
+  3.6546926737351418`*^9}, {3.661687908399137*^9, 3.6616882576557426`*^9}, {
+  3.684851995912294*^9, 
+  3.684852001272346*^9}},ExpressionUUID->"762dba98-5065-487c-b54b-\
+83b044c6f343"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "CoupledExponential", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"CoupledExponential", "[", 
+   RowBox[{"x_", ",", 
+    RowBox[{"\[Kappa]_:", "0"}], ",", 
+    RowBox[{"d_:", "1"}]}], "]"}], ":=", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"CoupledExponential", "[", 
+    RowBox[{"x", ",", "\[Kappa]", ",", "d"}], "]"}], "=", 
+   "\[IndentingNewLine]", 
+   RowBox[{"Which", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"\[Kappa]", ">", "0"}], ",", 
+     SuperscriptBox[
+      RowBox[{"(", 
+       RowBox[{"1", "+", " ", 
+        RowBox[{"\[Kappa]", " ", "x"}]}], ")"}], 
+      FractionBox[
+       RowBox[{"1", "+", 
+        RowBox[{"d", " ", "\[Kappa]"}]}], 
+       RowBox[{" ", "\[Kappa]"}]]], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"-", "1"}], "\[LessSlantEqual]", "\[Kappa]", "<", "0"}], ",", 
+     " ", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Simplify", "[", 
+         RowBox[{"1", "+", 
+          RowBox[{"\[Kappa]", " ", "x"}]}], "]"}], ">", "0"}], ",", 
+       "\[IndentingNewLine]", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"1", "+", " ", 
+          RowBox[{"\[Kappa]", " ", "x"}]}], ")"}], 
+        FractionBox[
+         RowBox[{"1", "+", 
+          RowBox[{"d", " ", "\[Kappa]"}]}], "\[Kappa]"]], ",", "0"}], "]"}], 
+     ",", "\[IndentingNewLine]", 
+     RowBox[{"\[Kappa]", "\[Equal]", "0"}], ",", 
+     RowBox[{"Exp", "[", "x", "]"}], ",", "\[IndentingNewLine]", "True", ",", 
+     " ", 
+     RowBox[{"Message", "[", 
+      RowBox[{
+       RowBox[{"CoupledExponential", "::", "nnarg"}], ",", "\[Kappa]"}], 
+      "]"}]}], "\[IndentingNewLine]", "]"}]}]}]}], "Input",
+ CellChangeTimes->{{3.6461326503526587`*^9, 3.6461329477203813`*^9}, {
+   3.648723320496894*^9, 3.6487234070458455`*^9}, {3.6487234435343094`*^9, 
+   3.648723478478371*^9}, {3.648723534435669*^9, 3.6487235821249533`*^9}, {
+   3.6487236222482233`*^9, 3.6487236229190245`*^9}, 3.6487237079391737`*^9, {
+   3.6487260579847016`*^9, 3.6487260720559263`*^9}, {3.6546923724163313`*^9, 
+   3.654692381838135*^9}, {3.654692667993305*^9, 3.654692818726687*^9}, {
+   3.65469293747476*^9, 3.6546929652401123`*^9}, {3.654693493743395*^9, 
+   3.654693514998253*^9}, {3.684852007696492*^9, 3.684852058955173*^9}, {
+   3.8033975461238537`*^9, 3.803397580959036*^9}},
+ CellLabel->"In[71]:=",ExpressionUUID->"d08c6e66-4bf1-46c3-8911-ba0a436bccc6"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"CoupledExponential", "::", "nnarg"}], " ", "=", " ", 
+   "\"\<Error: \[Kappa] = `1` is not greater than -1.\>\""}], ";"}]], "Input",
+ CellChangeTimes->{{3.6546935399322157`*^9, 3.6546935986816177`*^9}, {
+  3.6546937822283907`*^9, 3.654693800241928*^9}},
+ CellLabel->"In[73]:=",ExpressionUUID->"38dda050-2638-4b48-a179-17895d521415"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Coupled Logarithm", "Subsection",
+ CellChangeTimes->{{3.6461331034242544`*^9, 
+  3.646133107605062*^9}},ExpressionUUID->"ab563a47-0e25-473b-b61a-\
+d8d924bb7bbe"],
+
+Cell["\<\
+Generalization of the logarithm function, which defines smooth transition to \
+power functions.\
+\>", "Text",
+ CellChangeTimes->{{3.6616884023527117`*^9, 
+  3.6616884375340853`*^9}},ExpressionUUID->"e3c25309-77e2-4d04-85d4-\
+66096212348e"],
+
+Cell["\<\
+Inputs
+x - variable to which coupled exponential is applied
+\[Kappa] - coupling parameter which modifies the coupled exponential function
+d - dimension, should be equal to the dimension of x
+
+Planned Improvements
+The coupled logarithm function currently includes a negative sign multiplying \
+the parameter \[Alpha].  This was done in anticipation of using the function \
+with coupled distributions; however, this is not consistent with the \
+definitions which have been published.  Next version of the functions will \
+only include the negative sign in the distribution definitions.\
+\>", "Text",
+ CellChangeTimes->{{3.6616883024697313`*^9, 3.661688325148985*^9}, {
+  3.684852076251569*^9, 
+  3.684852076719949*^9}},ExpressionUUID->"47a8764e-ea62-489d-9821-\
+5795550c582b"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "CoupledLogarithm", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"CoupledLogarithm", "[", 
+   RowBox[{"x_", ",", 
+    RowBox[{"\[Kappa]_:", "0"}], ",", 
+    RowBox[{"d_:", "1"}]}], "]"}], ":=", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"CoupledLogarithm", "[", 
+    RowBox[{"x", ",", "\[Kappa]", ",", "d"}], "]"}], "=", 
+   "\[IndentingNewLine]", 
+   RowBox[{"If", "[", 
+    RowBox[{
+     RowBox[{"x", "\[GreaterEqual]", "0"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"\[Kappa]", "\[NotEqual]", "0"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        FractionBox["1", "\[Kappa]"], 
+        RowBox[{"(", 
+         RowBox[{
+          SuperscriptBox["x", 
+           FractionBox["\[Kappa]", 
+            RowBox[{"1", "+", 
+             RowBox[{"d", " ", "\[Kappa]"}]}]]], "-", "1"}], ")"}]}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Log", "[", "x", "]"}]}], "\[IndentingNewLine]", "]"}], ",", 
+     "\[IndentingNewLine]", "Undefined"}], "\[IndentingNewLine]", 
+    "]"}]}]}]}], "Input",
+ CellChangeTimes->{{3.6461331535627427`*^9, 3.6461332333256826`*^9}, {
+  3.6461332741041546`*^9, 3.646133400122376*^9}, {3.648723647988269*^9, 
+  3.6487237693720818`*^9}, {3.684852083015833*^9, 3.68485209848703*^9}, {
+  3.803397611621414*^9, 3.803397641622694*^9}},
+ CellLabel->"In[74]:=",ExpressionUUID->"d35506b4-a030-4b74-b3b7-261dac74a4d0"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Coupled Gaussian - One Dimension", "Subsection",
+ CellChangeTimes->{{3.646132445226967*^9, 3.646132447598171*^9}, {
+  3.6544155271950903`*^9, 
+  3.6544155320489798`*^9}},ExpressionUUID->"d85a8cb4-825c-4ccf-b02b-\
+a3f67211e406"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "CoupledNormalDistribution", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"CoupledNormalDistribution", "[", 
+   RowBox[{
+    RowBox[{"\[Mu]_:", "0"}], ",", "\[Sigma]_", ",", "\[Kappa]_"}], "]"}], ":=",
+   " ", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"CoupledNormalDistribution", "[", 
+    RowBox[{"\[Mu]", ",", "\[Sigma]", ",", "\[Kappa]"}], "]"}], "=", 
+   "\[IndentingNewLine]", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "x", "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"ProbabilityDistribution", "[", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{
+        FractionBox["1", 
+         RowBox[{"NormCG", "[", 
+          RowBox[{"\[Sigma]", ",", "\[Kappa]"}], "]"}]], 
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{"CoupledExponential", "[", 
+           RowBox[{
+            FractionBox[
+             SuperscriptBox[
+              RowBox[{"(", 
+               RowBox[{"x", "-", "\[Mu]"}], ")"}], "2"], 
+             SuperscriptBox["\[Sigma]", "2"]], ",", "\[Kappa]"}], "]"}], 
+          ")"}], 
+         FractionBox[
+          RowBox[{"-", "1"}], "2"]]}], ",", "\[IndentingNewLine]", 
+       RowBox[{"{", 
+        RowBox[{"x", ",", 
+         RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}]}], "]"}]}],
+     "\[IndentingNewLine]", "]"}]}]}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.6461324589549913`*^9, 3.646132624721814*^9}, {
+   3.646133117355079*^9, 3.646133133345107*^9}, {3.64872504373332*^9, 
+   3.6487250471029263`*^9}, {3.6487251433082952`*^9, 
+   3.6487251456170993`*^9}, {3.6487251798747597`*^9, 
+   3.6487251825111637`*^9}, {3.6487252131028175`*^9, 
+   3.6487252209340315`*^9}, {3.6487252585456977`*^9, 
+   3.6487253041445775`*^9}, {3.648725743456949*^9, 3.648725745016952*^9}, {
+   3.6487273010116854`*^9, 3.6487273229141245`*^9}, {3.649948071263131*^9, 
+   3.6499480834623528`*^9}, {3.6499481450824604`*^9, 3.649948150074469*^9}, {
+   3.684852114344809*^9, 3.684852152354267*^9}, 3.684852910330243*^9, 
+   3.684856926721586*^9, {3.803397674043252*^9, 3.803397701244432*^9}, {
+   3.803397891596146*^9, 3.8033979288886843`*^9}, {3.8033979721857986`*^9, 
+   3.8033980143235617`*^9}, {3.803398048324604*^9, 3.803398056860504*^9}, {
+   3.803398098144631*^9, 3.80339810187938*^9}},
+ CellLabel->"In[76]:=",ExpressionUUID->"9ee0c0bd-5fb8-4431-bc94-d7134679b664"],
+
+Cell[CellGroupData[{
+
+Cell["Normalization of 1-D Coupled Gaussian", "Subsubsection",
+ CellChangeTimes->{{3.646136837054983*^9, 
+  3.646136848973404*^9}},ExpressionUUID->"6e0767ec-c365-4754-9597-\
+3f2c5735ddba"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"NormCG", "[", 
+   RowBox[{"\[Sigma]_", ",", "\[Kappa]_"}], "]"}], ":=", 
+  TagBox[GridBox[{
+     {"\[Piecewise]", GridBox[{
+        {
+         RowBox[{
+          SqrtBox[
+           RowBox[{"2", " ", "\[Pi]"}]], " ", "\[Sigma]"}], 
+         RowBox[{"\[Kappa]", "\[Equal]", "0"}]},
+        {
+         FractionBox[
+          RowBox[{
+           SqrtBox["\[Pi]"], " ", "\[Sigma]", " ", 
+           RowBox[{"Gamma", "[", 
+            FractionBox[
+             RowBox[{
+              RowBox[{"-", "1"}], "+", "\[Kappa]"}], 
+             RowBox[{"2", " ", "\[Kappa]"}]], "]"}]}], 
+          RowBox[{
+           SqrtBox[
+            RowBox[{"-", "\[Kappa]"}]], " ", 
+           RowBox[{"Gamma", "[", 
+            RowBox[{"1", "-", 
+             FractionBox["1", 
+              RowBox[{"2", " ", "\[Kappa]"}]]}], "]"}]}]], 
+         RowBox[{"\[Kappa]", "<", "0"}]},
+        {
+         FractionBox[
+          RowBox[{
+           SqrtBox["\[Pi]"], " ", "\[Sigma]", " ", 
+           RowBox[{"Gamma", "[", 
+            FractionBox["1", 
+             RowBox[{"2", " ", "\[Kappa]"}]], "]"}]}], 
+          RowBox[{
+           SqrtBox["\[Kappa]"], " ", 
+           RowBox[{"Gamma", "[", 
+            FractionBox[
+             RowBox[{"1", "+", "\[Kappa]"}], 
+             RowBox[{"2", " ", "\[Kappa]"}]], "]"}]}]], 
+         TagBox["True",
+          "PiecewiseDefault",
+          AutoDelete->True]}
+       },
+       AllowedDimensions->{2, Automatic},
+       Editable->True,
+       GridBoxAlignment->{
+        "Columns" -> {{Left}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}},
+          "RowsIndexed" -> {}},
+       GridBoxItemSize->{
+        "Columns" -> {{Automatic}}, "ColumnsIndexed" -> {}, "Rows" -> {{1.}}, 
+         "RowsIndexed" -> {}},
+       GridBoxSpacings->{"Columns" -> {
+           Offset[0.27999999999999997`], {
+            Offset[0.84]}, 
+           Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+           Offset[0.2], {
+            Offset[0.4]}, 
+           Offset[0.2]}, "RowsIndexed" -> {}},
+       Selectable->True]}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Left}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxItemSize->{
+     "Columns" -> {{Automatic}}, "ColumnsIndexed" -> {}, "Rows" -> {{1.}}, 
+      "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.35]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}],
+   "Piecewise",
+   DeleteWithContents->True,
+   Editable->False,
+   SelectWithContents->True,
+   Selectable->False]}]], "Input",
+ CellChangeTimes->{{3.6461368583334208`*^9, 3.646136923385535*^9}, {
+   3.64613695480399*^9, 3.6461370486849546`*^9}, {3.646137201721224*^9, 
+   3.6461372067444324`*^9}, 3.6487251935559835`*^9, {3.6487257287617235`*^9, 
+   3.6487257306805267`*^9}, {3.6487262070585637`*^9, 
+   3.6487262382742186`*^9}, {3.648726505627488*^9, 3.6487265097458954`*^9}, {
+   3.6499481234608226`*^9, 3.6499481278912306`*^9}, {3.803398022582658*^9, 
+   3.803398026438119*^9}},
+ CellLabel->"In[78]:=",ExpressionUUID->"5eb84abf-0c0f-479f-a442-af94720a7842"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Coupled Exponential Distribution - One Dimension", "Subsection",
+ CellChangeTimes->{{3.6487198994656854`*^9, 3.6487199097773037`*^9}, {
+  3.654415535761125*^9, 
+  3.6544155394191113`*^9}},ExpressionUUID->"8c23c0dc-e252-4bcb-93e2-\
+f761c007bd15"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "CoupledExponentialDistribution", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"CoupledExponentialDistribution", "[", 
+   RowBox[{
+    RowBox[{"\[Mu]_:", "0"}], ",", "\[Sigma]_", ",", "\[Kappa]_"}], "]"}], ":=",
+   "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"CoupledExponentialDistribution", "[", 
+    RowBox[{"\[Mu]", ",", "\[Sigma]", ",", "\[Kappa]"}], "]"}], "=", 
+   "\[IndentingNewLine]", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "x", "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"ProbabilityDistribution", "[", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"\[Piecewise]", GridBox[{
+          {
+           RowBox[{
+            FractionBox["1", "\[Sigma]"], 
+            SuperscriptBox[
+             RowBox[{"(", 
+              RowBox[{"CoupledExponential", "[", 
+               RowBox[{
+                FractionBox[
+                 RowBox[{"x", "-", "\[Mu]"}], "\[Sigma]"], ",", "\[Kappa]", 
+                ",", "1"}], "]"}], ")"}], 
+             RowBox[{"-", "1"}]]}], 
+           RowBox[{
+            RowBox[{"x", "-", "\[Mu]"}], "\[GreaterSlantEqual]", "0"}]},
+          {"0", "True"}
+         },
+         GridBoxAlignment->{
+          "Columns" -> {{Left}}, "ColumnsIndexed" -> {}, 
+           "Rows" -> {{Baseline}}, "RowsIndexed" -> {}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "ColumnsIndexed" -> {}, 
+           "Rows" -> {{1.}}, "RowsIndexed" -> {}},
+         GridBoxSpacings->{"Columns" -> {
+             Offset[0.27999999999999997`], {
+              Offset[0.84]}, 
+             Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+             Offset[0.2], {
+              Offset[0.4]}, 
+             Offset[0.2]}, "RowsIndexed" -> {}}]}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"{", 
+        RowBox[{"x", ",", 
+         RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}]}], "]"}]}],
+     "\[IndentingNewLine]", "]"}]}]}]}], "Input",
+ CellChangeTimes->{{3.648720168441358*^9, 3.648720504294348*^9}, {
+   3.648721030046471*^9, 3.6487210304052715`*^9}, {3.64872112041743*^9, 
+   3.648721139901864*^9}, {3.64872139939392*^9, 3.648721409346738*^9}, {
+   3.648721456958021*^9, 3.6487214700308437`*^9}, {3.648721542967372*^9, 
+   3.648721570064619*^9}, {3.6487216663947887`*^9, 3.648721680918414*^9}, {
+   3.6487217343641076`*^9, 3.648721744878526*^9}, {3.6487221378120165`*^9, 
+   3.64872214553403*^9}, {3.6487222141585503`*^9, 3.6487222261081715`*^9}, {
+   3.648722258369028*^9, 3.648722285138675*^9}, {3.6487223582092037`*^9, 
+   3.6487223838712482`*^9}, {3.648722433479336*^9, 3.648722438705345*^9}, 
+   3.6487225052862616`*^9, 3.6487229509322443`*^9, {3.648723001959934*^9, 
+   3.648723006343542*^9}, 3.6487232717156076`*^9, {3.648723999129286*^9, 
+   3.6487241419631367`*^9}, {3.648724450282078*^9, 3.648724485085739*^9}, {
+   3.6499480947723722`*^9, 3.6499481005287824`*^9}, {3.654435141063149*^9, 
+   3.654435162005294*^9}, {3.654435193701748*^9, 3.6544351947484503`*^9}, {
+   3.684852204942642*^9, 3.684852228879825*^9}, 3.684852891392569*^9, {
+   3.803398146091093*^9, 3.803398215674343*^9}, 3.803398287976729*^9},
+ CellLabel->"In[79]:=",ExpressionUUID->"44c90910-0e53-4b3e-a587-63e244c476f5"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Multivariate Coupled Stretched Exponential Distribution", "Subsection",
+ CellChangeTimes->{{3.654435044121716*^9, 
+  3.654435078247295*^9}},ExpressionUUID->"0b940d3e-f6af-42d9-9ba2-\
+2bf8c398d37f"],
+
+Cell["\<\
+Status:  Currently only defined for \[Alpha] = 1 or 2 and for \[Kappa] > 0 \
+and needs to be tested\
+\>", "Text",
+ CellChangeTimes->{{3.654435528000255*^9, 3.654435548063262*^9}, {
+  3.6544360749125957`*^9, 3.654436080855084*^9}, {3.654436218333522*^9, 
+  3.654436220500187*^9}, {3.654437744017771*^9, 
+  3.654437748488207*^9}},ExpressionUUID->"9afd2663-16bd-4567-81ac-\
+874a6041877b"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "MultivariateCoupledDistribution", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"MultivariateCoupledDistribution", "[", 
+   RowBox[{"\[Alpha]_", ",", 
+    RowBox[{"\[Mu]_:", "0"}], ",", 
+    RowBox[{"\[Sigma]_:", "1"}], ",", "\[Kappa]_", ",", "d_"}], "]"}], ":=", 
+  " ", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"MultivariateCoupledDistribution", "[", 
+    RowBox[{
+    "\[Alpha]", ",", "\[Mu]", ",", "\[Sigma]", ",", "\[Kappa]", ",", "d"}], 
+    "]"}], "=", "\[IndentingNewLine]", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "x", "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"ProbabilityDistribution", "[", "\[IndentingNewLine]", 
+      RowBox[{
+       FractionBox[
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{"CoupledExponential", "[", 
+           RowBox[{
+            SuperscriptBox[
+             RowBox[{"(", 
+              FractionBox[
+               RowBox[{"x", "-", "\[Mu]"}], "\[Sigma]"], ")"}], "\[Alpha]"], 
+            ",", "\[Kappa]", ",", "d"}], "]"}], ")"}], 
+         FractionBox[
+          RowBox[{"-", "1"}], "\[Alpha]"]], 
+        RowBox[{"NormMultiCoupled", "[", 
+         RowBox[{"\[Alpha]", ",", "\[Sigma]", ",", "\[Kappa]", ",", "d"}], 
+         "]"}]], ",", "\[IndentingNewLine]", 
+       RowBox[{"Which", "[", 
+        RowBox[{
+         RowBox[{"\[Alpha]", "\[Equal]", "1"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"x", ",", "0", ",", "\[Infinity]"}], "}"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"\[Alpha]", "\[Equal]", "2"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"x", ",", 
+           RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}]}], 
+        "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", "]"}]}], " ", 
+    "\[IndentingNewLine]", "]"}]}]}]}], "Input",
+ CellChangeTimes->{{3.654435110165873*^9, 3.654435118892356*^9}, {
+  3.654435206606093*^9, 3.654435304285125*^9}, {3.684852351852722*^9, 
+  3.684852382067622*^9}, {3.684852443061008*^9, 3.6848524490048103`*^9}, {
+  3.684852484700811*^9, 3.6848525425446177`*^9}, {3.684852573595951*^9, 
+  3.684852589687436*^9}, {3.684852625797862*^9, 3.684852628906032*^9}, {
+  3.684852793885751*^9, 3.6848528617445593`*^9}, {3.6848530016505127`*^9, 
+  3.684853047233666*^9}, {3.684853195376363*^9, 3.684853197892511*^9}, {
+  3.80339840893863*^9, 3.803398556088496*^9}},
+ CellLabel->"In[81]:=",ExpressionUUID->"4f1d6f34-6fd4-4aad-8018-ed8e3ed20179"],
+
+Cell[CellGroupData[{
+
+Cell["Normalization of Multivariate Coupled Stretched Exponential", \
+"Subsubsection",
+ CellChangeTimes->{{3.654435331180427*^9, 3.654435342970766*^9}}],
+
+Cell["\<\
+Normalization has only been completed for positive values of coupling\
+\>", "Text",
+ CellChangeTimes->{{3.6848582978916397`*^9, 
+  3.684858316282687*^9}},ExpressionUUID->"3a201432-a434-435f-bfb3-\
+be089adbc95c"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "NormMultiCoupled", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"NormMultiCoupled", "[", 
+   RowBox[{"\[Alpha]_", ",", "\[Sigma]_", ",", "\[Kappa]_", ",", "d_"}], 
+   "]"}], ":=", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"NormMultiCoupled", "[", 
+    RowBox[{"\[Alpha]", ",", "\[Sigma]", ",", "\[Kappa]", ",", "d"}], "]"}], 
+   "=", "\[IndentingNewLine]", 
+   RowBox[{"Which", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"\[Alpha]", "\[Equal]", "1"}], ",", 
+     FractionBox["\[Sigma]", 
+      RowBox[{"1", "+", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"-", "1"}], "+", "d"}], ")"}], " ", "\[Kappa]"}]}]], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"\[Alpha]", "\[Equal]", "2"}], ",", 
+     FractionBox[
+      RowBox[{
+       SqrtBox["\[Pi]"], " ", "\[Sigma]", " ", 
+       RowBox[{"Gamma", "[", 
+        FractionBox[
+         RowBox[{"1", "+", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"-", "1"}], "+", "d"}], ")"}], " ", "\[Kappa]"}]}], 
+         RowBox[{"2", " ", "\[Kappa]"}]], "]"}]}], 
+      RowBox[{
+       SqrtBox["\[Kappa]"], " ", 
+       RowBox[{"Gamma", "[", 
+        FractionBox[
+         RowBox[{"1", "+", 
+          RowBox[{"d", " ", "\[Kappa]"}]}], 
+         RowBox[{"2", " ", "\[Kappa]"}]], "]"}]}]]}], "\[IndentingNewLine]", 
+    "]"}]}]}]}], "Input",
+ CellChangeTimes->{{3.654435356283599*^9, 3.65443538942196*^9}, {
+   3.654435429150065*^9, 3.654435475931428*^9}, {3.654435564846726*^9, 
+   3.6544356298691063`*^9}, {3.6544357156725197`*^9, 3.654435725340942*^9}, {
+   3.654435883835155*^9, 3.654435951184559*^9}, {3.6544363665924377`*^9, 
+   3.654436369983029*^9}, {3.654436990016789*^9, 3.654436997218802*^9}, {
+   3.654437070149404*^9, 3.654437108586254*^9}, {3.65443727541739*^9, 
+   3.6544372774157057`*^9}, 3.6544374547943573`*^9, {3.6544374850014057`*^9, 
+   3.654437485407421*^9}, {3.654437570567185*^9, 3.654437585476795*^9}, {
+   3.8033985700306387`*^9, 3.8033986493039722`*^9}},
+ CellLabel->"In[83]:=",ExpressionUUID->"16f9a46b-7ab5-4777-946d-4c70022e4dc6"],
+
+Cell[BoxData[
+ RowBox[{"(*", " ", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+   "The", " ", "integral", " ", "for", " ", "arbitrary", " ", "\[Alpha]", " ",
+     "does", " ", "not", " ", "simplify"}], ";", " ", 
+   RowBox[{
+   "will", " ", "need", " ", "to", " ", "define", " ", "an", " ", "explicit", 
+    " ", "solution", " ", "or", " ", "approach", " ", 
+    RowBox[{"Assuming", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"\[Infinity]", ">", "\[Kappa]", ">", "0"}], "&&", 
+       RowBox[{"\[Infinity]", ">", "\[Alpha]", ">", "0"}]}], ",", 
+      RowBox[{
+       SubsuperscriptBox["\[Integral]", "0", "\[Infinity]"], 
+       RowBox[{
+        RowBox[{"Refine", "[", 
+         SuperscriptBox[
+          RowBox[{"(", 
+           RowBox[{"CoupledExponential", "[", 
+            RowBox[{
+             SuperscriptBox[
+              RowBox[{"(", 
+               FractionBox["x", "\[Sigma]"], ")"}], "\[Alpha]"], ",", 
+             "\[Kappa]", ",", "d"}], "]"}], ")"}], 
+          FractionBox[
+           RowBox[{"-", "1"}], "\[Alpha]"]], "]"}], 
+        RowBox[{"\[DifferentialD]", "x"}]}]}]}], "]"}]}]}], 
+  "\[IndentingNewLine]", "*)"}]], "Input",
+ CellChangeTimes->{{3.65443702430345*^9, 3.65443703859688*^9}, {
+  3.684853143571435*^9, 3.684853164150138*^9}, {3.684853221496646*^9, 
+  3.6848532227839527`*^9}, {3.692817846011331*^9, 3.692817859485376*^9}, {
+  3.6928185458527946`*^9, 3.692818600316616*^9}, {3.692818944198844*^9, 
+  3.692818962076159*^9}, {3.6928262794859962`*^9, 3.692826340153672*^9}},
+ CellLabel->"In[85]:=",ExpressionUUID->"5b5bc67f-e221-4b47-b2f2-9c9ecc94524a"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Coupled Probability", "Subsection",
+ CellChangeTimes->{{3.6490593829476566`*^9, 
+  3.6490593858024616`*^9}},ExpressionUUID->"3e656e5f-d42d-48f2-ba1f-\
+c05bb1602876"],
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  StyleBox[
+   RowBox[{
+    RowBox[{
+    "The", " ", "Coupled", " ", "Probability", " ", "raises", " ", "a", " ", 
+     "distribution", " ", "to", " ", "the", " ", "power"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{"1", " ", "-", " ", 
+     RowBox[{
+     "\[Kappa]Mult", " ", "and", " ", "then", " ", "renormalizes", " ", "the",
+       " ", 
+      RowBox[{"distribution", ".", "  ", "The"}], " ", "input"}]}], 
+    "\[IndentingNewLine]", 
+    RowBox[{
+    "The", " ", "coupling", " ", "term", " ", "M", " ", "is", " ", "the", " ",
+      "multiplicative", " ", 
+     RowBox[{"coupling", ".", "  ", "It"}], " ", "is", " ", "related", " ", 
+     "to", " ", "the", " ", "source", " ", "of", " ", "coupling", " ", 
+     "\[Kappa]", " ", 
+     RowBox[{"(", 
+      RowBox[{"small", " ", "kappa"}], ")"}], " ", "by", " ", "the", " ", 
+     "relationship"}], "\[IndentingNewLine]", "\t\t", 
+    RowBox[{"\[Kappa]Mult", " ", "=", " ", 
+     FractionBox[
+      RowBox[{
+       RowBox[{"-", "\[Alpha]"}], " ", "\[Kappa]"}], 
+      RowBox[{"1", "+", 
+       RowBox[{
+        StyleBox["d",
+         FontSlant->"Italic"], 
+        StyleBox[" ",
+         FontSlant->"Italic"], "\[Kappa]"}]}]]}], "\[IndentingNewLine]", 
+    RowBox[{
+    "where", " ", "\[Alpha]", " ", "is", " ", "the", " ", "power", " ", "and",
+      " ", 
+     StyleBox["d",
+      FontSlant->"Italic"], 
+     StyleBox[" ",
+      FontSlant->"Italic"], "is", " ", "the", " ", "dimension", " ", "of", 
+     " ", "the", " ", "random", " ", "variable", " ", "of", " ", "the", " ", 
+     "distribution"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+     "The", " ", "function", " ", "is", " ", "currently", " ", "written", " ",
+       "for", " ", "continuous", " ", "distributions"}], ",", " ", 
+     RowBox[{
+     "though", " ", "discrete", " ", "distributions", " ", "are", " ", "also",
+       " ", 
+      RowBox[{"possible", ".", "  ", "f"}], " ", "is", " ", "required", " ", 
+      "to", " ", "be", " ", "distribution"}], ",", " ", 
+     RowBox[{"such", " ", "that", " ", 
+      RowBox[{"PDF", "[", 
+       RowBox[{
+        StyleBox["f",
+         FontSlant->"Italic"], ",", 
+        RowBox[{"{", 
+         StyleBox[
+          RowBox[{"x", ",", 
+           SubscriptBox["x", "min"], ",", 
+           SubscriptBox["x", "max"]}],
+          FontSlant->"Italic"], "}"}]}], "]"}], " ", "will", " ", "produce", 
+      " ", "a", " ", "continuous", " ", 
+      RowBox[{"distribution", ".", "  ", "The"}], " ", "output", " ", "is", 
+      " ", "also", " ", "a", " ", "new", " ", 
+      RowBox[{"distribution", "."}]}]}]}],
+   FontFamily->"Source Sans Pro",
+   FontWeight->"Regular"]}]], "Text",
+ CellChangeTimes->{{3.803398818344379*^9, 3.803398830417376*^9}, 
+   3.803398901123645*^9},ExpressionUUID->"55225ce6-d41c-4d0e-af97-\
+deef655d0531"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "CoupledProbability", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"CoupledProbability", "[", 
+    RowBox[{"dist_", ",", "\[Kappa]Mult_", ",", "x_", ",", 
+     RowBox[{"xmin_:", "-", "\[Infinity]"}], ",", 
+     RowBox[{"xmax_:", "\[Infinity]"}]}], "]"}], ":=", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"CoupledProbability", "[", 
+     RowBox[{
+     "dist", ",", "\[Kappa]Mult", ",", "x", ",", "xmin", ",", "xmax"}], "]"}],
+     "=", "\[IndentingNewLine]", 
+    RowBox[{"FullSimplify", "[", "\[IndentingNewLine]", 
+     FractionBox[
+      SuperscriptBox[
+       RowBox[{"(", 
+        RowBox[{"PDF", "[", 
+         RowBox[{"dist", ",", "x"}], "]"}], ")"}], 
+       RowBox[{"1", "-", "\[Kappa]Mult"}]], 
+      RowBox[{
+       SubsuperscriptBox["\[Integral]", "xmin", "xmax"], 
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{"PDF", "[", 
+           RowBox[{"dist", ",", "y"}], "]"}], ")"}], 
+         RowBox[{"1", "-", "\[Kappa]Mult"}]], 
+        RowBox[{"\[DifferentialD]", "y"}]}]}]], "\[IndentingNewLine]", 
+     "]"}]}]}], "\[IndentingNewLine]"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.6490593922452726`*^9, 3.6490596887081933`*^9}, {
+   3.6490597269438605`*^9, 3.6490597882675686`*^9}, {3.6490600115663605`*^9, 
+   3.6490600347792015`*^9}, {3.6490601162113447`*^9, 
+   3.6490601266477623`*^9}, {3.6490601667710333`*^9, 3.649060224350734*^9}, {
+   3.6490609704064445`*^9, 3.649061014351722*^9}, {3.649061140306343*^9, 
+   3.6490611910688324`*^9}, {3.649061295230215*^9, 3.6490613109082427`*^9}, {
+   3.6490616403184214`*^9, 3.6490616421436243`*^9}, {3.6490618108579206`*^9, 
+   3.649062000008253*^9}, {3.649062166335745*^9, 3.64906221482063*^9}, {
+   3.649062290652364*^9, 3.649062348434865*^9}, {3.6490627689492035`*^9, 
+   3.6490628237677*^9}, {3.649068515954899*^9, 3.649068545688551*^9}, {
+   3.6490685843142185`*^9, 3.64906860186545*^9}, {3.651061610290411*^9, 
+   3.6510616195568275`*^9}, {3.651062707925139*^9, 3.6510627397959948`*^9}, {
+   3.654415640069536*^9, 3.654415697712833*^9}, {3.654415731199668*^9, 
+   3.654415733399055*^9}, {3.654417117012582*^9, 3.6544171535948544`*^9}, 
+   3.6928263629715548`*^9, {3.803398741094001*^9, 3.803398801003497*^9}},
+ CellLabel->"In[86]:=",ExpressionUUID->"dc186a1f-396b-4d46-99cb-cc457ed4fa5e"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Coupled Entropy", "Subsection",
+ CellChangeTimes->{{3.6510633275426273`*^9, 3.651063329648631*^9}}],
+
+Cell["\<\
+Computes the coupled entropy using the coupled logarithm and coupled \
+probability functions.
+Currently limited to one-dimensional distributions
+
+Inputs
+p - probability distribution, limited to one-dimension
+\[Kappa] - coupling parameter
+\[Alpha] - multiplicative term, default is 1
+d - dimensions, default is 1
+
+Output is the coupled entropy for a one-dimensional distribution\
+\>", "Text",
+ CellChangeTimes->{{3.6521944498370776`*^9, 3.652194478309618*^9}, {
+  3.661687521781364*^9, 3.661687667603043*^9}, {3.661687720232087*^9, 
+  3.661687745586032*^9}},ExpressionUUID->"8f9c0919-0f86-4960-8fde-\
+cd67499a95b6"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "CoupledEntropy", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"CoupledEntropy", "[", 
+   RowBox[{"p_", ",", "\[Kappa]_", ",", 
+    RowBox[{"\[Alpha]_:", "1"}], ",", 
+    RowBox[{"d_:", "1"}], ",", 
+    RowBox[{"Limits_:", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}]}]}], "]"}], ":=",
+   "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"CoupledEntropy", "[", 
+    RowBox[{"p", ",", "\[Kappa]", ",", "\[Alpha]", ",", "d", ",", "Limits"}], 
+    "]"}], "=", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"-", 
+     RowBox[{
+      SubsuperscriptBox["\[Integral]", 
+       RowBox[{
+       "Limits", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+       RowBox[{
+       "Limits", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]], 
+      RowBox[{
+       RowBox[{"CoupledProbability", "[", 
+        RowBox[{"p", ",", 
+         FractionBox[
+          RowBox[{
+           RowBox[{"-", "\[Alpha]"}], " ", "\[Kappa]"}], 
+          RowBox[{"1", "+", 
+           RowBox[{"d", " ", "\[Kappa]"}]}]], ",", "x"}], "]"}], 
+       RowBox[{"CoupledLogarithm", "[", 
+        RowBox[{
+         RowBox[{"PDF", "[", 
+          RowBox[{"p", ",", "x"}], "]"}], ",", "\[Kappa]", ",", "\[Alpha]", 
+         ",", "d"}], "]"}], 
+       RowBox[{"\[DifferentialD]", "x"}]}]}]}], "//", 
+    "FullSimplify"}]}]}]}], "Input",
+ CellChangeTimes->{{3.6510633380102453`*^9, 3.651063351083069*^9}, {
+  3.652194484007126*^9, 3.652194495859643*^9}, {3.652194542855711*^9, 
+  3.6521945761932583`*^9}, {3.661687296991143*^9, 3.661687422228334*^9}, {
+  3.6616876849942217`*^9, 3.661687685514419*^9}, {3.8033989395604*^9, 
+  3.8033989753217173`*^9}},
+ CellLabel->"In[88]:=",ExpressionUUID->"b037b0fd-c1db-4a66-a215-76eb107c050b"],
+
+Cell[BoxData["\[IndentingNewLine]"], "Input",
+ CellChangeTimes->{3.6616871467388897`*^9},
+ CellLabel->"In[90]:=",ExpressionUUID->"2be9aba8-7ef3-48fc-a272-44faac3cf905"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Coupled Product", "Subsection",
+ CellChangeTimes->{{3.654416393387126*^9, 3.654416395785495*^9}}],
+
+Cell[TextData[{
+ "The Coupled Product is a generalization of the product function, which \
+raises each input to a power and after combining the inputs, takes the root.  \
+It is defined based on the sum of arguments of the coupled exponential:\n\t",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      SubscriptBox[
+       UnderoverscriptBox["\[Product]", 
+        RowBox[{"i", "=", "1"}], "N"], 
+       SubscriptBox["\[CircleTimes]", 
+        RowBox[{"\[Alpha]", ",", "\[Kappa]", ",", 
+         SubscriptBox["d", "i"]}]]], 
+      SubscriptBox["x", "i"]}], "=", 
+     RowBox[{
+      SubscriptBox["Exp", 
+       RowBox[{"\[Alpha]", ",", "\[Kappa]", ",", "D"}]], "[", 
+      RowBox[{
+       UnderoverscriptBox["\[Sum]", 
+        RowBox[{"i", "=", "1"}], "N"], 
+       RowBox[{
+        SubscriptBox["Log", 
+         RowBox[{"\[Alpha]", ",", "\[Kappa]", ",", 
+          SubscriptBox["d", "i"]}]], "[", 
+        SubscriptBox["x", "i"], "]"}]}], "]"}]}], ";", "   ", 
+    RowBox[{"D", " ", "=", " ", 
+     RowBox[{
+      UnderoverscriptBox["\[Sum]", 
+       RowBox[{"i", "=", "1"}], "N"], 
+      SubscriptBox["d", "i"]}]}]}], TraditionalForm]],ExpressionUUID->
+  "8e1b6678-86ff-429f-ad9a-388d0cbe12d8"],
+ "\n\t                   = (",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    UnderoverscriptBox["\[Sum]", 
+     RowBox[{"i", "=", "1"}], "N"], 
+    SubsuperscriptBox["x", "i", 
+     FractionBox[
+      RowBox[{"\[Alpha]", " ", "\[Kappa]"}], 
+      RowBox[{"1", "+", 
+       RowBox[{
+        SubscriptBox["d", "i"], "\[Kappa]"}]}]]]}], TraditionalForm]],
+  ExpressionUUID->"2c13fc4c-754a-4135-8657-cf4601835312"],
+ "- ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{
+     SuperscriptBox[
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"N", "-", "1"}], ")"}], ")"}], 
+      FractionBox[
+       RowBox[{"1", " ", "+", " ", 
+        RowBox[{"D", " ", "\[Kappa]"}]}], 
+       RowBox[{"\[Alpha]", " ", "\[Kappa]"}]]], ";"}], "   "}], 
+   TraditionalForm]],ExpressionUUID->"589cf7d8-2985-4715-8ce3-3b39893aac88"],
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"D", " ", "=", " ", 
+    RowBox[{
+     UnderoverscriptBox["\[Sum]", 
+      RowBox[{"i", "=", "1"}], "N"], 
+     SubscriptBox["d", "i"]}]}], TraditionalForm]],ExpressionUUID->
+  "3321a210-1087-4afc-9853-9db83dbd1375"],
+ "\n\t                   \nInputs\nxList  -  list of arguments to be combined \
+by the coupled product\n\[Kappa]  -   coupling parameter\n\[Alpha]  -  \
+multiplicative term, default is 2 which is associated with coupled Gaussian \
+distributions\nd -  dimension, currently defined as a constant, but planned \
+to also except of list the same dimensions as xList; version 5 modified the \
+dimensions of the outer exponent to be d times Length[xList].  Thus the \
+inputs are assumed to be the same dimension and the output dimension is sum \
+of the input dimensions.\n\nOutput - coupled product of xList\n\nImprovements \
+Planned:  \nThe dimension is defined as a constant.  The dimension of each \
+coupled logarithm should be controllable.  The dimension of the coupled \
+exponential should be the sum of the dimensions used for each coupled \
+logarithm.\n\nThe CoupledProductPrototype is intended to allow the input of \
+arguments to be combined match the structure of the built in ",
+ StyleBox["Mathematica",
+  FontSlant->"Italic"],
+ " Product function.  However; more extensive pattern matching is required to \
+process the variety of inputs possible using this structure.  \n\nOld \
+version:  CoupledProductOld works but does not build upon the coupled \
+exponential and coupled logarithm functions.  It does compute the output \
+dimension as a sum of the input dimensions.\n"
+}], "Text",
+ CellChangeTimes->{{3.6544168939667273`*^9, 3.6544170643736763`*^9}, {
+   3.654417179028306*^9, 3.654417243802367*^9}, {3.654417493973538*^9, 
+   3.654417500858365*^9}, {3.654422422878655*^9, 3.65442284619258*^9}, {
+   3.654429898725807*^9, 3.6544299149218607`*^9}, {3.659525407112253*^9, 
+   3.659525811986944*^9}, {3.661685155280973*^9, 3.6616855128788033`*^9}, {
+   3.661685620866274*^9, 3.661686265170774*^9}, {3.661686306241045*^9, 
+   3.661686480563225*^9}, 3.661691831344734*^9, {3.662469298073042*^9, 
+   3.662469336037122*^9}, {3.662469454500024*^9, 3.662469511690284*^9}},
+ TextAlignment->
+  AlignmentMarker,ExpressionUUID->"0d93f37a-5794-4851-8816-9124fbda03af"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", "CoupledProduct", "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"CoupledProduct", "[", 
+    RowBox[{"xList_", ",", "\[Kappa]_", ",", 
+     RowBox[{"\[Alpha]_:", "2"}], ",", 
+     RowBox[{"d_:", "1"}]}], "]"}], ":=", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"CoupledProduct", "[", 
+     RowBox[{"xList", ",", "\[Kappa]", ",", "\[Alpha]", ",", "d"}], "]"}], 
+    "=", "\[IndentingNewLine]", 
+    RowBox[{"CoupledExponential", "[", 
+     RowBox[{
+      SuperscriptBox[
+       RowBox[{"Total", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"CoupledLogarithm", "[", 
+           RowBox[{
+            SuperscriptBox["#", 
+             RowBox[{"-", "\[Alpha]"}]], ",", "\[Kappa]", ",", "d"}], "]"}], 
+          "&"}], "/@", "xList"}], "]"}], 
+       FractionBox[
+        RowBox[{"-", "1"}], "\[Alpha]"]], ",", "\[IndentingNewLine]", 
+      "\[Kappa]", ",", 
+      RowBox[{"d", " ", 
+       RowBox[{"Length", "[", "xList", "]"}]}]}], "]"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Not", " ", "used", "\[IndentingNewLine]", 
+      RowBox[{"CoupledProductPrototype", "[", 
+       RowBox[{"f_", ",", "index_", ",", "\[Kappa]_", ",", 
+        RowBox[{"\[Alpha]_:", "2"}], ",", 
+        RowBox[{"d_:", "1"}]}], "]"}]}], ":=", "\[IndentingNewLine]", 
+     RowBox[{"CoupledExponential", "[", 
+      RowBox[{
+       SuperscriptBox[
+        RowBox[{"Sum", "[", 
+         RowBox[{
+          RowBox[{"CoupledLogarithm", "[", 
+           RowBox[{
+            SuperscriptBox["f", 
+             RowBox[{"-", "\[Alpha]"}]], ",", "\[Kappa]", ",", "d"}], "]"}], 
+          ",", "index"}], "]"}], 
+        FractionBox[
+         RowBox[{"-", "1"}], 
+         RowBox[{" ", "\[Alpha]"}]]], ",", "\[IndentingNewLine]", "\[Kappa]", 
+       ",", "\[Alpha]", ",", "d"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.65954054626924*^9, 3.659540582889831*^9}, {
+  3.659540647631373*^9, 3.6595406550539618`*^9}, {3.6616850071608267`*^9, 
+  3.661685036557926*^9}, {3.662469170145957*^9, 3.662469185224148*^9}, {
+  3.6848533681874647`*^9, 3.6848534796701736`*^9}, {3.80339900003829*^9, 
+  3.803399035446292*^9}, {3.803399079550015*^9, 3.803399087080861*^9}},
+ CellLabel->"In[91]:=",ExpressionUUID->"95a5b6d3-6977-4786-aff3-3d3964c92d48"],
+
+Cell[BoxData[
+ RowBox[{"(*", " ", 
+  RowBox[{
+   RowBox[{"Not", " ", "used", "\[IndentingNewLine]", 
+    RowBox[{"CoupledProductOld", "[", 
+     RowBox[{"xList_", ",", "\[Kappa]_", ",", "\[Alpha]_", ",", "dList_"}], 
+     "]"}]}], ":=", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"\[Kappa]MultList", " ", "=", " ", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           FractionBox[
+            RowBox[{
+             RowBox[{"-", "\[Alpha]"}], " ", "\[Kappa]"}], 
+            RowBox[{"1", "+", 
+             RowBox[{
+              RowBox[{
+              "dList", "\[LeftDoubleBracket]", "i", "\[RightDoubleBracket]"}],
+               " ", "\[Kappa]"}]}]], ",", 
+           RowBox[{"{", 
+            RowBox[{"i", ",", 
+             RowBox[{"Length", "[", "dList", "]"}]}], "}"}]}], "]"}]}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"\[Kappa]MultOutput", " ", "=", 
+         FractionBox[
+          RowBox[{
+           RowBox[{"-", "\[Alpha]"}], " ", "\[Kappa]"}], 
+          RowBox[{"1", "+", 
+           RowBox[{
+            RowBox[{"Sum", "[", 
+             RowBox[{
+              RowBox[{
+              "dList", "\[LeftDoubleBracket]", "i", "\[RightDoubleBracket]"}],
+               ",", 
+              RowBox[{"{", 
+               RowBox[{"i", ",", 
+                RowBox[{"Length", "[", "dList", "]"}]}], "}"}]}], "]"}], " ", 
+            "\[Kappa]"}]}]]}]}], "\[IndentingNewLine]", "}"}], ",", " ", 
+      "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Length", "[", "dList", "]"}], "\[NotEqual]", "1"}], ",", 
+        "\[IndentingNewLine]", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"Sum", "[", 
+            RowBox[{
+             SuperscriptBox[
+              RowBox[{"(", 
+               RowBox[{
+               "xList", "\[LeftDoubleBracket]", "i", 
+                "\[RightDoubleBracket]"}], ")"}], 
+              RowBox[{
+              "\[Kappa]MultList", "\[LeftDoubleBracket]", "i", 
+               "\[RightDoubleBracket]"}]], ",", 
+             RowBox[{"{", 
+              RowBox[{"i", ",", 
+               RowBox[{"Length", "[", "xList", "]"}]}], "}"}]}], "]"}], 
+           "\[IndentingNewLine]", "-", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"Length", "[", "xList", "]"}], "-", "1"}], ")"}]}], 
+          ")"}], 
+         FractionBox["1", "\[Kappa]MultOutput"]], ",", "\[IndentingNewLine]", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"Sum", "[", 
+            RowBox[{
+             SuperscriptBox[
+              RowBox[{"(", 
+               RowBox[{
+               "xList", "\[LeftDoubleBracket]", "i", 
+                "\[RightDoubleBracket]"}], ")"}], 
+              RowBox[{
+              "\[Kappa]MultList", "\[LeftDoubleBracket]", "1", 
+               "\[RightDoubleBracket]"}]], ",", 
+             RowBox[{"{", 
+              RowBox[{"i", ",", 
+               RowBox[{"Length", "[", "xList", "]"}]}], "}"}]}], "]"}], 
+           "\[IndentingNewLine]", "-", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"Length", "[", "xList", "]"}], "-", "1"}], ")"}]}], 
+          ")"}], 
+         FractionBox["1", 
+          RowBox[{
+          "\[Kappa]MultList", "\[LeftDoubleBracket]", "1", 
+           "\[RightDoubleBracket]"}]]]}], "\[IndentingNewLine]", "]"}]}], 
+     "\[IndentingNewLine]", "]"}], "/;", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"Length", "[", "xList", "]"}], ">", "1"}], "&&", 
+     RowBox[{
+      RowBox[{"Length", "[", "xList", "]"}], "==", 
+      RowBox[{"Length", "[", "dList", "]"}]}]}]}]}], "\[IndentingNewLine]", 
+  "*)"}]], "Input",
+ CellChangeTimes->CompressedData["
+1:eJxTTMoPSmViYGCQAGIQvWE3D4u91WvHti9+YDovSYkDRE99vAhMc635YgCi
+7cpuGIHoWj9ucxCdwJBkB6KXcDgkgWh2tadg+tyKv9NB9DOxyzNA9IHlnvNB
+9CnO0mUg+n+UgoIjkK5LUNUA0R2WuYYgelvjNhMQncD2OgxEK22PjQXRKeLV
+JSB6wuSuahAtMye5GUQXRD2eDqKf7fZaCqI1Ds7fA6LNvBSOg+hPjw0vgmg/
+86P3QfSZvrjHIDpkzuQXIJo9IeU9iFbYoVjqCqSLG60aQHS5z8E37kC654DF
+WxDtOsHkG4jmXb7uO4hW3Xvuw29nYDjsu/gRRAud2nBmtudrx9itLmdBtJyT
+TP0cIG2Wc7MTRAelyMwF0XJz2eeBaAN7u7KMsDeONw1/lINoAAPKsN4=
+  "],
+ CellLabel->"In[93]:=",ExpressionUUID->"ece73d97-070f-410e-9a67-74ef68e6d087"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Coupled Sum", "Subsection",
+ CellChangeTimes->{{3.654422872924858*^9, 3.654422897591241*^9}}],
+
+Cell[TextData[{
+ "For two inputs the coupled sum is x + y + (-\[Alpha] \[Kappa]) x y\nFor \
+more than two inputs, the solution is determined using recursion.  The last \
+element of the list is extracted as one of the variables, and the other \
+variable calls the coupled sum without the last element of the list.\nThe \
+input is a list of variables to be operated on, the nonlinear coupling \
+\[Kappa], and the power \[Alpha] affecting the variable ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["x", "\[Alpha]"], TraditionalForm]]],
+ ".  The operator currently assumes each variable in the list is \
+one-dimensional."
+}], "Text",
+ CellChangeTimes->{{3.65443776909524*^9, 3.654437885352631*^9}, {
+  3.654437926008856*^9, 3.654437996053404*^9}}],
+
+Cell[TextData[{
+ "Improvement Planned\nCoupledSumPrototype will define the coupled sum in \
+terms of the product of arguments of the coupled logarithm.  The input is \
+intended to follow the structure of the ",
+ StyleBox["Mathematica",
+  FontSlant->"Italic"],
+ " Sum function, but requires additional pattern matching of input types to \
+be fully functional."
+}], "Text",
+ CellChangeTimes->{
+  3.654429928532255*^9, {3.6616865033031282`*^9, 
+   3.661686617955531*^9}},ExpressionUUID->"4c988f34-0a91-4b99-97d0-\
+dcb036e0b13f"],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.659525828902882*^9, 3.659525876461569*^9}, {
+   3.65952610154865*^9, 3.659526239574691*^9}, 3.661685086344303*^9},
+ CellLabel->"In[94]:=",ExpressionUUID->"d73cc257-4767-4e60-8674-37a5f3c34176"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", "CoupledSum", "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"CoupledSum", "[", 
+    RowBox[{"xList_", ",", "\[Kappa]_", ",", "\[Alpha]_"}], "]"}], ":=", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"CoupledSum", "[", 
+     RowBox[{"xList", ",", "\[Kappa]", ",", "\[Alpha]"}], "]"}], "=", 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Length", "[", "xList", "]"}], "\[Equal]", "2"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"First", "[", "xList", "]"}], "+", 
+        RowBox[{"Last", "[", "xList", "]"}], "+", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"-", "\[Alpha]"}], " ", "\[Kappa]"}], ")"}], 
+         RowBox[{"First", "[", "xList", "]"}], 
+         RowBox[{"Last", "[", "xList", "]"}]}]}], ",", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{"Else", " ", "when", " ", "xList"}], " ", ">", " ", "2"}], 
+        "*)"}], "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"CoupledSum", "[", 
+         RowBox[{
+          RowBox[{"Drop", "[", 
+           RowBox[{"xList", ",", 
+            RowBox[{"-", "1"}]}], "]"}], ",", "\[Kappa]", ",", "\[Alpha]"}], 
+         "]"}], "+", "\[IndentingNewLine]", 
+        RowBox[{"Last", "[", "xList", "]"}], "+", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"-", "\[Alpha]"}], " ", "\[Kappa]"}], ")"}], 
+         RowBox[{"CoupledSum", "[", 
+          RowBox[{
+           RowBox[{"Drop", "[", 
+            RowBox[{"xList", ",", 
+             RowBox[{"-", "1"}]}], "]"}], ",", "\[Kappa]", ",", "\[Alpha]"}], 
+          "]"}], 
+         RowBox[{"Last", "[", "xList", "]"}]}]}]}], "\[IndentingNewLine]", 
+      "]"}], "/;", 
+     RowBox[{
+      RowBox[{"Length", "[", "xList", "]"}], ">", "1"}]}]}]}], "  ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"only", " ", "execute", " ", "if", " ", "length"}], " ", ">", " ",
+     "1"}], " ", "*)"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"CoupledSumProtype", "[", 
+    RowBox[{"f_", ",", "index__", ",", "\[Kappa]_", ",", 
+     RowBox[{"\[Alpha]_:", "1"}]}], "]"}], ":=", "\[IndentingNewLine]", 
+   RowBox[{"CoupledLogarithm", "[", 
+    RowBox[{
+     SuperscriptBox[
+      RowBox[{"Product", "[", 
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{"CoupledExponential", "[", 
+          RowBox[{"f", ",", "\[Kappa]", ",", "0"}], "]"}], 
+         FractionBox[
+          RowBox[{"-", "1"}], "\[Alpha]"]], ",", "index"}], "]"}], 
+      RowBox[{"-", "\[Alpha]"}]], ",", "\[IndentingNewLine]", "\[Kappa]", ",",
+      "0"}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.654422930390855*^9, 3.654422987187644*^9}, 
+   3.65442312602667*^9, {3.6544275968873167`*^9, 3.654427688240391*^9}, {
+   3.654427720959729*^9, 3.6544277992294493`*^9}, 3.654427836394781*^9, 
+   3.654427866499819*^9, {3.65442792467592*^9, 3.6544280714460707`*^9}, {
+   3.6544286709149303`*^9, 3.654428703040045*^9}, {3.654428756362895*^9, 
+   3.654428759201425*^9}, {3.654429010964983*^9, 3.654429040963229*^9}, {
+   3.654429113758327*^9, 3.654429152646302*^9}, {3.6595258239667892`*^9, 
+   3.6595258243267612`*^9}, {3.661685080207913*^9, 3.661685102606616*^9}, {
+   3.6848535344385767`*^9, 3.684853569957509*^9}, {3.803399148514113*^9, 
+   3.8033991596620493`*^9}, {3.803399209070619*^9, 3.803399216328233*^9}},
+ CellLabel->"In[95]:=",ExpressionUUID->"f22e041a-e479-43ac-b8ff-891e16779537"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Coupled Sine and Cosine", "Subsection",
+ CellChangeTimes->{{3.6564442703201733`*^9, 3.6564442722547703`*^9}, {
+  3.656444968214149*^9, 
+  3.65644497042837*^9}},ExpressionUUID->"26b68407-76c4-4bee-81bd-\
+425209381ff5"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "CoupledSin", "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"CoupledSin", "[", 
+   RowBox[{"x_", ",", "\[Kappa]_", ",", "\[Alpha]_", ",", "d_"}], "]"}], ":=",
+   "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"CoupledSin", "[", 
+    RowBox[{"x", ",", "\[Kappa]", ",", "\[Alpha]", ",", "d"}], "]"}], "=", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       SuperscriptBox[
+        RowBox[{"CoupledExponential", "[", 
+         RowBox[{
+          RowBox[{"\[ImaginaryI]", " ", "x"}], ",", "\[Kappa]", ",", "d"}], 
+         "]"}], 
+        FractionBox[
+         RowBox[{"-", "1"}], "\[Alpha]"]], "-", "\[IndentingNewLine]", 
+       SuperscriptBox[
+        RowBox[{"CoupledExponential", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "\[ImaginaryI]"}], " ", "x"}], ",", "\[Kappa]", ",", 
+          "d"}], "]"}], 
+        FractionBox[
+         RowBox[{"-", "1"}], "\[Alpha]"]]}], ")"}], "/", "2"}], 
+    "\[ImaginaryI]"}]}]}]}], "Input",
+ CellChangeTimes->{{3.6564442845376873`*^9, 3.656444454303549*^9}, {
+   3.684853582270767*^9, 3.684853626676385*^9}, 3.684853690689808*^9, {
+   3.803400875499466*^9, 3.803400904390463*^9}, {3.803400945457807*^9, 
+   3.8034009458148518`*^9}},
+ CellLabel->"In[98]:=",ExpressionUUID->"31cf1cb8-4bc4-4203-952f-cb8f5f12a976"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "CoupledCos", "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"CoupledCos", "[", 
+   RowBox[{"x_", ",", "\[Kappa]_", ",", "\[Alpha]_", ",", "d_"}], "]"}], ":=",
+   "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"CoupledCos", "[", 
+    RowBox[{"x", ",", "\[Kappa]", ",", "\[Alpha]", ",", "d"}], "]"}], "=", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      SuperscriptBox[
+       RowBox[{"CoupledExponential", "[", 
+        RowBox[{
+         RowBox[{"\[ImaginaryI]", " ", "x"}], ",", "\[Kappa]", ",", "d"}], 
+        "]"}], 
+       FractionBox[
+        RowBox[{"-", "1"}], "\[Alpha]"]], "+", "\[IndentingNewLine]", 
+      SuperscriptBox[
+       RowBox[{"CoupledExponential", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"-", "\[ImaginaryI]"}], " ", "x"}], ",", "\[Kappa]", ",", 
+         "\[Alpha]", ",", "d"}], "]"}], 
+       FractionBox[
+        RowBox[{"-", "1"}], "\[Alpha]"]]}], ")"}], "/", "2"}]}]}]}], "Input",
+ CellChangeTimes->{{3.656444981326223*^9, 3.656444997679358*^9}, {
+  3.684853634939649*^9, 3.684853679695858*^9}, {3.8034009133808813`*^9, 
+  3.8034009396098957`*^9}, {3.803400975082654*^9, 3.803400996544475*^9}},
+ CellLabel->
+  "In[100]:=",ExpressionUUID->"c72b9c84-5348-432a-a6fd-669df697aa3a"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Weighted Generalized Mean", "Subsection",
+ CellChangeTimes->{{3.6820729359859333`*^9, 3.682072939728271*^9}}],
+
+Cell[TextData[{
+ "Computes the weighted generalized mean of a list.  For a 2-D list the \
+weighted generalized mean of each column is computed.  The weights are \
+normalized, thus weights equal to one correspond to the generalized mean\nY = \
+",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox[
+    RowBox[{"(", 
+     RowBox[{
+      UnderoverscriptBox["\[Sum]", 
+       RowBox[{"i", "=", "1"}], "N"], 
+      RowBox[{
+       FractionBox[
+        SubscriptBox["W", "i"], 
+        RowBox[{
+         UnderoverscriptBox["\[Sum]", 
+          RowBox[{"i", "=", "1"}], "N"], 
+         SubscriptBox["W", "i"]}]], 
+       SubsuperscriptBox["X", "i", "p"]}]}], ")"}], 
+    FractionBox["1", "p"]], TraditionalForm]],ExpressionUUID->
+  "65dbf926-eb96-413e-b9fa-f5047ce2c68c"],
+ "\n\nInputs:\nX - a one or two dimensional list of variables\nW - scalar, \
+vector, or matrix of weights which modify the contribution of each input ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["X", "i"], TraditionalForm]],ExpressionUUID->
+  "19e0d88f-6258-4171-8841-8502f3fc7a33"],
+ "\np - scalar, power for the generalized mean\n    p = -1 is the harmonic \
+mean\n    p =  0  is the geometric mean\n    p =  1 is the arithmetic mean\n  \
+  p =  2 is the root mean square\n\nOutputs:\nY - scalar or vector of \
+weighted generalized mean; for 2-D input mean of the first dimension is \
+computed\n"
+}], "Text",
+ CellChangeTimes->{{3.682072954735381*^9, 3.682073060095602*^9}, {
+  3.682073245071039*^9, 3.682073350081856*^9}, {3.6820733952455053`*^9, 
+  3.6820734145527163`*^9}, {3.682073449809185*^9, 3.6820735181495333`*^9}, {
+  3.682073670387249*^9, 3.682073853261612*^9}, {3.6820739092288303`*^9, 
+  3.682073935322846*^9}, {3.798454217527864*^9, 
+  3.79845423761854*^9}},ExpressionUUID->"1c76966d-6c46-41ac-8a26-\
+4aa07aef9bfb"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ClearAll", "[", "WeightedGeneralizedMean", "]"}], ";", 
+  RowBox[{
+   RowBox[{"WeightedGeneralizedMean", "[", 
+    RowBox[{"X_", ",", "p_", ",", 
+     RowBox[{"W_:", "1"}]}], "]"}], " ", ":=", " ", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"WeightedGeneralizedMean", "[", 
+     RowBox[{"X", ",", "p", ",", "W"}], "]"}], "=", "\[IndentingNewLine]", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "n", ",", "m", ",", "i", ",", "j", ",", "normW", ",", "sumW", ",", 
+        "XArrayDepth", ",", "WArrayDepth", ",", "Y"}], "}"}], ",", 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"XArrayDepth", " ", "=", " ", 
+        RowBox[{"ArrayDepth", "[", "X", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Which", "[", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"XArrayDepth", " ", "\[Equal]", "1"}], ",", 
+         RowBox[{
+          RowBox[{"{", "n", "}"}], " ", "=", " ", 
+          RowBox[{"Dimensions", "[", "X", "]"}]}], ",", "\[IndentingNewLine]", 
+         RowBox[{"XArrayDepth", "\[Equal]", "2"}], ",", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"n", ",", "m"}], "}"}], " ", "=", " ", 
+          RowBox[{"Dimensions", "[", "X", "]"}]}], ",", "\[IndentingNewLine]", 
+         RowBox[{"XArrayDepth", ">", "2"}], ",", 
+         RowBox[{
+          RowBox[{"WeightedGeneralizedMean", "::", "argx"}], " ", "=", " ", 
+          "\[IndentingNewLine]", 
+          "\"\<Warning: Inputs X expected to have ArrayDepth of 2\>\""}]}], 
+        "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Length", "[", "p", "]"}], ">", "0"}], ",", 
+         RowBox[{
+          RowBox[{"WeightedGeneralizedMean", "::", "argx"}], " ", "=", " ", 
+          "\[IndentingNewLine]", 
+          "\"\<Warning: Input p expected to be a scalar\>\""}]}], 
+        "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Assert", "[", "True", "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+        "Check", " ", "dimensions", " ", "of", " ", "W", " ", "and", " ", 
+         "initialize", " ", "normW", "\[IndentingNewLine]", "expand", " ", 
+         "scalar", " ", "to", " ", "matrix", " ", "size", " ", "of", " ", "X",
+          "\[IndentingNewLine]", "expand", " ", "column", " ", "vector", " ", 
+         "into", " ", "n", " ", "rows", "\[IndentingNewLine]", "or", " ", 
+         "set", " ", "message", " ", "warning", " ", "about", " ", "mismatch",
+          " ", "in", " ", "size"}], "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"WArrayDepth", " ", "=", " ", 
+        RowBox[{"ArrayDepth", "[", "W", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"XArrayDepth", "\[Equal]", "1"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"Which", "[", 
+          RowBox[{
+           RowBox[{"WArrayDepth", "\[Equal]", "0"}], ",", 
+           RowBox[{"normW", "=", 
+            RowBox[{"Table", "[", 
+             RowBox[{"W", ",", "n"}], "]"}]}], ",", "\[IndentingNewLine]", 
+           RowBox[{"WArrayDepth", "\[Equal]", "1"}], ",", 
+           RowBox[{"normW", " ", "=", " ", "W"}], ",", "\[IndentingNewLine]", 
+           RowBox[{"WArrayDepth", ">", "1"}], ",", 
+           RowBox[{
+            RowBox[{"WeightedGeneralizedMean", "::", "argx"}], " ", "=", " ", 
+            "\[IndentingNewLine]", 
+            "\"\<Warning: Input W expected to have same or less depth than \
+X\>\""}]}], "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"(*", 
+          RowBox[{
+           RowBox[{"Else", " ", "if", " ", "XArrayDepth"}], " ", "\[Equal]", 
+           " ", "2"}], " ", "*)"}], "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Which", "[", 
+           RowBox[{
+            RowBox[{"WArrayDepth", "\[Equal]", "0"}], ",", 
+            RowBox[{"normW", "=", 
+             RowBox[{"Table", "[", 
+              RowBox[{"W", ",", 
+               RowBox[{"{", "n", "}"}], ",", 
+               RowBox[{"{", "m", "}"}]}], "]"}]}], ",", "\[IndentingNewLine]", 
+            RowBox[{"WArrayDepth", "\[Equal]", "1"}], ",", 
+            RowBox[{"normW", " ", "=", " ", 
+             RowBox[{
+              RowBox[{"Table", "[", 
+               RowBox[{"W", ",", "m"}], "]"}], "//", "Transpose"}]}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"WArrayDepth", "\[Equal]", "2"}], ",", 
+            RowBox[{"normW", "=", "W"}], ",", "\[IndentingNewLine]", 
+            RowBox[{"WArrayDepth", ">", "2"}], ",", 
+            RowBox[{
+             RowBox[{"WeightedGeneralizedMean", "::", "argx"}], " ", "=", " ",
+              "\[IndentingNewLine]", 
+             "\"\<Warning: Input W expected to have ArrayDepth of 1 or \
+2\>\""}]}], "\[IndentingNewLine]", "]"}], ";"}]}], "\[IndentingNewLine]", 
+        "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Dimensions", "[", "normW", "]"}], "\[NotEqual]", 
+          RowBox[{"Dimensions", "[", "X", "]"}]}], ",", 
+         RowBox[{
+          RowBox[{"WeightedGeneralizedMean", "::", "argx"}], " ", "=", 
+          "\[IndentingNewLine]", 
+          "\"\<Dimensions of X and resized W do not match\>\""}]}], "]"}], 
+       ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"XArrayDepth", "\[Equal]", "1"}], ",", 
+         RowBox[{"Module", "[", 
+          RowBox[{
+           RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Assert", "[", "True", "]"}], ";", "\[IndentingNewLine]", 
+            RowBox[{"sumW", " ", "=", " ", 
+             RowBox[{
+              UnderoverscriptBox["\[Sum]", 
+               RowBox[{"i", "=", "1"}], "n"], 
+              SubscriptBox["normW", 
+               RowBox[{
+               "\[LeftDoubleBracket]", "i", "\[RightDoubleBracket]"}]]}]}], 
+            ";", "\[IndentingNewLine]", 
+            RowBox[{"normW", " ", "=", " ", 
+             FractionBox["normW", "sumW"]}], ";", "\[IndentingNewLine]", 
+            RowBox[{"Quiet", "[", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{"p", "\[NotEqual]", "0"}], ",", "\[IndentingNewLine]", 
+               RowBox[{"Check", "[", 
+                RowBox[{
+                 RowBox[{"Y", "=", 
+                  RowBox[{
+                   SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{
+                    UnderoverscriptBox["\[Sum]", 
+                    RowBox[{"i", "=", "1"}], "n"], 
+                    RowBox[{
+                    SubscriptBox["normW", 
+                    RowBox[{
+                    "\[LeftDoubleBracket]", "i", "\[RightDoubleBracket]"}]], 
+                    SubsuperscriptBox["X", 
+                    RowBox[{
+                    "\[LeftDoubleBracket]", "i", "\[RightDoubleBracket]"}], 
+                    "p"]}]}], ")"}], 
+                    FractionBox["1", "p"]], "//", "N"}]}], ",", 
+                 "\[IndentingNewLine]", 
+                 RowBox[{"Y", "=", 
+                  RowBox[{"If", "[", 
+                   RowBox[{
+                    RowBox[{"p", ">", "0"}], ",", 
+                    RowBox[{"Max", "[", "X", "]"}], ",", 
+                    RowBox[{"Min", "[", "X", "]"}]}], "]"}]}]}], 
+                "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+               "\[IndentingNewLine]", 
+               RowBox[{"Y", "=", 
+                RowBox[{
+                 RowBox[{
+                  UnderoverscriptBox["\[Product]", 
+                   RowBox[{"i", "=", "1"}], "n"], 
+                  SubsuperscriptBox["X", 
+                   RowBox[{
+                   "\[LeftDoubleBracket]", "i", "\[RightDoubleBracket]"}], 
+                   SubscriptBox["normW", 
+                    RowBox[{
+                    "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}]]]}], "//", "N"}]}]}], 
+              "\[IndentingNewLine]", "]"}], "]"}]}]}], "\[IndentingNewLine]", 
+          "]"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"Module", "[", 
+          RowBox[{
+           RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Y", " ", "=", " ", 
+             RowBox[{"Table", "[", 
+              RowBox[{"0", ",", "m"}], "]"}]}], ";", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"(*", " ", 
+             RowBox[{
+             "Loop", " ", "column", " ", "and", " ", "rows", " ", "to", " ", 
+              "compute", " ", "weighted", " ", "generalized", " ", "mean"}], 
+             " ", "*)"}], "\[IndentingNewLine]", 
+            RowBox[{"For", "[", 
+             RowBox[{
+              RowBox[{"j", " ", "=", " ", "1"}], ",", 
+              RowBox[{"j", "\[LessEqual]", "m"}], ",", 
+              RowBox[{"j", "++"}], ",", "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"sumW", " ", "=", " ", 
+                RowBox[{
+                 UnderoverscriptBox["\[Sum]", 
+                  RowBox[{"i", "=", "1"}], "n"], 
+                 SubscriptBox["normW", 
+                  RowBox[{"\[LeftDoubleBracket]", 
+                   RowBox[{"i", ",", "j"}], "\[RightDoubleBracket]"}]]}]}], 
+               ";", "\[IndentingNewLine]", 
+               RowBox[{
+                SubscriptBox["normW", 
+                 RowBox[{"\[LeftDoubleBracket]", 
+                  RowBox[{"All", ",", "j"}], "\[RightDoubleBracket]"}]], " ", 
+                "=", " ", 
+                FractionBox[
+                 SubscriptBox["normW", 
+                  RowBox[{"\[LeftDoubleBracket]", 
+                   RowBox[{"All", ",", "j"}], "\[RightDoubleBracket]"}]], 
+                 "sumW"]}], ";", "\[IndentingNewLine]", 
+               RowBox[{"Quiet", "[", 
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{"p", "\[NotEqual]", "0"}], ",", 
+                  "\[IndentingNewLine]", 
+                  RowBox[{"Check", "[", 
+                   RowBox[{
+                    RowBox[{
+                    SubscriptBox["Y", 
+                    RowBox[{
+                    "\[LeftDoubleBracket]", "j", "\[RightDoubleBracket]"}]], 
+                    "=", 
+                    RowBox[{
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{
+                    UnderoverscriptBox["\[Sum]", 
+                    RowBox[{"i", "=", "1"}], "n"], 
+                    RowBox[{
+                    SubscriptBox["normW", 
+                    RowBox[{"\[LeftDoubleBracket]", 
+                    RowBox[{"i", ",", "j"}], "\[RightDoubleBracket]"}]], 
+                    SubsuperscriptBox["X", 
+                    RowBox[{"\[LeftDoubleBracket]", 
+                    RowBox[{"i", ",", "j"}], "\[RightDoubleBracket]"}], 
+                    "p"]}]}], ")"}], 
+                    FractionBox["1", "p"]], "//", "N"}]}], ",", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    SubscriptBox["Y", 
+                    RowBox[{
+                    "\[LeftDoubleBracket]", "j", "\[RightDoubleBracket]"}]], 
+                    "=", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"p", ">", "0"}], ",", 
+                    RowBox[{"Max", "[", 
+                    SubscriptBox["X", 
+                    RowBox[{"\[LeftDoubleBracket]", 
+                    RowBox[{"All", ",", "j"}], "\[RightDoubleBracket]"}]], 
+                    "]"}], ",", 
+                    RowBox[{"Min", "[", 
+                    SubscriptBox["X", 
+                    RowBox[{"\[LeftDoubleBracket]", 
+                    RowBox[{"All", ",", "j"}], "\[RightDoubleBracket]"}]], 
+                    "]"}]}], "]"}]}]}], "\[IndentingNewLine]", "]"}], ",", 
+                  "\[IndentingNewLine]", 
+                  RowBox[{
+                   SubscriptBox["Y", 
+                    RowBox[{
+                    "\[LeftDoubleBracket]", "j", "\[RightDoubleBracket]"}]], 
+                   "=", 
+                   RowBox[{
+                    RowBox[{
+                    UnderoverscriptBox["\[Product]", 
+                    RowBox[{"i", "=", "1"}], "n"], 
+                    SubsuperscriptBox["X", 
+                    RowBox[{"\[LeftDoubleBracket]", 
+                    RowBox[{"i", ",", "j"}], "\[RightDoubleBracket]"}], 
+                    SubscriptBox["normW", 
+                    RowBox[{"\[LeftDoubleBracket]", 
+                    RowBox[{"i", ",", "j"}], "\[RightDoubleBracket]"}]]]}], "//",
+                     "N"}]}]}], "\[IndentingNewLine]", "]"}], "]"}]}]}], 
+             "\[IndentingNewLine]", "]"}]}]}], "\[IndentingNewLine]", "]"}]}],
+         "\[IndentingNewLine]", "]"}], ";", " ", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{"Print", "[", "sumW", "]"}], ";"}], "*)"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{"Assert", "[", "True", "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"N", "[", 
+        RowBox[{"Y", ",", "5"}], "]"}]}]}], 
+     RowBox[{"(*", " ", 
+      RowBox[{"Set", " ", "output", " ", "of", " ", "module"}], " ", "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"{", 
+       RowBox[{"normW", ",", "XArrayDepth", ",", "WArrayDepth"}], "}"}], " ", 
+      "*)"}], " ", 
+     RowBox[{"(*", " ", 
+      RowBox[{"Monitor", " ", "Variables"}], " ", "*)"}], 
+     "\[IndentingNewLine]", "]"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.682073969782063*^9, 3.6820740188096647`*^9}, {
+   3.682074050624607*^9, 3.682074084637199*^9}, {3.682074236724169*^9, 
+   3.6820742403466*^9}, {3.682074299505542*^9, 3.682074380161516*^9}, {
+   3.6820744293057117`*^9, 3.6820744483348618`*^9}, {3.682074679414274*^9, 
+   3.6820747712744637`*^9}, {3.682074808242174*^9, 3.682074975179433*^9}, {
+   3.682075051499032*^9, 3.682075209147509*^9}, {3.682075241073283*^9, 
+   3.682075269380268*^9}, {3.682075421393964*^9, 3.6820754368641376`*^9}, {
+   3.682075590025811*^9, 3.6820756000239058`*^9}, {3.6820757233141403`*^9, 
+   3.6820758083729*^9}, {3.682075845215329*^9, 3.6820759155352287`*^9}, {
+   3.682075965496529*^9, 3.6820760430532827`*^9}, {3.68207609355928*^9, 
+   3.6820761725515947`*^9}, {3.6820762427563467`*^9, 3.682076323828973*^9}, {
+   3.682076363171975*^9, 3.682076524942505*^9}, 3.682076567058272*^9, 
+   3.682076785792582*^9, {3.6820768754085827`*^9, 3.682076891768167*^9}, {
+   3.682076977122875*^9, 3.682077124903376*^9}, {3.682077259739594*^9, 
+   3.682077317811062*^9}, {3.6820773906412067`*^9, 3.682077414958764*^9}, {
+   3.682077497280077*^9, 3.6820775019056387`*^9}, {3.682077652306575*^9, 
+   3.682077739206706*^9}, {3.6820779074166737`*^9, 3.682077954548904*^9}, {
+   3.6820780681972027`*^9, 3.682078358857163*^9}, {3.6820917745120287`*^9, 
+   3.68209183585417*^9}, {3.682091922662019*^9, 3.682091922978825*^9}, {
+   3.682091971893577*^9, 3.682092029455851*^9}, {3.682092247940547*^9, 
+   3.682092264020836*^9}, {3.682092616009431*^9, 3.682092668919636*^9}, {
+   3.682092716958112*^9, 3.682092731132291*^9}, 3.682092844369768*^9, {
+   3.682092984308284*^9, 3.682093035478931*^9}, {3.682093068965735*^9, 
+   3.682093074250224*^9}, {3.682093119292329*^9, 3.682093120150098*^9}, {
+   3.682093587822365*^9, 3.68209365369145*^9}, {3.682093683852354*^9, 
+   3.6820936935753107`*^9}, {3.6820937359261923`*^9, 3.682093740457008*^9}, {
+   3.682093815563542*^9, 3.682093819420195*^9}, {3.682093868763854*^9, 
+   3.682093933946783*^9}, {3.682094802764517*^9, 3.682094803207081*^9}, {
+   3.682094989208946*^9, 3.682095168506809*^9}, {3.682095213382718*^9, 
+   3.682095310253001*^9}, {3.68209534352903*^9, 3.6820953448549433`*^9}, {
+   3.6820953751690073`*^9, 3.682095376401803*^9}, {3.682095822897888*^9, 
+   3.682095840277897*^9}, {3.68209587138122*^9, 3.682096062736731*^9}, {
+   3.682096115872328*^9, 3.682096118531159*^9}, {3.682096232195483*^9, 
+   3.682096354055832*^9}, {3.682096532511376*^9, 3.6820965857854853`*^9}, {
+   3.682096785722357*^9, 3.682096790156042*^9}, {3.682096981259261*^9, 
+   3.682096993284409*^9}, {3.682097218138431*^9, 3.682097222183494*^9}, {
+   3.682097347378223*^9, 3.682097360107771*^9}, {3.682097394483705*^9, 
+   3.6820973973799257`*^9}, {3.68209744090023*^9, 3.6820974487493553`*^9}, {
+   3.682098102653763*^9, 3.682098140372251*^9}, {3.682098620329143*^9, 
+   3.682098762583171*^9}, {3.682098822584041*^9, 3.6820988235122232`*^9}, {
+   3.6820990875986767`*^9, 3.682099164962697*^9}, {3.682099349878027*^9, 
+   3.682099370720602*^9}, {3.682099539343853*^9, 3.682099573331731*^9}, {
+   3.682104912486621*^9, 3.682104966828895*^9}, {3.682105003223568*^9, 
+   3.6821050052016907`*^9}, {3.682105104789999*^9, 3.682105112709539*^9}, {
+   3.682105146289076*^9, 3.682105303312682*^9}, {3.682105377654875*^9, 
+   3.6821054097185163`*^9}, {3.682105466314789*^9, 3.682105489242716*^9}, {
+   3.6821055286667128`*^9, 3.682105550014287*^9}, {3.682105710136674*^9, 
+   3.6821057528250933`*^9}, {3.682105813242679*^9, 3.682105816393845*^9}, {
+   3.682106091155594*^9, 3.682106105717037*^9}, {3.68210630054673*^9, 
+   3.6821063064551687`*^9}, {3.6821063406262293`*^9, 3.682106512724091*^9}, {
+   3.682106601201786*^9, 3.682106601795141*^9}, {3.682106737107316*^9, 
+   3.682106741107991*^9}, {3.682123324783671*^9, 3.682123407287929*^9}, {
+   3.798466767721733*^9, 3.798466774439288*^9}, {3.7984669938397913`*^9, 
+   3.7984670201428003`*^9}, {3.79846705258939*^9, 3.798467054262175*^9}, {
+   3.7984671113217154`*^9, 3.798467112394794*^9}, {3.798472033333507*^9, 
+   3.798472038597888*^9}, {3.798550332791583*^9, 3.7985503523296747`*^9}, {
+   3.798552659854097*^9, 3.798552718257082*^9}, {3.7985529191274633`*^9, 
+   3.798552919769569*^9}, {3.798553227192499*^9, 3.798553229354535*^9}, {
+   3.7985533836502666`*^9, 3.79855338424641*^9}, {3.7985536608384323`*^9, 
+   3.798553661890189*^9}, {3.798553922467361*^9, 3.798553924445911*^9}, {
+   3.798554143297104*^9, 3.798554143940723*^9}, {3.798554248766634*^9, 
+   3.798554257682262*^9}, {3.79855432216401*^9, 3.798554322652602*^9}, {
+   3.798554353582111*^9, 3.798554383952227*^9}, {3.798554441133493*^9, 
+   3.7985544509016943`*^9}, {3.7985547417044*^9, 3.798554742289309*^9}, {
+   3.7985658560652943`*^9, 3.7985658565444937`*^9}, {3.7988377359493637`*^9, 
+   3.7988377367351627`*^9}, {3.798876643710417*^9, 3.798876644174086*^9}, {
+   3.798877165040564*^9, 3.798877186294641*^9}, {3.7988778283601418`*^9, 
+   3.798877829126081*^9}, {3.7988809029204884`*^9, 3.798880911091716*^9}, {
+   3.803401009353981*^9, 3.803401032473302*^9}},
+ CellLabel->
+  "In[102]:=",ExpressionUUID->"55ca3df7-2fed-4bf7-98b9-19885f0de6db"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Variable transformations", "Subsection",
+ CellChangeTimes->{{3.804521001504775*^9, 
+  3.804521007187131*^9}},ExpressionUUID->"e3a15860-d15d-4145-b873-\
+f1ddc96e6fab"],
+
+Cell["risk and coupling Domain Dual", "Text",
+ CellChangeTimes->{{3.804521035273664*^9, 3.8045210420371017`*^9}, {
+  3.804521079986062*^9, 3.804521094989695*^9}, {3.80452394076175*^9, 
+  3.80452394258786*^9}},ExpressionUUID->"9879f4fc-392c-4fe8-b03c-\
+f061ce040247"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"riskDomainDual", "[", 
+    RowBox[{"r_", ",", 
+     RowBox[{"\[Alpha]_:", "2"}], ",", 
+     RowBox[{"d_:", "1"}]}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"riskDomainDual", "[", 
+     RowBox[{"r", ",", "\[Alpha]", ",", "d"}], "]"}], "=", 
+    "\[IndentingNewLine]", 
+    FractionBox[
+     RowBox[{
+      RowBox[{"-", "\[Alpha]"}], " ", "r"}], 
+     RowBox[{"\[Alpha]", "+", 
+      RowBox[{"d", " ", "r"}]}]]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.804521106844378*^9, 3.80452114481575*^9}, {
+   3.804521240637103*^9, 3.804521319882708*^9}, 3.804521437063973*^9},
+ CellLabel->"In[4]:=",ExpressionUUID->"116b2078-36fd-4529-8669-1473540dd284"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"couplingDomainDual", "[", 
+    RowBox[{"\[Kappa]_", ",", 
+     RowBox[{"\[Alpha]_:", "2"}], ",", 
+     RowBox[{"d_:", "1"}]}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"couplingDomainDual", "[", 
+     RowBox[{"\[Kappa]", ",", "\[Alpha]", ",", "d"}], "]"}], "=", 
+    "\[IndentingNewLine]", 
+    FractionBox[
+     RowBox[{"-", " ", "\[Kappa]"}], 
+     RowBox[{"1", "+", 
+      RowBox[{"d", " ", "\[Kappa]"}]}]]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.8045239531503563`*^9, 3.804523999107959*^9}, {
+  3.8045243208251762`*^9, 3.8045243409457893`*^9}},
+ CellLabel->"In[33]:=",ExpressionUUID->"bb387de4-96a7-4e6b-a1c8-6a46d51c1eb5"],
+
+Cell["Coupling to Risk and Risk to Coupling", "Text",
+ CellChangeTimes->{{3.8045216109065228`*^9, 3.8045216152359753`*^9}, {
+  3.804521773288179*^9, 
+  3.804521777655532*^9}},ExpressionUUID->"45937e69-274d-4a48-b114-\
+dac0e622b99c"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"couplingToRisk", "[", 
+    RowBox[{"\[Kappa]_", ",", 
+     RowBox[{"\[Alpha]_:", "2"}], ",", 
+     RowBox[{"d_:", "1"}]}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"couplingToRisk", "[", 
+     RowBox[{"\[Kappa]", ",", "\[Alpha]", ",", "d"}], "]"}], "=", 
+    "\[IndentingNewLine]", 
+    FractionBox[
+     RowBox[{
+      RowBox[{"-", "\[Alpha]"}], " ", "\[Kappa]"}], 
+     RowBox[{"1", "+", 
+      RowBox[{"d", " ", "\[Kappa]"}]}]]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.804521622308154*^9, 3.804521759667238*^9}, 
+   3.8045218733979197`*^9},ExpressionUUID->"987dbcbd-0e6a-4d29-8779-\
+e5d4ba452b51"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"riskToCoupling", "[", 
+    RowBox[{"r_", ",", 
+     RowBox[{"\[Alpha]_:", "2"}], ",", 
+     RowBox[{"d_:", "1"}]}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"riskToCoupling", "[", 
+     RowBox[{"r", ",", "\[Alpha]", ",", "d"}], "]"}], "=", 
+    "\[IndentingNewLine]", 
+    FractionBox[
+     RowBox[{"-", "r"}], 
+     RowBox[{
+      RowBox[{"d", " ", "r"}], " ", "+", "\[Alpha]"}]]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.804521842728209*^9, 3.8045219189067183`*^9}},
+ CellLabel->"In[8]:=",ExpressionUUID->"3cb7be96-60ac-4993-9dcc-1da19eacb641"],
+
+Cell["RiskQDual", "Text",
+ CellChangeTimes->{{3.804521981571062*^9, 
+  3.804521992297504*^9}},ExpressionUUID->"71f7a60b-9f51-4359-ad8f-\
+ebbd4deb0d2c"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"riskQDual", "[", "rORq_", "]"}], ":=", 
+   RowBox[{"1", "-", "rORq"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.804521995604246*^9, 3.804522033295027*^9}},
+ CellLabel->"In[11]:=",ExpressionUUID->"f06e7f0b-78ef-4a83-9344-75a78fba327b"],
+
+Cell["qToCoupling and couplingToq", "Text",
+ CellChangeTimes->{{3.804522085908654*^9, 
+  3.804522104900959*^9}},ExpressionUUID->"b85a4c4c-a6be-47df-9d34-\
+523186868a57"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"couplingToq", "[", 
+    RowBox[{"\[Kappa]_", ",", 
+     RowBox[{"\[Alpha]_:", "2"}], ",", 
+     RowBox[{"d_:", "1"}]}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"couplingToq", "[", 
+     RowBox[{"\[Kappa]", ",", "\[Alpha]", ",", "d"}], "]"}], "=", 
+    "\[IndentingNewLine]", 
+    RowBox[{"1", "-", 
+     RowBox[{"couplingToRisk", "[", 
+      RowBox[{"\[Kappa]", ",", "\[Alpha]", ",", "d"}], "]"}]}]}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.804522126900489*^9, 3.804522196018564*^9}},
+ CellLabel->"In[14]:=",ExpressionUUID->"d571b50f-69e9-4612-9763-438bea8a9459"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"qToCoupling", "[", 
+   RowBox[{"q_", ",", 
+    RowBox[{"\[Alpha]_:", "2"}], ",", 
+    RowBox[{"d_:", "1"}]}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{"qToCoupling", "[", 
+    RowBox[{"q", ",", "\[Alpha]", ",", "d"}], "]"}], "=", 
+   "\[IndentingNewLine]", 
+   FractionBox[
+    RowBox[{"-", 
+     RowBox[{"(", 
+      RowBox[{"1", "-", "q"}], ")"}]}], 
+    RowBox[{"\[Alpha]", "+", 
+     RowBox[{"d", 
+      RowBox[{"(", 
+       RowBox[{"1", "-", "q"}], ")"}]}]}]]}]}]], "Input",
+ CellChangeTimes->{{3.8045221076240463`*^9, 3.804522111841148*^9}, {
+  3.804522278302205*^9, 3.8045223273055553`*^9}, {3.8045223599705276`*^9, 
+  3.804522383758575*^9}},
+ CellLabel->"In[13]:=",ExpressionUUID->"a8abc6d5-ce6b-47c5-86af-dc3a0ed428f0"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{938, 701},
+WindowMargins->{{149, Automatic}, {Automatic, 20}},
+FrontEndVersion->"11.3 for Mac OS X x86 (32-bit, 64-bit Kernel) (March 5, \
+2018)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 211, 4, 67, "Section",ExpressionUUID->"ccfb8823-5ee3-4dd1-a5ef-635366e928a6"],
+Cell[793, 28, 1071, 18, 334, "Text",ExpressionUUID->"7c49f273-00ef-49a0-8d02-e2387935c131"],
+Cell[1867, 48, 1960, 34, 472, "Text",ExpressionUUID->"3483005b-8452-4ec6-83c3-8e0bbc08b62e"],
+Cell[CellGroupData[{
+Cell[3852, 86, 169, 3, 54, "Subsection",ExpressionUUID->"81a76452-688a-45bd-98be-669c9ee70463"],
+Cell[4024, 91, 1290, 35, 196, "Text",ExpressionUUID->"762dba98-5065-487c-b54b-83b044c6f343"],
+Cell[5317, 128, 2465, 58, 264, "Input",ExpressionUUID->"d08c6e66-4bf1-46c3-8911-ba0a436bccc6"],
+Cell[7785, 188, 379, 7, 30, "Input",ExpressionUUID->"38dda050-2638-4b48-a179-17895d521415"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8201, 200, 167, 3, 54, "Subsection",ExpressionUUID->"ab563a47-0e25-473b-b61a-d8d924bb7bbe"],
+Cell[8371, 205, 249, 6, 35, "Text",ExpressionUUID->"e3c25309-77e2-4d04-85d4-66096212348e"],
+Cell[8623, 213, 784, 16, 219, "Text",ExpressionUUID->"47a8764e-ea62-489d-9821-5795550c582b"],
+Cell[9410, 231, 1461, 35, 589, "Input",ExpressionUUID->"d35506b4-a030-4b74-b3b7-261dac74a4d0"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10908, 271, 233, 4, 121, "Subsection",ExpressionUUID->"d85a8cb4-825c-4ccf-b02b-a3f67211e406"],
+Cell[11144, 277, 2415, 52, 579, "Input",ExpressionUUID->"9ee0c0bd-5fb8-4431-bc94-d7134679b664"],
+Cell[CellGroupData[{
+Cell[13584, 333, 188, 3, 100, "Subsubsection",ExpressionUUID->"6e0767ec-c365-4754-9597-3f2c5735ddba"],
+Cell[13775, 338, 3276, 87, 262, "Input",ExpressionUUID->"5eb84abf-0c0f-479f-a442-af94720a7842"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[17100, 431, 251, 4, 121, "Subsection",ExpressionUUID->"8c23c0dc-e252-4bcb-93e2-f761c007bd15"],
+Cell[17354, 437, 3278, 68, 526, "Input",ExpressionUUID->"44c90910-0e53-4b3e-a587-63e244c476f5"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[20669, 510, 203, 3, 121, "Subsection",ExpressionUUID->"0b940d3e-f6af-42d9-9ba2-2bf8c398d37f"],
+Cell[20875, 515, 395, 8, 79, "Text",ExpressionUUID->"9afd2663-16bd-4567-81ac-874a6041877b"],
+Cell[21273, 525, 2483, 55, 691, "Input",ExpressionUUID->"4f1d6f34-6fd4-4aad-8018-ed8e3ed20179"],
+Cell[CellGroupData[{
+Cell[23781, 584, 152, 2, 100, "Subsubsection",ExpressionUUID->"90912a30-441e-48ab-8f81-2d559c243f1c"],
+Cell[23936, 588, 221, 5, 79, "Text",ExpressionUUID->"3a201432-a434-435f-bfb3-be089adbc95c"],
+Cell[24160, 595, 2156, 51, 514, "Input",ExpressionUUID->"16f9a46b-7ab5-4777-946d-4c70022e4dc6"],
+Cell[26319, 648, 1591, 35, 352, "Input",ExpressionUUID->"5b5bc67f-e221-4b47-b2f2-9c9ecc94524a"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[27959, 689, 171, 3, 121, "Subsection",ExpressionUUID->"3e656e5f-d42d-48f2-ba1f-c05bb1602876"],
+Cell[28133, 694, 2862, 70, 763, "Text",ExpressionUUID->"55225ce6-d41c-4d0e-af97-deef655d0531"],
+Cell[30998, 766, 2383, 47, 499, "Input",ExpressionUUID->"dc186a1f-396b-4d46-99cb-cc457ed4fa5e"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[33418, 818, 105, 1, 121, "Subsection",ExpressionUUID->"ce1512d8-343d-466d-9637-377e32d05b40"],
+Cell[33526, 821, 624, 16, 597, "Text",ExpressionUUID->"8f9c0919-0f86-4960-8fde-cd67499a95b6"],
+Cell[34153, 839, 1823, 46, 303, "Input",ExpressionUUID->"b037b0fd-c1db-4a66-a215-76eb107c050b"],
+Cell[35979, 887, 168, 2, 117, "Input",ExpressionUUID->"2be9aba8-7ef3-48fc-a272-44faac3cf905"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[36184, 894, 103, 1, 121, "Subsection",ExpressionUUID->"f44e42f8-8535-4fca-8e3d-c9fd8b9d88e5"],
+Cell[36290, 897, 4347, 98, 1725, "Text",ExpressionUUID->"0d93f37a-5794-4851-8816-9124fbda03af"],
+Cell[40640, 997, 2401, 59, 637, "Input",ExpressionUUID->"95a5b6d3-6977-4786-aff3-3d3964c92d48"],
+Cell[43044, 1058, 4337, 112, 859, "Input",ExpressionUUID->"ece73d97-070f-410e-9a67-74ef68e6d087"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[47418, 1175, 99, 1, 121, "Subsection",ExpressionUUID->"0510a17d-c063-4252-b6e7-945be4e6c701"],
+Cell[47520, 1178, 744, 14, 391, "Text",ExpressionUUID->"ca149bd8-6cac-4796-a680-7ec6921a70fe"],
+Cell[48267, 1194, 525, 12, 286, "Text",ExpressionUUID->"4c988f34-0a91-4b99-97d0-dcb036e0b13f"],
+Cell[48795, 1208, 242, 3, 69, "Input",ExpressionUUID->"d73cc257-4767-4e60-8674-37a5f3c34176"],
+Cell[49040, 1213, 3598, 84, 783, "Input",ExpressionUUID->"f22e041a-e479-43ac-b8ff-891e16779537"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[52675, 1302, 223, 4, 121, "Subsection",ExpressionUUID->"26b68407-76c4-4bee-81bd-425209381ff5"],
+Cell[52901, 1308, 1377, 35, 327, "Input",ExpressionUUID->"31cf1cb8-4bc4-4203-952f-cb8f5f12a976"],
+Cell[54281, 1345, 1316, 33, 327, "Input",ExpressionUUID->"c72b9c84-5348-432a-a6fd-669df697aa3a"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[55634, 1383, 115, 1, 121, "Subsection",ExpressionUUID->"e09c2e2c-fa85-41ee-9c08-d97a81ec1b76"],
+Cell[55752, 1386, 1791, 40, 1047, "Text",ExpressionUUID->"1c76966d-6c46-41ac-8a26-4aa07aef9bfb"],
+Cell[57546, 1428, 18821, 366, 4266, "Input",ExpressionUUID->"55ca3df7-2fed-4bf7-98b9-19885f0de6db"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[76404, 1799, 172, 3, 121, "Subsection",ExpressionUUID->"e3a15860-d15d-4145-b873-f1ddc96e6fab"],
+Cell[76579, 1804, 266, 4, 79, "Text",ExpressionUUID->"9879f4fc-392c-4fe8-b03c-f061ce040247"],
+Cell[76848, 1810, 690, 18, 147, "Input",ExpressionUUID->"116b2078-36fd-4529-8669-1473540dd284"],
+Cell[77541, 1830, 675, 17, 196, "Input",ExpressionUUID->"bb387de4-96a7-4e6b-a1c8-6a46d51c1eb5"],
+Cell[78219, 1849, 232, 4, 79, "Text",ExpressionUUID->"45937e69-274d-4a48-b114-dac0e622b99c"],
+Cell[78454, 1855, 647, 18, 145, "Input",ExpressionUUID->"987dbcbd-0e6a-4d29-8779-e5d4ba452b51"],
+Cell[79104, 1875, 592, 16, 147, "Input",ExpressionUUID->"3cb7be96-60ac-4993-9dcc-1da19eacb641"],
+Cell[79699, 1893, 151, 3, 79, "Text",ExpressionUUID->"71f7a60b-9f51-4359-ad8f-ebbd4deb0d2c"],
+Cell[79853, 1898, 281, 6, 69, "Input",ExpressionUUID->"f06e7f0b-78ef-4a83-9344-75a78fba327b"],
+Cell[80137, 1906, 169, 3, 79, "Text",ExpressionUUID->"b85a4c4c-a6be-47df-9d34-523186868a57"],
+Cell[80309, 1911, 613, 16, 117, "Input",ExpressionUUID->"d571b50f-69e9-4612-9763-438bea8a9459"],
+Cell[80925, 1929, 757, 21, 157, "Input",ExpressionUUID->"a8abc6d5-ce6b-47c5-86af-dc3a0ed428f0"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
