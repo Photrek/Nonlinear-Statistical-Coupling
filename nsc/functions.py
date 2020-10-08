@@ -3,17 +3,47 @@ import numpy as np
 import pandas as pd
 
 
-def CoupledExponential(x, k, d):
+def CoupledExponential(x: float, k: float = 0.0) -> float:
+    """
+    Short description
+    ----------
+    x : 
+    k : 
+    d : 
+    """
     # Assigned to Daniel Svoboda
     pass
 
 
-def CoupledLogarithm(x, k, d):
-    # Assigned to Kevin Chen
-    pass
+def CoupledLogarithm(x: float, k: float = 0.0) -> float:
+    """
+    Generalization of the logarithm function, which defines smooth 
+    transition to power functions.
+    
+    Inputs
+    ----------
+    x : Input variable in which the coupled logarithm is applied to.
+    k : Coupling paramtere which modifies the coupled logarithm function.
+    d : The dimension of x, or rank if x is a tensor. Not needed?
+    """
+    assert x >= 0, "x must be greater or equal to 0."
+    d = np.linalg.matrix_rank(x)
+    if k != 0:
+        r = k / (1 + d*k)  # risk bias ??
+        # r = (-2*k) / (1 + k)
+        return (1 / k) * (x**r - 1)
+    else:
+        return np.log(x)
 
 
 def CoupledNormalDistribution(x, k, mu, sigma):
+    """
+    Short description
+    ----------
+    x : 
+    k : 
+    d : 
+    """
     pass
 
 
