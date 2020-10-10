@@ -1,19 +1,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import pandas as pd
-
-
-def CoupledExponential(x: float, k: float = 0.0) -> float:
-    """
-    Short description
-    ----------
-    x : 
-    k : 
-    d : 
-    """
-    # Assigned to Daniel Svoboda
-    pass
-
+import math
 
 def CoupledLogarithm(x: float, k: float = 0.0) -> float:
     """
@@ -34,6 +22,31 @@ def CoupledLogarithm(x: float, k: float = 0.0) -> float:
         return (1 / k) * (x**r - 1)
     else:
         return np.log(x)
+
+def CoupledExponential():
+     """
+    Short description
+    ----------
+    x : Input variable in which the coupled exponential is applied to.
+    k : Coupling parameter which modifies the coupled exponential function.
+    d : The dimension of x, or rank if x is a tensor.
+    """
+
+    coupExpontValue = 0
+    if kappa > 0:
+	coupExpontValue = (1 + kappa*x)**((1+d*kappa) / kappa)
+    elif ((-(1/d) <= kappa) and (kappa < 0)):
+	if (1 + kappa*x) >= 0:
+		coupExpontValue = (1 + kappa*x)**((1+d*kappa) / kappa)
+	elif ((1+d*kappa) / kappa) > 0:
+		coupExpontValue = 0
+	else:
+		coupExpontValue = float('inf') 
+
+    elif kappa == 0:
+	coupExpontValue = math.exp(x)
+    else:
+	print("Error: kappa = 1/d is not greater than -1."))
 
 
 def CoupledNormalDistribution(x, k, mu, sigma):
