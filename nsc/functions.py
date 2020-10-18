@@ -3,7 +3,8 @@ import numpy as np
 import pandas as pd
 import math
 
-def CoupledLogarithm(x: float, k: float = 0.0) -> float:
+
+def CoupledLogarithm(x: float, kappa: float = 0.0, dim: int = 1) -> float:
     """
     Generalization of the logarithm function, which defines smooth 
     transition to power functions.
@@ -11,47 +12,59 @@ def CoupledLogarithm(x: float, k: float = 0.0) -> float:
     Inputs
     ----------
     x : Input variable in which the coupled logarithm is applied to.
-    k : Coupling paramtere which modifies the coupled logarithm function.
-    d : The dimension of x, or rank if x is a tensor. Not needed?
+    kappa : Coupling parameter which modifies the coupled logarithm function.
+    dim : The dimension of x, or rank if x is a tensor. Not needed?
     """
+    assert dim > 0, "dim must be greater than 0."
     assert x >= 0, "x must be greater or equal to 0."
-    d = np.linalg.matrix_rank(x)
-    if k != 0:
-        r = k / (1 + d*k)  # risk bias ??
-        # r = (-2*k) / (1 + k)
-        return (1 / k) * (x**r - 1)
+    # dim = np.linalg.matrix_rank(x)
+    risk_bias = kappa / (1 + dim*kappa)  # risk bias ratio
+    # risk_bias = (-2*k) / (1 + k)  # Negative sign take inverse of func
+    # coupled_log_value = 0
+    if kappa == 0:
+        coupled_log_value = np.log(x)
     else:
-        return np.log(x)
+        coupled_log_value = (1 / kappa) * (x**risk_bias - 1)
+    return coupled_log_value
 
-def CoupledExponential(x, kappa, d):
-     """
+
+def CoupledExpotential(x: float, kappa: float = 0.0, dim: int = 1) -> float:
+    """
     Short description
     ----------
     x : Input variable in which the coupled exponential is applied to.
     kappa : Coupling parameter which modifies the coupled exponential function.
-    d : The dimension of x, or rank if x is a tensor.
+    dim : The dimension of x, or rank if x is a tensor.
     """
-
-    coupExpontValue = 0
-    if kappa > 0:
-	coupExpontValue = (1 + kappa*x)**((1+d*kappa) / kappa)
-    elif ((-(1/d) <= kappa) and (kappa < 0)):
-	if (1 + kappa*x) >= 0:
-		coupExpontValue = (1 + kappa*x)**((1+d*kappa) / kappa)
-	elif ((1+d*kappa) / kappa) > 0:
-		coupExpontValue = 0
-	else:
-		coupExpontValue = float('inf') 
-
-    elif kappa == 0:
-	coupExpontValue = math.exp(x)
+    assert dim > 0, "dim must be greater than 0."
+    assert kappa >= 0 or kappa >= (-1/dim), "kappa must be greater than -1/dim."
+    risk_bias = kappa / (1 + dim*kappa)  # risk bias ratio
+    # coupled_exp_value = 0
+    if kappa == 0:
+        coupled_exp_value = math.exp(x)
+    elif kappa > 0:
+    	coupled_exp_value = (1 + kappa*x)**(-risk_bias)
+    # now given that kappa < 0
+    elif (1 + kappa*x) >= 0:
+   		coupled_exp_value = (1 + kappa*x)**(-risk_bias)
+    elif (-risk_bias) > 0:
+   		coupled_exp_value = 0
     else:
-	print("Error: kappa = 1/d is not greater than -1."))
+   		coupled_exp_value = float('inf') 
+    # else:
+    # 	print("Error: kappa = 1/d is not greater than -1.")
+    return coupled_exp_value
 
-    return coupExpontValue
+
+def CoupledExpotentialDistribution(x, k, mu, sigma):
+    pass
 
 
-def CoupledNormalDistribution(x, k, mu, sigma):
+def MultivariateCoupledExpotentialDistribution(x, k, mu, sigma):
+    pass
+
+
+def CoupledGaussianDistribution(x, k, mu, sigma):
     """
     Short description
     ----------
@@ -62,11 +75,7 @@ def CoupledNormalDistribution(x, k, mu, sigma):
     pass
 
 
-def CoupledExpotentialDistribution(x, k, mu, sigma):
-    pass
-
-
-def MultivariateCoupledDistribution(x, k, mu, sigma):
+def MultivariateCoupledGaussianDistribution(x, k, mu, sigma):
     pass
 
 
