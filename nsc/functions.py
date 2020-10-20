@@ -6,9 +6,9 @@ import math
 
 def CoupledLogarithm(x: float, kappa: float = 0.0, dim: int = 1) -> float:
     """
-    Generalization of the logarithm function, which defines smooth 
+    Generalization of the logarithm function, which defines smooth
     transition to power functions.
-    
+
     Inputs
     ----------
     x : Input variable in which the coupled logarithm is applied to.
@@ -38,21 +38,23 @@ def CoupledExponential(x: float, kappa: float = 0.0, dim: int = 1) -> float:
     kappa : Coupling parameter which modifies the coupled exponential function.
     dim : The dimension of x, or rank if x is a tensor.
     """
-    assert dim > 0, "dim must be greater than 0."
+    assert dim >= 0, "dim must be greater than or equal 0."
+        # may also want to test that dim is an integer
     assert kappa >= 0 or kappa >= (-1/dim), "kappa must be greater than -1/dim."
+        # recommend removing kappa >= 0 since redundant
     risk_bias = kappa / (1 + dim*kappa)  # risk bias ratio
     # coupled_exp_value = 0
     if kappa == 0:
         coupled_exp_value = math.exp(x)
     elif kappa > 0:
-    	coupled_exp_value = (1 + kappa*x)**(-risk_bias)
+    	coupled_exp_value = (1 + kappa*x)**(1/risk_bias) # removed negative sign and added reciprocal
     # now given that kappa < 0
     elif (1 + kappa*x) >= 0:
-   		coupled_exp_value = (1 + kappa*x)**(-risk_bias)
-    elif (-risk_bias) > 0:
+   		coupled_exp_value = (1 + kappa*x)**(1/risk_bias) # removed negative sign and added reciprocal
+    elif (risk_bias) > 0: # removed negative sign
    		coupled_exp_value = 0
     else:
-   		coupled_exp_value = float('inf') 
+   		coupled_exp_value = float('inf')
     # else:
     # 	print("Error: kappa = 1/d is not greater than -1.")
     return coupled_exp_value
@@ -70,9 +72,9 @@ def CoupledNormalDistribution(x, k, mu, sigma):
     """
     Short description
     ----------
-    x : 
-    k : 
-    d : 
+    x :
+    k :
+    d :
     """
     pass
 
