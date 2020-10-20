@@ -16,19 +16,21 @@ def CoupledLogarithm(x: float, kappa: float = 0.0, dim: int = 1) -> float:
     dim : The dimension of x, or rank if x is a tensor. Not needed?
     """
     assert dim > 0, "dim must be greater than 0."
-    assert x >= 0, "x must be greater or equal to 0."
+    assert x >= 0, "x must be greater or equal to 0."  # Greater than 0?????
     # dim = np.linalg.matrix_rank(x)
+    # risk_bias = -kappa / (1 + dim*kappa)
     risk_bias = kappa / (1 + dim*kappa)  # risk bias ratio
     # risk_bias = (-2*k) / (1 + k)  # Negative sign take inverse of func
     # coupled_log_value = 0
     if kappa == 0:
-        coupled_log_value = np.log(x)
+        coupled_log_value = np.log(x)  # divide by 0 if x == 0
     else:
+        # coupled_log_value = (1/-kappa) * (x**risk_bias - 1)
         coupled_log_value = (1 / kappa) * (x**risk_bias - 1)
     return coupled_log_value
 
 
-def CoupledExpotential(x: float, kappa: float = 0.0, dim: int = 1) -> float:
+def CoupledExponential(x: float, kappa: float = 0.0, dim: int = 1) -> float:
     """
     Short description
     ----------
@@ -64,7 +66,7 @@ def MultivariateCoupledExpotentialDistribution(x, k, mu, sigma):
     pass
 
 
-def CoupledGaussianDistribution(x, k, mu, sigma):
+def CoupledNormalDistribution(x, k, mu, sigma):
     """
     Short description
     ----------
@@ -75,7 +77,7 @@ def CoupledGaussianDistribution(x, k, mu, sigma):
     pass
 
 
-def MultivariateCoupledGaussianDistribution(x, k, mu, sigma):
+def MultivariateCoupledDistribution(x, k, mu, sigma):
     pass
 
 
