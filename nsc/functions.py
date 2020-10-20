@@ -40,8 +40,8 @@ def CoupledExponential(x: float, kappa: float = 0.0, dim: int = 1) -> float:
     """
     assert dim >= 0, "dim must be greater than or equal 0."
         # may also want to test that dim is an integer
-    assert kappa >= 0 or kappa >= (-1/dim), "kappa must be greater than -1/dim."
-        # recommend removing kappa >= 0 since redundant
+
+        # removed the requirement on kappa; although not common kappa can be less than -1/dim
     risk_bias = kappa / (1 + dim*kappa)  # risk bias ratio
     # coupled_exp_value = 0
     if kappa == 0:
