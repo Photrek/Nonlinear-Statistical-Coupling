@@ -61,15 +61,34 @@ def CoupledExponential(x: float, kappa: float = 0.0, dim: int = 1) -> float:
     return coupled_exp_value
 
 
-def CoupledExpotentialDistribution(x, k, mu, sigma):
-    pass
+def normCG(sigma, kappa):
+    if kappa == 0:
+	result = math.sqrt(2*math.pi) * sigma
+    elif kappa < 0:
+	result = math.sqrt(math.pi) * sigma * math.gamma((-1+kappa) / (2*kappa)) / float(math.sqrt(-1*kappa) * math.gamma(1 - (1 / (2*kappa))))
+    else:
+	result = math.sqrt(math.pi) * sigma * math.gamma(1 / (2*kappa)) / float(math.sqrt(kappa) * math.gamma((1+kappa)/(2*kappa)))
+  
+    return result
+
+
+def CoupledExpotentialDistribution(x, kappa, mean, sigma):
+      coupledExponentialDistributionResult = []
+      if kappa >= 0:
+	input = [mean:(20*mean - mean)/10000:20*mean]
+      else:
+        input = [mean:(-1*sigma / kappa)/10000:(-1*sigma / kappa) + mean]
+      for x in input:
+        coupledExponentialDistributionResult.append((1 / sigma)*(1 / CoupledExponential((x - mu) / sigma), kappa, 1))
+
+      return coupledExponentialDistributionResult
 
 
 def MultivariateCoupledExpotentialDistribution(x, k, mu, sigma):
     pass
 
 
-def CoupledNormalDistribution(x, mean, std, kappa, alpha):
+def CoupledNormalDistribution(x, sigma, std, kappa, alpha):
     """
     Short description
     ----------
@@ -77,8 +96,21 @@ def CoupledNormalDistribution(x, mean, std, kappa, alpha):
     k :
     d :
     """
+
     assert std >= 0, "std must be greater than or equal to 0."
     assert alpha in [1, 2], "alpha must be set to either 1 or 2."
+
+    coupledNormalDistributionResult = []
+    if kappa >= 0:
+	input = [mean*-20:(20*mean - -20*mean)/10000:mean*20]
+    else:
+	input = [mean - ((-1*sigma**2) / kappa)**0.5:(mean + ((-1*sigma**2) / kappa)**0.5 - mean - ((-1*sigma**2) / kappa)**0.5)/10000:mean + ((-1*sigma**2) / kappa)**0.5]
+ 
+    normCGvalue = 1 / float(normCG(sigma, kappa))
+    for i in input:
+	coupledNormalDistributionResult.append(normCGvalue * (coupledExponential((x - mean)**2/sigma**2, kappa)) ** -0.5)
+  
+    return coupledNormalDistributionResult
 
 
 def MultivariateCoupledDistribution(x, k, mu, sigma):
