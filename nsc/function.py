@@ -2,10 +2,10 @@
 import numpy as np
 import pandas as pd
 import math
-from typing import Any  # for NDArray types
+from typing import Any, List  # for NDArray types
 
 
-def CoupledLogarithm(x: [float, Any], kappa: float = 0.0, dim: int = 1) -> float:
+def coupled_logarithm(x: [float, Any], kappa: float = 0.0, dim: int = 1) -> [float, Any]:
     """
     Generalization of the logarithm function, which defines smooth
     transition to power functions.
@@ -31,7 +31,7 @@ def CoupledLogarithm(x: [float, Any], kappa: float = 0.0, dim: int = 1) -> float
     return coupled_log_value
 
 
-def CoupledExponential(x: float, kappa: float = 0.0, dim: int = 1) -> float:
+def coupled_expoential(x: float, kappa: float = 0.0, dim: int = 1) -> float:
     """
     Short description
     ----------
@@ -61,40 +61,56 @@ def CoupledExponential(x: float, kappa: float = 0.0, dim: int = 1) -> float:
     return coupled_exp_value
 
 
-def normCG(sigma, kappa):
+def norm_CG(sigma, kappa):
     if kappa == 0:
-	result = math.sqrt(2*math.pi) * sigma
+        result = math.sqrt(2*math.pi) * sigma
     elif kappa < 0:
-	result = math.sqrt(math.pi) * sigma * math.gamma((-1+kappa) / (2*kappa)) / float(math.sqrt(-1*kappa) * math.gamma(1 - (1 / (2*kappa))))
+        result = math.sqrt(math.pi) * sigma * math.gamma((-1+kappa) / (2*kappa)) / float(math.sqrt(-1*kappa) * math.gamma(1 - (1 / (2*kappa))))
     else:
-	result = math.sqrt(math.pi) * sigma * math.gamma(1 / (2*kappa)) / float(math.sqrt(kappa) * math.gamma((1+kappa)/(2*kappa)))
+        result = math.sqrt(math.pi) * sigma * math.gamma(1 / (2*kappa)) / float(math.sqrt(kappa) * math.gamma((1+kappa)/(2*kappa)))
   
     return result
 
 
-def CoupledExpotentialDistribution(x, kappa, mean, sigma):
-      coupledExponentialDistributionResult = []
-      if kappa >= 0:
-	input = [mean:(20*mean - mean)/10000:20*mean]
-      else:
-        input = [mean:(-1*sigma / kappa)/10000:(-1*sigma / kappa) + mean]
-      for x in input:
-        coupledExponentialDistributionResult.append((1 / sigma)*(1 / CoupledExponential((x - mu) / sigma), kappa, 1))
+def norm_multi_coupled(std: [float, Any],  kappa: float = 0.0, alpha: int = 2
+                       ) -> [float, Any]:
 
-      return coupledExponentialDistributionResult
+    assert alpha == 1 or alpha == 2, "alpha must be an int and equal to either" + \
+                                     " 1 (Pareto) or 2 (Gaussian)."
+    
+    dim = 1 if isinstance(std, float) else len(std[0])
+    if alpha == 1:
+        input = (std**0.5)/(1 + (-1 + dim)*kappa)
+    else:  # alpha == 2
+        gamma_num = math.gamma((1 + (-1 + dim)*kappa)/(2*kappa))
+        gamma_dem = math.gamma((1 + dim*kappa)/(2*kappa))
+        input = (((math.sqrt(math.pi)*std**0.5)*gamma_num) / (math.sqrt(kappa)*gamma_dem)) 
+    return input  # currently wrong ...
 
 
-def MultivariateCoupledExpotentialDistribution(x, k, mu, sigma):
+
+def coupled_probability(x):
     pass
 
 
+
+
+
+
+'''
 def CoupledNormalDistribution(x, sigma, std, kappa, alpha):
+
+    pass
     """
     Short description
+    
+    Inputs
     ----------
-    x :
-    k :
-    d :
+    x : Input variable in which the coupled logarithm is applied to.
+    mean : 
+    std : 
+    kappa : Coupling parameter which modifies the coupled logarithm function.
+    dim : The dimension of x, or rank if x is a tensor. Not needed?
     """
 
     assert std >= 0, "std must be greater than or equal to 0."
@@ -111,18 +127,30 @@ def CoupledNormalDistribution(x, sigma, std, kappa, alpha):
 	coupledNormalDistributionResult.append(normCGvalue * (coupledExponential((x - mean)**2/sigma**2, kappa)) ** -0.5)
   
     return coupledNormalDistributionResult
+ '''
 
 
-def MultivariateCoupledDistribution(x, k, mu, sigma):
-    pass
-
-
-def NormMultiCoupled(x, k, mu, sigma):
-    pass
-
-
-def CoupledProbability(x):
-    pass
+'''
+def MultivariateCoupledNormalDistribution(mean: [float, Any], std: [float, Any], 
+                                          kappa: float = 0.0, alpha: int = 2
+                                          ) -> [float, Any]:
+    """
+    Short description
+    
+    Inputs
+    ----------
+    x : Input variable in which the coupled logarithm is applied to.
+    mean : 
+    std : 
+    kappa : Coupling parameter which modifies the coupled logarithm function.
+    alpha : Type of distribution. 1 = Pareto, 2 = Gaussian.
+    """
+    assert type(mean) is type(std), "mean and std must be the same type."
+    if isinstance(mean, np.ndarray) and isinstance(std, np.ndarray):
+        assert mean.shape == std.shape, "mean and std must have the same dim."
+    assert alpha == 1 or alpha == 2, "alpha must be an int and equal to either" + \
+                                     " 1 (Pareto) or 2 (Gaussian)."
+  '''
 
 
 def CoupledEntropy(x):
