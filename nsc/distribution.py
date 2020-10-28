@@ -13,7 +13,7 @@ from function import coupled_logarithm, coupled_expoential, norm_CG, norm_multi_
 
 
 # Make this a class?
-def CoupledNormal(x, sigma, std, kappa, alpha):
+def CoupledNormal(mean: [float, Any], sigma: [float, Any], kappa: [float, Any], alpha: int = 2):
     """
     Short description
     
@@ -26,18 +26,18 @@ def CoupledNormal(x, sigma, std, kappa, alpha):
     dim : The dimension of x, or rank if x is a tensor. Not needed?
     """
 
-    assert std >= 0, "std must be greater than or equal to 0."
+    assert sigma >= 0, "std must be greater than or equal to 0."
     assert alpha in [1, 2], "alpha must be set to either 1 or 2."
 
     coupledNormalResult = []
     if kappa >= 0:
-        input = [mean*-20:(20*mean - -20*mean)/10000:mean*20]
+        input1 = range(mean*-20, mean*20, (20*mean - -20*mean)/10000)
     else:
-        input = [mean - ((-1*sigma**2) / kappa)**0.5:(mean + ((-1*sigma**2) / kappa)**0.5 - mean - ((-1*sigma**2) / kappa)**0.5)/10000:mean + ((-1*sigma**2) / kappa)**0.5]
+        input1 = range(mean - ((-1*sigma**2) / kappa)**0.5, mean + ((-1*sigma**2) / kappa)**0.5, (mean + ((-1*sigma**2) / kappa)**0.5 - mean - ((-1*sigma**2) / kappa)**0.5)/10000)
  
     normCGvalue = 1 / float(normCG(sigma, kappa))
-    for i in input:
-        pledNormalResult.append(normCGvalue * (coupledExponential((x - mean)**2/sigma**2, kappa)) ** -0.5)
+    for x in input1:
+        coupledNormalResult.append(normCGvalue * (coupledExponential((x - mean)**2/sigma**2, kappa)) ** -0.5)
   
     return coupledNormalResult
 
