@@ -21,12 +21,12 @@ def CoupledNormal(loc: [float, Any], scale: [float, Any], kappa: [float, Any], a
     ----------
     x : Input variable in which the coupled logarithm is applied to.
     loc : 
-    std : 
+    scale : 
     kappa : Coupling parameter which modifies the coupled logarithm function.
     dim : The dimension of x, or rank if x is a tensor. Not needed?
     """
 
-    assert scale >= 0, "std must be greater than or equal to 0."
+    assert scale >= 0, "scale must be greater than or equal to 0."
     assert alpha in [1, 2], "alpha must be set to either 1 or 2."
 
     coupledNormalResult = []
@@ -45,7 +45,7 @@ def CoupledNormal(loc: [float, Any], scale: [float, Any], kappa: [float, Any], a
 class MultivariateCoupledNormal:
 # class MultivariateCoupledNormal(distribution.Distribution):
 
-    def __init__(self, loc, std, kappa, alpha
+    def __init__(self, loc, scale, kappa, alpha
                  validate_args=False, allow_nan_stats=True,
                  name='MultivariateCoupledNormal'
                  ):
@@ -56,30 +56,30 @@ class MultivariateCoupledNormal:
         ----------
         x : Input variable in which the coupled logarithm is applied to.
         loc : 
-        std : 
+        scale : 
         kappa : Coupling parameter which modifies the coupled logarithm function.
         alpha : Type of distribution. 1 = Pareto, 2 = Gaussian.
         """
 
-        assert type(loc) is type(std), "loc and std must be the same type."
-        if isinstance(loc, np.ndarray) and isinstance(std, np.ndarray):
-            assert loc.shape == std.shape, "loc and std must have the same dim."
+        assert type(loc) is type(scale), "loc and scale must be the same type."
+        if isinstance(loc, np.ndarray) and isinstance(scale, np.ndarray):
+            assert loc.shape == scale.shape, "loc and scale must have the same dim."
         assert alpha == 1 or alpha == 2, "alpha must be an int and equal to either" + \
                                          " 1 (Pareto) or 2 (Gaussian)."
 
-        self.dist = std.Pareto(concentration=1/kappa, scale=std) if alpha == 1 else
-                    std.StudentT(df=1/kappa, loc=loc, scale=std)
+        self.dist = scale.Pareto(concentration=1/kappa, scale=scale) if alpha == 1 else
+                    scale.StudentT(df=1/kappa, loc=loc, scale=scale)
 
         '''
         parameters = dict(locals())
         with tf.name_scope(name) as name:
-            dtype = dtype_util.common_dtype([1/kappa, loc, std], tf.float32)
+            dtype = dtype_util.common_dtype([1/kappa, loc, scale], tf.float32)
             self._df = tensor_util.convert_nonref_to_tensor(
                 1/kappa, name='df', dtype=dtype)
             self._loc = tensor_util.convert_nonref_to_tensor(
                 loc, name='loc', dtype=dtype)
             self._scale = tensor_util.convert_nonref_to_tensor(
-                std, name='scale', dtype=dtype)
+                scale, name='scale', dtype=dtype)
             dtype_util.assert_same_float_dtype((self._df, self._loc, self._scale))
             super(StudentT, self).__init__(
                 dtype=dtype,
@@ -94,7 +94,7 @@ class MultivariateCoupledNormal:
         return self.dist.sample(sample_shape, seed, name, **kwargs)
         
 
-class MultivariateCoupledNormal(loc: [float, Any], std: [float, Any], 
+class MultivariateCoupledNormal(loc: [float, Any], scale: [float, Any], 
                                 kappa: float = 0.0, alpha: int = 2
                                 ) -> [float, Any]:
     """
@@ -104,13 +104,13 @@ class MultivariateCoupledNormal(loc: [float, Any], std: [float, Any],
     ----------
     x : Input variable in which the coupled logarithm is applied to.
     loc : 
-    std : 
+    scale : 
     kappa : Coupling parameter which modifies the coupled logarithm function.
     alpha : Type of distribution. 1 = Pareto, 2 = Gaussian.
     """
-    assert type(loc) is type(std), "loc and std must be the same type."
-    if isinstance(loc, np.ndarray) and isinstance(std, np.ndarray):
-        assert loc.shape == std.shape, "loc and std must have the same dim."
+    assert type(loc) is type(scale), "loc and scale must be the same type."
+    if isinstance(loc, np.ndarray) and isinstance(scale, np.ndarray):
+        assert loc.shape == scale.shape, "loc and scale must have the same dim."
     assert alpha == 1 or alpha == 2, "alpha must be an int and equal to either" + \
                                      " 1 (Pareto) or 2 (Gaussian)."
 
