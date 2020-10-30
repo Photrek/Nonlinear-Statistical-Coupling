@@ -13,40 +13,39 @@ from function import coupled_logarithm, coupled_expoential, norm_CG, norm_multi_
 
 
 # Make this a class?
-def CoupledNormal(mean: [float, Any], sigma: [float, Any], kappa: [float, Any], alpha: int = 2):
+def CoupledNormal(loc: [float, Any], scale: [float, Any], kappa: [float, Any], alpha: int = 2):
     """
     Short description
     
     Inputs
     ----------
     x : Input variable in which the coupled logarithm is applied to.
-    mean : 
+    loc : 
     std : 
     kappa : Coupling parameter which modifies the coupled logarithm function.
     dim : The dimension of x, or rank if x is a tensor. Not needed?
     """
 
-    assert sigma >= 0, "std must be greater than or equal to 0."
+    assert scale >= 0, "std must be greater than or equal to 0."
     assert alpha in [1, 2], "alpha must be set to either 1 or 2."
 
     coupledNormalResult = []
     if kappa >= 0:
-        input1 = range(mean*-20, mean*20, (20*mean - -20*mean)/10000)
+        input1 = range(loc*-20, loc*20, (20*loc - -20*loc)/10000)
     else:
-        input1 = range(mean - ((-1*sigma**2) / kappa)**0.5, mean + ((-1*sigma**2) / kappa)**0.5, (mean + ((-1*sigma**2) / kappa)**0.5 - mean - ((-1*sigma**2) / kappa)**0.5)/10000)
+        input1 = range(loc - ((-1*scale**2) / kappa)**0.5, loc + ((-1*scale**2) / kappa)**0.5, (loc + ((-1*scale**2) / kappa)**0.5 - loc - ((-1*scale**2) / kappa)**0.5)/10000)
  
-    normCGvalue = 1 / float(normCG(sigma, kappa))
+    normCGvalue = 1 / float(normCG(scale, kappa))
     for x in input1:
-        coupledNormalResult.append(normCGvalue * (coupledExponential((x - mean)**2/sigma**2, kappa)) ** -0.5)
+        coupledNormalResult.append(normCGvalue * (coupledExponential((x - loc)**2/scale**2, kappa)) ** -0.5)
   
     return coupledNormalResult
-
 
 
 class MultivariateCoupledNormal:
 # class MultivariateCoupledNormal(distribution.Distribution):
 
-    def __init__(self, mean, std, kappa, alpha
+    def __init__(self, loc, std, kappa, alpha
                  validate_args=False, allow_nan_stats=True,
                  name='MultivariateCoupledNormal'
                  ):
@@ -56,29 +55,29 @@ class MultivariateCoupledNormal:
         Inputs
         ----------
         x : Input variable in which the coupled logarithm is applied to.
-        mean : 
+        loc : 
         std : 
         kappa : Coupling parameter which modifies the coupled logarithm function.
         alpha : Type of distribution. 1 = Pareto, 2 = Gaussian.
         """
 
-        assert type(mean) is type(std), "mean and std must be the same type."
-        if isinstance(mean, np.ndarray) and isinstance(std, np.ndarray):
-            assert mean.shape == std.shape, "mean and std must have the same dim."
+        assert type(loc) is type(std), "loc and std must be the same type."
+        if isinstance(loc, np.ndarray) and isinstance(std, np.ndarray):
+            assert loc.shape == std.shape, "loc and std must have the same dim."
         assert alpha == 1 or alpha == 2, "alpha must be an int and equal to either" + \
                                          " 1 (Pareto) or 2 (Gaussian)."
 
         self.dist = std.Pareto(concentration=1/kappa, scale=std) if alpha == 1 else
-                    std.StudentT(df=1/kappa, loc=mean, scale=std)
+                    std.StudentT(df=1/kappa, loc=loc, scale=std)
 
         '''
         parameters = dict(locals())
         with tf.name_scope(name) as name:
-            dtype = dtype_util.common_dtype([1/kappa, mean, std], tf.float32)
+            dtype = dtype_util.common_dtype([1/kappa, loc, std], tf.float32)
             self._df = tensor_util.convert_nonref_to_tensor(
                 1/kappa, name='df', dtype=dtype)
             self._loc = tensor_util.convert_nonref_to_tensor(
-                mean, name='loc', dtype=dtype)
+                loc, name='loc', dtype=dtype)
             self._scale = tensor_util.convert_nonref_to_tensor(
                 std, name='scale', dtype=dtype)
             dtype_util.assert_same_float_dtype((self._df, self._loc, self._scale))
@@ -95,7 +94,7 @@ class MultivariateCoupledNormal:
         return self.dist.sample(sample_shape, seed, name, **kwargs)
         
 
-class MultivariateCoupledNormal(mean: [float, Any], std: [float, Any], 
+class MultivariateCoupledNormal(loc: [float, Any], std: [float, Any], 
                                 kappa: float = 0.0, alpha: int = 2
                                 ) -> [float, Any]:
     """
@@ -104,33 +103,33 @@ class MultivariateCoupledNormal(mean: [float, Any], std: [float, Any],
     Inputs
     ----------
     x : Input variable in which the coupled logarithm is applied to.
-    mean : 
+    loc : 
     std : 
     kappa : Coupling parameter which modifies the coupled logarithm function.
     alpha : Type of distribution. 1 = Pareto, 2 = Gaussian.
     """
-    assert type(mean) is type(std), "mean and std must be the same type."
-    if isinstance(mean, np.ndarray) and isinstance(std, np.ndarray):
-        assert mean.shape == std.shape, "mean and std must have the same dim."
+    assert type(loc) is type(std), "loc and std must be the same type."
+    if isinstance(loc, np.ndarray) and isinstance(std, np.ndarray):
+        assert loc.shape == std.shape, "loc and std must have the same dim."
     assert alpha == 1 or alpha == 2, "alpha must be an int and equal to either" + \
                                      " 1 (Pareto) or 2 (Gaussian)."
 
 
 '''
-def CoupledExpotentialDistribution(x, kappa, mean, sigma):
+def CoupledExpotentialDistribution(x, kappa, loc, scale):
     coupledExponentialDistributionResult = []
     if kappa >= 0:
-        result = [mean:(20*mean - mean)/10000:20*mean]
+        result = [loc:(20*loc - loc)/10000:20*loc]
     else:
-        input = [mean:(-1*sigma / kappa)/10000:(-1*sigma / kappa) + mean]
+        input = [loc:(-1*scale / kappa)/10000:(-1*scale / kappa) + loc]
     for x in input:
-        coupledExponentialDistributionResult.append((1 / sigma)*(1 / CoupledExponential((x - mu) / sigma), kappa, 1))
+        coupledExponentialDistributionResult.append((1 / scale)*(1 / CoupledExponential((x - mu) / scale), kappa, 1))
 
     return coupledExponentialDistributionResult
 '''
 
 
 '''
-def MultivariateCoupledExpotentialDistribution(x, k, mu, sigma):
+def MultivariateCoupledExpotentialDistribution(x, k, mu, scale):
     pass
 '''

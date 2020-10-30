@@ -93,7 +93,32 @@ def coupled_probability(x):
     pass
 
 
+def coupled_entropy(x):
+    pass
 
+
+def coupled_product(x):
+    pass
+
+
+def coupled_sum(x):
+    pass
+
+
+def coupled_sine(x):
+    pass
+
+
+def coupled_cosine(x):
+    pass
+
+
+def weighted_generalized_mean(x):
+    pass
+
+
+def coupled_box_muller(x):
+    pass
 
 
 
@@ -153,29 +178,4 @@ def MultivariateCoupledNormalDistribution(mean: [float, Any], std: [float, Any],
   '''
 
 
-def CoupledEntropy(x):
-    pass
 
-
-def CoupledProduct(x):
-    pass
-
-
-def CoupledSum(x):
-    pass
-
-
-def CoupledSine(x):
-    pass
-
-
-def CoupledCosine(x):
-    pass
-
-
-def WeightedGeneralizedMean(x):
-    pass
-
-
-def CoupledBoxMuller(x):
-    pass
