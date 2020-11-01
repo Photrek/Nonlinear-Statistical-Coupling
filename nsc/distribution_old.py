@@ -45,7 +45,7 @@ def CoupledNormal(loc: [float, Any], scale: [float, Any], kappa: [float, Any], a
 class MultivariateCoupledNormal:
 # class MultivariateCoupledNormal(distribution.Distribution):
 
-    def __init__(self, loc, scale, kappa, alpha
+    def __init__(self, loc, scale, kappa, alpha,
                  validate_args=False, allow_nan_stats=True,
                  name='MultivariateCoupledNormal'
                  ):
