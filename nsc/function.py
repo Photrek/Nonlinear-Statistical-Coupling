@@ -31,7 +31,7 @@ def coupled_logarithm(x: [float, Any], kappa: float = 0.0, dim: int = 1) -> [flo
     return coupled_log_value
 
 
-def coupled_expoential(x: float, kappa: float = 0.0, dim: int = 1) -> float:
+def coupled_exponential(x: float, kappa: float = 0.0, dim: int = 1) -> float:
     """
     Short description
     ----------
