@@ -3,9 +3,10 @@ import numpy as np
 import pandas as pd
 import math
 from typing import Any, List  # for NDArray types
+from distribution.multivariate_coupled_normal import MultivariateCoupledNormal
 
 
-def coupled_logarithm(x: [float, Any], kappa: float = 0.0, dim: int = 1) -> [float, Any]:
+def coupled_logarithm(value: [float, Any], kappa: float = 0.0, dim: int = 1) -> [float, Any]:
     """
     Generalization of the logarithm function, which defines smooth
     transition to power functions.
@@ -17,21 +18,21 @@ def coupled_logarithm(x: [float, Any], kappa: float = 0.0, dim: int = 1) -> [flo
     dim : The dimension of x, or rank if x is a tensor. Not needed?
     """
     assert dim > 0, "dim must be greater than 0."
-    if isinstance(x, float):    
-        assert x >= 0, "x must be greater or equal to 0."  # Greater than 0?????
+    if isinstance(value, float):    
+        assert value >= 0, "x must be greater or equal to 0."  # Greater than 0?????
     else:
-        assert isinstance(x, np.ndarray), "x must be a np.ndarray type if a sequence, or a float if a scalar."
+        assert isinstance(value, np.ndarray), "x must be a np.ndarray type if a sequence, or a float if a scalar."
         # assert np.all(x), "all values in x must be "
 
     if kappa == 0:
-        coupled_log_value = np.log(x)  # divide by 0 if x == 0
+        coupled_log_value = np.log(value)  # divide by 0 if x == 0
     else:
         risk_bias = kappa / (1 + dim*kappa)  # risk bias ratio
-        coupled_log_value = (1 / kappa) * (x**risk_bias - 1)
+        coupled_log_value = (1 / kappa) * (value**risk_bias - 1)
     return coupled_log_value
 
 
-def coupled_exponential(x: float, kappa: float = 0.0, dim: int = 1) -> float:
+def coupled_exponential(value: float, kappa: float = 0.0, dim: int = 1) -> float:
     """
     Short description
     ----------
@@ -44,14 +45,14 @@ def coupled_exponential(x: float, kappa: float = 0.0, dim: int = 1) -> float:
 
         # removed the requirement on kappa; although not common kappa can be less than -1/dim
     if kappa == 0:
-        coupled_exp_value = math.exp(x)
+        coupled_exp_value = math.exp(value)
     else:
         risk_bias = kappa / (1 + dim*kappa)  # risk bias ratio    
         if kappa > 0:
-        	coupled_exp_value = (1 + kappa*x)**(1/risk_bias) # removed negative sign and added reciprocal
+        	coupled_exp_value = (1 + kappa*value)**(1/risk_bias) # removed negative sign and added reciprocal
         # now given that kappa < 0
-        elif (1 + kappa*x) >= 0:
-       		coupled_exp_value = (1 + kappa*x)**(1/risk_bias) # removed negative sign and added reciprocal
+        elif (1 + kappa*value) >= 0:
+       		coupled_exp_value = (1 + kappa*value)**(1/risk_bias) # removed negative sign and added reciprocal
         elif (risk_bias) > 0: # removed negative sign
        		coupled_exp_value = 0
         else:
@@ -59,6 +60,14 @@ def coupled_exponential(x: float, kappa: float = 0.0, dim: int = 1) -> float:
         # else:
         # 	print("Error: kappa = 1/d is not greater than -1.")
     return coupled_exp_value
+
+
+def coupled_probability(value: [float, Any], dist: [Any]):
+    pass
+
+
+def coupled_entropy(value, dist):
+    return dist.log_prob()
 
 
 def norm_CG(sigma, kappa):
@@ -86,15 +95,6 @@ def norm_multi_coupled(std: [float, Any],  kappa: float = 0.0, alpha: int = 2
         gamma_dem = math.gamma((1 + dim*kappa)/(2*kappa))
         input = (((math.sqrt(math.pi)*std**0.5)*gamma_num) / (math.sqrt(kappa)*gamma_dem)) 
     return input  # currently wrong ...
-
-
-
-def coupled_probability(x):
-    pass
-
-
-def coupled_entropy(x):
-    pass
 
 
 def coupled_product(x):

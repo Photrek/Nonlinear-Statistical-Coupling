@@ -123,7 +123,7 @@ class MultivariateCoupledNormal(distribution.Distribution):
       raise ValueError('`scale` must be non-singular.')
 
     with tf.name_scope(name) as name:
-      dtype = dtype_util.common_dtype([df, loc, scale], dtype_hint=tf.float32)
+      dtype = dtype_util.common_dtype([kappa, loc, scale], dtype_hint=tf.float32)
       self._kappa = tensor_util.convert_nonref_to_tensor(
           kappa, name='kappa', dtype=dtype)
       self._loc = tensor_util.convert_nonref_to_tensor(
@@ -227,21 +227,6 @@ class MultivariateCoupledNormal(distribution.Distribution):
 
     return (self._loc +
             normal_samp * tf.math.rsqrt(chi2_samp * self._kappa)[..., tf.newaxis])
-    ''' MultivariateStudentTLinearOperator format...
-    normal_seed, chi2_seed = samplers.split_seed(seed, salt='multivariate t')
-
-    loc = tf.broadcast_to(self.loc, self._sample_shape())
-    mvn = mvn_linear_operator.MultivariateNormalLinearOperator(
-        loc=tf.zeros_like(loc), scale=self.scale)
-    normal_samp = mvn.sample(n, seed=normal_seed)
-
-    df = tf.broadcast_to(self.df, self.batch_shape_tensor())
-    chi2 = chi2_lib.Chi2(df=df)
-    chi2_samp = chi2.sample(n, seed=chi2_seed)
-
-    return (self._loc +
-            normal_samp * tf.math.rsqrt(chi2_samp / self._df)[..., tf.newaxis])
-    '''
 
   def _log_normalization(self):
     inv_kappa = tf.convert_to_tensor(self.inv_kappa)
@@ -250,13 +235,6 @@ class MultivariateCoupledNormal(distribution.Distribution):
             num_dims / 2. * (tf.math.log(inv_kappa) + np.log(np.pi)) +
             self.scale.log_abs_determinant()
             )
-    ''' MultivariateStudentTLinearOperator format...
-    df = tf.convert_to_tensor(self.df)
-    num_dims = tf.cast(self.event_shape_tensor()[0], self.dtype)
-    return (tfp_math.log_gamma_difference(num_dims / 2., df / 2.) +
-            num_dims / 2. * (tf.math.log(df) + np.log(np.pi)) +
-            self.scale.log_abs_determinant())
-    '''
 
   def _log_unnormalized_prob(self, value):
     inv_kappa = tf.convert_to_tensor(self.inv_kappa)
@@ -267,16 +245,18 @@ class MultivariateCoupledNormal(distribution.Distribution):
     mahalanobis = tf.norm(value, axis=[-1, -2])
     return -(num_dims + inv_kappa) / 2. * tfp_math.log1psquare(
         mahalanobis / tf.sqrt(inv_kappa))
-    ''' MultivariateStudentTLinearOperator format...
-    df = tf.convert_to_tensor(self.df)
-    value = value - self._loc
-    value = self.scale.solve(value[..., tf.newaxis])
-
-    num_dims = tf.cast(self.event_shape_tensor()[0], self.dtype)
-    mahalanobis = tf.norm(value, axis=[-1, -2])
-    return -(num_dims + df) / 2. * tfp_math.log1psquare(
-        mahalanobis / tf.sqrt(df))
-    '''
 
   def _log_prob(self, value):
     return self._log_unnormalized_prob(value) - self._log_normalization()
+
+  def _entropy(self):
+    # df = tf.broadcast_to(self.df, self.batch_shape_tensor())
+    inv_kappa = tf.broadcast_to(self.inv_kappa, self.batch_shape_tensor())
+    num_dims = tf.cast(self.event_shape_tensor()[0], self.dtype)
+
+    shape_factor = self._scale.log_abs_determinant()
+    beta_factor = (num_dims / 2. * (tf.math.log(inv_kappa) + np.log(np.pi)) +
+                   tfp_math.log_gamma_difference(num_dims / 2., inv_kappa / 2.))
+    digamma_factor = (num_dims + inv_kappa) / 2. * (
+        tf.math.digamma((num_dims + inv_kappa) / 2.) - tf.math.digamma(inv_kappa / 2.))
+    return shape_factor + beta_factor + digamma_factor
