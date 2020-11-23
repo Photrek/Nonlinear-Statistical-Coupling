@@ -1,0 +1,105 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      3716,         95]
+NotebookOptionsPosition[      3318,         79]
+NotebookOutlinePosition[      3763,         97]
+CellTagsIndexPosition[      3720,         94]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "LogCoupledProbability", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"LogCoupledProbability", "[", 
+    RowBox[{"dist_", ",", "\[Kappa]Mult_", ",", "x_", ",", 
+     RowBox[{
+      RowBox[{"xmin_", ":"}], "-", "\[Infinity]"}], ",", 
+     RowBox[{"xmax_", ":", "\[Infinity]"}]}], "]"}], ":=", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"LogCoupledProbability", "[", 
+     RowBox[{
+     "dist", ",", "\[Kappa]Mult", ",", "x", ",", "xmin", ",", "xmax"}], "]"}],
+     "=", "\[IndentingNewLine]", 
+    RowBox[{"FullSimplify", "[", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"1", "-", "\[Kappa]Mult"}], ")"}], 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"Log", "[", 
+         RowBox[{"(", 
+          RowBox[{"PDF", "[", 
+           RowBox[{"dist", ",", "x"}], "]"}], ")"}], "]"}], "-", 
+        RowBox[{"Log", "[", 
+         RowBox[{
+          SubsuperscriptBox["\[Integral]", "xmin", "xmax"], 
+          RowBox[{
+           RowBox[{"Exp", "[", 
+            RowBox[{"Log", "[", 
+             RowBox[{"PDF", "[", 
+              RowBox[{"dist", ",", "y"}], "]"}], "]"}], "]"}], 
+           RowBox[{"\[DifferentialD]", "y"}]}]}], "]"}]}], ")"}]}], 
+     "\[IndentingNewLine]", "]"}]}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.6490593922452726`*^9, 3.6490596887081933`*^9}, {
+   3.6490597269438605`*^9, 3.6490597882675686`*^9}, {3.6490600115663605`*^9, 
+   3.6490600347792015`*^9}, {3.6490601162113447`*^9, 
+   3.6490601266477623`*^9}, {3.6490601667710333`*^9, 3.649060224350734*^9}, {
+   3.6490609704064445`*^9, 3.649061014351722*^9}, {3.649061140306343*^9, 
+   3.6490611910688324`*^9}, {3.649061295230215*^9, 3.6490613109082427`*^9}, {
+   3.6490616403184214`*^9, 3.6490616421436243`*^9}, {3.6490618108579206`*^9, 
+   3.649062000008253*^9}, {3.649062166335745*^9, 3.64906221482063*^9}, {
+   3.649062290652364*^9, 3.649062348434865*^9}, {3.6490627689492035`*^9, 
+   3.6490628237677*^9}, {3.649068515954899*^9, 3.649068545688551*^9}, {
+   3.6490685843142185`*^9, 3.64906860186545*^9}, {3.651061610290411*^9, 
+   3.6510616195568275`*^9}, {3.651062707925139*^9, 3.6510627397959948`*^9}, {
+   3.654415640069536*^9, 3.654415697712833*^9}, {3.654415731199668*^9, 
+   3.654415733399055*^9}, {3.654417117012582*^9, 3.6544171535948544`*^9}, 
+   3.6928263629715548`*^9, {3.803398741094001*^9, 3.803398801003497*^9}, {
+   3.814039892653596*^9, 3.814039940137498*^9}, {3.814039971168757*^9, 
+   3.8140400219919167`*^9}, {3.814040127644528*^9, 3.814040132392338*^9}, {
+   3.814040209954253*^9, 3.814040257631549*^9}},
+ EmphasizeSyntaxErrors->
+  True,ExpressionUUID->"862c730b-b1e6-4b3a-93fe-38b4f7179f41"]
+},
+WindowSize->{808, 905},
+WindowMargins->{{4, Automatic}, {Automatic, 4}},
+PrintingCopies->1,
+PrintingPageRange->{1, Automatic},
+FrontEndVersion->"12.1 for Mac OS X x86 (64-bit) (June 19, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"fde97d40-8831-4958-84bd-a35996c9a857"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 2756, 57, 209, "Input",ExpressionUUID->"862c730b-b1e6-4b3a-93fe-38b4f7179f41"]
+}
+]
+*)
+
+(* End of internal cache information *)
+
