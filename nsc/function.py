@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import math
 from typing import Any, List  # for NDArray types
-from distribution.multivariate_coupled_normal import MultivariateCoupledNormal
+#from distribution.multivariate_coupled_normal import MultivariateCoupledNormal
 
 
 def coupled_logarithm(value: [float, Any], kappa: float = 0.0, dim: int = 1) -> [float, Any]:
@@ -62,12 +62,24 @@ def coupled_exponential(value: float, kappa: float = 0.0, dim: int = 1) -> float
     return coupled_exp_value
 
 
-def coupled_probability(value: [float, Any], dist: [Any]):
-    pass
+def coupled_probability(dist, kappa, alpha, d): # x, xmin, xmax): #(value: float, kappa: float = 0.0, dim: int = 1)):
+    kMult = (-alpha * kappa) / (1 + d*kappa)
+    new_dist_temp = [x ** (1-kMult) for x in dist]
+    division_factor = np.trapz(new_dist_temp)
+    new_dist = [x / division_factor for x in new_dist_temp]
+
+    return new_dist
 
 
-def coupled_entropy(value, dist):
-    return dist.log_prob()
+def coupled_entropy(dist, kappa, alpha, d): # x, xmin, xmax):
+    dist_temp = coupled_probability(dist, kappa, alpha, d)
+    coupled_logarithm_values = []
+    for i in dist:
+        coupled_logarithm_values.append(coupled_logarithm(i, kappa, d))
+
+    pre_integration = [x*y for x,y in zip(dist_temp, coupled_logarithm_values)]
+    final_integration = -1*np.trapz(pre_integration)
+    return final_integration
 
 
 def norm_CG(sigma, kappa):
