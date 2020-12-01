@@ -1,0 +1,253 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      8535,        245]
+NotebookOptionsPosition[      7780,        222]
+NotebookOutlinePosition[      8227,        240]
+CellTagsIndexPosition[      8184,        237]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Generalized Mean", "Section",
+ CellChangeTimes->{{3.8158113002638493`*^9, 
+  3.815811307846493*^9}},ExpressionUUID->"fa478f9c-7184-4020-b459-\
+375406b0cba8"],
+
+Cell[TextData[{
+ "Prototype for Python Development\n\nIf the goal is the simplest expression \
+using the CoupledLogarithm than a better approach is to utilize dimension = 0 \
+for the CoupledLogarithm.  Then the power represents the risk_bias = ",
+ Cell[BoxData[
+  FormBox[
+   FractionBox[
+    RowBox[{
+     RowBox[{"-", "alpha"}], " ", "kappa"}], 
+    RowBox[{"1", " ", "+", " ", "kappa"}]], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "76c0a226-398b-438e-a7c2-ad2c99e31419"],
+ ". Also included in this definition is a weight ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["w", "i"], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "52ae3948-a0a3-40ed-9cab-11820b9f3051"],
+ " on each input and the sum of the weights SumW for normalization\n\n\
+riskLogGM = ",
+ Cell[BoxData[
+  FormBox[
+   FractionBox["1", "SumW"], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "66949091-d488-4e1b-a4f1-d8d08b16d7dd"],
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"Sum", "[", 
+    RowBox[{
+     SubscriptBox["w", "i"], 
+     RowBox[{"CoupledLogarithm", "[", 
+      SubscriptBox["x", "i"]}]}]}], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "2f21f993-016a-48aa-9a5d-c963fdb8b3b8"],
+ ", r, 0], {i, 1, N}];\nGM = CoupledExponential[riskLogGM, r, 0];\n\nNote: \
+its not necessary to computing r = 0 separately, since this is already part \
+of the CoupledLogarithm and CoupledExponential expressions.  Expanding the \
+expression to double check that it simplifies.\n\nriskLogGM = ",
+ Cell[BoxData[
+  FormBox[
+   FractionBox["1", "SumW"], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "d1a50561-ad95-42da-966a-d6d0c7bfcca2"],
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"Sum", "[", 
+     RowBox[{
+      RowBox[{
+       FractionBox[
+        SubscriptBox["w", "i"], "r"], 
+       RowBox[{"(", 
+        RowBox[{
+         SubsuperscriptBox["x", "i", "r"], "-", "1"}], ")"}]}], ",", " ", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "1", ",", " ", "N"}], "}"}]}], "]"}], ";"}], 
+   TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "152f2e73-885c-4fa4-b54d-0accf24593ee"],
+ "\nGM = (1 + ",
+ Cell[BoxData[
+  FormBox[
+   FractionBox["r", "SumW"], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "19b3dad2-5dd2-409e-bc91-e4a2ab2b4a56"],
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox[
+    RowBox[{
+     RowBox[{"Sum", "[", 
+      RowBox[{
+       RowBox[{
+        FractionBox[
+         SubscriptBox["w", "i"], "r"], " ", 
+        RowBox[{"(", 
+         RowBox[{
+          SubsuperscriptBox["x", "i", "r"], "-", "1"}], ")"}]}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", " ", "1", ",", " ", "N"}], "}"}]}], "]"}], ")"}], 
+    FractionBox["1", "r"]], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "56563f32-4354-40cc-ac9e-44b09f5241c1"],
+ "\n       = (1 + ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"r", "/", "r"}], " ", 
+    RowBox[{"(", 
+     RowBox[{
+      FractionBox["1", "SumW"], 
+      RowBox[{"Sum", "["}]}]}]}], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "0a056936-a233-4867-b2d9-9b1b5761af09"],
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["w", "i"], 
+    SubsuperscriptBox["x", "i", "r"]}], TraditionalForm]],ExpressionUUID->
+  "7752b3ad-bd68-4e99-bc40-236da69c85b3"],
+ ", {i, 1, N}] - ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox[
+    RowBox[{
+     RowBox[{
+      FractionBox["SumW", "SumW"], ")"}], ")"}], 
+    FractionBox["1", "r"]], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "3c3962fb-90f5-4bd4-8194-1efef1698cd2"],
+ "\n       ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"=", 
+    SuperscriptBox[
+     RowBox[{"(", 
+      RowBox[{
+       FractionBox["1", "N"], 
+       RowBox[{"Sum", "[", 
+        RowBox[{
+         RowBox[{
+          SubscriptBox["w", "i"], 
+          SubsuperscriptBox["x", "i", "r"]}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", "1", ",", "N"}], "}"}]}], "]"}]}], ")"}], 
+     FractionBox["1", "r"]]}], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "8c72fead-e46a-4e36-8d61-41fb500ec116"]
+}], "Text",
+ CellChangeTimes->{{3.81581131299816*^9, 3.815811475737701*^9}, {
+  3.815811511796348*^9, 3.815811624442501*^9}, {3.815811668954404*^9, 
+  3.815811797414398*^9}, {3.8158119022657013`*^9, 3.815812005171118*^9}, {
+  3.8158120624004183`*^9, 3.815812070795382*^9}, {3.8158124729232073`*^9, 
+  3.815813158821231*^9}, {3.815813189329739*^9, 3.8158132061028633`*^9}, {
+  3.815813349875885*^9, 3.815813550059266*^9}, {3.815813604315988*^9, 
+  3.81581365567315*^9}, {3.815813788674848*^9, 3.815814041381575*^9}, {
+  3.815814684666236*^9, 
+  3.8158146862735977`*^9}},ExpressionUUID->"42874cee-f6f9-4432-b10f-\
+2db70668e076"],
+
+Cell[CellGroupData[{
+
+Cell["Alternative Definition", "Subsubsection",
+ CellChangeTimes->{{3.8158147415727654`*^9, 
+  3.815814745010454*^9}},ExpressionUUID->"11429341-19de-4687-8de2-\
+c982c98e12f7"],
+
+Cell[TextData[{
+ "\nAn alternative derivation which we will NOT plan to use.\n\nOne approach \
+would be to utilize the structure of CoupledNormal.  However, if its done \
+this way then the powers are in terms of the coupling rather than the risk \
+bias which will be very confusing. You would need to input the risk bias and \
+translate that into values of alpha and kappa.\nUtilizes the \
+CoupledLogarithm[x, \[Kappa], 1] and CoupledExponential[x, \[Kappa], 1] in \
+the form associated with CoupledNormalDistribution. Thus the summation of \
+inputs (usually a probability) is \n\t",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"\[Kappa]LogGM", " ", "=", " ", 
+    RowBox[{"Sum", "[", 
+     RowBox[{
+      RowBox[{
+       FractionBox["1", "2"], 
+       RowBox[{"CoupledLogarithm", "[", 
+        RowBox[{
+         SuperscriptBox[
+          SubscriptBox["x", "i"], 
+          RowBox[{"-", "2"}]], ",", "\[Kappa]", ",", " ", "1"}], "]"}]}], ",",
+       " ", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "1", ",", "N"}], "}"}]}], "]"}]}], TraditionalForm]],
+  
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "5fb2a893-e878-46b3-9146-247953a0d98a"],
+ ";\n\tGM = CoupledExponential[2 ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox[
+    RowBox[{
+     RowBox[{"\[Kappa]LogGM", ",", " ", "\[Kappa]", ",", " ", "1"}], "]"}], 
+    FractionBox[
+     RowBox[{"-", "1"}], "2"]], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "3debbd40-6913-4f8f-812d-60426fb2a415"],
+ ";\n\t\nHowever; this approach seems unnecessarily complicated, so I don\
+\[CloseCurlyQuote]t recommend it at this time.  I\[CloseCurlyQuote]m not sure \
+what purpose it would serve, other than possibly that \[Kappa]LogGM may be a \
+useful intermediate form, but this can be computed separately if necessary."
+}], "Text",
+ CellChangeTimes->{{3.815813669993825*^9, 3.8158136972189217`*^9}, {
+  3.8158146884278097`*^9, 
+  3.815814735958476*^9}},ExpressionUUID->"c2b6ca94-8727-4e3f-9e04-\
+0c8ebcd2342a"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{808, 755},
+WindowMargins->{{Automatic, -16}, {0, Automatic}},
+PrintingCopies->1,
+PrintingPageRange->{1, Automatic},
+FrontEndVersion->"12.1 for Mac OS X x86 (64-bit) (June 19, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"886ffaf6-47c4-4e7e-8243-7bc41103ef9d"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 163, 3, 67, "Section",ExpressionUUID->"fa478f9c-7184-4020-b459-375406b0cba8"],
+Cell[746, 27, 4828, 137, 425, "Text",ExpressionUUID->"42874cee-f6f9-4432-b10f-2db70668e076"],
+Cell[CellGroupData[{
+Cell[5599, 168, 175, 3, 45, "Subsubsection",ExpressionUUID->"11429341-19de-4687-8de2-c982c98e12f7"],
+Cell[5777, 173, 1975, 45, 343, "Text",ExpressionUUID->"c2b6ca94-8727-4e3f-9e04-0c8ebcd2342a"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
