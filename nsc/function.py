@@ -27,7 +27,7 @@ def coupled_logarithm(value: [float, Any], kappa: float = 0.0, dim: int = 1) -> 
     if kappa == 0:
         coupled_log_value = np.log(value)  # divide by 0 if x == 0
     else:
-        risk_bias = kappa / (1 + dim*kappa)  # risk bias ratio
+        risk_bias = -kappa / (1 + dim*kappa)  # risk bias ratio
         coupled_log_value = (1 / kappa) * (value**risk_bias - 1)
     return coupled_log_value
 
@@ -47,7 +47,7 @@ def coupled_exponential(value: float, kappa: float = 0.0, dim: int = 1) -> float
     if kappa == 0:
         coupled_exp_value = math.exp(value)
     else:
-        risk_bias = kappa / (1 + dim*kappa)  # risk bias ratio    
+        risk_bias = -kappa / (1 + dim*kappa)  # risk bias ratio    
         if kappa > 0:
         	coupled_exp_value = (1 + kappa*value)**(1/risk_bias) # removed negative sign and added reciprocal
         # now given that kappa < 0
