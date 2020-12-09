@@ -6,10 +6,10 @@ from typing import Any, List  # for NDArray types
 
 # import distribution module from tfp
 # from tensorflow_probability.python.distributions import StudentT, Pareto
-import tensorflow_probability as tfp
-tfd = tfp.distributions
+#import tensorflow_probability as tfp
+#tfd = tfp.distributions
 # import helper functions from function.py
-from function import coupled_logarithm, coupled_expoential, norm_CG, norm_multi_coupled
+from function import coupled_logarithm, coupled_exponential as coupledExponential, norm_CG as normCG, norm_multi_coupled
 
 
 # Make this a class?
@@ -31,7 +31,7 @@ def CoupledNormal(loc: [float, Any], scale: [float, Any], kappa: [float, Any], a
 
     coupledNormalResult = []
     if kappa >= 0:
-        input1 = range(loc*-20, loc*20, (20*loc - -20*loc)/10000)
+        input1 = range(loc*-20, loc*20, int((20*loc - -20*loc)/10000))
     else:
         input1 = range(loc - ((-1*scale**2) / kappa)**0.5, loc + ((-1*scale**2) / kappa)**0.5, (loc + ((-1*scale**2) / kappa)**0.5 - loc - ((-1*scale**2) / kappa)**0.5)/10000)
  
@@ -95,27 +95,29 @@ class MultivariateCoupledNormal:
     def sample(sample_shape=(), seed=None, name='sample', **kwargs):
         return self.dist.sample(sample_shape, seed, name, **kwargs)
 
-
+'''
 class MultivariateCoupledNormal(loc: [float, Any], scale: [float, Any], 
                                 kappa: float = 0.0, alpha: int = 2
                                 ) -> [float, Any]:
-    """
-    Short description
-    
-    Inputs
-    ----------
-    x : Input variable in which the coupled logarithm is applied to.
-    loc : 
-    scale : 
-    kappa : Coupling parameter which modifies the coupled logarithm function.
-    alpha : Type of distribution. 1 = Pareto, 2 = Gaussian.
-    """
-    assert type(loc) is type(scale), "loc and scale must be the same type."
-    if isinstance(loc, np.ndarray) and isinstance(scale, np.ndarray):
-        assert loc.shape == scale.shape, "loc and scale must have the same dim."
-    assert alpha == 1 or alpha == 2, "alpha must be an int and equal to either" + \
-                                     " 1 (Pareto) or 2 (Gaussian)."
+'''
+"""
+Short description
 
+Inputs
+----------
+x : Input variable in which the coupled logarithm is applied to.
+loc : 
+scale : 
+kappa : Coupling parameter which modifies the coupled logarithm function.
+alpha : Type of distribution. 1 = Pareto, 2 = Gaussian.
+"""
+'''
+assert type(loc) is type(scale), "loc and scale must be the same type."
+if isinstance(loc, np.ndarray) and isinstance(scale, np.ndarray):
+    assert loc.shape == scale.shape, "loc and scale must have the same dim."
+assert alpha == 1 or alpha == 2, "alpha must be an int and equal to either" + \
+                                 " 1 (Pareto) or 2 (Gaussian)."
+    '''
 
 '''
 def CoupledExpotentialDistribution(x, kappa, loc, scale):
