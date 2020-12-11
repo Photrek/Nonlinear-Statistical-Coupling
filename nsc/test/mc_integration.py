@@ -31,6 +31,6 @@ def mc_integrator(integrand, a: float, b: float, n: int, seed: int = 1) -> float
     # Apply the integrand function to the random draws.
     rand_draws = integrand(u)
     # Approximate the integral of the integrand on the interval from a to b.
-    approx_integral = (b - a) * np.sum(rand_draws)/(len(rand_draws)-1)
+    approx_integral = (b - a) * np.mean(rand_draws)
     # Return the approximate integral.
     return approx_integral
