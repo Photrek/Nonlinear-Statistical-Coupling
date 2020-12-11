@@ -10,14 +10,12 @@ def coupled_logarithm(value: [float, Any], kappa: float = 0.0, dim: int = 1) -> 
     """
     Generalization of the logarithm function, which defines smooth
     transition to power functions.
-
     Inputs
     ----------
     x : Input variable in which the coupled logarithm is applied to.
     kappa : Coupling parameter which modifies the coupled logarithm function.
     dim : The dimension of x, or rank if x is a tensor. Not needed?
     """
-    assert dim > 0, "dim must be greater than 0."
     if isinstance(value, float):    
         assert value >= 0, "x must be greater or equal to 0."  # Greater than 0?????
     else:
@@ -27,8 +25,7 @@ def coupled_logarithm(value: [float, Any], kappa: float = 0.0, dim: int = 1) -> 
     if kappa == 0:
         coupled_log_value = np.log(value)  # divide by 0 if x == 0
     else:
-        risk_bias = -kappa / (1 + dim*kappa)  # risk bias ratio
-        coupled_log_value = (1 / kappa) * (value**risk_bias - 1)
+        coupled_log_value = (1 / kappa) * (value**(kappa / (1 + dim*kappa)) - 1)
     return coupled_log_value
 
 
@@ -47,13 +44,12 @@ def coupled_exponential(value: float, kappa: float = 0.0, dim: int = 1) -> float
     if kappa == 0:
         coupled_exp_value = math.exp(value)
     else:
-        risk_bias = -kappa / (1 + dim*kappa)  # risk bias ratio    
         if kappa > 0:
-        	coupled_exp_value = (1 + kappa*value)**(1/risk_bias) # removed negative sign and added reciprocal
+        	coupled_exp_value = (1 + kappa*value)**(1/(kappa / (1 + dim*kappa))) # removed negative sign and added reciprocal
         # now given that kappa < 0
         elif (1 + kappa*value) >= 0:
-       		coupled_exp_value = (1 + kappa*value)**(1/risk_bias) # removed negative sign and added reciprocal
-        elif (risk_bias) > 0: # removed negative sign
+       		coupled_exp_value = (1 + kappa*value)**(1/(kappa / (1 + dim*kappa))) # removed negative sign and added reciprocal
+        elif (kappa / (1 + dim*kappa)) > 0: # removed negative sign
        		coupled_exp_value = 0
         else:
        		coupled_exp_value = float('inf')
