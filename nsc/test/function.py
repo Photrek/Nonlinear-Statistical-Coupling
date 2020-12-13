@@ -47,7 +47,7 @@ def coupled_exponential(value: float, kappa: float = 0.0, dim: int = 1) -> float
     if kappa == 0:
         coupled_exp_value = math.exp(value)
     else:
-        risk_bias = -kappa / (1 + dim*kappa)  # risk bias ratio    
+        risk_bias = kappa / (1 + dim*kappa)  # risk bias ratio    
         if kappa > 0:
         	coupled_exp_value = (1 + kappa*value)**(1/risk_bias) # removed negative sign and added reciprocal
         # now given that kappa < 0
@@ -63,7 +63,7 @@ def coupled_exponential(value: float, kappa: float = 0.0, dim: int = 1) -> float
 
 
 def coupled_probability(dist, kappa, alpha, d): # x, xmin, xmax): #(value: float, kappa: float = 0.0, dim: int = 1)):
-    kMult = (-alpha * kappa) / (1 + d*kappa)
+    kMult = (-alpha * kappa) / (1 + d*kappa)  ## Risk bias
     new_dist_temp = [x ** (1-kMult) for x in dist]
     division_factor = np.trapz(new_dist_temp)
     new_dist = [x / division_factor for x in new_dist_temp]
@@ -87,7 +87,7 @@ def coupled_entropy(dist, kappa, alpha, d, root): # x, xmin, xmax):
             coupled_logarithm_values.append(coupled_logarithm(i**(-alpha), kappa, d)**(1/alpha))
 
         pre_integration = [x * y for x, y in zip(dist_temp, coupled_logarithm_values)]
-        final_integration = -1 * np.trapz(pre_integration)
+        final_integration = np.trapz(pre_integration)
 
     return final_integration
 
