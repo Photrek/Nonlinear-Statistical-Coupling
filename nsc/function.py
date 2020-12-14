@@ -33,6 +33,7 @@ def generalized_mean(values: np.ndarray, r: float = 1.0, weights: np.ndarray = N
         assert ((len(values.shape) == 2) 
                 & ((values.shape[0] == 1)
                   | (values.shape[1] == 1))), "values must be a 1-D numpy ndarray."
+    assert (values <= 0).sum() == 0, "all numbers in values must be greater than 0."
     assert ((type(r) == int) | (type(r) == float) | (type(r) == np.int32 ) 
             | (type(r) == np.float32) | (type(r) == np.int64) 
             | (type(r) == np.float64)), "r must be a numeric data type, like a float or int."
