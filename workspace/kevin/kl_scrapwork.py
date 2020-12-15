@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import numpy as np
 # import tensorflow as tf
 import tensorflow.compat.v2 as tf
 from tensorflow.python.util import tf_inspect  # pylint: disable=g-direct-tensorflow-import
@@ -139,10 +140,14 @@ def kl_divergence(distribution_a, distribution_b,
 
 
 if __name__=="__main__":
+    # input data
+    x = np.arange(-10.0, 10.0, 0.001)
     # Normal
     # <tf.Tensor: shape=(), dtype=float32, numpy=0.12768734>
     dist1 = tfd.Normal(loc=0., scale=2.)
     dist2 = tfd.Normal(loc=0., scale=3.)
+    dist1.log_prob(x)
+    dist1.prob(x)
     dist1.entropy()
     dist2.entropy()
     dist1.kl_divergence(dist2)
@@ -155,5 +160,5 @@ if __name__=="__main__":
     dist4 = tfd.StudentT(df=20, loc=0, scale=1)
     dist3.entropy()
     dist4.entropy()
-    dist3.kl_divergence(dist4)
-    dist3.cross_entropy(dist4)
+    # dist3.kl_divergence(dist4)
+    # dist3.cross_entropy(dist4)
