@@ -5,6 +5,56 @@ import math
 from typing import Any, List  # for NDArray types
 #from distribution.multivariate_coupled_normal import MultivariateCoupledNormal
 
+def generalized_mean(values: np.ndarray, r: float = 1.0, weights: np.ndarray = None) -> float:
+    """
+    This function calculates the generalized mean of a 1-D array of non- 
+    negative real numbers using the coupled logarithm and exponential functions.
+    
+    Parameters
+    ----------
+    values : np.ndarray
+        DESCRIPTION : A 1-D numpy array (row vector) of non-negative numbers
+         for which we are calculating the generalized mean.
+    r : float, optional
+        DESCRIPTION : The risk bias and the power of the generalized mean. 
+        The default is 1.0 (Arithmetric Mean).
+    weights : np.ndarray, optional
+        DESCRIPTION : A 1-D numpy array of the weights for each value. 
+        The default is None, which triggers a conditional to use equal weights.
+
+    Returns gen_mean
+    -------
+    float
+        DESCRIPTION : The coupled generalized mean.
+    """
+    
+    assert type(values) == np.ndarray, "values must be a 1-D numpy ndarray."
+    if len(values.shape) != 1:
+        assert ((len(values.shape) == 2) 
+                & ((values.shape[0] == 1)
+                  | (values.shape[1] == 1))), "values must be a 1-D numpy ndarray."
+    assert (values <= 0).sum() == 0, "all numbers in values must be greater than 0."
+    assert ((type(r) == int) | (type(r) == float) | (type(r) == np.int32 ) 
+            | (type(r) == np.float32) | (type(r) == np.int64) 
+            | (type(r) == np.float64)), "r must be a numeric data type, like a float or int."
+    assert ((type(weights) == type(None))
+            | (type(weights) == np.ndarray)), "weights must either be None or 1-D numpy ndarray."
+            
+    # If weights equals None, equally weight all observations.
+    if type(weights) == type(None):
+        weights = weights or np.ones(len(values))
+    
+    # Calculate the log of the generalized mean by taking the dot product of the
+    # weights vector and the vector of the coupled logarithm of the values and
+    # divide the result by the sum of the the weights.
+    log_gen_mean = np.dot(weights, coupled_logarithm(values, kappa=r, dim=0)) / np.sum(weights)
+        
+    # Calculate the generalized mean by exponentiating the log-generalized mean.
+    gen_mean = coupled_exponential(log_gen_mean, kappa=r, dim=0)
+    
+    # Return the generalized mean.
+    return gen_mean
+
 
 def coupled_logarithm(value: [float, Any], kappa: float = 0.0, dim: int = 1) -> [float, Any]:
     """
