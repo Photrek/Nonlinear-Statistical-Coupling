@@ -86,6 +86,7 @@ def coupled_entropy(dist, kappa, alpha, d, root, integration): # x, xmin, xmax):
             coupled_logarithm_values.append(coupled_logarithm(i**(-alpha), kappa, d))
 
         pre_integration = [x*y*(-1/alpha) for x,y in zip(dist_temp, coupled_logarithm_values)]
+        # looks like this next line is replaced by the if statement and can be removed
         final_integration = -1*np.trapz(pre_integration)
         if integration == 'trapz':
             final_integration = -1*np.trapz(pre_integration)
