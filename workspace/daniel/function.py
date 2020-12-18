@@ -71,6 +71,8 @@ def coupled_probability(dist, kappa, alpha, d, integration): # x, xmin, xmax): #
         division_factor = np.trapz(new_dist_temp)
     elif integration == 'simpsons':
         division_factor = integrate.simps(new_dist_temp)
+    elif integration == 'quad':
+        division_factor, error = integrate.quad(new_dist_temp[x], 0, len(new_dist_temp))
     elif integration == 'romberg':
         division_factor = integrate.romb(new_dist_temp)
     new_dist = [x / division_factor for x in new_dist_temp]
@@ -92,6 +94,8 @@ def coupled_entropy(dist, kappa, alpha, d, root, integration): # x, xmin, xmax):
             final_integration = -1*np.trapz(pre_integration)
         elif integration == 'simpsons':
             final_integration = -1*integrate.simps(pre_integration)
+        elif integration == 'quad':
+            final_integration, error = -1*integrate.quad(pre_integration[x], 0, len(new_dist_temp))
         elif integration == 'romberg':
             final_integration = -1*integrate.romb(pre_integration)
     else:
@@ -105,6 +109,8 @@ def coupled_entropy(dist, kappa, alpha, d, root, integration): # x, xmin, xmax):
                 final_integration = np.trapz(pre_integration)
         elif integration == 'simpsons':
                 final_integration = integrate.simps(pre_integration)
+        elif integration == 'quad':
+            final_integration, error = integrate.quad(pre_integration, 0, len(new_dist_temp))
         elif integration == 'romberg':
                 final_integration = integrate.romb(pre_integration)
 
