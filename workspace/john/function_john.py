@@ -185,7 +185,7 @@ def coupled_probability(dist, dx: float, kappa: float = 0.0, alpha: float = 1.0,
     return coupled_dist
 
 
-def coupled_cross_entropy(dist_p, dist_q, dx: float, kappa: float = 0.0, alpha: float = 1.0, dim: int = 1) -> [float, Any]:
+def coupled_cross_entropy(dist_p, dist_q, dx: float, kappa: float = 0.0, alpha: float = 1.0, dim: int = 1, root: bool = False) -> [float, Any]:
     """
     
 
@@ -203,6 +203,8 @@ def coupled_cross_entropy(dist_p, dist_q, dx: float, kappa: float = 0.0, alpha: 
         DESCRIPTION. The default is 1.0.
     dim : int, optional
         The dimension of x, or rank if x is a tensor. The default is 1.
+    root : bool, optional
+        DESCRIPTION. The default is False.
 
     Returns
     -------
@@ -211,34 +213,62 @@ def coupled_cross_entropy(dist_p, dist_q, dx: float, kappa: float = 0.0, alpha: 
 
     """
     
-    # Raise the distrubtion P to the power (-alpha*kappa)/(1+d*kapaa) and normalize it. 
-    dist_p_temp = coupled_probability(dist=dist_p, 
-                                      dx=dx, 
-                                      kappa=kappa, 
-                                      alpha=alpha, 
-                                      dim=dim)
-    # Forget dist_p inside the fuction to save memory.
-    del dist_p
-    
-    # Calculate the coupled-logarithm of the values in the distribution Q raised to the
-    # negative alpha power.
-    coupled_logarithm_dist_q = (1/-alpha)*coupled_logarithm(values=dist_q**(-alpha), 
-                                                 kappa=kappa, 
-                                                 dim=dim)
-    # Forget dist_q inside the fuction to save memory.
-    del dist_q
-    
-    # Multiply the coupled-probability values of dist_p by (
-    # 1/-alpha)*coupled logarithm of dist_q.
-    pre_integration = np.multiply(dist_p_temp, 
-                                  coupled_logarithm_dist_q)
-    # Integrate the values and multiply by negative one.
-    final_integration = -np.trapz(pre_integration, dx=dx)
-    
+    if root == False:
+        # Raise the distrubtion P to the power (-alpha*kappa)/(1+dim*kapaa) 
+        # and normalize it. 
+        dist_p_temp = coupled_probability(dist=dist_p, 
+                                          dx=dx, 
+                                          kappa=kappa, 
+                                          alpha=alpha, 
+                                          dim=dim)
+        # Forget dist_p inside the fuction to save memory.
+        del dist_p
+        
+        # Calculate the coupled-logarithm of the values in the distribution Q 
+        # raised to the negative alpha power.
+        coupled_logarithm_dist_q = (1/-alpha)*coupled_logarithm(values=dist_q**(-alpha), 
+                                                                kappa=kappa, 
+                                                                dim=dim)
+        # Forget dist_q inside the fuction to save memory.
+        del dist_q
+        
+        # Multiply the coupled-probability values of dist_p by 
+        # (1/-alpha)*coupled logarithm of dist_q.
+        pre_integration = np.multiply(dist_p_temp, 
+                                      coupled_logarithm_dist_q)
+        # Integrate the values and multiply by negative one.
+        final_integration = -np.trapz(pre_integration, dx=dx)
+        
+    else:
+        # Raise the distrubtion P to the power (-alpha*kappa)/(1+dim*kapaa) 
+        # and normalize it. 
+        dist_p_temp = coupled_probability(dist=dist_p, 
+                                          dx=dx, 
+                                          kappa=kappa, 
+                                          alpha=alpha, 
+                                          dim=dim)
+        # Forget dist_p inside the fuction to save memory.
+        del dist_p
+        # Calculate the coupled logarithm of distribution Q raised to the
+        # negative alpha power and raise those values to the (1/alpha) power.
+        coupled_logarithm_dist_q = coupled_logarithm(values=dist_q**(-alpha), 
+                                                     kappa=kappa, 
+                                                     dim=dim)**(1/alpha)
+        # Forget dist_q inside the fuction to save memory.
+        del dist_q
+        
+
+        # Multiply the coupled-probability values of dist_p by coupled 
+        # logarithm of dist_q.
+        pre_integration = np.multiply(dist_p_temp, 
+                                      coupled_logarithm_dist_q)
+        # Integrate the values.
+        final_integration = np.trapz(pre_integration, dx=dx)
+        
     return final_integration
 
 
-def coupled_entropy(dist, dx: float, kappa: float = 0.0, alpha: float = 1.0, dim: int = 1) -> [float, Any]:
+def coupled_entropy(dist, dx: float, kappa: float = 0.0, alpha: float = 1.0, dim: int = 1, root: bool = False) -> [float, Any]:
     """
     
 
@@ -254,6 +284,8 @@ def coupled_entropy(dist, dx: float, kappa: float = 0.0, alpha: float = 1.0, dim
         DESCRIPTION. The default is 1.0.
     dim : int, optional
         The dimension of x, or rank if x is a tensor. The default is 1.
+    root : bool, optional
+        DESCRIPTION. The default is false.
 
     Returns
     -------
@@ -267,10 +299,11 @@ def coupled_entropy(dist, dx: float, kappa: float = 0.0, alpha: float = 1.0, dim
                                  dx=dx,
                                  kappa=kappa, 
                                  alpha=alpha, 
-                                 dim=dim)
+                                 dim=dim,
+                                 root=root)
 
 
-def coupled_divergence(dist_p, dist_q, dx: float, kappa: float = 0.0, alpha: float = 1.0, dim: int = 1) -> [float, Any]:
+def coupled_divergence(dist_p, dist_q, dx: float, kappa: float = 0.0, alpha: float = 1.0, dim: int = 1, root: bool = False) -> [float, Any]:
     """
     
 
@@ -288,6 +321,8 @@ def coupled_divergence(dist_p, dist_q, dx: float, kappa: float = 0.0, alpha: flo
         DESCRIPTION. The default is 1.0.
     dim : int, optional
         The dimension of x, or rank if x is a tensor. The default is 1.
+    root : bool, optional
+        DESCRIPTION. The default is False.
 
     Returns
     -------
@@ -302,12 +337,14 @@ def coupled_divergence(dist_p, dist_q, dx: float, kappa: float = 0.0, alpha: flo
                                                            dx=dx,
                                                            kappa=kappa, 
                                                            alpha=alpha, 
-                                                           dim=dim)
+                                                           dim=dim,
+                                                           root=root)
     # Calculate the  coupled entropy of dist_p
     coupled_entropy_of_dist_p = coupled_entropy(dist=dist_p, 
                                                 dx=dx, 
                                                 kappa=kappa, 
                                                 alpha=alpha, 
-                                                dim=dim)
+                                                dim=dim,
+                                                root=root)
     
     return coupled_cross_entropy_of_dists - coupled_entropy_of_dist_p
