@@ -1,70 +1,24 @@
 # -*- coding: utf-8 -*-
 import numpy as np
+import pandas as pd
 import math
+from scipy import integrate
 from typing import Any, List  # for NDArray types
 #from distribution.multivariate_coupled_normal import MultivariateCoupledNormal
-
-def generalized_mean(values: np.ndarray, r: float = 1.0, weights: np.ndarray = None) -> float:
-    """
-    This function calculates the generalized mean of a 1-D array of non- 
-    negative real numbers using the coupled logarithm and exponential functions.
-    
-    Parameters
-    ----------
-    values : np.ndarray
-        A 1-D numpy array (row vector) of non-negative numbers
-         for which we are calculating the generalized mean.
-    r : float, optional
-        The risk bias and the power of the generalized mean. 
-        The default is 1.0 (Arithmetric Mean).
-    weights : np.ndarray, optional
-        A 1-D numpy array of the weights for each value. 
-        The default is None, which triggers a conditional to use equal weights.
-
-    Returns 
-    -------
-    gen_mean : float
-        The coupled generalized mean.
-    """
-    
-    assert type(values) == np.ndarray, "values must be a 1-D numpy ndarray."
-    if len(values.shape) != 1:
-        assert ((len(values.shape) == 2) 
-                & ((values.shape[0] == 1)
-                  | (values.shape[1] == 1))), "values must be a 1-D numpy ndarray."
-    assert (values <= 0).sum() == 0, "all numbers in values must be greater than 0."
-    assert ((type(r) == int) | (type(r) == float) | (type(r) == np.int32 ) 
-            | (type(r) == np.float32) | (type(r) == np.int64) 
-            | (type(r) == np.float64)), "r must be a numeric data type, like a float or int."
-    assert ((type(weights) == type(None))
-            | (type(weights) == np.ndarray)), "weights must either be None or 1-D numpy ndarray."
-            
-    # If weights equals None, equally weight all observations.
-    if type(weights) == type(None):
-        weights = weights or np.ones(len(values))
-    
-    # Calculate the log of the generalized mean by taking the dot product of the
-    # weights vector and the vector of the coupled logarithm of the values and
-    # divide the result by the sum of the the weights.
-    log_gen_mean = np.dot(weights, coupled_logarithm(values, kappa=r, dim=0)) / np.sum(weights)
-        
-    # Calculate the generalized mean by exponentiating the log-generalized mean.
-    gen_mean = coupled_exponential(log_gen_mean, kappa=r, dim=0)
-    
-    # Return the generalized mean.
-    return gen_mean
 
 
 def coupled_logarithm(value: [float, Any], kappa: float = 0.0, dim: int = 1) -> [float, Any]:
     """
     Generalization of the logarithm function, which defines smooth
     transition to power functions.
+
     Inputs
     ----------
     x : Input variable in which the coupled logarithm is applied to.
     kappa : Coupling parameter which modifies the coupled logarithm function.
     dim : The dimension of x, or rank if x is a tensor. Not needed?
     """
+    assert dim > 0, "dim must be greater than 0."
     if isinstance(value, float):    
         assert value >= 0, "x must be greater or equal to 0."  # Greater than 0?????
     else:
@@ -74,7 +28,8 @@ def coupled_logarithm(value: [float, Any], kappa: float = 0.0, dim: int = 1) -> 
     if kappa == 0:
         coupled_log_value = np.log(value)  # divide by 0 if x == 0
     else:
-        coupled_log_value = (1 / kappa) * (value**(kappa / (1 + dim*kappa)) - 1)
+        risk_bias = kappa / (1 + dim*kappa)  # risk bias ratio
+        coupled_log_value = (1 / kappa) * (value**risk_bias - 1)
     return coupled_log_value
 
 
@@ -93,12 +48,13 @@ def coupled_exponential(value: float, kappa: float = 0.0, dim: int = 1) -> float
     if kappa == 0:
         coupled_exp_value = math.exp(value)
     else:
+        risk_bias = kappa / (1 + dim*kappa)  # risk bias ratio    
         if kappa > 0:
-        	coupled_exp_value = (1 + kappa*value)**(1/(kappa / (1 + dim*kappa))) # removed negative sign and added reciprocal
+        	coupled_exp_value = (1 + kappa*value)**(1/risk_bias) # removed negative sign and added reciprocal
         # now given that kappa < 0
         elif (1 + kappa*value) >= 0:
-       		coupled_exp_value = (1 + kappa*value)**(1/(kappa / (1 + dim*kappa))) # removed negative sign and added reciprocal
-        elif (kappa / (1 + dim*kappa)) > 0: # removed negative sign
+       		coupled_exp_value = (1 + kappa*value)**(1/risk_bias) # removed negative sign and added reciprocal
+        elif (risk_bias) > 0: # removed negative sign
        		coupled_exp_value = 0
         else:
        		coupled_exp_value = float('inf')
@@ -107,44 +63,57 @@ def coupled_exponential(value: float, kappa: float = 0.0, dim: int = 1) -> float
     return coupled_exp_value
 
 
-def coupled_probability(dist, kappa, alpha, d): # x, xmin, xmax): #(value: float, kappa: float = 0.0, dim: int = 1)):
-    kMult = (-alpha * kappa) / (1 + d*kappa)
+def coupled_probability(dist, kappa, alpha, d, integration): # x, xmin, xmax): #(value: float, kappa: float = 0.0, dim: int = 1)):
+    kMult = (-alpha * kappa) / (1 + d*kappa)  ## Risk bias
     new_dist_temp = [x ** (1-kMult) for x in dist]
-    division_factor = np.trapz(new_dist_temp)
+
+    if integration == 'trapz':
+        division_factor = np.trapz(new_dist_temp)
+    elif integration == 'simpsons':
+        division_factor = integrate.simps(new_dist_temp)
+    elif integration == 'quad':
+        division_factor, error = integrate.quad(new_dist_temp[x], 0, len(new_dist_temp))
+    elif integration == 'romberg':
+        division_factor = integrate.romb(new_dist_temp)
     new_dist = [x / division_factor for x in new_dist_temp]
 
     return new_dist
 
 
-def coupled_entropy(dist, kappa, alpha, d): # x, xmin, xmax):
-    """
-    This function calculates the generalized mean of a 1-D array of non- 
-    negative real numbers using the coupled logarithm and exponential functions.
-    
-    Parameters
-    ----------
-    dist : TYPE
-        DESCRIPTION
-    kappa : float
-        DESCRIPTION
-    alpha : float
-        DESCRIPTION
-    d : TYPE
-        DESCRIPTION
+def coupled_entropy(dist, kappa, alpha, d, root, integration): # x, xmin, xmax):
+    if root == False:
+        dist_temp = coupled_probability(dist, kappa, alpha, d, integration)
+        coupled_logarithm_values = []
+        for i in dist:
+            coupled_logarithm_values.append(coupled_logarithm(i**(-alpha), kappa, d))
 
-    Returns entropy
-    -------
-    entropy : float
-        DESCRIPTION
-    """
-    
-    dist_temp = coupled_probability(dist, kappa, alpha, d)
-    coupled_logarithm_values = []
-    for i in dist:
-        coupled_logarithm_values.append(coupled_logarithm(i, kappa, d))
+        pre_integration = [x*y*(-1/alpha) for x,y in zip(dist_temp, coupled_logarithm_values)]
+        # looks like this next line is replaced by the if statement and can be removed
+        final_integration = -1*np.trapz(pre_integration)
+        if integration == 'trapz':
+            final_integration = -1*np.trapz(pre_integration)
+        elif integration == 'simpsons':
+            final_integration = -1*integrate.simps(pre_integration)
+        elif integration == 'quad':
+            final_integration, error = -1*integrate.quad(pre_integration[x], 0, len(new_dist_temp))
+        elif integration == 'romberg':
+            final_integration = -1*integrate.romb(pre_integration)
+    else:
+        dist_temp = coupled_probability(dist, kappa, alpha, d, integration)
+        coupled_logarithm_values = []
+        for i in dist:
+            coupled_logarithm_values.append(coupled_logarithm(i**(-alpha), kappa, d)**(1/alpha))
 
-    pre_integration = [x*y for x,y in zip(dist_temp, coupled_logarithm_values)]
-    final_integration = -1*np.trapz(pre_integration)
+        pre_integration = [x * y for x, y in zip(dist_temp, coupled_logarithm_values)]
+        if integration == 'trapz':
+                final_integration = np.trapz(pre_integration)
+        elif integration == 'simpsons':
+                final_integration = integrate.simps(pre_integration)
+        elif integration == 'quad':
+            final_integration, error = integrate.quad(pre_integration, 0, len(new_dist_temp))
+        elif integration == 'romberg':
+                final_integration = integrate.romb(pre_integration)
+
     return final_integration
 
 
@@ -191,6 +160,10 @@ def coupled_cosine(x):
     pass
 
 
+def weighted_generalized_mean(x):
+    pass
+
+
 def coupled_box_muller(x):
     pass
 
@@ -217,13 +190,13 @@ def CoupledNormalDistribution(x, sigma, std, kappa, alpha):
 
     coupledNormalDistributionResult = []
     if kappa >= 0:
-	input = [mean*-20:(20*mean - -20*mean)/10000:mean*20]
+	    input = [mean*-20:(20*mean - -20*mean)/10000:mean*20]
     else:
-	input = [mean - ((-1*sigma**2) / kappa)**0.5:(mean + ((-1*sigma**2) / kappa)**0.5 - mean - ((-1*sigma**2) / kappa)**0.5)/10000:mean + ((-1*sigma**2) / kappa)**0.5]
+	    input = [mean - ((-1*sigma**2) / kappa)**0.5:(mean + ((-1*sigma**2) / kappa)**0.5 - mean - ((-1*sigma**2) / kappa)**0.5)/10000:mean + ((-1*sigma**2) / kappa)**0.5]
  
     normCGvalue = 1 / float(normCG(sigma, kappa))
     for i in input:
-	coupledNormalDistributionResult.append(normCGvalue * (coupledExponential((x - mean)**2/sigma**2, kappa)) ** -0.5)
+	    coupledNormalDistributionResult.append(normCGvalue * (coupledExponential((x - mean)**2/sigma**2, kappa)) ** -0.5)
   
     return coupledNormalDistributionResult
  '''
