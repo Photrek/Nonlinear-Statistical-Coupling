@@ -58,7 +58,8 @@ def generalized_mean(values: np.ndarray, r: float = 1.0, weights: np.ndarray = N
     # Return the generalized mean.
     return gen_mean
 
-def coupled_logarithm(values: [float, Any], kappa: float = 0.0, dim: int = 1) -> [float, Any]:
+
+def coupled_logarithm(values: [int, float, np.ndarray], kappa: float = 0.0, dim: int = 1) -> [float, np.ndarray]:
     """
     Generalization of the logarithm function, which defines smooth
     transition to power functions.
@@ -79,24 +80,21 @@ def coupled_logarithm(values: [float, Any], kappa: float = 0.0, dim: int = 1) ->
         Returns the coupled logarithm of the values.
 
     """
-
-    assert (dim >= 0) & (type(dim) == int), "dim must be a postive integer."
     
-    if isinstance(values, float):    
-        assert values > 0, "values must be greater than 0."
-    else:
-        assert isinstance(values, np.ndarray), ("x must be a np.ndarray type "
-                                                "if a sequence, or a float if "
-                                                "a scalar.")
+    # Convert number into np.ndarray to keep consistency.
+    values = np.array(values) if isinstance(values, (int, float)) else values
+    assert isinstance(values, np.ndarray), ("value must be an int, float, or "
+                                            "np.ndarray.")
+    assert 0. not in values, "value must not be or contain any zero(s)."
     
     # If kappa is 0, return the natural logarithm of the values.
     if kappa == 0:
-        coupled_log_value = np.log(values)  # divide by 0 if x == 0
+        coupled_log_values = np.log(values)
     # Otherwise, return (1 / kappa) * (values^(kappa / (1 + dim*kappa)) - 1).
     else:
-        coupled_log_value = (1 / kappa) * (values**(kappa / (1 + dim*kappa))-1)
+        coupled_log_values = (1 / kappa) * (values**(kappa / (1 + dim*kappa)) - 1)
         
-    return coupled_log_value
+    return coupled_log_values
 
 
 def coupled_exponential(values: [float, Any], kappa: float = 0.0, dim: int = 1) -> [float, Any]:
