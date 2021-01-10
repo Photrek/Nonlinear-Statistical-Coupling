@@ -5,20 +5,22 @@
 
 # Dependency imports
 import numpy as np
-import tensorflow.compat.v2 as tf
+import pandas as pd
+from typing import List
+# import tensorflow.compat.v2 as tf
 
-from tensorflow_probability.python import math as tfp_math
-from tensorflow_probability.python.bijectors import identity as identity_bijector
-from tensorflow_probability.python.distributions import distribution, student_t
-from tensorflow_probability.python.distributions import kullback_leibler
-from tensorflow_probability.python.internal import assert_util
-from tensorflow_probability.python.internal import distribution_util
-from tensorflow_probability.python.internal import dtype_util
-from tensorflow_probability.python.internal import prefer_static
-from tensorflow_probability.python.internal import reparameterization
-from tensorflow_probability.python.internal import samplers
-from tensorflow_probability.python.internal import tensor_util
-from tensorflow_probability.python.math.numeric import log1psquare
+# from tensorflow_probability.python import math as tfp_math
+# from tensorflow_probability.python.bijectors import identity as identity_bijector
+# from tensorflow_probability.python.distributions import distribution, student_t
+# from tensorflow_probability.python.distributions import kullback_leibler
+# from tensorflow_probability.python.internal import assert_util
+# from tensorflow_probability.python.internal import distribution_util
+# from tensorflow_probability.python.internal import dtype_util
+# from tensorflow_probability.python.internal import prefer_static
+# from tensorflow_probability.python.internal import reparameterization
+# from tensorflow_probability.python.internal import samplers
+# from tensorflow_probability.python.internal import tensor_util
+# from tensorflow_probability.python.math.numeric import log1psquare
 
 
 def sample_n(n, kappa, loc, scale, batch_shape, dtype, seed):
