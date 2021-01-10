@@ -56,26 +56,28 @@ def generalized_mean(values: np.ndarray, r: float = 1.0, weights: np.ndarray = N
     return gen_mean
 
 
-def coupled_logarithm(value: [float, Any], kappa: float = 0.0, dim: int = 1) -> [float, Any]:
+def coupled_logarithm(value: [int, float, np.ndarray], kappa: [int, float] = 0.0, dim: int = 1) -> [float, np.ndarray]:
     """
     Generalization of the logarithm function, which defines smooth
     transition to power functions.
-    Inputs
+    
+    Parameters
     ----------
-    x : Input variable in which the coupled logarithm is applied to.
+    value : Input variable in which the coupled logarithm is applied to.
+            Accepts int, float, and np.ndarray data types.
     kappa : Coupling parameter which modifies the coupled logarithm function.
-    dim : The dimension of x, or rank if x is a tensor. Not needed?
+            Accepts int and float data types.
+    dim : The dimension (or rank) of value. If value is scalar, then dim = 1.
+          Accepts only int data type.
     """
-    if isinstance(value, float):    
-        assert value >= 0, "x must be greater or equal to 0."  # Greater than 0?????
-    else:
-        assert isinstance(value, np.ndarray), "x must be a np.ndarray type if a sequence, or a float if a scalar."
-        # assert np.all(x), "all values in x must be "
-
-    if kappa == 0:
+    # convert value into np.ndarray (if scalar) to keep consistency
+    value = np.array(value) if isinstance(value, (int, float)) else value
+    assert isinstance(value, np.ndarray), "value must be an int, float, or np.ndarray."
+    assert 0. not in value, "value must not be or contain any zero(s)."
+    if kappa == 0.:
         coupled_log_value = np.log(value)  # divide by 0 if x == 0
     else:
-        coupled_log_value = (1 / kappa) * (value**(kappa / (1 + dim*kappa)) - 1)
+        coupled_log_value = (1. / kappa) * (value**(kappa / (1. + dim*kappa)) - 1.)
     return coupled_log_value
 
 
