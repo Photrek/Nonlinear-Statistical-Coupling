@@ -1,9 +1,374 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-import pandas as pd
 import math
-from typing import Any, List  # for NDArray types
-#from distribution.multivariate_coupled_normal import MultivariateCoupledNormal
+from typing import Any  # for NDArray types
+
+
+def coupled_logarithm(value: [int, float, np.ndarray], kappa: [int, float] = 0.0, dim: int = 1) -> [float, np.ndarray]:
+    """
+    Generalization of the logarithm function, which defines smooth
+    transition to power functions.
+    
+    Parameters
+    ----------
+    value : Input variable in which the coupled logarithm is applied to.
+            Accepts int, float, and np.ndarray data types.
+    kappa : Coupling parameter which modifies the coupled logarithm function.
+            Accepts int and float data types.
+    dim : The dimension (or rank) of value. If value is scalar, then dim = 1.
+          Accepts only int data type.
+    """
+    # convert value into np.ndarray (if scalar) to keep consistency
+    value = np.array(value) if isinstance(value, (int, float)) else value
+    assert isinstance(value, np.ndarray), "value must be an int, float, or np.ndarray."
+    assert 0. not in value, "value must not be or contain any zero(s)."
+    if kappa == 0.:
+        coupled_log_value = np.log(value)  # divide by 0 if x == 0
+    else:
+        coupled_log_value = (1. / kappa) * (value**(kappa / (1. + dim*kappa)) - 1.)
+    return coupled_log_value
+
+
+def coupled_exponential(value: float, kappa: float = 0.0, dim: int = 1) -> float:
+    """
+    Short description
+    ----------
+    x : Input variable in which the coupled exponential is applied to.
+    kappa : Coupling parameter which modifies the coupled exponential function.
+    dim : The dimension of x, or rank if x is a tensor.
+    """
+    assert dim >= 0, "dim must be greater than or equal 0."
+        # may also want to test that dim is an integer
+
+        # removed the requirement on kappa; although not common kappa can be less than -1/dim
+    if kappa == 0:
+        coupled_exp_value = np.exp(value)
+    else:
+        if kappa > 0:
+        	coupled_exp_value = (1 + kappa*value)**(1/(kappa / (1 + dim*kappa))) # removed negative sign and added reciprocal
+        # now given that kappa < 0
+        elif (1 + kappa*value) >= 0:
+       		coupled_exp_value = (1 + kappa*value)**(1/(kappa / (1 + dim*kappa))) # removed negative sign and added reciprocal
+        elif (kappa / (1 + dim*kappa)) > 0: # removed negative sign
+       		coupled_exp_value = 0
+        else:
+       		coupled_exp_value = float('inf')
+        # else:
+        # 	print("Error: kappa = 1/d is not greater than -1.")
+    return coupled_exp_value
+
+
+def coupled_probability(dist, dx: float, kappa: float = 0.0, alpha: float = 1.0, dim: int = 1) -> [float, Any]:
+    """
+    
+
+    Parameters
+    ----------
+    dist : TYPE
+        DESCRIPTION.
+    dx : float
+        The distance between realizations of the densities.
+    kappa : float, optional
+        Coupling parameter. The default is 0.0.
+    alpha : float, optional
+        DESCRIPTION. The default is 1.0.
+    dim : int, optional
+        The dimension of x, or rank if x is a tensor. The default is 1.
+
+    Returns
+    -------
+    [float, Any]
+        DESCRIPTION.
+
+    """
+    
+    # Calculate the risk-bias.
+    kMult = (-alpha * kappa) / (1 + dim*kappa)
+    # Raise the distribution densities to 1 - the risk-bias
+    new_dist_temp = dist ** (1-kMult)
+    # Forget dist inside the function to free up memory.
+    del dist
+    # Calculate the normalization factor to the coupled CDF equals 1.
+    division_factor = np.trapz(new_dist_temp, dx=dx)
+    # Calculate the coupled densities
+    coupled_dist = new_dist_temp / division_factor
+
+    return coupled_dist
+
+
+def coupled_cross_entropy(dist_p, dist_q, dx: float, kappa: float = 0.0, alpha: float = 1.0, dim: int = 1, root: bool = False) -> [float, Any]:
+    """
+    
+
+    Parameters
+    ----------
+    dist_p : TYPE
+        DESCRIPTION.
+    dist_q : TYPE
+        DESCRIPTION.
+    dx : float
+        The distance between realizations of the densities.
+    kappa : float, optional
+        Coupling parameter. The default is 0.0.
+    alpha : float, optional
+        DESCRIPTION. The default is 1.0.
+    dim : int, optional
+        The dimension of x, or rank if x is a tensor. The default is 1.
+    root : bool, optional
+        DESCRIPTION. The default is False.
+
+    Returns
+    -------
+    [float, Any]
+        DESCRIPTION.
+
+    """
+
+    if root == False:
+        # Raise the distrubtion P to the power (-alpha*kappa)/(1+dim*kapaa) 
+        # and normalize it. 
+        dist_p_temp = coupled_probability(dist=dist_p, 
+                                          dx=dx, 
+                                          kappa=kappa, 
+                                          alpha=alpha, 
+                                          dim=dim)
+        # Forget dist_p inside the fuction to save memory.
+        del dist_p
+        
+        # Calculate the coupled-logarithm of the values in the distribution Q 
+        # raised to the negative alpha power.
+        coupled_logarithm_dist_q = (1/-alpha)*coupled_logarithm(value=dist_q**(-alpha), 
+                                                                kappa=kappa, 
+                                                                dim=dim)
+        # Forget dist_q inside the fuction to save memory.
+        del dist_q
+        
+        # Multiply the coupled-probability values of dist_p by 
+        # (1/-alpha)*coupled logarithm of dist_q.
+        pre_integration = np.multiply(dist_p_temp, 
+                                      coupled_logarithm_dist_q)
+        # Integrate the values and multiply by negative one.
+        final_integration = -np.trapz(pre_integration, dx=dx)
+        
+    else:
+        # Raise the distrubtion P to the power (-alpha*kappa)/(1+dim*kapaa) 
+        # and normalize it. 
+        dist_p_temp = coupled_probability(dist=dist_p, 
+                                          dx=dx, 
+                                          kappa=kappa, 
+                                          alpha=alpha, 
+                                          dim=dim)
+        # Forget dist_p inside the fuction to save memory.
+        del dist_p
+        # Calculate the coupled logarithm of distribution Q raised to the
+        # negative alpha power and raise those values to the (1/alpha) power.
+        coupled_logarithm_dist_q = coupled_logarithm(value=dist_q**(-alpha), 
+                                                     kappa=kappa, 
+                                                     dim=dim)**(1/alpha)
+        # Forget dist_q inside the fuction to save memory.
+        del dist_q
+        
+
+        # Multiply the coupled-probability values of dist_p by coupled 
+        # logarithm of dist_q.
+        pre_integration = np.multiply(dist_p_temp, 
+                                      coupled_logarithm_dist_q)
+        # Integrate the values.
+        final_integration = np.trapz(pre_integration, dx=dx)
+        
+    return final_integration
+
+
+def coupled_entropy(dist, dx: float, kappa: float = 0.0, alpha: float = 1.0, dim: int = 1, root: bool = False) -> [float, Any]:
+    """
+    
+
+    Parameters
+    ----------
+    dist : TYPE
+        DESCRIPTION.
+    dx : float
+        The distance between realizations of the densities.
+    kappa : float, optional
+        Coupling parameter. The default is 0.0.
+    alpha : float, optional
+        DESCRIPTION. The default is 1.0.
+    dim : int, optional
+        The dimension of x, or rank if x is a tensor. The default is 1.
+    root : bool, optional
+        DESCRIPTION. The default is false.
+
+    Returns
+    -------
+    [float, Any]
+        The coupled cross-entropy between dist_p and dist_q.
+
+    """
+    
+    return coupled_cross_entropy(dist_p=dist, 
+                                 dist_q=dist, 
+                                 dx=dx,
+                                 kappa=kappa, 
+                                 alpha=alpha, 
+                                 dim=dim,
+                                 root=root)
+
+
+def coupled_divergence(dist_p, dist_q, dx: float, kappa: float = 0.0, alpha: float = 1.0, dim: int = 1, root: bool = False) -> [float, Any]:
+    """
+    
+
+    Parameters
+    ----------
+    dist_p : TYPE
+        DESCRIPTION.
+    dist_q : TYPE
+        DESCRIPTION.
+    dx : float
+        The distance between realizations of the densities.
+    kappa : float, optional
+        Coupling parameter. The default is 0.0.
+    alpha : float, optional
+        DESCRIPTION. The default is 1.0.
+    dim : int, optional
+        The dimension of x, or rank if x is a tensor. The default is 1.
+    root : bool, optional
+        DESCRIPTION. The default is False.
+
+    Returns
+    -------
+    [float, Any]
+       The coupled divergence.
+
+    """
+    
+    # Calculate the coupled cross-entropy of the dist_p and dist_q.
+    coupled_cross_entropy_of_dists = coupled_cross_entropy(dist_p=dist_p, 
+                                                           dist_q=dist_q, 
+                                                           dx=dx,
+                                                           kappa=kappa, 
+                                                           alpha=alpha, 
+                                                           dim=dim,
+                                                           root=root)
+    # Calculate the  coupled entropy of dist_p
+    coupled_entropy_of_dist_p = coupled_entropy(dist=dist_p, 
+                                                dx=dx, 
+                                                kappa=kappa, 
+                                                alpha=alpha, 
+                                                dim=dim,
+                                                root=root)
+    
+    return coupled_cross_entropy_of_dists - coupled_entropy_of_dist_p
+
+
+def tsallis_entropy(dist, kappa, dx, alpha = 1, dim = 1, normalize = False, root = False):
+    """
+    
+
+    Parameters
+    ----------
+    dist : TYPE
+        DESCRIPTION.
+    kappa : TYPE
+        DESCRIPTION.
+    dx : TYPE
+        DESCRIPTION.
+    alpha : TYPE, optional
+        DESCRIPTION. The default is 1.
+    dim : TYPE, optional
+        DESCRIPTION. The default is 1.
+    normalize : bool, optional
+        DESCRIPTION. The default is False.
+    root : False, optional
+        DESCRIPTION. The default is False.
+
+    Returns
+    -------
+    None.
+
+    """
+    
+    if normalize:
+        entropy = (1+kappa)**(1/alpha) * coupled_entropy(dist=dist, 
+                                                              dx=dx, 
+                                                              kappa=kappa, 
+                                                              alpha=alpha, 
+                                                              dim=dim, 
+                                                              root=root)
+    else:
+        entropy = (np.trapz(dist**(1+(alpha*kappa/(1+kappa))), dx=dx) 
+                        * (1+kappa)**(1/alpha)
+                        * coupled_entropy(dist=dist,
+                                          dx=dx, 
+                                          kappa=kappa,
+                                          alpha=alpha,
+                                          dim=dim,
+                                          root=root))
+    
+    return entropy
+
+
+def shannon_entropy(dist, dx, dim = 1, root = False):
+    """
+    
+
+    Parameters
+    ----------
+    dist : TYPE
+        DESCRIPTION.
+    dx : float
+        DESCRIPTION.
+    dim : int, optional
+        DESCRIPTION. The default is 1.
+    root : bool, optional
+        DESCRIPTION. The default is False.
+
+    Returns
+    -------
+    TYPE
+        DESCRIPTION.
+
+    """
+    
+    if root:
+        alpha = 2
+    else: 
+        alpha = 1
+    
+    return coupled_entropy(dist, 
+                           dx=dx,   
+                           kappa=0.0, 
+                           alpha=alpha, 
+                           dim=dim, 
+                           root=root)
+
+
+def norm_CG(sigma, kappa):
+    if kappa == 0:
+        result = math.sqrt(2*math.pi) * sigma
+    elif kappa < 0:
+        result = math.sqrt(math.pi) * sigma * math.gamma((-1+kappa) / (2*kappa)) / float(math.sqrt(-1*kappa) * math.gamma(1 - (1 / (2*kappa))))
+    else:
+        result = math.sqrt(math.pi) * sigma * math.gamma(1 / (2*kappa)) / float(math.sqrt(kappa) * math.gamma((1+kappa)/(2*kappa)))
+  
+    return result
+
+
+def norm_multi_coupled(std: [float, Any],  kappa: float = 0.0, alpha: int = 2
+                       ) -> [float, Any]:
+
+    assert alpha == 1 or alpha == 2, "alpha must be an int and equal to either" + \
+                                     " 1 (Pareto) or 2 (Gaussian)."
+    
+    dim = 1 if isinstance(std, float) else len(std[0])
+    if alpha == 1:
+        input = (std**0.5)/(1 + (-1 + dim)*kappa)
+    else:  # alpha == 2
+        gamma_num = math.gamma((1 + (-1 + dim)*kappa)/(2*kappa))
+        gamma_dem = math.gamma((1 + dim*kappa)/(2*kappa))
+        input = (((math.sqrt(math.pi)*std**0.5)*gamma_num) / (math.sqrt(kappa)*gamma_dem)) 
+    return input  # currently wrong ...
+
 
 def generalized_mean(values: np.ndarray, r: float = 1.0, weights: np.ndarray = None) -> float:
     """
@@ -56,107 +421,6 @@ def generalized_mean(values: np.ndarray, r: float = 1.0, weights: np.ndarray = N
     return gen_mean
 
 
-def coupled_logarithm(value: [int, float, np.ndarray], kappa: [int, float] = 0.0, dim: int = 1) -> [float, np.ndarray]:
-    """
-    Generalization of the logarithm function, which defines smooth
-    transition to power functions.
-    
-    Parameters
-    ----------
-    value : Input variable in which the coupled logarithm is applied to.
-            Accepts int, float, and np.ndarray data types.
-    kappa : Coupling parameter which modifies the coupled logarithm function.
-            Accepts int and float data types.
-    dim : The dimension (or rank) of value. If value is scalar, then dim = 1.
-          Accepts only int data type.
-    """
-    # convert value into np.ndarray (if scalar) to keep consistency
-    value = np.array(value) if isinstance(value, (int, float)) else value
-    assert isinstance(value, np.ndarray), "value must be an int, float, or np.ndarray."
-    assert 0. not in value, "value must not be or contain any zero(s)."
-    if kappa == 0.:
-        coupled_log_value = np.log(value)  # divide by 0 if x == 0
-    else:
-        coupled_log_value = (1. / kappa) * (value**(kappa / (1. + dim*kappa)) - 1.)
-    return coupled_log_value
-
-
-def coupled_exponential(value: float, kappa: float = 0.0, dim: int = 1) -> float:
-    """
-    Short description
-    ----------
-    x : Input variable in which the coupled exponential is applied to.
-    kappa : Coupling parameter which modifies the coupled exponential function.
-    dim : The dimension of x, or rank if x is a tensor.
-    """
-    assert dim >= 0, "dim must be greater than or equal 0."
-        # may also want to test that dim is an integer
-
-        # removed the requirement on kappa; although not common kappa can be less than -1/dim
-    if kappa == 0:
-        coupled_exp_value = math.exp(value)
-    else:
-        if kappa > 0:
-        	coupled_exp_value = (1 + kappa*value)**(1/(kappa / (1 + dim*kappa))) # removed negative sign and added reciprocal
-        # now given that kappa < 0
-        elif (1 + kappa*value) >= 0:
-       		coupled_exp_value = (1 + kappa*value)**(1/(kappa / (1 + dim*kappa))) # removed negative sign and added reciprocal
-        elif (kappa / (1 + dim*kappa)) > 0: # removed negative sign
-       		coupled_exp_value = 0
-        else:
-       		coupled_exp_value = float('inf')
-        # else:
-        # 	print("Error: kappa = 1/d is not greater than -1.")
-    return coupled_exp_value
-
-
-def coupled_probability(dist, kappa, alpha, d): # x, xmin, xmax): #(value: float, kappa: float = 0.0, dim: int = 1)):
-    kMult = (-alpha * kappa) / (1 + d*kappa)
-    new_dist_temp = [x ** (1-kMult) for x in dist]
-    division_factor = np.trapz(new_dist_temp)
-    new_dist = [x / division_factor for x in new_dist_temp]
-
-    return new_dist
-
-
-def coupled_entropy(dist, kappa, alpha, d): # x, xmin, xmax):
-    dist_temp = coupled_probability(dist, kappa, alpha, d)
-    coupled_logarithm_values = []
-    for i in dist:
-        coupled_logarithm_values.append(coupled_logarithm(i, kappa, d))
-
-    pre_integration = [x*y for x,y in zip(dist_temp, coupled_logarithm_values)]
-    final_integration = -1*np.trapz(pre_integration)
-    return final_integration
-
-
-def norm_CG(sigma, kappa):
-    if kappa == 0:
-        result = math.sqrt(2*math.pi) * sigma
-    elif kappa < 0:
-        result = math.sqrt(math.pi) * sigma * math.gamma((-1+kappa) / (2*kappa)) / float(math.sqrt(-1*kappa) * math.gamma(1 - (1 / (2*kappa))))
-    else:
-        result = math.sqrt(math.pi) * sigma * math.gamma(1 / (2*kappa)) / float(math.sqrt(kappa) * math.gamma((1+kappa)/(2*kappa)))
-  
-    return result
-
-
-def norm_multi_coupled(std: [float, Any],  kappa: float = 0.0, alpha: int = 2
-                       ) -> [float, Any]:
-
-    assert alpha == 1 or alpha == 2, "alpha must be an int and equal to either" + \
-                                     " 1 (Pareto) or 2 (Gaussian)."
-    
-    dim = 1 if isinstance(std, float) else len(std[0])
-    if alpha == 1:
-        input = (std**0.5)/(1 + (-1 + dim)*kappa)
-    else:  # alpha == 2
-        gamma_num = math.gamma((1 + (-1 + dim)*kappa)/(2*kappa))
-        gamma_dem = math.gamma((1 + dim*kappa)/(2*kappa))
-        input = (((math.sqrt(math.pi)*std**0.5)*gamma_num) / (math.sqrt(kappa)*gamma_dem)) 
-    return input  # currently wrong ...
-
-
 def coupled_product(x):
     pass
 
@@ -179,63 +443,3 @@ def weighted_generalized_mean(x):
 
 def coupled_box_muller(x):
     pass
-
-
-
-'''
-def CoupledNormalDistribution(x, sigma, std, kappa, alpha):
-
-    pass
-    """
-    Short description
-    
-    Inputs
-    ----------
-    x : Input variable in which the coupled logarithm is applied to.
-    mean : 
-    std : 
-    kappa : Coupling parameter which modifies the coupled logarithm function.
-    dim : The dimension of x, or rank if x is a tensor. Not needed?
-    """
-
-    assert std >= 0, "std must be greater than or equal to 0."
-    assert alpha in [1, 2], "alpha must be set to either 1 or 2."
-
-    coupledNormalDistributionResult = []
-    if kappa >= 0:
-	input = [mean*-20:(20*mean - -20*mean)/10000:mean*20]
-    else:
-	input = [mean - ((-1*sigma**2) / kappa)**0.5:(mean + ((-1*sigma**2) / kappa)**0.5 - mean - ((-1*sigma**2) / kappa)**0.5)/10000:mean + ((-1*sigma**2) / kappa)**0.5]
- 
-    normCGvalue = 1 / float(normCG(sigma, kappa))
-    for i in input:
-	coupledNormalDistributionResult.append(normCGvalue * (coupledExponential((x - mean)**2/sigma**2, kappa)) ** -0.5)
-  
-    return coupledNormalDistributionResult
- '''
-
-
-'''
-def MultivariateCoupledNormalDistribution(mean: [float, Any], std: [float, Any], 
-                                          kappa: float = 0.0, alpha: int = 2
-                                          ) -> [float, Any]:
-    """
-    Short description
-    
-    Inputs
-    ----------
-    x : Input variable in which the coupled logarithm is applied to.
-    mean : 
-    std : 
-    kappa : Coupling parameter which modifies the coupled logarithm function.
-    alpha : Type of distribution. 1 = Pareto, 2 = Gaussian.
-    """
-    assert type(mean) is type(std), "mean and std must be the same type."
-    if isinstance(mean, np.ndarray) and isinstance(std, np.ndarray):
-        assert mean.shape == std.shape, "mean and std must have the same dim."
-    assert alpha == 1 or alpha == 2, "alpha must be an int and equal to either" + \
-                                     " 1 (Pareto) or 2 (Gaussian)."
-  '''
-
-
-
