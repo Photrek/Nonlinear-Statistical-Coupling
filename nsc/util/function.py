@@ -29,32 +29,58 @@ def coupled_logarithm(value: [int, float, np.ndarray], kappa: [int, float] = 0.0
     return coupled_log_value
 
 
-def coupled_exponential(value: float, kappa: float = 0.0, dim: int = 1) -> float:
+def coupled_exponential(value: [int, float, np.ndarray], kappa: float = 0.0, dim: int = 1) -> [float, np.ndarray]:
     """
-    Short description
+    Generalization of the exponential function.
+    
+    Parameters
     ----------
-    x : Input variable in which the coupled exponential is applied to.
-    kappa : Coupling parameter which modifies the coupled exponential function.
-    dim : The dimension of x, or rank if x is a tensor.
+    value : [float, Any]
+        Input values in which the coupled exponential is applied to.
+    kappa : float,
+        Coupling parameter which modifies the coupled exponential function. 
+        The default is 0.0.
+    dim : int, optional
+        The dimension of x, or rank if x is a tensor. The default is 1.
+    
+    Returns
+    -------
+    float
+        The coupled exponential values.
+    
     """
-    assert dim >= 0, "dim must be greater than or equal 0."
-        # may also want to test that dim is an integer
+    # convert number into np.ndarray to keep consistency
+    value = np.array(value) if isinstance(value, (int, float)) else value
+    assert isinstance(value, np.ndarray), "value must be an int, float, or np.ndarray."
+    assert 0 not in value, "value must not be or contain any zero(s)."
+    assert isinstance(dim, int) and dim >= 0, "dim must be an integer greater than or equal to 0."
+    # check that -1/d <= kappa
+    assert -1/dim <= kappa, "kappa must be greater than or equal to -1/dim."
 
-        # removed the requirement on kappa; although not common kappa can be less than -1/dim
     if kappa == 0:
         coupled_exp_value = np.exp(value)
+    elif kappa > 0:
+        # coupled_exp_value = (1 + kappa*value)**((1 + dim*kappa)/kappa)
+        coupled_exp_value = (1 + kappa*value)**(1 / (kappa / (1 + dim*kappa)))
+    # the following is given that kappa < 0
     else:
-        if kappa > 0:
-        	coupled_exp_value = (1 + kappa*value)**(1/(kappa / (1 + dim*kappa))) # removed negative sign and added reciprocal
-        # now given that kappa < 0
-        elif (1 + kappa*value) >= 0:
-       		coupled_exp_value = (1 + kappa*value)**(1/(kappa / (1 + dim*kappa))) # removed negative sign and added reciprocal
-        elif (kappa / (1 + dim*kappa)) > 0: # removed negative sign
-       		coupled_exp_value = 0
-        else:
-       		coupled_exp_value = float('inf')
-        # else:
-        # 	print("Error: kappa = 1/d is not greater than -1.")
+        def _compact_support(value, kappa, dim):
+            if (1 + kappa*value) >= 0:
+                try:
+                    # return (1 + kappa*value)**((1 + dim*kappa)/kappa)
+                    return (1 + kappa*value)**(1 / (kappa / (1 + dim*kappa)))
+                except ZeroDivisionError:
+                    print("Skipped ZeroDivisionError at the following: " + \
+                          f"value = {value}, kappa = {kappa}. Therefore," + \
+                          f"(1+kappa*value) = {(1+kappa*value)}"
+                          )
+            elif ((1 + dim*kappa)/kappa) > 0:
+                return 0.
+            else:
+                return float('inf')    
+        compact_support = np.vectorize(_compact_support)
+        coupled_exp_value = compact_support(value, kappa, dim)
+
     return coupled_exp_value
 
 
