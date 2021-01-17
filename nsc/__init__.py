@@ -7,6 +7,12 @@
 #     Licensed under Apache License v2
 # ============================================================================
 
+# Libs
+from .util.function import coupled_logarithm as log, \
+                           coupled_exponential as exp, \
+                           coupled_entropy as entropy, \
+                           coupled_cross_entropy as cross_entropy, \
+                           coupled_divergence as kl_divergence
 # Version
 from .__version__ import __version__
 
