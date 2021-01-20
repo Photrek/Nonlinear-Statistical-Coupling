@@ -1,0 +1,211 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Jan 19 19:38:24 2021
+
+@author: jkcle
+"""
+import function_john as fj
+import numpy as np
+from typing import Any, List  # for NDArray types
+import math
+from scipy.integrate import quad
+
+def coupled_probability(density_func,
+                        realized_support,
+                        kappa: float = 0.0, 
+                        alpha: float = 1.0, 
+                        dim: int = 1,
+                        support: tuple = (-np.inf, np.inf)) -> [float, Any]:
+    """
+    
+
+    Parameters
+    ----------
+    density_func : TYPE
+        DESCRIPTION.
+    kappa : float, optional
+        Coupling parameter. The default is 0.0.
+    alpha : float, optional
+        DESCRIPTION. The default is 1.0.
+    dim : int, optional
+        The dimension of x, or rank if x is a tensor. The default is 1.
+    support : tuple
+        The support of the distribution corresponding to density_func.
+
+    Returns
+    -------
+    [float, Any]
+        DESCRIPTION.
+
+    """
+    
+    # Calculate the risk-bias.
+    kMult = (-alpha * kappa) / (1 + dim*kappa)
+    
+    def raised_density_func(x):
+        '''
+        
+
+        Parameters
+        ----------
+        density_func : TYPE
+            DESCRIPTION.
+        x : TYPE
+            DESCRIPTION.
+        kMult : TYPE
+            DESCRIPTION.
+
+        Returns
+        -------
+        None.
+
+        '''
+        return density_func(x) ** (1-kMult)
+    
+    # Calculate the normalization factor to the coupled CDF equals 1.
+    division_factor = quad(raised_density_func, a=support[0], b=support[1])[0]
+    # Calculate the coupled densities
+    coupled_dist = raised_density_func(realized_support) / division_factor
+
+    return coupled_dist
+
+
+def coupled_cross_entropy(density_func_p, 
+                          density_func_q, 
+                          kappa: float = 0.0, 
+                          alpha: float = 1.0, 
+                          dim: int = 1,
+                          support: tuple = (-np.inf, np.inf), 
+                          root: bool = False) -> [float, Any]:
+    
+    if root == False:
+        
+        def no_root_coupled_cross_entropy(x):
+            return (coupled_probability(density_func=density_func_p,
+                                        realized_support=x,
+                                        kappa=kappa, 
+                                        alpha=alpha,
+                                        dim=dim, 
+                                        support=support)
+                    *(1/-alpha)
+                    *fj.coupled_logarithm(values=density_func_q(x)**(-alpha),
+                                          kappa=kappa, 
+                                          dim=dim))
+        
+        # Integrate the values and multiply by negative one.
+        final_integration = -quad(no_root_coupled_cross_entropy, 
+                                  a=support[0], 
+                                  b=support[1])[0]
+        
+    else:
+        def root_coupled_cross_entropy(x):
+            return (coupled_probability(density_func=density_func_p,
+                                        realized_support=x,
+                                        kappa=kappa, 
+                                        alpha=alpha,
+                                        dim=dim, 
+                                        support=support)
+                    *(1/-alpha)
+                    *fj.coupled_logarithm(values=density_func_q(x)**(-alpha),
+                                          kappa=kappa, 
+                                          dim=dim)**(1/alpha))
+        
+        # Integrate the values and multiply by negative one.
+        final_integration = quad(root_coupled_cross_entropy, 
+                                 a=support[0], 
+                                 b=support[1])[0]
+        
+    return final_integration
+
+
+def coupled_entropy(density_func, 
+                    kappa: float = 0.0, 
+                    alpha: float = 1.0, 
+                    dim: int = 1, 
+                    support: tuple = (-np.inf, np.inf),
+                    root: bool = False) -> [float, Any]:
+
+    
+    return coupled_cross_entropy(density_func, 
+                                 density_func, 
+                                 kappa=kappa, 
+                                 alpha=alpha, 
+                                 dim=dim,
+                                 support=support, 
+                                 root=root)
+
+
+def coupled_divergence(density_func_p, 
+                       density_func_q, 
+                       kappa: float = 0.0, 
+                       alpha: float = 1.0, 
+                       dim: int = 1, 
+                       support: tuple = (-np.inf, np.inf),
+                       root: bool = False) -> [float, Any]:
+
+    
+    # Calculate the coupled cross-entropy of the dist_p and dist_q.
+    coupled_cross_entropy_of_dists = coupled_cross_entropy(density_func_p,
+                                                           density_func_q,
+                                                           kappa=kappa,
+                                                           alpha=alpha, 
+                                                           dim=dim,
+                                                           support=support, 
+                                                           root=root)
+    # Calculate the  coupled entropy of dist_p
+    coupled_entropy_of_dist_p = coupled_entropy(density_func_p, 
+                                                kappa=kappa, 
+                                                alpha=alpha, 
+                                                dim=dim,
+                                                support=support,
+                                                root=root)
+    
+    return coupled_cross_entropy_of_dists - coupled_entropy_of_dist_p
+
+
+def tsallis_entropy(density_func, 
+                    kappa,
+                    alpha = 1, 
+                    dim = 1, 
+                    support: tuple = (-np.inf, np.inf), 
+                    normalize = False, 
+                    root = False):
+
+    
+    if normalize:
+        entropy = (1+kappa)**(1/alpha) * coupled_entropy(density_func,  
+                                                         kappa=kappa, 
+                                                         alpha=alpha, 
+                                                         dim=dim, 
+                                                         support=support,
+                                                         root=root)
+    else:
+        def un_normalized_density_func(x):
+            return density_func(x)**(1+(alpha*kappa/(1+kappa)))
+        entropy = (quad(un_normalized_density_func, a=support[0], b=support[1])[0]
+                   * (1+kappa)**(1/alpha)
+                   * coupled_entropy(density_func,
+                                     kappa=kappa,
+                                     alpha=alpha,
+                                     dim=dim,
+                                     support=support,
+                                     root=root))
+    
+    return entropy
+
+def shannon_entropy(density_func, 
+                    dim = 1, 
+                    support: tuple = (-np.inf, np.inf),
+                    root = False):
+    
+    if root:
+        alpha = 2
+    else: 
+        alpha = 1
+    
+    return coupled_entropy(density_func,
+                           kappa=0.0, 
+                           alpha=alpha, 
+                           dim=dim, 
+                           support=support,
+                           root=root)

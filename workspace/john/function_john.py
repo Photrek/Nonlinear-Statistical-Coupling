@@ -133,7 +133,7 @@ def coupled_exponential(values: [float, Any], kappa: float = 0.0, dim: int = 1) 
                                                     (1 + dim*kappa))))
         # If kappa is negative, but 1 + kappa*values is non-negative, raise
         # 1 + kappa*values to the power of 1 / (kappa / (1 + dim*alpha))
-        elif (1 + kappa*values) >= 0:
+        elif np.all(1 + kappa*values >= 0): # NEED TO DO ON AN ELEMENT-WISE BASIS
                 coupled_exp_value = (1+kappa*values)**(1/(kappa/(1+dim*kappa)))
         # If kappa is negative, 1 + kappa*values is negative, and 
         # (kappa / (1 + dim*alpha)) is positive, return 0.
@@ -505,11 +505,11 @@ class CoupledNormal:
     
     def prob(self, X: [List, np.ndarray]):
         # Check whether input X is valid
-        X = np.asarray(X) if isinstance(X, List) else X
-        assert isinstance(X, np.ndarray), "X must be a List or np.ndarray."
+        X = np.asarray(X) if isinstance(X, List) | isinstance(X, float) | isinstance(X, int) else X
+        #assert isinstance(X, np.ndarray), "X must be a List or np.ndarray."
         # assert type(X[0]) == type(self.loc), "X samples must be the same type as loc and scale."
-        if isinstance(X[0], np.ndarray):
-            assert X[0].shape == self.loc.shape, "X samples must have the same dimensions as loc and scale (check respective .shape())."
+        #if isinstance(X[0], np.ndarray):
+            #assert X[0].shape == self.loc.shape, "X samples must have the same dimensions as loc and scale (check respective .shape())."
         # Calculate PDF with input X
         X_norm = (X-self.loc)**2 / self.scale**2
         norm_term = self._normalized_term()
