@@ -91,7 +91,6 @@ def coupled_cross_entropy(density_func_p,
     else:
         def root_coupled_cross_entropy(x):
             return (my_coupled_probability(x)
-                    *(1/-alpha)
                     *fj.coupled_logarithm(values=raised_density_func_q(x),
                                           kappa=kappa, 
                                           dim=dim)**(1/alpha))
