@@ -7,59 +7,20 @@ Created on Tue Jan 19 19:38:24 2021
 import function_john as fj
 import numpy as np
 from typing import Any, List  # for NDArray types
-import math
 from scipy.integrate import quad
 
-def coupled_probability(density_func,
-                        realized_support,
-                        kappa: float = 0.0, 
-                        alpha: float = 1.0, 
-                        dim: int = 1,
-                        support: tuple = (-np.inf, np.inf)) -> [float, Any]:
-    """
-    
+def coupled_probabilityV1(density_func,
+                          realized_support,
+                          kappa: float = 0.0, 
+                          alpha: float = 1.0, 
+                          dim: int = 1,
+                          support: tuple = (-np.inf, np.inf)) -> [float, Any]:
 
-    Parameters
-    ----------
-    density_func : TYPE
-        DESCRIPTION.
-    kappa : float, optional
-        Coupling parameter. The default is 0.0.
-    alpha : float, optional
-        DESCRIPTION. The default is 1.0.
-    dim : int, optional
-        The dimension of x, or rank if x is a tensor. The default is 1.
-    support : tuple
-        The support of the distribution corresponding to density_func.
-
-    Returns
-    -------
-    [float, Any]
-        DESCRIPTION.
-
-    """
     
     # Calculate the risk-bias.
     kMult = (-alpha * kappa) / (1 + dim*kappa)
     
     def raised_density_func(x):
-        '''
-        
-
-        Parameters
-        ----------
-        density_func : TYPE
-            DESCRIPTION.
-        x : TYPE
-            DESCRIPTION.
-        kMult : TYPE
-            DESCRIPTION.
-
-        Returns
-        -------
-        None.
-
-        '''
         return density_func(x) ** (1-kMult)
     
     # Calculate the normalization factor to the coupled CDF equals 1.
@@ -70,6 +31,30 @@ def coupled_probability(density_func,
     return coupled_dist
 
 
+def coupled_probability(density_func,
+                        kappa: float = 0.0, 
+                        alpha: float = 1.0, 
+                        dim: int = 1,
+                        support: tuple = (-np.inf, np.inf)) -> [float, Any]:
+
+    
+    # Calculate the risk-bias.
+    kMult = (-alpha * kappa) / (1 + dim*kappa)
+    
+    def raised_density_func(x):
+        return density_func(x) ** (1-kMult)
+    
+    # Calculate the normalization factor to the coupled CDF equals 1.
+    division_factor = quad(raised_density_func, a=support[0], b=support[1])[0]
+    
+    # Define a function to calculate coupled densities
+    def coupled_prob(values):
+        return raised_density_func(values) / division_factor
+    
+    # Return the new functions that calculates the coupled density of a value.
+    return coupled_prob
+
+
 def coupled_cross_entropy(density_func_p, 
                           density_func_q, 
                           kappa: float = 0.0, 
@@ -78,39 +63,40 @@ def coupled_cross_entropy(density_func_p,
                           support: tuple = (-np.inf, np.inf), 
                           root: bool = False) -> [float, Any]:
     
+    # Fit a coupled_probability function to density_func_p with the other
+    # given parameters.
+    my_coupled_probability = coupled_probability(density_func=density_func_p,
+                                                 kappa=kappa, 
+                                                 alpha=alpha,
+                                                 dim=dim, 
+                                                 support=support)
+    
+    def raised_density_func_q(x):
+        return density_func_q(x)**(-alpha)
+    
     if root == False:
         
         def no_root_coupled_cross_entropy(x):
-            return (coupled_probability(density_func=density_func_p,
-                                        realized_support=x,
-                                        kappa=kappa, 
-                                        alpha=alpha,
-                                        dim=dim, 
-                                        support=support)
+            return (my_coupled_probability(x)
                     *(1/-alpha)
-                    *fj.coupled_logarithm(values=density_func_q(x)**(-alpha),
+                    *fj.coupled_logarithm(values=raised_density_func_q(x),
                                           kappa=kappa, 
                                           dim=dim))
         
-        # Integrate the values and multiply by negative one.
+        # Integrate the function.
         final_integration = -quad(no_root_coupled_cross_entropy, 
                                   a=support[0], 
                                   b=support[1])[0]
         
     else:
         def root_coupled_cross_entropy(x):
-            return (coupled_probability(density_func=density_func_p,
-                                        realized_support=x,
-                                        kappa=kappa, 
-                                        alpha=alpha,
-                                        dim=dim, 
-                                        support=support)
+            return (my_coupled_probability(x)
                     *(1/-alpha)
-                    *fj.coupled_logarithm(values=density_func_q(x)**(-alpha),
+                    *fj.coupled_logarithm(values=raised_density_func_q(x),
                                           kappa=kappa, 
                                           dim=dim)**(1/alpha))
         
-        # Integrate the values and multiply by negative one.
+        # Integrate the function.
         final_integration = quad(root_coupled_cross_entropy, 
                                  a=support[0], 
                                  b=support[1])[0]
