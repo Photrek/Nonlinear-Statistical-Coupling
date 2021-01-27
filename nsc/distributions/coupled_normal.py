@@ -17,9 +17,7 @@ class CoupledNormal:
                  scale: [int, float, List, np.ndarray],
                  kappa: [int, float] = 0.,
                  alpha: int = 2,
-                 multivariate: bool = False,
-                 validate_args: bool = True,
-                 verbose: bool = True
+                 validate_args: bool = True
                  ):
         loc = np.asarray(loc) if isinstance(loc, List) else loc
         scale = np.asarray(scale) if isinstance(scale, List) else scale
@@ -38,9 +36,7 @@ class CoupledNormal:
         self.loc = loc
         self.scale = scale
         self.kappa = kappa
-        self.alpha = alpha
-        if verbose:
-            print(f"<nsc.distributions.{self.__class__.__name__} batch_shape={self._batch_shape()} event_shape={self._event_shape()}>")
+        self.alpha = alpha            
 
     def n_dim(self):
         return 1 if self._event_shape() == [] else self._event_shape()[0]
@@ -49,20 +45,14 @@ class CoupledNormal:
         if self._rank(self.loc) == 0:
             # return [] signifying single batch of a single distribution
             return []
-        elif self.loc.shape[0] == 1:
-            # return [] signifying single batch of a multivariate distribution
-            return []
         else:
-            # return [batch size]
-            return [self.loc.shape[0]]
+            # return the batch shape in list format
+            return list(self.loc.shape)
 
     def _event_shape(self) -> List:
-        if self._rank(self.loc) < 2:
-            # return [] signifying single random variable (regardless of batch size)
-            return []
-        else:
-            # return [n of random variables] when rank >= 2
-            return [self.loc.shape[-1]]
+        # For univariate Coupled Normal distribution, event shape is always []
+        # [] signifies single random variable dim (regardless of batch size)
+        return []
 
     def _rank(self, value: [int, float, np.ndarray]) -> int:
         # specify the rank of a given value, with rank=0 for a scalar and rank=ndim for an ndarray
@@ -100,5 +90,5 @@ class CoupledNormal:
             norm_term = (math.sqrt(math.pi)*self.scale*gamma_num) / float(math.sqrt(self.kappa)*gamma_dem)
         return norm_term
 
-    def _class_name(self) -> str:
-        return self.__class__.split('.')[-1]
+    def __repr__(self) -> str:
+        return f"<nsc.distributions.{self.__class__.__name__} batch_shape={str(self._batch_shape())} event_shape={str(self._event_shape())}>"
