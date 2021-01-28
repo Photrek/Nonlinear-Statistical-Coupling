@@ -4,7 +4,12 @@ Created on Tue Jan 19 19:38:24 2021
 
 @author: jkcle
 """
-import function_john as fj
+import sys
+# insert at 1, 0 is the script path (or '' in REPL)
+path = r'C:\Users\jkcle\Documents\GitHub\Nonlinear-Statistical-Coupling\nsc\util'
+sys.path.insert(1, path)
+import function as f
+
 import numpy as np
 from typing import Any, List  # for NDArray types
 from scipy.integrate import quad
@@ -97,7 +102,7 @@ def coupled_cross_entropy(density_func_p,
         def no_root_coupled_cross_entropy(x):
             return (my_coupled_probability(x)
                     *(1/-alpha)
-                    *fj.coupled_logarithm(value=raised_density_func_q(x),
+                    *f.coupled_logarithm(value=raised_density_func_q(x),
                                           kappa=kappa, 
                                           dim=dim))
         
@@ -118,7 +123,7 @@ def coupled_cross_entropy(density_func_p,
     else:
         def root_coupled_cross_entropy(x):
             return (my_coupled_probability(x)
-                    *fj.coupled_logarithm(value=raised_density_func_q(x),
+                    *f.coupled_logarithm(value=raised_density_func_q(x),
                                           kappa=kappa, 
                                           dim=dim)**(1/alpha))
         
