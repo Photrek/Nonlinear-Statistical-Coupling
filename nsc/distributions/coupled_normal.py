@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import math
 import numpy as np
+from scipy.stats import gamma
 from typing import List
 from ..util.function import coupled_exponential
 
@@ -36,9 +36,10 @@ class CoupledNormal:
         self.loc = loc
         self.scale = scale
         self.kappa = kappa
-        self.alpha = alpha            
+        self.alpha = alpha
+        self.dim = self._n_dim()
 
-    def n_dim(self):
+    def _n_dim(self):
         return 1 if self._event_shape() == [] else self._event_shape()[0]
 
     def _batch_shape(self) -> List:
@@ -61,7 +62,7 @@ class CoupledNormal:
         else:
             return len(value.shape)
 
-    def prob(self, X: [List, np.ndarray]):
+    def prob(self, X: [List, np.ndarray]) -> np.ndarray:
         # Check whether input X is valid
         X = np.asarray(X) if isinstance(X, List) else X
         assert isinstance(X, np.ndarray), "X must be a List or np.ndarray."
@@ -79,15 +80,15 @@ class CoupledNormal:
     # Normalization of 1-D Coupled Gaussian (NormCG)
     def _normalized_term(self) -> [int, float, np.ndarray]:
         if self.kappa == 0:
-            norm_term = math.sqrt(2*math.pi) * self.scale
+            norm_term = np.sqrt(2*np.pi) * self.scale
         elif self.kappa < 0:
-            gamma_num = math.gamma(self.kappa-1) / (2*self.kappa)
-            gamma_dem = math.gamma(1 - (1 / (2*self.kappa)))
-            norm_term = (math.sqrt(math.pi)*self.scale*gamma_num) / float(math.sqrt(-1*self.kappa)*gamma_dem)
+            gamma_num = gamma(self.kappa-1) / (2*self.kappa)
+            gamma_dem = gamma(1 - (1 / (2*self.kappa)))
+            norm_term = (np.sqrt(np.pi)*self.scale*gamma_num) / float(np.sqrt(-1*self.kappa)*gamma_dem)
         else:
-            gamma_num = math.gamma(1 / (2*self.kappa))
-            gamma_dem = math.gamma((1+self.kappa)/(2*self.kappa))
-            norm_term = (math.sqrt(math.pi)*self.scale*gamma_num) / float(math.sqrt(self.kappa)*gamma_dem)
+            gamma_num = gamma(1 / (2*self.kappa))
+            gamma_dem = gamma((1+self.kappa)/(2*self.kappa))
+            norm_term = (np.sqrt(np.pi)*self.scale*gamma_num) / float(np.sqrt(self.kappa)*gamma_dem)
         return norm_term
 
     def __repr__(self) -> str:

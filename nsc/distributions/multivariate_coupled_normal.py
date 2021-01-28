@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-import math
 import numpy as np
+from scipy.stats import gamma
 from typing import List
 from .coupled_normal import CoupledNormal
-from ..util.function import coupled_exponential
+# from ..util.function import coupled_exponential
 
 
 class MultivariateCoupledNormal(CoupledNormal):
@@ -54,9 +54,8 @@ class MultivariateCoupledNormal(CoupledNormal):
         else:
             return len(value.shape)
 
-    def prob(self, X: [List, np.ndarray]):
-        pass
-        '''
+    '''
+    def prob(self, X: [List, np.ndarray]) -> np.ndarray:
         # Check whether input X is valid
         X = np.asarray(X) if isinstance(X, List) else X
         assert isinstance(X, np.ndarray), "X must be a List or np.ndarray."
@@ -67,14 +66,18 @@ class MultivariateCoupledNormal(CoupledNormal):
         X_norm = (X-self.loc)**2 / self.scale**2
         norm_term = self._normalized_term()
         p = (coupled_exponential(X_norm, self.kappa))**-0.5 / norm_term
-        # normCGvalue =  1/float(norm_CG(scale, kappa))
-        # coupledNormalDistributionResult = normCGvalue * (coupled_exponential(y, kappa)) ** -0.5
         return p
-        '''
+    '''
 
     # Normalization of the multivariate Coupled Gaussian (NormMultiCoupled)
     def _normalized_term(self) -> [int, float, np.ndarray]:
-        pass
+        sigma_det = np.linalg.det(self.sigma)
+        if self.alpha == 1:
+            return sigma_det**0.5 / (1 + (-1 + self.dim)*self.kappa)
+        else:  # self.alpha == 2
+            gamma_num = gamma((1 + (-1 + self.dim)*self.kappa) / (2*self.kappa))
+            gamma_dem = gamma((1 + self.dim*self.kappa) / (2*self.kappa))
+            return (np.sqrt(np.pi) * sigma_det**0.5 * gamma_num) / (np.sqrt(self.kappa) * gamma_dem)
         '''
         if self.kappa == 0:
             norm_term = math.sqrt(2*math.pi) * self.scale
