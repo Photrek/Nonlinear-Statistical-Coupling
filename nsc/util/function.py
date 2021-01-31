@@ -60,15 +60,13 @@ def coupled_exponential(value: [int, float, np.ndarray], kappa: float = 0.0, dim
     if kappa == 0:
         coupled_exp_value = np.exp(value)
     elif kappa > 0:
-        # coupled_exp_value = (1 + kappa*value)**((1 + dim*kappa)/kappa)
-        coupled_exp_value = (1 + kappa*value)**(1 / (kappa / (1 + dim*kappa)))
+        coupled_exp_value = (1 + kappa*value)**((1 + dim*kappa)/kappa)
     # the following is given that kappa < 0
     else:
         def _compact_support(value, kappa, dim):
             if (1 + kappa*value) >= 0:
                 try:
-                    # return (1 + kappa*value)**((1 + dim*kappa)/kappa)
-                    return (1 + kappa*value)**(1 / (kappa / (1 + dim*kappa)))
+                    return (1 + kappa*value)**((1 + dim*kappa)/kappa)
                 except ZeroDivisionError:
                     print("Skipped ZeroDivisionError at the following: " + \
                           f"value = {value}, kappa = {kappa}. Therefore," + \

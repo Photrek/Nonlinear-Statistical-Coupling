@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+import math
 import numpy as np
-from scipy.stats import gamma
 from typing import List
 from .coupled_normal import CoupledNormal
-# from ..util.function import coupled_exponential
+from ..util.function import coupled_exponential
 
 
 class MultivariateCoupledNormal(CoupledNormal):
@@ -30,6 +30,21 @@ class MultivariateCoupledNormal(CoupledNormal):
             alpha=alpha,
             validate_args=validate_args
         )
+        if self._rank(self.scale) == 1:
+            self.scale = np.diag(self.scale)
+        # Ensure that scale is indeed positive definite
+        # assert self.is_positive_definite(self.scale), "scale must be positive definite."
+        
+    # Credit: https://stackoverflow.com/questions/16266720/find-out-if-matrix-is-positive-definite-with-numpy
+    def is_positive_definite(self, A: np.ndarray) -> bool:
+        if np.array_equal(A, A.T):
+            try:
+                np.linalg.cholesky(A)
+                return True
+            except np.linalg.LinAlgError:
+                return False
+        else:
+            return False
 
     def _batch_shape(self) -> List:
         if self._rank(self.loc) == 1:
@@ -38,7 +53,7 @@ class MultivariateCoupledNormal(CoupledNormal):
         else:
             # return [batch size]
             return list(self.loc.shape[:-1])
-        
+
     def _event_shape(self) -> List:
         if self._rank(self.loc) == 1:
             # if loc is only a vector
@@ -54,40 +69,23 @@ class MultivariateCoupledNormal(CoupledNormal):
         else:
             return len(value.shape)
 
-    '''
     def prob(self, X: [List, np.ndarray]) -> np.ndarray:
-        # Check whether input X is valid
-        X = np.asarray(X) if isinstance(X, List) else X
-        assert isinstance(X, np.ndarray), "X must be a List or np.ndarray."
-        # assert type(X[0]) == type(self.loc), "X samples must be the same type as loc and scale."
-        if isinstance(X[0], np.ndarray):
-            assert X[0].shape == self.loc.shape, "X samples must have the same dimensions as loc and scale (check respective .shape())."
-        # Calculate PDF with input X
-        X_norm = (X-self.loc)**2 / self.scale**2
+        assert X.shape[-1] ==  self.loc.shape[-1], "input X and loc must have the same dims."
+        sigma = np.matmul(self.scale, self.scale)
+        sigma_inv = np.linalg.inv(sigma)
+        _normalized_X = lambda x: np.linalg.multi_dot([x, sigma_inv, x])
+        X_norm = np.apply_along_axis(_normalized_X, 1, X)
         norm_term = self._normalized_term()
-        p = (coupled_exponential(X_norm, self.kappa))**-0.5 / norm_term
+        p = (coupled_exponential(X_norm, self.kappa))**(-1/self.alpha) / norm_term
         return p
-    '''
 
     # Normalization of the multivariate Coupled Gaussian (NormMultiCoupled)
     def _normalized_term(self) -> [int, float, np.ndarray]:
-        sigma_det = np.linalg.det(self.sigma)
+        sigma = np.matmul(self.scale, self.scale.T)
+        sigma_det = np.linalg.det(sigma)
         if self.alpha == 1:
             return sigma_det**0.5 / (1 + (-1 + self.dim)*self.kappa)
         else:  # self.alpha == 2
-            gamma_num = gamma((1 + (-1 + self.dim)*self.kappa) / (2*self.kappa))
-            gamma_dem = gamma((1 + self.dim*self.kappa) / (2*self.kappa))
+            gamma_num = math.gamma((1 + (-1 + self.dim)*self.kappa) / (2*self.kappa))
+            gamma_dem = math.gamma((1 + self.dim*self.kappa) / (2*self.kappa))
             return (np.sqrt(np.pi) * sigma_det**0.5 * gamma_num) / (np.sqrt(self.kappa) * gamma_dem)
-        '''
-        if self.kappa == 0:
-            norm_term = math.sqrt(2*math.pi) * self.scale
-        elif self.kappa < 0:
-            gamma_num = math.gamma(self.kappa-1) / (2*self.kappa)
-            gamma_dem = math.gamma(1 - (1 / (2*self.kappa)))
-            norm_term = (math.sqrt(math.pi)*self.scale*gamma_num) / float(math.sqrt(-1*self.kappa)*gamma_dem)
-        else:
-            gamma_num = math.gamma(1 / (2*self.kappa))
-            gamma_dem = math.gamma((1+self.kappa)/(2*self.kappa))
-            norm_term = (math.sqrt(math.pi)*self.scale*gamma_num) / float(math.sqrt(self.kappa)*gamma_dem)
-        return norm_term
-        '''

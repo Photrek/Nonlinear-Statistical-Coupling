@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
+import math
 import numpy as np
-from scipy.stats import gamma
 from typing import List
 from ..util.function import coupled_exponential
 
@@ -82,12 +82,12 @@ class CoupledNormal:
         if self.kappa == 0:
             norm_term = np.sqrt(2*np.pi) * self.scale
         elif self.kappa < 0:
-            gamma_num = gamma(self.kappa-1) / (2*self.kappa)
-            gamma_dem = gamma(1 - (1 / (2*self.kappa)))
+            gamma_num = math.gamma(self.kappa-1) / (2*self.kappa)
+            gamma_dem = math.gamma(1 - (1 / (2*self.kappa)))
             norm_term = (np.sqrt(np.pi)*self.scale*gamma_num) / float(np.sqrt(-1*self.kappa)*gamma_dem)
         else:
-            gamma_num = gamma(1 / (2*self.kappa))
-            gamma_dem = gamma((1+self.kappa)/(2*self.kappa))
+            gamma_num = math.gamma(1 / (2*self.kappa))
+            gamma_dem = math.gamma((1+self.kappa)/(2*self.kappa))
             norm_term = (np.sqrt(np.pi)*self.scale*gamma_num) / float(np.sqrt(self.kappa)*gamma_dem)
         return norm_term
 
