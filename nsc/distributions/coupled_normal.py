@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-import math
 import numpy as np
 from typing import List
+from scipy.special import beta, gamma
 from ..util.function import coupled_exponential
 
 
@@ -73,23 +73,29 @@ class CoupledNormal:
         X_norm = (X-self.loc)**2 / self.scale**2
         norm_term = self._normalized_term()
         p = (coupled_exponential(X_norm, self.kappa))**-0.5 / norm_term
-        # normCGvalue =  1/float(norm_CG(scale, kappa))
-        # coupledNormalDistributionResult = normCGvalue * (coupled_exponential(y, kappa)) ** -0.5
         return p
 
     # Normalization of 1-D Coupled Gaussian (NormCG)
     def _normalized_term(self) -> [int, float, np.ndarray]:
-        if self.kappa == 0:
-            norm_term = np.sqrt(2*np.pi) * self.scale
-        elif self.kappa < 0:
-            gamma_num = math.gamma(self.kappa-1) / (2*self.kappa)
-            gamma_dem = math.gamma(1 - (1 / (2*self.kappa)))
-            norm_term = (np.sqrt(np.pi)*self.scale*gamma_num) / float(np.sqrt(-1*self.kappa)*gamma_dem)
-        else:
-            gamma_num = math.gamma(1 / (2*self.kappa))
-            gamma_dem = math.gamma((1+self.kappa)/(2*self.kappa))
-            norm_term = (np.sqrt(np.pi)*self.scale*gamma_num) / float(np.sqrt(self.kappa)*gamma_dem)
+        base_term = np.sqrt(2*np.pi) * self.scale
+        norm_term = base_term*self._normalization_function()
         return norm_term
+
+    def _normalization_function(self):
+        k, d = self.kappa, self.dim
+        assert -1/d < k, "kappa must be greater than -1/dim."
+        if k == 0:
+            return 1
+        elif k > 0:
+            beta_input_x = 1/(2*k) + 1
+            beta_input_y = d/2
+            gamma_input = d/2
+            return ((1 + d*k)/(2*k)**(d/2)) * beta(beta_input_x, beta_input_y)/gamma(gamma_input)
+        else:  # -1 < self.kappa < 0:
+            beta_input_x = (1 + d*k)/(-2*k) + 1
+            beta_input_y = d/2
+            gamma_input = d/2
+            return (1/(2*k)**(-d/2)) * beta(beta_input_x, beta_input_y)/gamma(gamma_input)
 
     def __repr__(self) -> str:
         return f"<nsc.distributions.{self.__class__.__name__} batch_shape={str(self._batch_shape())} event_shape={str(self._event_shape())}>"

@@ -52,7 +52,7 @@ def coupled_exponential(value: [int, float, np.ndarray], kappa: float = 0.0, dim
     # convert number into np.ndarray to keep consistency
     value = np.array(value) if isinstance(value, (int, float)) else value
     assert isinstance(value, np.ndarray), "value must be an int, float, or np.ndarray."
-    assert 0 not in value, "value must not be or contain any zero(s)."
+    # assert 0 not in value, "value must not be or contain any zero(s)."
     assert isinstance(dim, int) and dim >= 0, "dim must be an integer greater than or equal to 0."
     # check that -1/d <= kappa
     assert -1/dim <= kappa, "kappa must be greater than or equal to -1/dim."
