@@ -81,11 +81,7 @@ class MultivariateCoupledNormal(CoupledNormal):
 
     # Normalization of the multivariate Coupled Gaussian (NormMultiCoupled)
     def _normalized_term(self) -> [int, float, np.ndarray]:
-        sigma = np.matmul(self.scale, self.scale.T)
-        sigma_det = np.linalg.det(sigma)
-        if self.alpha == 1:
-            return sigma_det**0.5 / (1 + (-1 + self.dim)*self.kappa)
-        else:  # self.alpha == 2
-            gamma_num = math.gamma((1 + (-1 + self.dim)*self.kappa) / (2*self.kappa))
-            gamma_dem = math.gamma((1 + self.dim*self.kappa) / (2*self.kappa))
-            return (np.sqrt(np.pi) * sigma_det**0.5 * gamma_num) / (np.sqrt(self.kappa) * gamma_dem)
+            sigma = np.matmul(self.scale, self.scale.T)
+            sigma_det = np.linalg.det(sigma)
+            base_term = np.sqrt(2 * np.pi * sigma_det)
+            return base_term*self._normalization_function()
