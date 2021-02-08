@@ -16,10 +16,10 @@ from scipy.integrate import nquad
 
 
 def coupled_probability(density_func,
-                        kappa: float = 0.0, 
-                        alpha: float = 1.0, 
-                        dim: int = 1,
-                        support: list = [[-np.inf, np.inf]]) -> [float, Any]:
+                        kappa = 0.0, 
+                        alpha = 1.0, 
+                        dim = 1,
+                        support = [[-np.inf, np.inf]]):
 
     
     # Calculate the risk-bias.
@@ -28,8 +28,12 @@ def coupled_probability(density_func,
     def raised_density_func(x):
         return density_func(x) ** (1-kMult)
     
+    def raised_density_func_integration(*args):
+        x = np.array(args)
+        return density_func(x) ** (1-kMult)
+    
     # Calculate the normalization factor to the coupled CDF equals 1.
-    division_factor = nquad(raised_density_func, support)[0]
+    division_factor = nquad(raised_density_func_integration, support)[0]
     
     
     # Define a function to calculate coupled densities
@@ -61,7 +65,8 @@ def coupled_cross_entropy(density_func_p,
     
     if root == False:
         
-        def no_root_coupled_cross_entropy(x):
+        def no_root_coupled_cross_entropy(*args):
+            x = np.array(args)
             return (my_coupled_probability(x)
                     *(1/-alpha)
                     *f.coupled_logarithm(value=raised_density_func_q(x),
@@ -72,14 +77,17 @@ def coupled_cross_entropy(density_func_p,
         final_integration = -nquad(no_root_coupled_cross_entropy, support)[0]
         
     else:
-        def root_coupled_cross_entropy(x):
+        def root_coupled_cross_entropy(*args):
+            x = np.array(args)
             return (my_coupled_probability(x)
                     *f.coupled_logarithm(value=raised_density_func_q(x),
                                           kappa=kappa, 
                                           dim=dim)**(1/alpha))
         
+        vectorized_root_coupled_cross_entropy = np.vectorize(root_coupled_cross_entropy)
+        
         # Integrate the function.
-        final_integration = nquad(root_coupled_cross_entropy, support)[0]
+        final_integration = nquad(vectorized_root_coupled_cross_entropy, support)[0]
         
     return final_integration
 
@@ -146,7 +154,8 @@ def tsallis_entropy(density_func,
                                                          support=support,
                                                          root=root)
     else:
-        def un_normalized_density_func(x):
+        def un_normalized_density_func(*args):
+            x = np.array(args)
             return density_func(x)**(1+(alpha*kappa/(1+kappa)))
         
         entropy = (nquad(un_normalized_density_func, support)[0]

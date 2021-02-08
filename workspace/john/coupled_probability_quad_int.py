@@ -29,10 +29,8 @@ def coupled_probability(density_func,
     def raised_density_func(x):
         return density_func(x) ** (1-kMult)
     
-    vectorized_raised_density_func = np.vectorize(raised_density_func)
-    
     # Calculate the normalization factor to the coupled CDF equals 1.
-    division_factor = quad(vectorized_raised_density_func, 
+    division_factor = quad(raised_density_func, 
                            a=support[0], 
                            b=support[1],
                            limit=limit)[0]
@@ -78,10 +76,8 @@ def coupled_cross_entropy(density_func_p,
                                          kappa=kappa, 
                                          dim=dim))
         
-        vectorized_no_root_coupled_cross_entropy = np.vectorize(no_root_coupled_cross_entropy)
-        
         # Integrate the function.
-        final_integration = -quad(vectorized_no_root_coupled_cross_entropy, 
+        final_integration = -quad(no_root_coupled_cross_entropy, 
                                       a=support[0], 
                                       b=support[1],
                                       limit=limit)[0]
@@ -93,10 +89,8 @@ def coupled_cross_entropy(density_func_p,
                                           kappa=kappa, 
                                           dim=dim)**(1/alpha))
         
-        vectorized_root_coupled_cross_entropy = np.vectorize(root_coupled_cross_entropy)
-        
         # Integrate the function.
-        final_integration = quad(vectorized_root_coupled_cross_entropy, 
+        final_integration = quad(root_coupled_cross_entropy, 
                                      a=support[0], 
                                      b=support[1], 
                                      limit=limit)[0]
