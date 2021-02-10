@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-import math
 import numpy as np
 from typing import List
+from scipy.special import beta, gamma
 from .coupled_normal import CoupledNormal
 from ..util.function import coupled_exponential
 
@@ -67,19 +67,30 @@ class MultivariateCoupledNormal(CoupledNormal):
         else:
             return len(value.shape)
 
-    def prob(self, X: [List, np.ndarray]) -> np.ndarray:
+    def prob(self, X: [List, np.ndarray], beta_func: bool = True) -> np.ndarray:
         assert X.shape[-1] ==  self.loc.shape[-1], "input X and loc must have the same dims."
         sigma = np.matmul(self.scale, self.scale)
         sigma_inv = np.linalg.inv(sigma)
         _normalized_X = lambda x: np.linalg.multi_dot([x, sigma_inv, x])
         X_norm = np.apply_along_axis(_normalized_X, 1, X)
-        norm_term = self._normalized_term()
+        norm_term = self._normalized_term(beta_func)
         p = (coupled_exponential(X_norm, self.kappa))**(-1/self.alpha) / norm_term
         return p
 
     # Normalization constant of the multivariate Coupled Gaussian (NormMultiCoupled)
-    def _normalized_term(self) -> [int, float, np.ndarray]:
+    def _normalized_term(self, beta_func) -> [int, float, np.ndarray]:
+        if beta_func:
             sigma = np.matmul(self.scale, self.scale.T)
             sigma_det = np.linalg.det(sigma)
-            base_term = np.sqrt(2 * np.pi * sigma_det)
+            base_term = np.sqrt((2 * np.pi)**self.dim * sigma_det)
             return base_term*self._normalization_function()
+        else:
+            sigma = np.matmul(self.scale, self.scale.T)
+            sigma_det = np.linalg.det(sigma)
+            if self.alpha == 1:
+                return sigma_det**0.5 / (1 + (-1 + self.dim)*self.kappa)
+            else:  # self.alpha == 2
+                gamma_num = gamma((1 + (-1 + self.dim)*self.kappa) / (2*self.kappa))
+                gamma_dem = gamma((1 + self.dim*self.kappa) / (2*self.kappa))
+                return (np.sqrt(np.pi) * sigma_det**0.5 * gamma_num) / (np.sqrt(self.kappa) * gamma_dem)
+            
