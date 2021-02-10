@@ -33,17 +33,15 @@ class MultivariateCoupledNormal(CoupledNormal):
         if self._rank(self.scale) == 1:
             self.scale = np.diag(self.scale)
         # Ensure that scale is indeed positive definite
-        # assert self.is_positive_definite(self.scale), "scale must be positive definite."
-        
+        assert self.is_positive_definite(self.scale), "scale must be positive definite, but not necessarily symmetric."
+
     # Credit: https://stackoverflow.com/questions/16266720/find-out-if-matrix-is-positive-definite-with-numpy
+    # This is only for positive definite, not symmetric positive definite
     def is_positive_definite(self, A: np.ndarray) -> bool:
-        if np.array_equal(A, A.T):
-            try:
-                np.linalg.cholesky(A)
-                return True
-            except np.linalg.LinAlgError:
-                return False
-        else:
+        try:
+            np.linalg.cholesky(A)
+            return True
+        except np.linalg.LinAlgError:
             return False
 
     def _batch_shape(self) -> List:
@@ -79,7 +77,7 @@ class MultivariateCoupledNormal(CoupledNormal):
         p = (coupled_exponential(X_norm, self.kappa))**(-1/self.alpha) / norm_term
         return p
 
-    # Normalization of the multivariate Coupled Gaussian (NormMultiCoupled)
+    # Normalization constant of the multivariate Coupled Gaussian (NormMultiCoupled)
     def _normalized_term(self) -> [int, float, np.ndarray]:
             sigma = np.matmul(self.scale, self.scale.T)
             sigma_det = np.linalg.det(sigma)

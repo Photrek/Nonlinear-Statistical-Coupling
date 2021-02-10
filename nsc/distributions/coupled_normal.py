@@ -75,7 +75,7 @@ class CoupledNormal:
         p = (coupled_exponential(X_norm, self.kappa))**-0.5 / norm_term
         return p
 
-    # Normalization of 1-D Coupled Gaussian (NormCG)
+    # Normalization constant of 1-D Coupled Gaussian (NormCG)
     def _normalized_term(self) -> [int, float, np.ndarray]:
         base_term = np.sqrt(2*np.pi) * self.scale
         norm_term = base_term*self._normalization_function()
