@@ -4,12 +4,8 @@ Created on Tue Jan 19 19:38:24 2021
 
 @author: jkcle
 """
-import sys
-# insert at 1, 0 is the script path (or '' in REPL)
-path = r'C:\Users\jkcle\Documents\GitHub\Nonlinear-Statistical-Coupling\nsc\util'
-sys.path.insert(1, path)
-import function as f
 
+import nsc
 import numpy as np
 from typing import Any, List  # for NDArray types
 from scipy.integrate import nquad
@@ -69,7 +65,7 @@ def coupled_cross_entropy(density_func_p,
             x = np.array(args)
             return (my_coupled_probability(x)
                     *(1/-alpha)
-                    *f.coupled_logarithm(value=raised_density_func_q(x),
+                    *nsc.log(value=raised_density_func_q(x),
                                           kappa=kappa, 
                                           dim=dim))
         
@@ -80,7 +76,7 @@ def coupled_cross_entropy(density_func_p,
         def root_coupled_cross_entropy(*args):
             x = np.array(args)
             return (my_coupled_probability(x)
-                    *f.coupled_logarithm(value=raised_density_func_q(x),
+                    *nsc.log(value=raised_density_func_q(x),
                                           kappa=kappa, 
                                           dim=dim)**(1/alpha))
         
