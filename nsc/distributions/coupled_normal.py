@@ -87,15 +87,17 @@ class CoupledNormal:
         if k == 0:
             return 1
         elif k > 0:
+            func_term = (1 + d*k) / (2*k)**(d/2)
             beta_input_x = 1/(2*k) + 1
             beta_input_y = d/2
             gamma_input = d/2
-            return ((1 + d*k)/(2*k)**(d/2)) * beta(beta_input_x, beta_input_y)/gamma(gamma_input)
+            return func_term * beta(beta_input_x, beta_input_y)/gamma(gamma_input)
         else:  # -1 < self.kappa < 0:
+            func_term = 1 / (-2*k)**(d/2)
             beta_input_x = (1 + d*k)/(-2*k) + 1
             beta_input_y = d/2
             gamma_input = d/2
-            return (1/(2*k)**(-d/2)) * beta(beta_input_x, beta_input_y)/gamma(gamma_input)
+            return func_term * beta(beta_input_x, beta_input_y)/gamma(gamma_input)
 
     def __repr__(self) -> str:
         return f"<nsc.distributions.{self.__class__.__name__} batch_shape={str(self._batch_shape())} event_shape={str(self._event_shape())}>"
