@@ -26,29 +26,49 @@ class CoupledNormal:
             assert isinstance(scale, (int, float, np.ndarray)), "scale must be either an int/float type for scalar, or an list/ndarray type for multidimensional."
             assert type(loc) == type(scale), "loc and scale must be the same type."
             if isinstance(loc, np.ndarray):
-                assert loc.shape == scale.shape, "loc and scale must have the same dimensions (check respective .shape())."
+                # assert loc.shape == scale.shape, "loc and scale must have the same dimensions (check respective .shape())."
                 assert np.all((scale >= 0)), "All scale values must be greater or equal to 0."            
             else:
                 assert scale >= 0, "scale must be greater or equal to 0."            
             assert isinstance(kappa, (int, float)), "kappa must be an int or float type."
             assert isinstance(alpha, int), "alpha must be an int that equals to either 1 or 2."
             assert alpha in [1, 2], "alpha must be equal to either 1 or 2."
-        self.loc = loc
-        self.scale = scale
-        self.kappa = kappa
-        self.alpha = alpha
-        self.dim = self._n_dim()
+        self._loc = loc
+        self._scale = scale
+        self._kappa = kappa
+        self._alpha = alpha
+        self._dim = self._n_dim()
+
+    @property
+    def loc(self):
+        return self._loc
+
+    @property
+    def scale(self):
+        return self._scale
+
+    @property
+    def kappa(self):
+        return self._kappa
+
+    @property
+    def alpha(self):
+        return self._alpha
+
+    @property
+    def dim(self):
+        return self._dim
 
     def _n_dim(self):
         return 1 if self._event_shape() == [] else self._event_shape()[0]
 
     def _batch_shape(self) -> List:
-        if self._rank(self.loc) == 0:
+        if self._rank(self._loc) == 0:
             # return [] signifying single batch of a single distribution
             return []
         else:
             # return the batch shape in list format
-            return list(self.loc.shape)
+            return list(self._loc.shape)
 
     def _event_shape(self) -> List:
         # For univariate Coupled Normal distribution, event shape is always []
@@ -62,27 +82,48 @@ class CoupledNormal:
         else:
             return len(value.shape)
 
+    def sample_n(self, n: int) -> np.array:
+        # https://het.as.utexas.edu/HET/Software/Numpy/reference/generated/numpy.random.gamma.html
+        normal_samples = np.random.normal(loc=self._loc, scale=self._scale, size=n)
+        if self._kappa == 0:
+            samples = normal_samples
+        else:
+            gamma_samples = np.random.gamma(shape=1/(2*self._kappa), scale=self._scale, size=n)
+            samples = normal_samples * 1/np.sqrt(gamma_samples*self._kappa)
+        return samples * self._scale + self._loc
+        '''
+        normal_seed, gamma_seed = samplers.split_seed(seed, salt='student_t')
+        shape = ps.concat([[n], batch_shape], 0)
+
+        normal_sample = samplers.normal(shape, dtype=dtype, seed=normal_seed)
+        df = df * tf.ones(batch_shape, dtype=dtype)
+        gamma_sample = gamma_lib.random_gamma(
+            [n], concentration=0.5 * df, rate=0.5, seed=gamma_seed)
+        samples = normal_sample * tf.math.rsqrt(gamma_sample / df)
+        return samples * scale + loc
+        '''
+
     def prob(self, X: [List, np.ndarray]) -> np.ndarray:
         # Check whether input X is valid
         X = np.asarray(X) if isinstance(X, List) else X
         assert isinstance(X, np.ndarray), "X must be a List or np.ndarray."
-        # assert type(X[0]) == type(self.loc), "X samples must be the same type as loc and scale."
+        # assert type(X[0]) == type(self._loc), "X samples must be the same type as loc and scale."
         if isinstance(X[0], np.ndarray):
-            assert X[0].shape == self.loc.shape, "X samples must have the same dimensions as loc and scale (check respective .shape())."
+            assert X[0].shape == self._loc.shape, "X samples must have the same dimensions as loc and scale (check respective .shape())."
         # Calculate PDF with input X
-        X_norm = (X-self.loc)**2 / self.scale**2
+        X_norm = (X-self._loc)**2 / self._scale**2
         norm_term = self._normalized_term()
-        p = (coupled_exponential(X_norm, self.kappa))**-0.5 / norm_term
+        p = (coupled_exponential(X_norm, self._kappa))**-0.5 / norm_term
         return p
 
     # Normalization constant of 1-D Coupled Gaussian (NormCG)
     def _normalized_term(self) -> [int, float, np.ndarray]:
-        base_term = np.sqrt(2*np.pi) * self.scale
+        base_term = np.sqrt(2*np.pi) * self._scale
         norm_term = base_term*self._normalization_function()
         return norm_term
 
     def _normalization_function(self):
-        k, d = self.kappa, self.dim
+        k, d = self._kappa, self._dim
         assert -1/d < k, "kappa must be greater than -1/dim."
         if k == 0:
             return 1
@@ -92,7 +133,7 @@ class CoupledNormal:
             beta_input_y = d/2
             gamma_input = d/2
             return func_term * beta(beta_input_x, beta_input_y)/gamma(gamma_input)
-        else:  # -1 < self.kappa < 0:
+        else:  # -1 < self._kappa < 0:
             func_term = 1 / (-2*k)**(d/2)
             beta_input_x = (1 + d*k)/(-2*k) + 1
             beta_input_y = d/2
