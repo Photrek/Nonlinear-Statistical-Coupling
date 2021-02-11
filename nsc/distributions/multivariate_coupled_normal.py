@@ -92,7 +92,7 @@ class MultivariateCoupledNormal(CoupledNormal):
         _normalized_X = lambda x: np.linalg.multi_dot([x, sigma_inv, x])
         X_norm = np.apply_along_axis(_normalized_X, 1, X)
         norm_term = self._normalized_term(beta_func)
-        p = (coupled_exponential(X_norm, self._kappa))**(-1/self._alpha) / norm_term
+        p = (coupled_exponential(X_norm, self._kappa, self._dim))**(-1/self._alpha) / norm_term
         return p
 
     # Normalization constant of the multivariate Coupled Gaussian (NormMultiCoupled)
