@@ -90,8 +90,9 @@ class CoupledNormal:
         else:
             gamma_samples = np.random.gamma(shape=1/(2*self._kappa), scale=self._scale, size=n)
             samples = normal_samples * 1/np.sqrt(gamma_samples*self._kappa)
-        return samples * self._scale + self._loc
-        '''
+        return self._loc + (samples * self._scale)
+        ''' TFP Source: https://github.com/tensorflow/probability/blob/v0.11.1/tensorflow_probability/python/distributions/student_t.py#L43-L79
+
         normal_seed, gamma_seed = samplers.split_seed(seed, salt='student_t')
         shape = ps.concat([[n], batch_shape], 0)
 

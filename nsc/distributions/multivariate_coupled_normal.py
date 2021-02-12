@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 from typing import List
-from scipy.special import beta, gamma
+from scipy.special import gamma
 from .coupled_normal import CoupledNormal
 from ..util.function import coupled_exponential
 
@@ -68,8 +68,15 @@ class MultivariateCoupledNormal(CoupledNormal):
             return len(value.shape)
 
     def sample_n(self, n: int) -> np.array:
-        pass
-        '''
+        # normal_samples = np.random.normal(loc=self._loc, scale=self._scale, size=n)
+        mvn_samples = np.random.multivariate_normal(mean=self._loc, cov=self._scale, size=n, check_valid='warn')
+        chi2_samples = np.random.chisquare(df=1/self._kappa, size=n)
+        # Transpose to allow for broadcasting the following: (n x d) / (n x 1)
+        samples_T = mvn_samples.T / np.sqrt(chi2_samples*self._kappa)
+        samples = samples_T.T
+        return self._loc + samples
+        ''' TFP Source: https://github.com/tensorflow/probability/blob/v0.11.1/tensorflow_probability/python/distributions/multivariate_student_t.py#L238-L254
+        
         normal_seed, chi2_seed = samplers.split_seed(seed, salt='multivariate t')
 
         loc = tf.broadcast_to(self._loc, self._sample_shape())
@@ -111,4 +118,3 @@ class MultivariateCoupledNormal(CoupledNormal):
                 gamma_num = gamma((1 + (-1 + self._dim)*self._kappa) / (2*self._kappa))
                 gamma_dem = gamma((1 + self._dim*self._kappa) / (2*self._kappa))
                 return (np.sqrt(np.pi) * sigma_det**0.5 * gamma_num) / (np.sqrt(self._kappa) * gamma_dem)
-            
