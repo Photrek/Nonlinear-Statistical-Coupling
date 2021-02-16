@@ -25,7 +25,10 @@ def coupled_probability(density_func,
         return density_func(x) ** (1-kMult)
     
     def raised_density_func_integration(*args):
-        x = np.array(args)
+        if dim == 1:
+            x = np.array(args)
+        else:
+            x = np.array([args]).reshape(1, dim)
         return density_func(x) ** (1-kMult)
     
     # Calculate the normalization factor to the coupled CDF equals 1.
@@ -62,7 +65,11 @@ def coupled_cross_entropy(density_func_p,
     if root == False:
         
         def no_root_coupled_cross_entropy(*args):
-            x = np.array(args)
+            if dim == 1:
+                x = np.array(args)
+            else:
+                x = np.array([args]).reshape(1, dim)
+            
             return (my_coupled_probability(x)
                     *(1/-alpha)
                     *nsc.log(value=raised_density_func_q(x),
@@ -74,16 +81,17 @@ def coupled_cross_entropy(density_func_p,
         
     else:
         def root_coupled_cross_entropy(*args):
-            x = np.array(args)
+            if dim == 1:
+                x = np.array(args)
+            else:
+                x = np.array([args]).reshape(1, dim)
             return (my_coupled_probability(x)
                     *nsc.log(value=raised_density_func_q(x),
                                           kappa=kappa, 
                                           dim=dim)**(1/alpha))
         
-        vectorized_root_coupled_cross_entropy = np.vectorize(root_coupled_cross_entropy)
-        
         # Integrate the function.
-        final_integration = nquad(vectorized_root_coupled_cross_entropy, support)[0]
+        final_integration = nquad(root_coupled_cross_entropy, support)[0]
         
     return final_integration
 
@@ -151,7 +159,10 @@ def tsallis_entropy(density_func,
                                                          root=root)
     else:
         def un_normalized_density_func(*args):
-            x = np.array(args)
+            if dim == 1:
+                x = np.array(args)
+            else:
+                x = np.array([args]).reshape(1, dim)
             return density_func(x)**(1+(alpha*kappa/(1+kappa)))
         
         entropy = (nquad(un_normalized_density_func, support)[0]
