@@ -3,7 +3,7 @@ import numpy as np
 from typing import List
 from scipy.special import gamma
 from .coupled_normal import CoupledNormal
-from ..util.function import coupled_exponential
+from ..math.function import coupled_exponential
 
 
 class MultivariateCoupledNormal(CoupledNormal):

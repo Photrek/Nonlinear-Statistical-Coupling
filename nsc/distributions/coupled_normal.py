@@ -2,7 +2,7 @@
 import numpy as np
 from typing import List
 from scipy.special import beta, gamma
-from ..util.function import coupled_exponential
+from ..math.function import coupled_exponential
 
 
 class CoupledNormal:
@@ -114,6 +114,7 @@ class CoupledNormal:
         # Calculate PDF with input X
         X_norm = (X-self._loc)**2 / self._scale**2
         norm_term = self._normalized_term()
+        # p is the density vector
         p = (coupled_exponential(X_norm, self._kappa))**-0.5 / norm_term
         return p
 

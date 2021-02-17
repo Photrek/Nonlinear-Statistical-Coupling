@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-import math
-from typing import Any  # for NDArray types
+from typing import Callable
+from scipy.integrate import nquad
 
 
-def coupled_logarithm(value: [int, float, np.ndarray], kappa: [int, float] = 0.0, dim: int = 1) -> [float, np.ndarray]:
+def coupled_logarithm(value: [int, float, np.ndarray],
+                      kappa: [int, float] = 0.0,
+                      dim: int = 1
+                      ) -> [float, np.ndarray]:
     """
     Generalization of the logarithm function, which defines smooth
     transition to power functions.
@@ -29,20 +32,23 @@ def coupled_logarithm(value: [int, float, np.ndarray], kappa: [int, float] = 0.0
     return coupled_log_value
 
 
-def coupled_exponential(value: [int, float, np.ndarray], kappa: float = 0.0, dim: int = 1) -> [float, np.ndarray]:
+def coupled_exponential(value: [int, float, np.ndarray],
+                        kappa: float = 0.0,
+                        dim: int = 1
+                        ) -> [float, np.ndarray]:
     """
     Generalization of the exponential function.
-    
+
     Parameters
     ----------
-    value : [float, Any]
+    value : [float, np.ndarray]
         Input values in which the coupled exponential is applied to.
     kappa : float,
         Coupling parameter which modifies the coupled exponential function. 
         The default is 0.0.
     dim : int, optional
         The dimension of x, or rank if x is a tensor. The default is 1.
-    
+
     Returns
     -------
     float
@@ -82,7 +88,337 @@ def coupled_exponential(value: [int, float, np.ndarray], kappa: float = 0.0, dim
     return coupled_exp_value
 
 
-def coupled_probability(dist, dx: float, kappa: float = 0.0, alpha: float = 1.0, dim: int = 1) -> [float, Any]:
+def coupled_probability(density_func: Callable[..., np.ndarray],
+                        kappa: float = 0.0,
+                        alpha: int = 2,
+                        dim: int = 1,
+                        support: list = [[-np.inf, np.inf]]
+                        ) -> Callable[..., np.ndarray]:
+    """
+    Add description here.
+
+    Parameters
+    ----------
+    dist : TYPE
+        DESCRIPTION.
+    dx : float
+        The distance between realizations of the densities.
+    kappa : float, optional
+        Coupling parameter. The default is 0.0.
+    alpha : float, optional
+        DESCRIPTION. The default is 1.0.
+    dim : int, optional
+        The dimension of x, or rank if x is a tensor. The default is 1.
+
+    Returns
+    -------
+    [float, np.ndarray]
+        DESCRIPTION.
+
+    """
+    # Calculate the risk-bias.
+    kMult = (-alpha * kappa) / (1 + dim*kappa)
+
+    def raised_density_func(x):
+        return density_func(x) ** (1-kMult)
+
+    def raised_density_func_integration(*args):
+        if dim == 1:
+            x = np.array(args)
+        else:
+            x = np.array([args]).reshape(1, dim)
+        return density_func(x) ** (1-kMult)
+
+    # Calculate the normalization factor to the coupled CDF equals 1.
+    division_factor = nquad(raised_density_func_integration, support)[0]
+
+    # Define a function to calculate coupled densities
+    def coupled_prob(values):
+        return raised_density_func(values) / division_factor
+    
+    # Return the new functions that calculates the coupled density of a value.
+    return coupled_prob
+
+
+def coupled_cross_entropy(density_func_p: Callable[..., np.ndarray],
+                          density_func_q: Callable[..., np.ndarray],
+                          kappa: float = 0.0,
+                          alpha: int = 2,
+                          dim: int = 1,
+                          support: list = [[-np.inf, np.inf]],
+                          root: bool = False
+                          ) -> [float, np.ndarray]:
+    """
+    Add description here,
+
+    Parameters
+    ----------
+    dist_p : TYPE
+        DESCRIPTION.
+    dist_q : TYPE
+        DESCRIPTION.
+    dx : float
+        The distance between realizations of the densities.
+    kappa : float, optional
+        Coupling parameter. The default is 0.0.
+    alpha : float, optional
+        DESCRIPTION. The default is 1.0.
+    dim : int, optional
+        The dimension of x, or rank if x is a tensor. The default is 1.
+    root : bool, optional
+        DESCRIPTION. The default is False.
+
+    Returns
+    -------
+    [float, np.ndarray]
+        DESCRIPTION.
+
+    """
+    # Fit a coupled_probability function to density_func_p with the other
+    # given parameters.
+    my_coupled_probability = coupled_probability(density_func=density_func_p,
+                                                 kappa=kappa, 
+                                                 alpha=alpha,
+                                                 dim=dim, 
+                                                 support=support
+                                                 )
+
+    def raised_density_func_q(x):
+        return density_func_q(x)**(-alpha)
+
+    if root == False:
+        def no_root_coupled_cross_entropy(*args):
+            if dim == 1:
+                x = np.array(args)
+            else:
+                x = np.array([args]).reshape(1, dim)
+            return (my_coupled_probability(x) *(1/-alpha) * \
+                    coupled_logarithm(value=raised_density_func_q(x),
+                                      kappa=kappa, 
+                                      dim=dim
+                                      )
+                    )
+        # Integrate the function.
+        final_integration = -nquad(no_root_coupled_cross_entropy, support)[0]
+    else:
+        def root_coupled_cross_entropy(*args):
+            if dim == 1:
+                x = np.array(args)
+            else:
+                x = np.array([args]).reshape(1, dim)
+            return (my_coupled_probability(x) * \
+                    coupled_logarithm(value=raised_density_func_q(x),
+                                      kappa=kappa, 
+                                      dim=dim
+                                      )**(1/alpha)
+                    )
+
+        # Integrate the function.
+        final_integration = nquad(root_coupled_cross_entropy, support)[0]
+
+    return final_integration
+
+
+def coupled_entropy(density_func: Callable[..., np.ndarray],
+                    kappa: float = 0.0,
+                    alpha: int = 2,
+                    dim: int = 1,
+                    support: list = [[-np.inf, np.inf]],
+                    root: bool = False
+                    ) -> [float, np.ndarray]:
+    """
+    Add description here.
+
+    Parameters
+    ----------
+    dist : TYPE
+        DESCRIPTION.
+    dx : float
+        The distance between realizations of the densities.
+    kappa : float, optional
+        Coupling parameter. The default is 0.0.
+    alpha : float, optional
+        DESCRIPTION. The default is 1.0.
+    dim : int, optional
+        The dimension of x, or rank if x is a tensor. The default is 1.
+    root : bool, optional
+        DESCRIPTION. The default is false.
+
+    Returns
+    -------
+    [float, np.ndarray]
+        The coupled cross-entropy between dist_p and dist_q.
+
+    """
+    return coupled_cross_entropy(density_func, 
+                                 density_func, 
+                                 kappa=kappa, 
+                                 alpha=alpha, 
+                                 dim=dim,
+                                 support=support, 
+                                 root=root
+                                 )
+
+
+def coupled_kl_divergence(density_func_p: Callable[..., np.ndarray],
+                          density_func_q: Callable[..., np.ndarray],
+                          kappa: float = 0.0,
+                          alpha: int = 2,
+                          dim: int = 1,
+                          support: list = [[-np.inf, np.inf]],
+                          root: bool = False
+                          ) -> [float, np.ndarray]:
+    """
+    Add description here.
+
+    Parameters
+    ----------
+    dist_p : TYPE
+        DESCRIPTION.
+    dist_q : TYPE
+        DESCRIPTION.
+    dx : float
+        The distance between realizations of the densities.
+    kappa : float, optional
+        Coupling parameter. The default is 0.0.
+    alpha : float, optional
+        DESCRIPTION. The default is 1.0.
+    dim : int, optional
+        The dimension of x, or rank if x is a tensor. The default is 1.
+    root : bool, optional
+        DESCRIPTION. The default is False.
+
+    Returns
+    -------
+    [float, np.ndarray]
+       The coupled divergence.
+
+    """
+    # Calculate the coupled cross-entropy of the dist_p and dist_q.
+    coupled_cross_entropy_of_dists = coupled_cross_entropy(density_func_p,
+                                                           density_func_q,
+                                                           kappa=kappa,
+                                                           alpha=alpha, 
+                                                           dim=dim,
+                                                           support=support, 
+                                                           root=root
+                                                           )
+    # Calculate the  coupled entropy of dist_p
+    coupled_entropy_of_dist_p = coupled_entropy(density_func_p, 
+                                                kappa=kappa, 
+                                                alpha=alpha, 
+                                                dim=dim,
+                                                support=support,
+                                                root=root
+                                                )
+
+    return coupled_cross_entropy_of_dists - coupled_entropy_of_dist_p
+
+
+def tsallis_entropy(density_func: Callable[..., np.ndarray],
+                    kappa: float = 0.0,
+                    alpha: int = 1,
+                    dim: int = 1,
+                    support: list = [(-np.inf, np.inf)],
+                    normalize = False,
+                    root = False
+                    ) -> [float, np.ndarray]:
+    """
+    Add description here.
+
+    Parameters
+    ----------
+    dist : TYPE
+        DESCRIPTION.
+    kappa : TYPE
+        DESCRIPTION.
+    dx : TYPE
+        DESCRIPTION.
+    alpha : TYPE, optional
+        DESCRIPTION. The default is 1.
+    dim : TYPE, optional
+        DESCRIPTION. The default is 1.
+    normalize : bool, optional
+        DESCRIPTION. The default is False.
+    root : False, optional
+        DESCRIPTION. The default is False.
+
+    Returns
+    -------
+    None.
+
+    """
+    if normalize:
+        entropy = (1+kappa)**(1/alpha) * coupled_entropy(density_func,
+                                                         kappa=kappa,
+                                                         alpha=alpha,
+                                                         dim=dim,
+                                                         support=support,
+                                                         root=root
+                                                         )
+    else:
+        def un_normalized_density_func(*args):
+            if dim == 1:
+                x = np.array(args)
+            else:
+                x = np.array([args]).reshape(1, dim)
+            return density_func(x)**(1+(alpha*kappa/(1+kappa)))
+
+        entropy = (nquad(un_normalized_density_func, support)[0]
+                       * (1+kappa)**(1/alpha)
+                       * coupled_entropy(density_func,
+                                         kappa=kappa,
+                                         alpha=alpha,
+                                         dim=dim,
+                                         support=support,
+                                         root=root
+                                         )
+                       )
+
+    return entropy
+
+
+def shannon_entropy(density_func: Callable[..., np.ndarray],
+                    dim: int = 1,
+                    support: list = [[-np.inf, np.inf]],
+                    root = False
+                    ) -> [float, np.ndarray]:
+    """
+    Add description here.
+
+    Parameters
+    ----------
+    dist : TYPE
+        DESCRIPTION.
+    dx : float
+        DESCRIPTION.
+    dim : int, optional
+        DESCRIPTION. The default is 1.
+    root : bool, optional
+        DESCRIPTION. The default is False.
+
+    Returns
+    -------
+    TYPE
+        DESCRIPTION.
+
+    """
+    if root:
+        alpha = 2
+    else: 
+        alpha = 1
+
+    return coupled_entropy(density_func,
+                           kappa=0.0, 
+                           alpha=alpha, 
+                           dim=dim, 
+                           support=support,
+                           root=root
+                           )
+
+
+'''
+def coupled_probability(dist, dx: float, kappa: float = 0.0, alpha: float = 1.0, dim: int = 1) -> [float, np.ndarray]:
     """
     
 
@@ -101,7 +437,7 @@ def coupled_probability(dist, dx: float, kappa: float = 0.0, alpha: float = 1.0,
 
     Returns
     -------
-    [float, Any]
+    [float, np.ndarray]
         DESCRIPTION.
 
     """
@@ -120,7 +456,7 @@ def coupled_probability(dist, dx: float, kappa: float = 0.0, alpha: float = 1.0,
     return coupled_dist
 
 
-def coupled_cross_entropy(dist_p, dist_q, dx: float, kappa: float = 0.0, alpha: float = 1.0, dim: int = 1, root: bool = False) -> [float, Any]:
+def coupled_cross_entropy(dist_p, dist_q, dx: float, kappa: float = 0.0, alpha: float = 1.0, dim: int = 1, root: bool = False) -> [float, np.ndarray]:
     """
     
 
@@ -143,7 +479,7 @@ def coupled_cross_entropy(dist_p, dist_q, dx: float, kappa: float = 0.0, alpha: 
 
     Returns
     -------
-    [float, Any]
+    [float, np.ndarray]
         DESCRIPTION.
 
     """
@@ -203,7 +539,7 @@ def coupled_cross_entropy(dist_p, dist_q, dx: float, kappa: float = 0.0, alpha: 
     return final_integration
 
 
-def coupled_entropy(dist, dx: float, kappa: float = 0.0, alpha: float = 1.0, dim: int = 1, root: bool = False) -> [float, Any]:
+def coupled_entropy(dist, dx: float, kappa: float = 0.0, alpha: float = 1.0, dim: int = 1, root: bool = False) -> [float, np.ndarray]:
     """
     
 
@@ -224,7 +560,7 @@ def coupled_entropy(dist, dx: float, kappa: float = 0.0, alpha: float = 1.0, dim
 
     Returns
     -------
-    [float, Any]
+    [float, np.ndarray]
         The coupled cross-entropy between dist_p and dist_q.
 
     """
@@ -238,7 +574,7 @@ def coupled_entropy(dist, dx: float, kappa: float = 0.0, alpha: float = 1.0, dim
                                  root=root)
 
 
-def coupled_divergence(dist_p, dist_q, dx: float, kappa: float = 0.0, alpha: float = 1.0, dim: int = 1, root: bool = False) -> [float, Any]:
+def coupled_divergence(dist_p, dist_q, dx: float, kappa: float = 0.0, alpha: float = 1.0, dim: int = 1, root: bool = False) -> [float, np.ndarray]:
     """
     
 
@@ -261,7 +597,7 @@ def coupled_divergence(dist_p, dist_q, dx: float, kappa: float = 0.0, alpha: flo
 
     Returns
     -------
-    [float, Any]
+    [float, np.ndarray]
        The coupled divergence.
 
     """
@@ -378,8 +714,8 @@ def norm_CG(sigma, kappa):
     return result
 
 
-def norm_multi_coupled(std: [float, Any],  kappa: float = 0.0, alpha: int = 2
-                       ) -> [float, Any]:
+def norm_multi_coupled(std: [float, np.ndarray],  kappa: float = 0.0, alpha: int = 2
+                       ) -> [float, np.ndarray]:
 
     assert alpha == 1 or alpha == 2, "alpha must be an int and equal to either" + \
                                      " 1 (Pareto) or 2 (Gaussian)."
@@ -467,3 +803,4 @@ def weighted_generalized_mean(x):
 
 def coupled_box_muller(x):
     pass
+'''
