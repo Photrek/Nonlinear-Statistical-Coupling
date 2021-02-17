@@ -3,10 +3,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[         0,          0]
-NotebookDataLength[      6852,        192]
-NotebookOptionsPosition[      5336,        152]
-NotebookOutlinePosition[      5732,        168]
-CellTagsIndexPosition[      5689,        165]
+NotebookDataLength[      8725,        245]
+NotebookOptionsPosition[      6990,        201]
+NotebookOutlinePosition[      7382,        217]
+CellTagsIndexPosition[      7339,        214]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -147,11 +147,60 @@ Cell[BoxData[
  RowBox[{"Clear", "[", "PlotCoupledEntDist", "]"}]], "Input",
  CellChangeTimes->{{3.817212782694592*^9, 3.817212788183188*^9}, {
   3.817212827007497*^9, 3.81721283137866*^9}},
- CellLabel->"In[63]:=",ExpressionUUID->"0def6640-1552-42fa-995c-9c834adf9d73"]
+ CellLabel->"In[63]:=",ExpressionUUID->"0def6640-1552-42fa-995c-9c834adf9d73"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Solve", "[", 
+   RowBox[{
+    RowBox[{
+     FractionBox[
+      RowBox[{"1", " ", "+", " ", 
+       RowBox[{"d", " ", "\[Kappa]Mod"}]}], 
+      RowBox[{
+       RowBox[{"-", "\[Alpha]"}], " ", "\[Kappa]Mod"}]], "\[Equal]", 
+     RowBox[{
+      RowBox[{"(", 
+       FractionBox[
+        RowBox[{"1", "+", 
+         RowBox[{"d", " ", "\[Kappa]Org"}]}], 
+        RowBox[{
+         RowBox[{"-", "\[Alpha]"}], " ", "\[Kappa]Org"}]], ")"}], 
+      RowBox[{"(", 
+       RowBox[{"1", "-", 
+        FractionBox[
+         RowBox[{
+          RowBox[{"-", "\[Alpha]"}], " ", "\[Kappa]Bias"}], 
+         RowBox[{"1", "+", " ", 
+          RowBox[{"d", " ", "\[Kappa]Bias"}]}]]}], ")"}]}]}], ",", 
+    "\[Kappa]Mod", ",", "Reals"}], "]"}], "//", "FullSimplify"}]], "Input",
+ CellChangeTimes->{{3.8225824617158003`*^9, 3.8225824718099537`*^9}, {
+  3.822582513550024*^9, 3.8225825602881107`*^9}, {3.822582651292385*^9, 
+  3.822582732623412*^9}},
+ CellLabel->"In[4]:=",ExpressionUUID->"0fe6fd11-06e5-4a0f-a04d-aef5f751c5c9"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", 
+   RowBox[{"\[Kappa]Mod", "\[Rule]", 
+    FractionBox[
+     RowBox[{"\[Kappa]Org", "+", 
+      RowBox[{"d", " ", "\[Kappa]Bias", " ", "\[Kappa]Org"}]}], 
+     RowBox[{"1", "+", 
+      RowBox[{"\[Kappa]Bias", " ", 
+       RowBox[{"(", 
+        RowBox[{"d", "+", "\[Alpha]", "+", 
+         RowBox[{"d", " ", "\[Alpha]", " ", "\[Kappa]Org"}]}], ")"}]}]}]]}], 
+   "}"}], "}"}]], "Output",
+ CellChangeTimes->{{3.8225827217670403`*^9, 3.822582733561227*^9}},
+ CellLabel->"Out[4]=",ExpressionUUID->"4eb4313d-2fde-41dd-9c78-51cefef02701"]
+}, Open  ]]
 }, Open  ]]
 },
 WindowSize->{808, 755},
-WindowMargins->{{Automatic, 240}, {-107, Automatic}},
+WindowMargins->{{Automatic, 6}, {33, Automatic}},
 FrontEndVersion->"12.1 for Mac OS X x86 (64-bit) (June 19, 2020)",
 StyleDefinitions->"Default.nb",
 ExpressionUUID->"c6b55941-9800-46b8-81cb-b375720b6660"
@@ -185,7 +234,11 @@ Cell[CellGroupData[{
 Cell[3991, 116, 673, 17, 52, "Input",ExpressionUUID->"c6ec4542-942f-4e60-a868-d4a83827f275"],
 Cell[4667, 135, 370, 7, 34, "Output",ExpressionUUID->"5de7458e-30a5-4206-a6c0-4454381632de"]
 }, Open  ]],
-Cell[5052, 145, 268, 4, 60, "Input",ExpressionUUID->"0def6640-1552-42fa-995c-9c834adf9d73"]
+Cell[5052, 145, 268, 4, 30, "Input",ExpressionUUID->"0def6640-1552-42fa-995c-9c834adf9d73"],
+Cell[CellGroupData[{
+Cell[5345, 153, 1039, 28, 51, "Input",ExpressionUUID->"0fe6fd11-06e5-4a0f-a04d-aef5f751c5c9"],
+Cell[6387, 183, 575, 14, 54, "Output",ExpressionUUID->"4eb4313d-2fde-41dd-9c78-51cefef02701"]
+}, Open  ]]
 }, Open  ]]
 }
 ]
