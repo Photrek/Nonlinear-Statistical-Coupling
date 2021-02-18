@@ -93,7 +93,7 @@ class MultivariateCoupledNormal(CoupledNormal):
         '''
 
     def prob(self, X: [List, np.ndarray], beta_func: bool = True) -> np.ndarray:
-        assert X.shape[-1] ==  self._loc.shape[-1], "input X and loc must have the same dims."
+        # assert X.shape[-1] ==  self._loc.shape[-1], "input X and loc must have the same dims."
         sigma = np.matmul(self._scale, self._scale)
         sigma_inv = np.linalg.inv(sigma)
         _normalized_X = lambda x: np.linalg.multi_dot([x, sigma_inv, x])
