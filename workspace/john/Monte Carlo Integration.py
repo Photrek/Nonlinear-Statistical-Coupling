@@ -50,7 +50,7 @@ def mc_integrator(distribution, dim, support, size=1000, seed=0):
     return volume*np.mean(distribution(samples))
 
 # Set the number of samples to use for estimation.
-size = 10000
+size = 1000000
 # Set the low and high value over each dimension of the hypercube.
 support = [-2, 2]
 # Print the estimate of the integral.
