@@ -5,15 +5,18 @@ Created on Wed Feb 24 01:52:26 2021
 @author: jkcle
 """
 import numpy as np
-from scipy.stats import multivariate_normal
+from scipy.stats import multivariate_normal, norm
 
 # Set up distribution parameters.
-dim = 3
-loc = np.repeat(0., repeats=dim)
-scale = np.repeat(1., repeats=dim)
+dim = 20
+mu, sigma = 0., 1.
+loc = np.repeat(mu, repeats=dim)
+scale = np.repeat(sigma, repeats=dim)
 
 # Initialize a multivariate normal distribution.
 mvn = multivariate_normal(mean=loc, cov=scale)
+# Initialize a univariate normal distribution.
+normal = norm(loc=mu, scale=sigma)
 
 def mc_integrator(distribution, dim, support, size=1000, seed=0):
     """
@@ -50,13 +53,15 @@ def mc_integrator(distribution, dim, support, size=1000, seed=0):
     return volume*np.mean(distribution(samples))
 
 # Set the number of samples to use for estimation.
-size = 1000000
+size = 100000
 # Set the low and high value over each dimension of the hypercube.
 support = [-2, 2]
 # Print the estimate of the integral.
-print(mc_integrator(mvn.pdf, dim, support, size=size))
+mc_estimate = mc_integrator(mvn.pdf, dim, support, size=size)
+print(mc_estimate)
 # Print the exact value of the integral.
-print(mvn.cdf(np.repeat(support[1], dim))-mvn.cdf(np.repeat(support[0], dim)))
+exact_value = (normal.cdf(support[1]) - normal.cdf(support[0]))**dim
+print(exact_value)
 
 def integrator(distribution, dim, support, size=1000):
     a, b = support[0], support[1]
