@@ -5,9 +5,10 @@ Created on Wed Feb 24 01:52:26 2021
 """
 import numpy as np
 from scipy.stats import multivariate_normal, norm
+from datetime import datetime
 
 # Set up distribution parameters.
-dim = 20
+dim = 10
 mu, sigma = 0., 1.
 loc = np.repeat(mu, repeats=dim)
 scale = np.repeat(sigma, repeats=dim)
@@ -49,12 +50,16 @@ def mc_integrator(distribution, dim, support, size=1000, seed=0):
     return volume*np.mean(distribution(samples))
 
 # Set the number of samples to use for estimation.
-size = 100000
+size = 1000000
 # Set the low and high value over each dimension of the hypercube.
-support = [-2, 2]
+support = [-4, 4]
+
 # Print the estimate of the integral.
+start_time = datetime.now()
 mc_estimate = mc_integrator(mvn.pdf, dim, support, size=size)
+print(datetime.now() - start_time)
 print(mc_estimate)
+
 # Print the exact value of the integral.
 exact_value = (normal.cdf(support[1]) - normal.cdf(support[0]))**dim
 print(exact_value)
