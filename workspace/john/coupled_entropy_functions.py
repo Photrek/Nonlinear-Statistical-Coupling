@@ -11,11 +11,59 @@ from typing import Any, List  # for NDArray types
 from scipy.integrate import nquad
 
 
+def importance_sampling_integrator(function, sampler, n=10000):
+    """
+    
+
+    Parameters
+    ----------
+    function : function
+        The function that needs to be integrated. Should only be a function of
+        the samples drawn from probability distribution.
+    sampler : function
+        The sampling function for a probability distribution that is passed n
+        and return n samples from that distribution.
+    n : int, optional
+        The number of samples used in the estimate of the integral. The 
+        default is 10000.
+
+    Returns
+    -------
+    None.
+
+    """
+    samples = sampler(n)
+    sampled_values = function(samples)
+    return np.mean(sampled_values)
+
+
 def coupled_probability(density_func,
                         kappa = 0.0, 
                         alpha = 1.0, 
                         dim = 1,
                         support = [[-np.inf, np.inf]]):
+    """
+    
+
+    Parameters
+    ----------
+    density_func : TYPE
+        DESCRIPTION.
+    kappa : TYPE, optional
+        DESCRIPTION. The default is 0.0.
+    alpha : TYPE, optional
+        DESCRIPTION. The default is 1.0.
+    dim : TYPE, optional
+        DESCRIPTION. The default is 1.
+    support : TYPE, optional
+        DESCRIPTION. The default is [[-np.inf, np.inf]].
+
+    Returns
+    -------
+    TYPE
+        DESCRIPTION.
+
+    """
 
     
     # Calculate the risk-bias.
