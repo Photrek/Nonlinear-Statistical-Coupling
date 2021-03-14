@@ -8,10 +8,9 @@ Created on Tue Jan 19 19:38:24 2021
 import nsc
 import numpy as np
 from typing import Any, List  # for NDArray types
-from scipy.integrate import nquad
 
 
-def importance_sampling_integrator(function, pdf, sampler, n=10000):
+def importance_sampling_integrator(function, pdf, sampler, n=10000, seed=1):
     """
     
 
@@ -25,6 +24,8 @@ def importance_sampling_integrator(function, pdf, sampler, n=10000):
         DESCRIPTION.
     n : TYPE, optional
         DESCRIPTION. The default is 10000.
+    seed : TYPE, optional
+        DESCRIPTION. The default is 1.
 
     Returns
     -------
@@ -32,6 +33,8 @@ def importance_sampling_integrator(function, pdf, sampler, n=10000):
         DESCRIPTION.
 
     """
+    # Set a random seed.
+    np.random.seed(seed)
     # Generate n samples from the probability distribution.
     samples = sampler(n)
     # Evaluate the function at the samples and divide by the probability 
@@ -46,7 +49,8 @@ def coupled_probability(density_func,
                         kappa = 0.0, 
                         alpha = 1.0, 
                         dim = 1,
-                        n = 10000):
+                        n = 10000,
+                        seed=1):
     """
     
 
@@ -64,6 +68,8 @@ def coupled_probability(density_func,
         DESCRIPTION. The default is 1.
     n : TYPE, optional
         DESCRIPTION. The default is 10000.
+    seed : TYPE, optional
+        DESCRIPTION. The default is 1.
 
     Returns
     -------
@@ -90,7 +96,8 @@ def coupled_probability(density_func,
     division_factor = importance_sampling_integrator(raised_density_func_integration, 
                                                      pdf=density_func,
                                                      sampler=sampler, 
-                                                     n=n)
+                                                     n=n,
+                                                     seed=seed)
     
     
     # Define a function to calculate coupled densities
@@ -108,7 +115,8 @@ def coupled_cross_entropy(density_func_p,
                           alpha: float = 1.0, 
                           dim: int = 1,
                           root: bool = False,
-                          n=10000) -> [float, Any]:
+                          n=10000,
+                          seed=1) -> [float, Any]:
     
     # Fit a coupled_probability function to density_func_p with the other
     # given parameters.
@@ -117,7 +125,8 @@ def coupled_cross_entropy(density_func_p,
                                                  kappa=kappa, 
                                                  alpha=alpha,
                                                  dim=dim, 
-                                                 n=n)
+                                                 n=n,
+                                                 seed=seed)
     
     def raised_density_func_q(x):
         return density_func_q(x)**(-alpha)
@@ -140,7 +149,8 @@ def coupled_cross_entropy(density_func_p,
         final_integration = -importance_sampling_integrator(no_root_coupled_cross_entropy, 
                                                             pdf=density_func_p,
                                                             sampler=sampler_p, 
-                                                            n=n)
+                                                            n=n,
+                                                            seed=seed)
         
     else:
         def root_coupled_cross_entropy(*args):
@@ -157,7 +167,8 @@ def coupled_cross_entropy(density_func_p,
         final_integration = importance_sampling_integrator(root_coupled_cross_entropy, 
                                                            pdf=density_func_p,
                                                            sampler=sampler_p, 
-                                                           n=n)
+                                                           n=n,
+                                                           seed=seed)
         
     return final_integration
 
@@ -168,7 +179,8 @@ def coupled_entropy(density_func,
                     alpha: float = 1.0, 
                     dim: int = 1, 
                     root: bool = False,
-                    n=10000) -> [float, Any]:
+                    n=10000,
+                    seed=1) -> [float, Any]:
 
     
     return coupled_cross_entropy(density_func, 
@@ -178,7 +190,8 @@ def coupled_entropy(density_func,
                                  alpha=alpha, 
                                  dim=dim,
                                  root=root,
-                                 n=n)
+                                 n=n,
+                                 seed=seed)
 
 
 def coupled_divergence(density_func_p, 
@@ -188,7 +201,8 @@ def coupled_divergence(density_func_p,
                        alpha: float = 1.0, 
                        dim: int = 1, 
                        root: bool = False,
-                       n=10000) -> [float, Any]:
+                       n=10000,
+                       seed=1) -> [float, Any]:
 
     
     # Calculate the coupled cross-entropy of the dist_p and dist_q.
@@ -199,7 +213,8 @@ def coupled_divergence(density_func_p,
                                                            alpha=alpha, 
                                                            dim=dim,
                                                            root=root,
-                                                           n=n)
+                                                           n=n,
+                                                           seed=seed)
     # Calculate the  coupled entropy of dist_p
     coupled_entropy_of_dist_p = coupled_entropy(density_func_p, 
                                                 sampler=sampler_p,
@@ -207,7 +222,8 @@ def coupled_divergence(density_func_p,
                                                 alpha=alpha, 
                                                 dim=dim,
                                                 root=root,
-                                                n=n)
+                                                n=n,
+                                                seed=seed)
     
     return coupled_cross_entropy_of_dists - coupled_entropy_of_dist_p
 
@@ -219,7 +235,8 @@ def tsallis_entropy(density_func,
                     dim: int = 1, 
                     normalize = False, 
                     root = False,
-                    n=10000):
+                    n=10000,
+                    seed=seed):
 
     
     if normalize:
@@ -229,7 +246,8 @@ def tsallis_entropy(density_func,
                                                          alpha=alpha, 
                                                          dim=dim, 
                                                          root=root,
-                                                         n=n)
+                                                         n=n,
+                                                         seed=seed)
     else:
         def un_normalized_density_func(*args):
             if dim == 1:
@@ -241,7 +259,8 @@ def tsallis_entropy(density_func,
         entropy = (importance_sampling_integrator(un_normalized_density_func, 
                                                   pdf=density_func, 
                                                   sampler=sampler, 
-                                                  n=n)
+                                                  n=n,
+                                                  seed=seed)
                        * (1+kappa)**(1/alpha)
                        * coupled_entropy(density_func,
                                          sampler=sampler,
@@ -257,7 +276,8 @@ def shannon_entropy(density_func,
                     sampler,
                     dim: int = 1, 
                     root = False,
-                    n=10000):
+                    n=10000,
+                    seed=1):
     
     if root:
         alpha = 2
@@ -270,4 +290,5 @@ def shannon_entropy(density_func,
                            alpha=alpha, 
                            dim=dim, 
                            root=root,
-                           n=10000)
+                           n=n,
+                           seed=seed)
