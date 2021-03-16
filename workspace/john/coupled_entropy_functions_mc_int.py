@@ -236,7 +236,7 @@ def tsallis_entropy(density_func,
                     normalize = False, 
                     root = False,
                     n=10000,
-                    seed=seed):
+                    seed=1):
 
     
     if normalize:
