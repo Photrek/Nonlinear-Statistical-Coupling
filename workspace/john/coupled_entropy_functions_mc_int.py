@@ -10,7 +10,7 @@ import numpy as np
 from typing import Any, List  # for NDArray types
 
 
-def importance_sampling_integrator(function, pdf, sampler, n=10000, seed=1):
+def importance_sampling_integrator(function, pdf, sampler, n=10000, rounds=5, seed=1):
     """
     
 
@@ -24,6 +24,8 @@ def importance_sampling_integrator(function, pdf, sampler, n=10000, seed=1):
         DESCRIPTION.
     n : TYPE, optional
         DESCRIPTION. The default is 10000.
+    rounds : int
+        DESCRIPTION. The default is 5.
     seed : TYPE, optional
         DESCRIPTION. The default is 1.
 
@@ -35,13 +37,21 @@ def importance_sampling_integrator(function, pdf, sampler, n=10000, seed=1):
     """
     # Set a random seed.
     np.random.seed(seed)
-    # Generate n samples from the probability distribution.
-    samples = sampler(n)
-    # Evaluate the function at the samples and divide by the probability 
-    # density of the distribution at those samples.
-    sampled_values = function(samples) / pdf(samples)
-    # Return the mean of the samples as the MC estimate of the integral.
-    return np.mean(sampled_values)
+    
+    # Create a list to hold the estimates for each round.
+    estimates = []
+    
+    for i in range(rounds):
+        # Generate n samples from the probability distribution.
+        samples = sampler(n)
+        # Evaluate the function at the samples and divide by the probability 
+        # density of the distribution at those samples.
+        sampled_values = function(samples) / pdf(samples)
+        # Add the estimate of the integral to the estimates list.
+        estimates.append(np.mean(sampled_values))
+    
+    # Return the mean of the estimates as the estimate of the integral.
+    return np.mean(estimates)
 
 
 def coupled_probability(density_func,
@@ -50,6 +60,7 @@ def coupled_probability(density_func,
                         alpha = 1.0, 
                         dim = 1,
                         n = 10000,
+                        rounds=5,
                         seed=1):
     """
     
@@ -68,6 +79,8 @@ def coupled_probability(density_func,
         DESCRIPTION. The default is 1.
     n : TYPE, optional
         DESCRIPTION. The default is 10000.
+    rounds : TYPE, optional
+        DESCRIPTION. The default is 5.
     seed : TYPE, optional
         DESCRIPTION. The default is 1.
 
@@ -85,11 +98,8 @@ def coupled_probability(density_func,
     def raised_density_func(x):
         return density_func(x) ** (1-kMult)
     
-    def raised_density_func_integration(*args):
-        if dim == 1:
-            x = np.array(args)
-        else:
-            x = np.array([args]).reshape(1, dim)
+
+    def raised_density_func_integration(x):
         return density_func(x) ** (1-kMult)
     
     # Calculate the normalization factor to the coupled CDF equals 1.
@@ -97,6 +107,7 @@ def coupled_probability(density_func,
                                                      pdf=density_func,
                                                      sampler=sampler, 
                                                      n=n,
+                                                     rounds=rounds,
                                                      seed=seed)
     
     
@@ -116,7 +127,40 @@ def coupled_cross_entropy(density_func_p,
                           dim: int = 1,
                           root: bool = False,
                           n=10000,
+                          rounds=5,
                           seed=1) -> [float, Any]:
+    """
+    
+
+    Parameters
+    ----------
+    density_func_p : TYPE
+        DESCRIPTION.
+    density_func_q : TYPE
+        DESCRIPTION.
+    sampler_p : TYPE
+        DESCRIPTION.
+    kappa : float, optional
+        DESCRIPTION. The default is 0.0.
+    alpha : float, optional
+        DESCRIPTION. The default is 1.0.
+    dim : int, optional
+        DESCRIPTION. The default is 1.
+    root : bool, optional
+        DESCRIPTION. The default is False.
+    n : TYPE, optional
+        DESCRIPTION. The default is 10000.
+    rounds : TYPE, optional
+        DESCRIPTION. The default is 5.
+    seed : TYPE, optional
+        DESCRIPTION. The default is 1.
+
+    Returns
+    -------
+    [float, Any]
+        DESCRIPTION.
+
+    """
     
     # Fit a coupled_probability function to density_func_p with the other
     # given parameters.
@@ -126,6 +170,7 @@ def coupled_cross_entropy(density_func_p,
                                                  alpha=alpha,
                                                  dim=dim, 
                                                  n=n,
+                                                 rounds=rounds,
                                                  seed=seed)
     
     def raised_density_func_q(x):
@@ -133,11 +178,7 @@ def coupled_cross_entropy(density_func_p,
     
     if root == False:
         
-        def no_root_coupled_cross_entropy(*args):
-            if dim == 1:
-                x = np.array(args)
-            else:
-                x = np.array([args]).reshape(1, dim)
+        def no_root_coupled_cross_entropy(x):
             
             return (my_coupled_probability(x)
                     *(1/-alpha)
@@ -150,14 +191,12 @@ def coupled_cross_entropy(density_func_p,
                                                             pdf=density_func_p,
                                                             sampler=sampler_p, 
                                                             n=n,
+                                                            rounds=rounds,
                                                             seed=seed)
         
     else:
-        def root_coupled_cross_entropy(*args):
-            if dim == 1:
-                x = np.array(args)
-            else:
-                x = np.array([args]).reshape(1, dim)
+        def root_coupled_cross_entropy(x):
+
             return (my_coupled_probability(x)
                     *nsc.log(value=raised_density_func_q(x),
                                           kappa=kappa, 
@@ -168,6 +207,7 @@ def coupled_cross_entropy(density_func_p,
                                                            pdf=density_func_p,
                                                            sampler=sampler_p, 
                                                            n=n,
+                                                           rounds=rounds,
                                                            seed=seed)
         
     return final_integration
@@ -180,6 +220,7 @@ def coupled_entropy(density_func,
                     dim: int = 1, 
                     root: bool = False,
                     n=10000,
+                    rounds=5,
                     seed=1) -> [float, Any]:
 
     
@@ -191,6 +232,7 @@ def coupled_entropy(density_func,
                                  dim=dim,
                                  root=root,
                                  n=n,
+                                 rounds=rounds,
                                  seed=seed)
 
 
@@ -202,6 +244,7 @@ def coupled_divergence(density_func_p,
                        dim: int = 1, 
                        root: bool = False,
                        n=10000,
+                       rounds=5,
                        seed=1) -> [float, Any]:
 
     
@@ -214,6 +257,7 @@ def coupled_divergence(density_func_p,
                                                            dim=dim,
                                                            root=root,
                                                            n=n,
+                                                           rounds=rounds,
                                                            seed=seed)
     # Calculate the  coupled entropy of dist_p
     coupled_entropy_of_dist_p = coupled_entropy(density_func_p, 
@@ -223,6 +267,7 @@ def coupled_divergence(density_func_p,
                                                 dim=dim,
                                                 root=root,
                                                 n=n,
+                                                rounds=rounds,
                                                 seed=seed)
     
     return coupled_cross_entropy_of_dists - coupled_entropy_of_dist_p
@@ -236,6 +281,7 @@ def tsallis_entropy(density_func,
                     normalize = False, 
                     root = False,
                     n=10000,
+                    rounds=5,
                     seed=1):
 
     
@@ -249,17 +295,15 @@ def tsallis_entropy(density_func,
                                                          n=n,
                                                          seed=seed)
     else:
-        def un_normalized_density_func(*args):
-            if dim == 1:
-                x = np.array(args)
-            else:
-                x = np.array([args]).reshape(1, dim)
+        def un_normalized_density_func(x):
+
             return density_func(x)**(1+(alpha*kappa/(1+kappa)))
         
         entropy = (importance_sampling_integrator(un_normalized_density_func, 
                                                   pdf=density_func, 
                                                   sampler=sampler, 
                                                   n=n,
+                                                  rounds=rounds,
                                                   seed=seed)
                        * (1+kappa)**(1/alpha)
                        * coupled_entropy(density_func,
@@ -268,7 +312,8 @@ def tsallis_entropy(density_func,
                                          alpha=alpha,
                                          dim=dim,
                                          root=root,
-                                         n=n))
+                                         n=n,
+                                         rounds=rounds))
     
     return entropy
 
@@ -277,6 +322,7 @@ def shannon_entropy(density_func,
                     dim: int = 1, 
                     root = False,
                     n=10000,
+                    rounds=5,
                     seed=1):
     
     if root:
@@ -291,4 +337,5 @@ def shannon_entropy(density_func,
                            dim=dim, 
                            root=root,
                            n=n,
+                           rounds=rounds,
                            seed=seed)
