@@ -8,50 +8,34 @@ Created on Tue Jan 19 19:38:24 2021
 import nsc
 import numpy as np
 from typing import Any, List  # for NDArray types
+import tensorflow_probability as tfp
 
 
 def importance_sampling_integrator(function, pdf, sampler, n=10000, rounds=5, seed=1):
-    """
     
-
-    Parameters
-    ----------
-    function : TYPE
-        DESCRIPTION.
-    pdf : TYPE
-        DESCRIPTION.
-    sampler : TYPE
-        DESCRIPTION.
-    n : TYPE, optional
-        DESCRIPTION. The default is 10000.
-    rounds : int
-        DESCRIPTION. The default is 5.
-    seed : TYPE, optional
-        DESCRIPTION. The default is 1.
-
-    Returns
-    -------
-    TYPE
-        DESCRIPTION.
-
-    """
     # Set a random seed.
     np.random.seed(seed)
     
-    # Create a list to hold the estimates for each round.
-    estimates = []
+    # Create a list to hold the expectations.
+    expectations = []
     
-    for i in range(rounds):
+    for i in range(rounds):     
         # Generate n samples from the probability distribution.
         samples = sampler(n)
-        # Evaluate the function at the samples and divide by the probability 
-        # density of the distribution at those samples.
-        sampled_values = function(samples) / pdf(samples)
-        # Add the estimate of the integral to the estimates list.
-        estimates.append(np.mean(sampled_values))
-    
-    # Return the mean of the estimates as the estimate of the integral.
-    return np.mean(estimates)
+        # Estimate the integral.
+        expectation = tfp.monte_carlo.expectation(
+            f=lambda x: function(x)/pdf(x), 
+            samples=samples, 
+            log_prob=lambda x: np.log(pdf(x)), 
+            use_reparametrization=False, 
+            axis=None, 
+            keep_dims=False, 
+            name=None
+            )
+        # Add the estimation of the integral to the list.
+        expectations.append(expectation)
+    # Return the mean of the expectations.   
+    return np.mean(expectations)
 
 
 def coupled_probability(density_func,
