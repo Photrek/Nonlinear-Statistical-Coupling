@@ -8,9 +8,37 @@ Created on Tue Jan 19 19:38:24 2021
 import nsc
 import numpy as np
 from typing import Any, List  # for NDArray types
+import tensorflow_probability as tfp
 
 
 def importance_sampling_integrator(function, pdf, sampler, n=10000, rounds=5, seed=1):
+    
+    # Set a random seed.
+    np.random.seed(seed)
+    
+    # Create a list to hold the expectations.
+    expectations = []
+    
+    for i in range(rounds):     
+        # Generate n samples from the probability distribution.
+        samples = sampler(n)
+        # Estimate the integral.
+        expectation = tfp.monte_carlo.expectation(
+            f=lambda x: function(x)/pdf(x), 
+            samples=samples, 
+            log_prob=lambda x: np.log(pdf(x)), 
+            use_reparametrization=True, 
+            axis=None, 
+            keep_dims=False, 
+            name=None
+            )
+        # Add the estimation of the integral to the list.
+        expectations.append(expectation)
+    # Return the mean of the expectations.   
+    return np.mean(expectations)
+
+
+def importance_sampling_integrator_alt(function, pdf, sampler, n=10000, rounds=5, seed=1):
     """
     
 
