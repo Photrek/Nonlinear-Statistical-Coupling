@@ -12,6 +12,30 @@ import tensorflow_probability as tfp
 
 
 def importance_sampling_integrator(function, pdf, sampler, n=10000, rounds=1, seed=1):
+    """
+    
+
+    Parameters
+    ----------
+    function : TYPE
+        DESCRIPTION.
+    pdf : TYPE
+        DESCRIPTION.
+    sampler : TYPE
+        DESCRIPTION.
+    n : TYPE, optional
+        DESCRIPTION. The default is 10000.
+    rounds : TYPE, optional
+        DESCRIPTION. The default is 1.
+    seed : TYPE, optional
+        DESCRIPTION. The default is 1.
+
+    Returns
+    -------
+    TYPE
+        DESCRIPTION.
+
+    """
     
     # Set a random seed.
     np.random.seed(seed)
@@ -206,6 +230,36 @@ def coupled_entropy(density_func,
                     n=10000,
                     rounds=1,
                     seed=1) -> [float, Any]:
+    """
+    
+
+    Parameters
+    ----------
+    density_func : TYPE
+        DESCRIPTION.
+    sampler : TYPE
+        DESCRIPTION.
+    kappa : float, optional
+        DESCRIPTION. The default is 0.0.
+    alpha : float, optional
+        DESCRIPTION. The default is 1.0.
+    dim : int, optional
+        DESCRIPTION. The default is 1.
+    root : bool, optional
+        DESCRIPTION. The default is False.
+    n : TYPE, optional
+        DESCRIPTION. The default is 10000.
+    rounds : TYPE, optional
+        DESCRIPTION. The default is 1.
+    seed : TYPE, optional
+        DESCRIPTION. The default is 1.
+
+    Returns
+    -------
+    [float, Any]
+        DESCRIPTION.
+
+    """
 
     
     return coupled_cross_entropy(density_func, 
@@ -230,6 +284,38 @@ def coupled_divergence(density_func_p,
                        n=10000,
                        rounds=1,
                        seed=1) -> [float, Any]:
+    """
+    
+
+    Parameters
+    ----------
+    density_func_p : TYPE
+        DESCRIPTION.
+    density_func_q : TYPE
+        DESCRIPTION.
+    sampler_p : TYPE
+        DESCRIPTION.
+    kappa : float, optional
+        DESCRIPTION. The default is 0.0.
+    alpha : float, optional
+        DESCRIPTION. The default is 1.0.
+    dim : int, optional
+        DESCRIPTION. The default is 1.
+    root : bool, optional
+        DESCRIPTION. The default is False.
+    n : TYPE, optional
+        DESCRIPTION. The default is 10000.
+    rounds : TYPE, optional
+        DESCRIPTION. The default is 1.
+    seed : TYPE, optional
+        DESCRIPTION. The default is 1.
+
+    Returns
+    -------
+    [float, Any]
+        DESCRIPTION.
+
+    """
 
     
     # Calculate the coupled cross-entropy of the dist_p and dist_q.
@@ -267,6 +353,38 @@ def tsallis_entropy(density_func,
                     n=10000,
                     rounds=1,
                     seed=1):
+    """
+    
+
+    Parameters
+    ----------
+    density_func : TYPE
+        DESCRIPTION.
+    sampler : TYPE
+        DESCRIPTION.
+    kappa : TYPE
+        DESCRIPTION.
+    alpha : TYPE, optional
+        DESCRIPTION. The default is 1.
+    dim : int, optional
+        DESCRIPTION. The default is 1.
+    normalize : TYPE, optional
+        DESCRIPTION. The default is False.
+    root : TYPE, optional
+        DESCRIPTION. The default is False.
+    n : TYPE, optional
+        DESCRIPTION. The default is 10000.
+    rounds : TYPE, optional
+        DESCRIPTION. The default is 1.
+    seed : TYPE, optional
+        DESCRIPTION. The default is 1.
+
+    Returns
+    -------
+    TYPE
+        DESCRIPTION.
+
+    """
 
     
     if normalize:
@@ -308,6 +426,32 @@ def shannon_entropy(density_func,
                     n=10000,
                     rounds=1,
                     seed=1):
+    """
+    
+
+    Parameters
+    ----------
+    density_func : TYPE
+        DESCRIPTION.
+    sampler : TYPE
+        DESCRIPTION.
+    dim : int, optional
+        DESCRIPTION. The default is 1.
+    root : TYPE, optional
+        DESCRIPTION. The default is False.
+    n : TYPE, optional
+        DESCRIPTION. The default is 10000.
+    rounds : TYPE, optional
+        DESCRIPTION. The default is 1.
+    seed : TYPE, optional
+        DESCRIPTION. The default is 1.
+
+    Returns
+    -------
+    TYPE
+        DESCRIPTION.
+
+    """
     
     if root:
         alpha = 2
