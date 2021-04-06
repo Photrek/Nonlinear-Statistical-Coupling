@@ -11,7 +11,7 @@ from typing import Any, List  # for NDArray types
 import tensorflow_probability as tfp
 
 
-def importance_sampling_integrator(function, pdf, sampler, n=10000, rounds=5, seed=1):
+def importance_sampling_integrator(function, pdf, sampler, n=10000, rounds=1, seed=1):
     
     # Set a random seed.
     np.random.seed(seed)
@@ -44,7 +44,7 @@ def coupled_probability(density_func,
                         alpha = 1.0, 
                         dim = 1,
                         n = 10000,
-                        rounds=5,
+                        rounds=1,
                         seed=1):
     """
     
@@ -111,7 +111,7 @@ def coupled_cross_entropy(density_func_p,
                           dim: int = 1,
                           root: bool = False,
                           n=10000,
-                          rounds=5,
+                          rounds=1,
                           seed=1) -> [float, Any]:
     """
     
@@ -204,7 +204,7 @@ def coupled_entropy(density_func,
                     dim: int = 1, 
                     root: bool = False,
                     n=10000,
-                    rounds=5,
+                    rounds=1,
                     seed=1) -> [float, Any]:
 
     
@@ -228,7 +228,7 @@ def coupled_divergence(density_func_p,
                        dim: int = 1, 
                        root: bool = False,
                        n=10000,
-                       rounds=5,
+                       rounds=1,
                        seed=1) -> [float, Any]:
 
     
@@ -265,7 +265,7 @@ def tsallis_entropy(density_func,
                     normalize = False, 
                     root = False,
                     n=10000,
-                    rounds=5,
+                    rounds=1,
                     seed=1):
 
     
@@ -306,7 +306,7 @@ def shannon_entropy(density_func,
                     dim: int = 1, 
                     root = False,
                     n=10000,
-                    rounds=5,
+                    rounds=1,
                     seed=1):
     
     if root:
