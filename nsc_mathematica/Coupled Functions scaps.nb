@@ -3,10 +3,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[         0,          0]
-NotebookDataLength[    175994,       4556]
-NotebookOptionsPosition[    163752,       4339]
-NotebookOutlinePosition[    164145,       4355]
-CellTagsIndexPosition[    164102,       4352]
+NotebookDataLength[    279632,       6970]
+NotebookOptionsPosition[    265383,       6721]
+NotebookOutlinePosition[    265776,       6737]
+CellTagsIndexPosition[    265733,       6734]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -4334,10 +4334,2392 @@ m1HkvIn6oFI56nkX18lH/X9jxOzV
  CellChangeTimes->{{3.825764951773528*^9, 3.82576499040728*^9}, 
    3.825765102079535*^9, 3.825765138042889*^9},
  CellLabel->"Out[82]=",ExpressionUUID->"c694797a-8ce3-4d64-9d8f-bfabe6ea4642"]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "CoupledCrossEntropy", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"CoupledCrossEntropy", "[", 
+   RowBox[{"distP_", ",", "distQ_", ",", "\[Kappa]_", ",", 
+    RowBox[{"d_", ":", "1"}], ",", 
+    RowBox[{"\[Alpha]_", ":", "2"}], ",", " ", 
+    RowBox[{"\[Delta]_", ":", "1"}], ",", 
+    RowBox[{"limits_", ":", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}]}]}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{"CoupledCrossEntropy", "[", 
+    RowBox[{
+    "distP", ",", "distQ", ",", "\[Kappa]", ",", "d", ",", "\[Alpha]", ",", 
+     "\[Delta]", ",", "limits"}], "]"}], "=", 
+   RowBox[{"Integrate", "[", 
+    RowBox[{
+     RowBox[{"FullSimplify", "[", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"CoupledProbability", "[", 
+        RowBox[{"distP", ",", 
+         FractionBox[
+          RowBox[{
+           RowBox[{"-", "\[Alpha]"}], " ", "\[Kappa]"}], 
+          RowBox[{"1", "+", 
+           RowBox[{"d", " ", "\[Kappa]"}]}]], ",", "x"}], "]"}], 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{
+          FractionBox["1", "\[Alpha]"], 
+          RowBox[{"CoupledLogarithm", "[", 
+           RowBox[{
+            SuperscriptBox[
+             RowBox[{"PDF", "[", 
+              RowBox[{"distQ", ",", "x"}], "]"}], 
+             RowBox[{"-", "\[Alpha]"}]], ",", "\[Kappa]", ",", "d"}], "]"}]}],
+          ")"}], 
+        FractionBox["1", "\[Delta]"]]}], "\[IndentingNewLine]", "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", 
+       RowBox[{
+       "limits", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], ",", 
+       
+       RowBox[{
+       "limits", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+      "}"}]}], "\[IndentingNewLine]", "]"}]}]}]}], "Input",ExpressionUUID->\
+"902083d3-83f4-40e6-bc9c-6f2498f8f534"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "CoupledEntropy", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"CoupledEntropy", "[", 
+    RowBox[{"dist_", ",", "\[Kappa]_", ",", 
+     RowBox[{"d_", ":", "1"}], ",", 
+     RowBox[{"\[Alpha]_", ":", "2"}], ",", 
+     RowBox[{"\[Delta]_", ":", "1"}], ",", 
+     RowBox[{"limits_", ":", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}]}]}], "]"}], 
+   ":=", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"CoupledEntropy", "[", 
+     RowBox[{
+     "dist", ",", "\[Kappa]", ",", "d", ",", "\[Alpha]", ",", "\[Delta]", ",",
+       "limits"}], "]"}], "=", "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"Head", "[", 
+          RowBox[{"Unevaluated", "[", "dist", "]"}], "]"}], "\[Equal]", 
+         "CoupledNormalDistribution"}], " ", "&&", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Level", "[", 
+           RowBox[{
+            RowBox[{"Unevaluated", "[", "dist", "]"}], ",", "1"}], "]"}], 
+          "\[LeftDoubleBracket]", 
+          RowBox[{"-", "1"}], "\[RightDoubleBracket]"}], "\[Equal]", 
+         "\[Kappa]"}], "&&", 
+        RowBox[{"d", "\[Equal]", "1"}], "&&", "\[Alpha]"}], "=", 
+       RowBox[{"2", "&&", 
+        RowBox[{"\[Delta]", "\[Equal]", "1"}], "&&", 
+        RowBox[{"limits", "==", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}]}]}]}], 
+      ",", "\[IndentingNewLine]", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[Kappa]", "-", 
+         RowBox[{
+          SuperscriptBox["\[Pi]", 
+           FractionBox["\[Kappa]", 
+            RowBox[{"1", "+", "\[Kappa]"}]]], " ", 
+          SuperscriptBox["\[Kappa]", 
+           FractionBox["1", 
+            RowBox[{"1", "+", "\[Kappa]"}]]], " ", 
+          RowBox[{"(", 
+           RowBox[{"1", "+", "\[Kappa]"}], ")"}], " ", 
+          SuperscriptBox[
+           RowBox[{"(", 
+            FractionBox[
+             RowBox[{"\[Sigma]", " ", 
+              RowBox[{"Gamma", "[", 
+               FractionBox["1", 
+                RowBox[{"2", " ", "\[Kappa]"}]], "]"}]}], 
+             RowBox[{"Gamma", "[", 
+              FractionBox[
+               RowBox[{"1", "+", "\[Kappa]"}], 
+               RowBox[{"2", " ", "\[Kappa]"}]], "]"}]], ")"}], 
+           FractionBox[
+            RowBox[{"2", " ", "\[Kappa]"}], 
+            RowBox[{"1", "+", "\[Kappa]"}]]]}]}], 
+        RowBox[{"2", " ", 
+         SuperscriptBox["\[Kappa]", "2"]}]]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"CoupledCrossEntropy", "[", 
+       RowBox[{
+       "dist", ",", "dist", ",", "\[Kappa]", ",", "\[Alpha]", ",", "d", ",", 
+        "\[Delta]", ",", "limits"}], "]"}]}], "\[IndentingNewLine]", 
+     "]"}]}]}], ";"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.825925060299341*^9, 3.825925061444606*^9}, 
+   3.825925269821321*^9, {3.825926092616028*^9, 3.825926096616942*^9}, 
+   3.825927087538463*^9, 3.825929383905262*^9, {3.825929422575967*^9, 
+   3.8259294411944447`*^9}, {3.825929475739152*^9, 3.825929481539484*^9}, {
+   3.8259295362598457`*^9, 3.825929582530184*^9}, {3.8259297308421183`*^9, 
+   3.8259298465549107`*^9}, {3.825930165355894*^9, 3.825930168803823*^9}, {
+   3.825930250351418*^9, 3.825930308171337*^9}, {3.825930343758296*^9, 
+   3.825930393374732*^9}, 3.825930446505398*^9, {3.8259305067731857`*^9, 
+   3.825930564700478*^9}, {3.82593061600987*^9, 3.8259306283973293`*^9}, 
+   3.8259307411010857`*^9, {3.825930925602127*^9, 3.8259309409605103`*^9}},
+ CellLabel->"In[82]:=",ExpressionUUID->"8a3a21e1-2763-4f6c-9f06-f5a6c8dc590b"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"CoupledEntropy", "[", 
+   RowBox[{
+    RowBox[{"CoupledNormalDistribution", "[", 
+     RowBox[{"\[Mu]", ",", "\[Sigma]", ",", "\[Kappa]"}], "]"}], ",", 
+    "\[Kappa]_", ",", 
+    RowBox[{"d_", ":", "1"}], ",", 
+    RowBox[{"\[Alpha]_", ":", "2"}], ",", 
+    RowBox[{"\[Delta]_", ":", "1"}], ",", 
+    RowBox[{"limits_", ":", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}]}]}], "]"}], ":=",
+   "\[IndentingNewLine]", 
+  RowBox[{"-", 
+   FractionBox[
+    RowBox[{"\[Kappa]", "-", 
+     RowBox[{
+      SuperscriptBox["\[Pi]", 
+       FractionBox["\[Kappa]", 
+        RowBox[{"1", "+", "\[Kappa]"}]]], " ", 
+      SuperscriptBox["\[Kappa]", 
+       FractionBox["1", 
+        RowBox[{"1", "+", "\[Kappa]"}]]], " ", 
+      RowBox[{"(", 
+       RowBox[{"1", "+", "\[Kappa]"}], ")"}], " ", 
+      SuperscriptBox[
+       RowBox[{"(", 
+        FractionBox[
+         RowBox[{"\[Sigma]", " ", 
+          RowBox[{"Gamma", "[", 
+           FractionBox["1", 
+            RowBox[{"2", " ", "\[Kappa]"}]], "]"}]}], 
+         RowBox[{"Gamma", "[", 
+          FractionBox[
+           RowBox[{"1", "+", "\[Kappa]"}], 
+           RowBox[{"2", " ", "\[Kappa]"}]], "]"}]], ")"}], 
+       FractionBox[
+        RowBox[{"2", " ", "\[Kappa]"}], 
+        RowBox[{"1", "+", "\[Kappa]"}]]]}]}], 
+    RowBox[{"2", " ", 
+     SuperscriptBox["\[Kappa]", "2"]}]]}]}]], "Input",ExpressionUUID->\
+"fda1b91e-6748-43a5-b91a-c14c12be3ec0"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"CoupledEntropy", "[", 
+  RowBox[{
+   RowBox[{"CoupledNormalDistribution", "[", 
+    RowBox[{"\[Mu]", ",", "\[Sigma]", ",", "\[Kappa]"}], "]"}], ",", 
+   "\[Kappa]", ",", "1", ",", "2", ",", "1", ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.825927112401004*^9, 3.825927147276619*^9}},
+ CellLabel->"In[60]:=",ExpressionUUID->"184b1b4f-e42d-4bdb-ae74-e502715d3923"],
+
+Cell[BoxData[
+ TemplateBox[{
+   RowBox[{"Integrate", "[", 
+     RowBox[{
+       RowBox[{
+         RowBox[{"If", "[", 
+           RowBox[{
+             RowBox[{
+               FractionBox["1", 
+                TagBox[
+                 GridBox[{{"\[Piecewise]", 
+                    GridBox[{{
+                    FractionBox[
+                    SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"-", 
+                    FractionBox[
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x", "-", "\[Mu]"}], ")"}], "2"], 
+                    RowBox[{"2", " ", 
+                    SuperscriptBox["\[Sigma]", "2"]}]]}]], 
+                    RowBox[{
+                    SqrtBox[
+                    RowBox[{"2", " ", "\[Pi]"}]], " ", "\[Sigma]"}]], 
+                    RowBox[{"\[Kappa]", "\[Equal]", "0"}]}, {
+                    FractionBox[
+                    RowBox[{
+                    SqrtBox["\[Kappa]"], " ", 
+                    SuperscriptBox["\[Sigma]", 
+                    FractionBox["1", "\[Kappa]"]], " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"\[Kappa]", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x", "-", "\[Mu]"}], ")"}], "2"]}], "+", 
+                    SuperscriptBox["\[Sigma]", "2"]}], ")"}], 
+                    RowBox[{"-", 
+                    FractionBox[
+                    RowBox[{"1", "+", "\[Kappa]"}], 
+                    RowBox[{"2", " ", "\[Kappa]"}]]}]], " ", 
+                    RowBox[{"Gamma", "[", 
+                    FractionBox[
+                    RowBox[{"1", "+", "\[Kappa]"}], 
+                    RowBox[{"2", " ", "\[Kappa]"}]], "]"}]}], 
+                    RowBox[{
+                    SqrtBox["\[Pi]"], " ", 
+                    RowBox[{"Gamma", "[", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]], "]"}]}]], 
+                    TagBox["True", "PiecewiseDefault", AutoDelete -> True]}}, 
+                    ColumnAlignments -> {Left}, ColumnSpacings -> 1.2, 
+                    ColumnWidths -> Automatic, 
+                    AllowedDimensions -> {2, Automatic}, Selectable -> True, 
+                    Editable -> True]}}, ColumnAlignments -> {Left}, 
+                  ColumnSpacings -> 0.5, ColumnWidths -> Automatic], 
+                 "Piecewise", SyntaxForm -> Equal, SelectWithContents -> True,
+                  StripWrapperBoxes -> True, Selectable -> False, Editable -> 
+                 False, DeleteWithContents -> True]], "\[GreaterEqual]", 
+               "0"}], ",", 
+             RowBox[{"If", "[", 
+               RowBox[{
+                 RowBox[{"\[Kappa]", "\[NotEqual]", "0"}], ",", 
+                 FractionBox[
+                  RowBox[{
+                    RowBox[{"-", "1"}], "+", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    FractionBox["1", 
+                    RowBox[{"PDF", "[", 
+                    RowBox[{
+                    RowBox[{"ProbabilityDistribution", "[", 
+                    RowBox[{
+                    FractionBox["1", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    TagBox[
+                    GridBox[{{"\[Piecewise]", 
+                    GridBox[{{
+                    RowBox[{
+                    SqrtBox[
+                    RowBox[{"2", " ", "\[Pi]"}]], " ", "\[Sigma]"}], 
+                    RowBox[{"\[Kappa]", "\[Equal]", "0"}]}, {
+                    FractionBox[
+                    RowBox[{
+                    SqrtBox["\[Pi]"], " ", "\[Sigma]", " ", 
+                    RowBox[{"Gamma", "[", 
+                    RowBox[{
+                    FractionBox["1", "2"], "-", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]]}], "]"}]}], 
+                    RowBox[{
+                    SqrtBox[
+                    RowBox[{"-", "\[Kappa]"}]], " ", 
+                    RowBox[{"Gamma", "[", 
+                    RowBox[{"1", "-", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]]}], "]"}]}]], 
+                    RowBox[{"\[Kappa]", "<", "0"}]}, {
+                    FractionBox[
+                    RowBox[{
+                    SqrtBox["\[Pi]"], " ", "\[Sigma]", " ", 
+                    RowBox[{"Gamma", "[", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]], "]"}]}], 
+                    RowBox[{
+                    SqrtBox["\[Kappa]"], " ", 
+                    RowBox[{"Gamma", "[", 
+                    RowBox[{
+                    FractionBox["1", "2"], "+", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]]}], "]"}]}]], 
+                    TagBox["True", "PiecewiseDefault", AutoDelete -> True]}}, 
+                    ColumnAlignments -> {Left}, ColumnSpacings -> 1.2, 
+                    ColumnWidths -> Automatic, 
+                    AllowedDimensions -> {2, Automatic}, Selectable -> True, 
+                    Editable -> True]}}, ColumnAlignments -> {Left}, 
+                    ColumnSpacings -> 0.5, ColumnWidths -> Automatic], 
+                    "Piecewise", SyntaxForm -> Equal, SelectWithContents -> 
+                    True, StripWrapperBoxes -> True, Selectable -> False, 
+                    Editable -> False, DeleteWithContents -> True], ")"}], 
+                    " ", 
+                    SqrtBox[
+                    RowBox[{"Which", "[", 
+                    RowBox[{
+                    RowBox[{"\[Kappa]", ">", "0"}], ",", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"\[Kappa]", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+                    SuperscriptBox["\[Sigma]", "2"]]}], ")"}], 
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"]], ",", 
+                    RowBox[{
+                    RowBox[{"-", 
+                    FractionBox["1", "1"]}], "\[LessEqual]", "\[Kappa]", "<", 
+                    "0"}], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Simplify", "[", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"\[Kappa]", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+                    SuperscriptBox["\[Sigma]", "2"]]}], "]"}], 
+                    "\[GreaterEqual]", "0"}], ",", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"\[Kappa]", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+                    SuperscriptBox["\[Sigma]", "2"]]}], ")"}], 
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"]], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"], ">", "0"}],
+                     ",", "0", ",", "\[Infinity]"}], "]"}]}], "]"}], ",", 
+                    RowBox[{"\[Kappa]", "\[Equal]", "0"}], ",", 
+                    RowBox[{"Exp", "[", 
+                    FractionBox[
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"], 
+                    SuperscriptBox["\[Sigma]", "2"]], "]"}], ",", "True", ",", 
+                    RowBox[{"Message", "[", 
+                    RowBox[{
+                    StyleBox[
+                    RowBox[{"CoupledExponential", "::", "nnarg"}], 
+                    "MessageName"], ",", "\[Kappa]"}], "]"}]}], "]"}]]}]], 
+                    ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"\[Kappa]", "\[GreaterEqual]", "0"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"x$2611", ",", 
+                    RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}],
+                     ",", 
+                    RowBox[{"{", 
+                    RowBox[{"x$2611", ",", 
+                    RowBox[{"\[Mu]", "-", 
+                    SqrtBox[
+                    RowBox[{"-", 
+                    FractionBox[
+                    SuperscriptBox["\[Sigma]", "2"], "\[Kappa]"]}]]}], ",", 
+                    RowBox[{"\[Mu]", "+", 
+                    SqrtBox[
+                    RowBox[{"-", 
+                    FractionBox[
+                    SuperscriptBox["\[Sigma]", "2"], "\[Kappa]"]}]]}]}], 
+                    "}"}]}], "]"}]}], "]"}], ",", "x"}], "]"}]], ")"}], 
+                    FractionBox["\[Kappa]", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"2", " ", "\[Kappa]"}]}]]]}], "\[Kappa]"], ",", 
+                 RowBox[{"Log", "[", 
+                   FractionBox["1", 
+                    RowBox[{"PDF", "[", 
+                    RowBox[{
+                    RowBox[{"ProbabilityDistribution", "[", 
+                    RowBox[{
+                    FractionBox["1", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    TagBox[
+                    GridBox[{{"\[Piecewise]", 
+                    GridBox[{{
+                    RowBox[{
+                    SqrtBox[
+                    RowBox[{"2", " ", "\[Pi]"}]], " ", "\[Sigma]"}], 
+                    RowBox[{"\[Kappa]", "\[Equal]", "0"}]}, {
+                    FractionBox[
+                    RowBox[{
+                    SqrtBox["\[Pi]"], " ", "\[Sigma]", " ", 
+                    RowBox[{"Gamma", "[", 
+                    RowBox[{
+                    FractionBox["1", "2"], "-", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]]}], "]"}]}], 
+                    RowBox[{
+                    SqrtBox[
+                    RowBox[{"-", "\[Kappa]"}]], " ", 
+                    RowBox[{"Gamma", "[", 
+                    RowBox[{"1", "-", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]]}], "]"}]}]], 
+                    RowBox[{"\[Kappa]", "<", "0"}]}, {
+                    FractionBox[
+                    RowBox[{
+                    SqrtBox["\[Pi]"], " ", "\[Sigma]", " ", 
+                    RowBox[{"Gamma", "[", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]], "]"}]}], 
+                    RowBox[{
+                    SqrtBox["\[Kappa]"], " ", 
+                    RowBox[{"Gamma", "[", 
+                    RowBox[{
+                    FractionBox["1", "2"], "+", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]]}], "]"}]}]], 
+                    TagBox["True", "PiecewiseDefault", AutoDelete -> True]}}, 
+                    ColumnAlignments -> {Left}, ColumnSpacings -> 1.2, 
+                    ColumnWidths -> Automatic, 
+                    AllowedDimensions -> {2, Automatic}, Selectable -> True, 
+                    Editable -> True]}}, ColumnAlignments -> {Left}, 
+                    ColumnSpacings -> 0.5, ColumnWidths -> Automatic], 
+                    "Piecewise", SyntaxForm -> Equal, SelectWithContents -> 
+                    True, StripWrapperBoxes -> True, Selectable -> False, 
+                    Editable -> False, DeleteWithContents -> True], ")"}], 
+                    " ", 
+                    SqrtBox[
+                    RowBox[{"Which", "[", 
+                    RowBox[{
+                    RowBox[{"\[Kappa]", ">", "0"}], ",", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"\[Kappa]", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+                    SuperscriptBox["\[Sigma]", "2"]]}], ")"}], 
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"]], ",", 
+                    RowBox[{
+                    RowBox[{"-", 
+                    FractionBox["1", "1"]}], "\[LessEqual]", "\[Kappa]", "<", 
+                    "0"}], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Simplify", "[", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"\[Kappa]", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+                    SuperscriptBox["\[Sigma]", "2"]]}], "]"}], 
+                    "\[GreaterEqual]", "0"}], ",", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"\[Kappa]", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+                    SuperscriptBox["\[Sigma]", "2"]]}], ")"}], 
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"]], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"], ">", "0"}],
+                     ",", "0", ",", "\[Infinity]"}], "]"}]}], "]"}], ",", 
+                    RowBox[{"\[Kappa]", "\[Equal]", "0"}], ",", 
+                    RowBox[{"Exp", "[", 
+                    FractionBox[
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"], 
+                    SuperscriptBox["\[Sigma]", "2"]], "]"}], ",", "True", ",", 
+                    RowBox[{"Message", "[", 
+                    RowBox[{
+                    StyleBox[
+                    RowBox[{"CoupledExponential", "::", "nnarg"}], 
+                    "MessageName"], ",", "\[Kappa]"}], "]"}]}], "]"}]]}]], 
+                    ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"\[Kappa]", "\[GreaterEqual]", "0"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"x$2611", ",", 
+                    RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}],
+                     ",", 
+                    RowBox[{"{", 
+                    RowBox[{"x$2611", ",", 
+                    RowBox[{"\[Mu]", "-", 
+                    SqrtBox[
+                    RowBox[{"-", 
+                    FractionBox[
+                    SuperscriptBox["\[Sigma]", "2"], "\[Kappa]"]}]]}], ",", 
+                    RowBox[{"\[Mu]", "+", 
+                    SqrtBox[
+                    RowBox[{"-", 
+                    FractionBox[
+                    SuperscriptBox["\[Sigma]", "2"], "\[Kappa]"]}]]}]}], 
+                    "}"}]}], "]"}]}], "]"}], ",", "x"}], "]"}]], "]"}]}], 
+               "]"}], ",", "Undefined"}], "]"}], " ", 
+         RowBox[{"PDF", "[", 
+           RowBox[{
+             RowBox[{"ProbabilityDistribution", "[", 
+               RowBox[{
+                 FractionBox["1", 
+                  RowBox[{
+                    RowBox[{"(", 
+                    TagBox[
+                    GridBox[{{"\[Piecewise]", 
+                    GridBox[{{
+                    RowBox[{
+                    SqrtBox[
+                    RowBox[{"2", " ", "\[Pi]"}]], " ", "\[Sigma]"}], 
+                    RowBox[{"\[Kappa]", "\[Equal]", "0"}]}, {
+                    FractionBox[
+                    RowBox[{
+                    SqrtBox["\[Pi]"], " ", "\[Sigma]", " ", 
+                    RowBox[{"Gamma", "[", 
+                    RowBox[{
+                    FractionBox["1", "2"], "-", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]]}], "]"}]}], 
+                    RowBox[{
+                    SqrtBox[
+                    RowBox[{"-", "\[Kappa]"}]], " ", 
+                    RowBox[{"Gamma", "[", 
+                    RowBox[{"1", "-", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]]}], "]"}]}]], 
+                    RowBox[{"\[Kappa]", "<", "0"}]}, {
+                    FractionBox[
+                    RowBox[{
+                    SqrtBox["\[Pi]"], " ", "\[Sigma]", " ", 
+                    RowBox[{"Gamma", "[", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]], "]"}]}], 
+                    RowBox[{
+                    SqrtBox["\[Kappa]"], " ", 
+                    RowBox[{"Gamma", "[", 
+                    RowBox[{
+                    FractionBox["1", "2"], "+", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]]}], "]"}]}]], 
+                    TagBox["True", "PiecewiseDefault", AutoDelete -> True]}}, 
+                    ColumnAlignments -> {Left}, ColumnSpacings -> 1.2, 
+                    ColumnWidths -> Automatic, 
+                    AllowedDimensions -> {2, Automatic}, Selectable -> True, 
+                    Editable -> True]}}, ColumnAlignments -> {Left}, 
+                    ColumnSpacings -> 0.5, ColumnWidths -> Automatic], 
+                    "Piecewise", SyntaxForm -> Equal, SelectWithContents -> 
+                    True, StripWrapperBoxes -> True, Selectable -> False, 
+                    Editable -> False, DeleteWithContents -> True], ")"}], 
+                    " ", 
+                    SqrtBox[
+                    RowBox[{"Which", "[", 
+                    RowBox[{
+                    RowBox[{"\[Kappa]", ">", "0"}], ",", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"\[Kappa]", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+                    SuperscriptBox["\[Sigma]", "2"]]}], ")"}], 
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"]], ",", 
+                    RowBox[{
+                    RowBox[{"-", 
+                    FractionBox["1", "1"]}], "\[LessEqual]", "\[Kappa]", "<", 
+                    "0"}], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Simplify", "[", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"\[Kappa]", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+                    SuperscriptBox["\[Sigma]", "2"]]}], "]"}], 
+                    "\[GreaterEqual]", "0"}], ",", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"\[Kappa]", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+                    SuperscriptBox["\[Sigma]", "2"]]}], ")"}], 
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"]], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"], ">", "0"}],
+                     ",", "0", ",", "\[Infinity]"}], "]"}]}], "]"}], ",", 
+                    RowBox[{"\[Kappa]", "\[Equal]", "0"}], ",", 
+                    RowBox[{"Exp", "[", 
+                    FractionBox[
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"], 
+                    SuperscriptBox["\[Sigma]", "2"]], "]"}], ",", "True", ",", 
+                    RowBox[{"Message", "[", 
+                    RowBox[{
+                    StyleBox[
+                    RowBox[{"CoupledExponential", "::", "nnarg"}], 
+                    "MessageName"], ",", "\[Kappa]"}], "]"}]}], "]"}]]}]], 
+                 ",", 
+                 RowBox[{"If", "[", 
+                   RowBox[{
+                    RowBox[{"\[Kappa]", "\[GreaterEqual]", "0"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"x$2611", ",", 
+                    RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}],
+                     ",", 
+                    RowBox[{"{", 
+                    RowBox[{"x$2611", ",", 
+                    RowBox[{"\[Mu]", "-", 
+                    SqrtBox[
+                    RowBox[{"-", 
+                    FractionBox[
+                    SuperscriptBox["\[Sigma]", "2"], "\[Kappa]"]}]]}], ",", 
+                    RowBox[{"\[Mu]", "+", 
+                    SqrtBox[
+                    RowBox[{"-", 
+                    FractionBox[
+                    SuperscriptBox["\[Sigma]", "2"], "\[Kappa]"]}]]}]}], 
+                    "}"}]}], "]"}]}], "]"}], ",", "x"}], "]"}]}], ",", 
+       RowBox[{"{", 
+         RowBox[{"x", ",", 
+           RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}], ",", 
+       RowBox[{"Assumptions", "\[Rule]", 
+         RowBox[{"\[Kappa]", "\[Equal]", "0"}]}], ",", 
+       RowBox[{"GenerateConditions", "\[Rule]", "Automatic"}], ",", 
+       RowBox[{"PrincipalValue", "\[Rule]", "False"}]}], "]"}], 
+   RowBox[{"\[Kappa]", "\[Equal]", "0"}]},
+  "ConditionalExpression"]], "Output",
+ CellChangeTimes->{3.8259273382151003`*^9, 3.825927595801322*^9},
+ CellLabel->"Out[60]=",ExpressionUUID->"44450b3f-c3fe-41dd-bff7-7440559711d9"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "CoupledEntropy"}]], "Input",
+ CellChangeTimes->{{3.825927908886895*^9, 3.825927913038239*^9}},
+ CellLabel->"In[61]:=",ExpressionUUID->"adca31b9-c4cd-41ca-b00b-3235cc4ede0f"],
+
+Cell[BoxData[
+ InterpretationBox[
+  StyleBox[
+   FrameBox[
+    DynamicModuleBox[{System`InformationDump`open$$ = True, 
+     System`InformationDump`mouseOver$$ = False}, 
+     PaneSelectorBox[{True->
+      TagBox[GridBox[{
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\" Symbol\"\>", "InformationTitleText",
+             StripOnInput->False,
+             BaseStyle -> None],
+            FrameMargins->{{4, 0}, {-1, 1}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\"Global`CoupledEntropy\"\>", "InformationUsageText",
+             StripOnInput->False,
+             LineSpacing->{1.5, 1.5, 3.}],
+            FrameMargins->{{10, 10}, {8, 10}}],
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False]},
+         {
+          PaneBox[GridBox[{
+             {
+              
+              DynamicModuleBox[{System`InformationDump`open$$ = {
+               False, False, False, False, False, False, False, False, False, 
+                False, False, False}}, 
+               StyleBox[GridBox[{
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Definitions\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"Definitions\"",
+                    TooltipStyle->"TextStyling"],
+                    Annotation[#, "Definitions", "Tooltip"]& ], GridBox[{
+                    {
+                    RowBox[{
+                    RowBox[{"CoupledEntropy", "[", 
+                    RowBox[{
+                    RowBox[{"ProbabilityDistribution", "[", 
+                    RowBox[{
+                    FractionBox["1", 
+                    RowBox[{
+                    RowBox[{"Piecewise", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    SqrtBox[
+                    RowBox[{"2", " ", "\[Pi]"}]], " ", "\[Sigma]"}], ",", 
+                    RowBox[{"\[Kappa]", "\[Equal]", "0"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    FractionBox[
+                    RowBox[{
+                    SqrtBox["\[Pi]"], " ", "\[Sigma]", " ", 
+                    RowBox[{"Gamma", "[", 
+                    FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "1"}], "+", "\[Kappa]"}], 
+                    RowBox[{"2", " ", "\[Kappa]"}]], "]"}]}], 
+                    RowBox[{
+                    SqrtBox[
+                    RowBox[{"-", "\[Kappa]"}]], " ", 
+                    RowBox[{"Gamma", "[", 
+                    RowBox[{"1", "-", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]]}], "]"}]}]], ",", 
+                    RowBox[{"\[Kappa]", "<", "0"}]}], "}"}]}], "}"}], ",", 
+                    FractionBox[
+                    RowBox[{
+                    SqrtBox["\[Pi]"], " ", "\[Sigma]", " ", 
+                    RowBox[{"Gamma", "[", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]], "]"}]}], 
+                    RowBox[{
+                    SqrtBox["\[Kappa]"], " ", 
+                    RowBox[{"Gamma", "[", 
+                    FractionBox[
+                    RowBox[{"1", "+", "\[Kappa]"}], 
+                    RowBox[{"2", " ", "\[Kappa]"}]], "]"}]}]]}], "]"}], " ", 
+                    SqrtBox[
+                    RowBox[{"Which", "[", 
+                    RowBox[{
+                    RowBox[{"\[Kappa]", ">", "0"}], ",", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"\[Kappa]", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+                    SuperscriptBox["\[Sigma]", "2"]]}], ")"}], 
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"]], ",", 
+                    RowBox[{
+                    RowBox[{"-", 
+                    FractionBox["1", "1"]}], "\[LessEqual]", "\[Kappa]", "<", 
+                    "0"}], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Simplify", "[", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"\[Kappa]", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+                    SuperscriptBox["\[Sigma]", "2"]]}], "]"}], 
+                    "\[GreaterEqual]", "0"}], ",", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"\[Kappa]", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+                    SuperscriptBox["\[Sigma]", "2"]]}], ")"}], 
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"]], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"], ">", "0"}],
+                     ",", "0", ",", "\[Infinity]"}], "]"}]}], "]"}], ",", 
+                    RowBox[{"\[Kappa]", "\[Equal]", "0"}], ",", 
+                    RowBox[{"Exp", "[", 
+                    FractionBox[
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"], 
+                    SuperscriptBox["\[Sigma]", "2"]], "]"}], ",", "True", ",", 
+                    RowBox[{"Message", "[", 
+                    RowBox[{
+                    StyleBox[
+                    RowBox[{"CoupledExponential", "::", "nnarg"}], 
+                    "MessageName"], ",", "\[Kappa]"}], "]"}]}], "]"}]]}]], 
+                    ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"\[Kappa]", "\[GreaterEqual]", "0"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"x$2611", ",", 
+                    RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}],
+                     ",", 
+                    RowBox[{"{", 
+                    RowBox[{"x$2611", ",", 
+                    RowBox[{"\[Mu]", "-", 
+                    SqrtBox[
+                    RowBox[{"-", 
+                    FractionBox[
+                    SuperscriptBox["\[Sigma]", "2"], "\[Kappa]"]}]]}], ",", 
+                    RowBox[{"\[Mu]", "+", 
+                    SqrtBox[
+                    RowBox[{"-", 
+                    FractionBox[
+                    SuperscriptBox["\[Sigma]", "2"], "\[Kappa]"]}]]}]}], 
+                    "}"}]}], "]"}]}], "]"}], ",", "\[Kappa]", ",", "1", ",", 
+                    "2", ",", "1", ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], 
+                    "}"}]}], "]"}], "=", 
+                    RowBox[{"ConditionalExpression", "[", 
+                    RowBox[{
+                    RowBox[{"Integrate", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    FractionBox["1", 
+                    RowBox[{"Piecewise", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    FractionBox[
+                    SuperscriptBox["\[ExponentialE]", 
+                    RowBox[{"-", 
+                    FractionBox[
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x", "-", "\[Mu]"}], ")"}], "2"], 
+                    RowBox[{"2", " ", 
+                    SuperscriptBox["\[Sigma]", "2"]}]]}]], 
+                    RowBox[{
+                    SqrtBox[
+                    RowBox[{"2", " ", "\[Pi]"}]], " ", "\[Sigma]"}]], ",", 
+                    RowBox[{"\[Kappa]", "\[Equal]", "0"}]}], "}"}], "}"}], 
+                    ",", 
+                    FractionBox[
+                    RowBox[{
+                    SqrtBox["\[Kappa]"], " ", 
+                    SuperscriptBox["\[Sigma]", 
+                    FractionBox["1", "\[Kappa]"]], " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"\[Kappa]", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x", "-", "\[Mu]"}], ")"}], "2"]}], "+", 
+                    SuperscriptBox["\[Sigma]", "2"]}], ")"}], 
+                    RowBox[{"-", 
+                    FractionBox[
+                    RowBox[{"1", "+", "\[Kappa]"}], 
+                    RowBox[{"2", " ", "\[Kappa]"}]]}]], " ", 
+                    RowBox[{"Gamma", "[", 
+                    FractionBox[
+                    RowBox[{"1", "+", "\[Kappa]"}], 
+                    RowBox[{"2", " ", "\[Kappa]"}]], "]"}]}], 
+                    RowBox[{
+                    SqrtBox["\[Pi]"], " ", 
+                    RowBox[{"Gamma", "[", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]], "]"}]}]]}], "]"}]], 
+                    "\[GreaterEqual]", "0"}], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"\[Kappa]", "\[NotEqual]", "0"}], ",", 
+                    FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "1"}], "+", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    FractionBox["1", 
+                    RowBox[{"PDF", "[", 
+                    RowBox[{
+                    RowBox[{"ProbabilityDistribution", "[", 
+                    RowBox[{
+                    FractionBox["1", 
+                    RowBox[{
+                    RowBox[{"Piecewise", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    SqrtBox[
+                    RowBox[{"2", " ", "\[Pi]"}]], " ", "\[Sigma]"}], ",", 
+                    RowBox[{"\[Kappa]", "\[Equal]", "0"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    FractionBox[
+                    RowBox[{
+                    SqrtBox["\[Pi]"], " ", "\[Sigma]", " ", 
+                    RowBox[{"Gamma", "[", 
+                    RowBox[{
+                    FractionBox["1", "2"], "-", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]]}], "]"}]}], 
+                    RowBox[{
+                    SqrtBox[
+                    RowBox[{"-", "\[Kappa]"}]], " ", 
+                    RowBox[{"Gamma", "[", 
+                    RowBox[{"1", "-", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]]}], "]"}]}]], ",", 
+                    RowBox[{"\[Kappa]", "<", "0"}]}], "}"}]}], "}"}], ",", 
+                    FractionBox[
+                    RowBox[{
+                    SqrtBox["\[Pi]"], " ", "\[Sigma]", " ", 
+                    RowBox[{"Gamma", "[", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]], "]"}]}], 
+                    RowBox[{
+                    SqrtBox["\[Kappa]"], " ", 
+                    RowBox[{"Gamma", "[", 
+                    RowBox[{
+                    FractionBox["1", "2"], "+", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]]}], "]"}]}]]}], "]"}], " ", 
+                    SqrtBox[
+                    RowBox[{"Which", "[", 
+                    RowBox[{
+                    RowBox[{"\[Kappa]", ">", "0"}], ",", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"\[Kappa]", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+                    SuperscriptBox["\[Sigma]", "2"]]}], ")"}], 
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"]], ",", 
+                    RowBox[{
+                    RowBox[{"-", 
+                    FractionBox["1", "1"]}], "\[LessEqual]", "\[Kappa]", "<", 
+                    "0"}], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Simplify", "[", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"\[Kappa]", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+                    SuperscriptBox["\[Sigma]", "2"]]}], "]"}], 
+                    "\[GreaterEqual]", "0"}], ",", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"\[Kappa]", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+                    SuperscriptBox["\[Sigma]", "2"]]}], ")"}], 
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"]], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"], ">", "0"}],
+                     ",", "0", ",", "\[Infinity]"}], "]"}]}], "]"}], ",", 
+                    RowBox[{"\[Kappa]", "\[Equal]", "0"}], ",", 
+                    RowBox[{"Exp", "[", 
+                    FractionBox[
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"], 
+                    SuperscriptBox["\[Sigma]", "2"]], "]"}], ",", "True", ",", 
+                    RowBox[{"Message", "[", 
+                    RowBox[{
+                    StyleBox[
+                    RowBox[{"CoupledExponential", "::", "nnarg"}], 
+                    "MessageName"], ",", "\[Kappa]"}], "]"}]}], "]"}]]}]], 
+                    ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"\[Kappa]", "\[GreaterEqual]", "0"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"x$2611", ",", 
+                    RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}],
+                     ",", 
+                    RowBox[{"{", 
+                    RowBox[{"x$2611", ",", 
+                    RowBox[{"\[Mu]", "-", 
+                    SqrtBox[
+                    RowBox[{"-", 
+                    FractionBox[
+                    SuperscriptBox["\[Sigma]", "2"], "\[Kappa]"]}]]}], ",", 
+                    RowBox[{"\[Mu]", "+", 
+                    SqrtBox[
+                    RowBox[{"-", 
+                    FractionBox[
+                    SuperscriptBox["\[Sigma]", "2"], "\[Kappa]"]}]]}]}], 
+                    "}"}]}], "]"}]}], "]"}], ",", "x"}], "]"}]], ")"}], 
+                    FractionBox["\[Kappa]", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"2", " ", "\[Kappa]"}]}]]]}], "\[Kappa]"], ",", 
+                    RowBox[{"Log", "[", 
+                    FractionBox["1", 
+                    RowBox[{"PDF", "[", 
+                    RowBox[{
+                    RowBox[{"ProbabilityDistribution", "[", 
+                    RowBox[{
+                    FractionBox["1", 
+                    RowBox[{
+                    RowBox[{"Piecewise", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    SqrtBox[
+                    RowBox[{"2", " ", "\[Pi]"}]], " ", "\[Sigma]"}], ",", 
+                    RowBox[{"\[Kappa]", "\[Equal]", "0"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    FractionBox[
+                    RowBox[{
+                    SqrtBox["\[Pi]"], " ", "\[Sigma]", " ", 
+                    RowBox[{"Gamma", "[", 
+                    RowBox[{
+                    FractionBox["1", "2"], "-", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]]}], "]"}]}], 
+                    RowBox[{
+                    SqrtBox[
+                    RowBox[{"-", "\[Kappa]"}]], " ", 
+                    RowBox[{"Gamma", "[", 
+                    RowBox[{"1", "-", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]]}], "]"}]}]], ",", 
+                    RowBox[{"\[Kappa]", "<", "0"}]}], "}"}]}], "}"}], ",", 
+                    FractionBox[
+                    RowBox[{
+                    SqrtBox["\[Pi]"], " ", "\[Sigma]", " ", 
+                    RowBox[{"Gamma", "[", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]], "]"}]}], 
+                    RowBox[{
+                    SqrtBox["\[Kappa]"], " ", 
+                    RowBox[{"Gamma", "[", 
+                    RowBox[{
+                    FractionBox["1", "2"], "+", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]]}], "]"}]}]]}], "]"}], " ", 
+                    SqrtBox[
+                    RowBox[{"Which", "[", 
+                    RowBox[{
+                    RowBox[{"\[Kappa]", ">", "0"}], ",", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"\[Kappa]", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+                    SuperscriptBox["\[Sigma]", "2"]]}], ")"}], 
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"]], ",", 
+                    RowBox[{
+                    RowBox[{"-", 
+                    FractionBox["1", "1"]}], "\[LessEqual]", "\[Kappa]", "<", 
+                    "0"}], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Simplify", "[", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"\[Kappa]", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+                    SuperscriptBox["\[Sigma]", "2"]]}], "]"}], 
+                    "\[GreaterEqual]", "0"}], ",", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"\[Kappa]", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+                    SuperscriptBox["\[Sigma]", "2"]]}], ")"}], 
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"]], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"], ">", "0"}],
+                     ",", "0", ",", "\[Infinity]"}], "]"}]}], "]"}], ",", 
+                    RowBox[{"\[Kappa]", "\[Equal]", "0"}], ",", 
+                    RowBox[{"Exp", "[", 
+                    FractionBox[
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"], 
+                    SuperscriptBox["\[Sigma]", "2"]], "]"}], ",", "True", ",", 
+                    RowBox[{"Message", "[", 
+                    RowBox[{
+                    StyleBox[
+                    RowBox[{"CoupledExponential", "::", "nnarg"}], 
+                    "MessageName"], ",", "\[Kappa]"}], "]"}]}], "]"}]]}]], 
+                    ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"\[Kappa]", "\[GreaterEqual]", "0"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"x$2611", ",", 
+                    RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}],
+                     ",", 
+                    RowBox[{"{", 
+                    RowBox[{"x$2611", ",", 
+                    RowBox[{"\[Mu]", "-", 
+                    SqrtBox[
+                    RowBox[{"-", 
+                    FractionBox[
+                    SuperscriptBox["\[Sigma]", "2"], "\[Kappa]"]}]]}], ",", 
+                    RowBox[{"\[Mu]", "+", 
+                    SqrtBox[
+                    RowBox[{"-", 
+                    FractionBox[
+                    SuperscriptBox["\[Sigma]", "2"], "\[Kappa]"]}]]}]}], 
+                    "}"}]}], "]"}]}], "]"}], ",", "x"}], "]"}]], "]"}]}], 
+                    "]"}], ",", "Undefined"}], "]"}], " ", 
+                    RowBox[{"PDF", "[", 
+                    RowBox[{
+                    RowBox[{"ProbabilityDistribution", "[", 
+                    RowBox[{
+                    FractionBox["1", 
+                    RowBox[{
+                    RowBox[{"Piecewise", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    SqrtBox[
+                    RowBox[{"2", " ", "\[Pi]"}]], " ", "\[Sigma]"}], ",", 
+                    RowBox[{"\[Kappa]", "\[Equal]", "0"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    FractionBox[
+                    RowBox[{
+                    SqrtBox["\[Pi]"], " ", "\[Sigma]", " ", 
+                    RowBox[{"Gamma", "[", 
+                    RowBox[{
+                    FractionBox["1", "2"], "-", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]]}], "]"}]}], 
+                    RowBox[{
+                    SqrtBox[
+                    RowBox[{"-", "\[Kappa]"}]], " ", 
+                    RowBox[{"Gamma", "[", 
+                    RowBox[{"1", "-", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]]}], "]"}]}]], ",", 
+                    RowBox[{"\[Kappa]", "<", "0"}]}], "}"}]}], "}"}], ",", 
+                    FractionBox[
+                    RowBox[{
+                    SqrtBox["\[Pi]"], " ", "\[Sigma]", " ", 
+                    RowBox[{"Gamma", "[", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]], "]"}]}], 
+                    RowBox[{
+                    SqrtBox["\[Kappa]"], " ", 
+                    RowBox[{"Gamma", "[", 
+                    RowBox[{
+                    FractionBox["1", "2"], "+", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]]}], "]"}]}]]}], "]"}], " ", 
+                    SqrtBox[
+                    RowBox[{"Which", "[", 
+                    RowBox[{
+                    RowBox[{"\[Kappa]", ">", "0"}], ",", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"\[Kappa]", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+                    SuperscriptBox["\[Sigma]", "2"]]}], ")"}], 
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"]], ",", 
+                    RowBox[{
+                    RowBox[{"-", 
+                    FractionBox["1", "1"]}], "\[LessEqual]", "\[Kappa]", "<", 
+                    "0"}], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Simplify", "[", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"\[Kappa]", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+                    SuperscriptBox["\[Sigma]", "2"]]}], "]"}], 
+                    "\[GreaterEqual]", "0"}], ",", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"\[Kappa]", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+                    SuperscriptBox["\[Sigma]", "2"]]}], ")"}], 
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"]], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"], ">", "0"}],
+                     ",", "0", ",", "\[Infinity]"}], "]"}]}], "]"}], ",", 
+                    RowBox[{"\[Kappa]", "\[Equal]", "0"}], ",", 
+                    RowBox[{"Exp", "[", 
+                    FractionBox[
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"], 
+                    SuperscriptBox["\[Sigma]", "2"]], "]"}], ",", "True", ",", 
+                    RowBox[{"Message", "[", 
+                    RowBox[{
+                    StyleBox[
+                    RowBox[{"CoupledExponential", "::", "nnarg"}], 
+                    "MessageName"], ",", "\[Kappa]"}], "]"}]}], "]"}]]}]], 
+                    ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"\[Kappa]", "\[GreaterEqual]", "0"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"x$2611", ",", 
+                    RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}],
+                     ",", 
+                    RowBox[{"{", 
+                    RowBox[{"x$2611", ",", 
+                    RowBox[{"\[Mu]", "-", 
+                    SqrtBox[
+                    RowBox[{"-", 
+                    FractionBox[
+                    SuperscriptBox["\[Sigma]", "2"], "\[Kappa]"]}]]}], ",", 
+                    RowBox[{"\[Mu]", "+", 
+                    SqrtBox[
+                    RowBox[{"-", 
+                    FractionBox[
+                    SuperscriptBox["\[Sigma]", "2"], "\[Kappa]"]}]]}]}], 
+                    "}"}]}], "]"}]}], "]"}], ",", "x"}], "]"}]}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"x", ",", 
+                    RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}],
+                     ",", 
+                    RowBox[{"Assumptions", "\[Rule]", 
+                    RowBox[{"\[Kappa]", "\[Equal]", "0"}]}], ",", 
+                    RowBox[{"GenerateConditions", "\[Rule]", "Automatic"}], 
+                    ",", 
+                    RowBox[{"PrincipalValue", "\[Rule]", "False"}]}], "]"}], 
+                    ",", 
+                    RowBox[{"\[Kappa]", "\[Equal]", "0"}]}], "]"}]}]},
+                    {
+                    RowBox[{
+                    RowBox[{"CoupledEntropy", "[", 
+                    RowBox[{"dist_", ",", "\[Kappa]_", ",", 
+                    RowBox[{"d_", ":", "1"}], ",", 
+                    RowBox[{"\[Alpha]_", ":", "2"}], ",", 
+                    RowBox[{"\[Delta]_", ":", "1"}], ",", 
+                    RowBox[{"limits_", ":", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], 
+                    "}"}]}]}], "]"}], ":=", 
+                    RowBox[{
+                    RowBox[{"CoupledEntropy", "[", 
+                    RowBox[{
+                    "dist", ",", "\[Kappa]", ",", "d", ",", "\[Alpha]", ",", 
+                    "\[Delta]", ",", "limits"}], "]"}], "=", 
+                    RowBox[{"CoupledCrossEntropy", "[", 
+                    RowBox[{
+                    "dist", ",", "dist", ",", "\[Kappa]", ",", "\[Alpha]", 
+                    ",", "d", ",", "\[Delta]", ",", "limits"}], "]"}]}]}]}
+                    },
+                    DefaultBaseStyle->"Column",
+                    GridBoxAlignment->{"Columns" -> {{Left}}},
+                    
+                    GridBoxItemSize->{
+                    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]},
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Full Name\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"FullName\"",
+                    TooltipStyle->"TextStyling"],
+                    
+                    Annotation[#, "FullName", 
+                    "Tooltip"]& ], "\<\"Global`CoupledEntropy\"\>"}
+                 },
+                 AutoDelete->False,
+                 GridBoxAlignment->{"Columns" -> {Right, Left}},
+                 GridBoxDividers->None,
+                 GridBoxItemSize->{"Columns" -> {Automatic, Automatic}},
+                 GridBoxSpacings->{"Columns" -> {
+                    Offset[0.27999999999999997`], {
+                    Offset[0.5599999999999999]}, 
+                    Offset[0.27999999999999997`]}, "Rows" -> {
+                    Offset[0.2], {
+                    Offset[0.8]}, 
+                    Offset[0.2]}}], "DialogStyle",
+                StripOnInput->False],
+               DynamicModuleValues:>{}]}
+            },
+            DefaultBaseStyle->"Column",
+            GridBoxAlignment->{"Columns" -> {{Left}}},
+            GridBoxDividers->{"Columns" -> {{False}}, "Rows" -> {{False}}},
+            
+            GridBoxItemSize->{
+             "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+            GridBoxSpacings->{"Columns" -> {
+                Offset[0.27999999999999997`], {
+                 Offset[0.5599999999999999]}, 
+                Offset[0.27999999999999997`]}, "Rows" -> {
+                Offset[0.2], {
+                 Offset[3.6]}, 
+                Offset[0.2]}}],
+           FrameMargins->6], ""},
+         {
+          ItemBox[
+           TagBox[
+            ButtonBox[
+             PaneSelectorBox[{False->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "UpPointerOpener"],
+               ImageSizeCache->{10., {2., 8.}}], True->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "UpPointerOpenerHot"],
+               ImageSizeCache->{10., {2., 8.}}]}, Dynamic[
+              System`InformationDump`mouseOver$$]],
+             Alignment->Left,
+             Appearance->{"Default" -> None},
+             
+             ButtonFunction:>FEPrivate`Set[
+              System`InformationDump`open$$, False],
+             Evaluator->Automatic,
+             FrameMargins->{{9, 0}, {0, 0}},
+             ImageMargins->0,
+             ImageSize->Full,
+             Method->"Preemptive"],
+            
+            EventHandlerTag[{
+             "MouseEntered" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, True], 
+              "MouseExited" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, False], 
+              Method -> "Preemptive", PassEventsDown -> Automatic, 
+              PassEventsUp -> True}]],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], "\[SpanFromLeft]"}
+        },
+        AutoDelete->False,
+        FrameStyle->Directive[
+          GrayLevel[0.8], 
+          Thickness[Tiny]],
+        GridBoxAlignment->{"Columns" -> {Left, Right}, "Rows" -> {{Center}}},
+        GridBoxDividers->{
+         "Columns" -> {{None}}, "Rows" -> {False, {True}, False}},
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+       "Grid"], False->
+      TagBox[GridBox[{
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\" Symbol\"\>", "InformationTitleText",
+             StripOnInput->False],
+            FrameMargins->{{4, 0}, {-1, 1}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\"Global`CoupledEntropy\"\>", "InformationUsageText",
+             StripOnInput->False,
+             LineSpacing->{1.5, 1.5, 3.}],
+            FrameMargins->{{10, 10}, {8, 10}}],
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           TagBox[
+            ButtonBox[
+             PaneSelectorBox[{False->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "DownPointerOpener"]], True->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "DownPointerOpenerHot"]]}, Dynamic[
+              System`InformationDump`mouseOver$$]],
+             Alignment->Left,
+             Appearance->{"Default" -> None},
+             
+             ButtonFunction:>FEPrivate`Set[
+              System`InformationDump`open$$, True],
+             Evaluator->Automatic,
+             FrameMargins->{{9, 0}, {0, 0}},
+             ImageMargins->0,
+             ImageSize->Full,
+             Method->"Preemptive"],
+            
+            EventHandlerTag[{
+             "MouseEntered" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, True], 
+              "MouseExited" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, False], 
+              Method -> "Preemptive", PassEventsDown -> Automatic, 
+              PassEventsUp -> True}]],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], "\[SpanFromLeft]"}
+        },
+        AutoDelete->False,
+        FrameStyle->Directive[
+          GrayLevel[0.8], 
+          Thickness[Tiny]],
+        GridBoxAlignment->{"Columns" -> {Left, Right}, "Rows" -> {{Center}}},
+        GridBoxDividers->{
+         "Columns" -> {{None}}, "Rows" -> {False, {True}, False}},
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+       "Grid"]}, Dynamic[System`InformationDump`open$$],
+      BaselinePosition->Baseline,
+      FrameMargins->0,
+      ImageSize->Automatic],
+     DynamicModuleValues:>{}],
+    BaseStyle->"InformationGridFrame",
+    StripOnInput->False], "InformationGridPlain",
+   StripOnInput->False],
+  InformationData[
+   Association[
+   "ObjectType" -> "Symbol", "Usage" -> "Global`CoupledEntropy", 
+    "Documentation" -> None, "OwnValues" -> None, "UpValues" -> None, 
+    "DownValues" -> 
+    Information`InformationValueForm[
+     DownValues, $CellContext`CoupledEntropy, {$CellContext`CoupledEntropy[
+         ProbabilityDistribution[
+         Piecewise[{{(2 Pi)^
+                Rational[1, 2] $CellContext`\[Sigma], $CellContext`\[Kappa] == 
+               0}, {Pi^Rational[1, 2] (-$CellContext`\[Kappa])^
+                Rational[-1, 2] $CellContext`\[Sigma] 
+               Gamma[1 + Rational[-1, 2]/$CellContext`\[Kappa]]^(-1) 
+               Gamma[Rational[
+                  1, 2] (-1 + $CellContext`\[Kappa])/$CellContext`\[Kappa]], \
+$CellContext`\[Kappa] < 0}}, 
+             Pi^Rational[1, 2] $CellContext`\[Kappa]^
+              Rational[-1, 2] $CellContext`\[Sigma] 
+             Gamma[Rational[1, 2]/$CellContext`\[Kappa]]/Gamma[
+             Rational[1, 2] $CellContext`\[Kappa]^(-1) (
+               1 + $CellContext`\[Kappa])]]^(-1) 
+          Which[$CellContext`\[Kappa] > 
+             0, (1 + $CellContext`\[Kappa] (($CellContext`x$2611 - \
+$CellContext`\[Mu])^2 $CellContext`\[Sigma]^(-2)))^((1 + 
+               1 $CellContext`\[Kappa])/$CellContext`\[Kappa]), 
+             Inequality[(-1)/1, LessEqual, $CellContext`\[Kappa], Less, 0], 
+             If[
+             Simplify[
+               1 + $CellContext`\[Kappa] (($CellContext`x$2611 - \
+$CellContext`\[Mu])^2 $CellContext`\[Sigma]^(-2))] >= 
+              0, (1 + $CellContext`\[Kappa] (($CellContext`x$2611 - \
+$CellContext`\[Mu])^2 $CellContext`\[Sigma]^(-2)))^((1 + 
+                1 $CellContext`\[Kappa])/$CellContext`\[Kappa]), 
+              
+              If[(1 + 1 $CellContext`\[Kappa])/$CellContext`\[Kappa] > 0, 0, 
+               Infinity]], $CellContext`\[Kappa] == 0, 
+             
+             Exp[($CellContext`x$2611 - $CellContext`\[Mu])^2 $CellContext`\
+\[Sigma]^(-2)], True, 
+             Message[
+              
+              MessageName[$CellContext`CoupledExponential, 
+               "nnarg"], $CellContext`\[Kappa]]]^Rational[-1, 2], 
+          
+          If[$CellContext`\[Kappa] >= 
+           0, {$CellContext`x$2611, -Infinity, 
+            Infinity}, {$CellContext`x$2611, $CellContext`\[Mu] - 
+            Sqrt[-($CellContext`\[Sigma]^2/$CellContext`\[Kappa])], \
+$CellContext`\[Mu] + 
+            Sqrt[-($CellContext`\[Sigma]^2/$CellContext`\[Kappa])]}]], \
+$CellContext`\[Kappa], 1, 2, 1, {
+          DirectedInfinity[-1], 
+          DirectedInfinity[1]}] -> ConditionalExpression[
+         Integrate[
+         If[Piecewise[{{
+                E^(Rational[-1, 
+                    2] ($CellContext`x - $CellContext`\[Mu])^2 $CellContext`\
+\[Sigma]^(-2)) (2 Pi)^
+                  Rational[-1, 
+                    2]/$CellContext`\[Sigma], $CellContext`\[Kappa] == 0}}, 
+               Pi^Rational[-1, 2] $CellContext`\[Kappa]^
+                Rational[
+                 1, 2] $CellContext`\[Sigma]^($CellContext`\[Kappa]^(-1)) \
+($CellContext`\[Kappa] ($CellContext`x - $CellContext`\[Mu])^2 + \
+$CellContext`\[Sigma]^2)^(
+                 Rational[-1, 2] $CellContext`\[Kappa]^(-1) (
+                  1 + $CellContext`\[Kappa])) 
+               Gamma[Rational[1, 2]/$CellContext`\[Kappa]]^(-1) 
+               Gamma[
+                Rational[1, 2] $CellContext`\[Kappa]^(-1) (
+                  1 + $CellContext`\[Kappa])]]^(-1) >= 0, 
+            
+            If[$CellContext`\[Kappa] != 
+             0, $CellContext`\[Kappa]^(-1) (-1 + (PDF[
+                  ProbabilityDistribution[
+                  Piecewise[{{(2 Pi)^
+                    Rational[
+                    1, 2] $CellContext`\[Sigma], $CellContext`\[Kappa] == 
+                    0}, {Pi^Rational[1, 2] (-$CellContext`\[Kappa])^
+                    Rational[-1, 2] $CellContext`\[Sigma] 
+                    Gamma[Rational[1, 2] + 
+                    Rational[-1, 2]/$CellContext`\[Kappa]]/Gamma[
+                    1 + Rational[-1, 
+                    2]/$CellContext`\[Kappa]], $CellContext`\[Kappa] < 0}}, 
+                    Pi^Rational[1, 2] $CellContext`\[Kappa]^
+                    Rational[-1, 2] $CellContext`\[Sigma] 
+                    Gamma[Rational[1, 2] + 
+                    Rational[1, 2]/$CellContext`\[Kappa]]^(-1) 
+                    Gamma[Rational[1, 2]/$CellContext`\[Kappa]]]^(-1) 
+                   Which[$CellContext`\[Kappa] > 
+                    0, (1 + $CellContext`\[Kappa] (($CellContext`x$2611 - \
+$CellContext`\[Mu])^2 $CellContext`\[Sigma]^(-2)))^((1 + 
+                    1 $CellContext`\[Kappa])/$CellContext`\[Kappa]), 
+                    
+                    Inequality[(-1)/1, LessEqual, $CellContext`\[Kappa], Less,
+                     0], 
+                    If[
+                    Simplify[
+                    1 + $CellContext`\[Kappa] (($CellContext`x$2611 - \
+$CellContext`\[Mu])^2 $CellContext`\[Sigma]^(-2))] >= 
+                    0, (1 + $CellContext`\[Kappa] (($CellContext`x$2611 - \
+$CellContext`\[Mu])^2 $CellContext`\[Sigma]^(-2)))^((1 + 
+                    1 $CellContext`\[Kappa])/$CellContext`\[Kappa]), 
+                    
+                    If[(1 + 1 $CellContext`\[Kappa])/$CellContext`\[Kappa] > 
+                    0, 0, Infinity]], $CellContext`\[Kappa] == 0, 
+                    
+                    Exp[($CellContext`x$2611 - $CellContext`\[Mu])^2 \
+$CellContext`\[Sigma]^(-2)], True, 
+                    Message[
+                    
+                    MessageName[$CellContext`CoupledExponential, 
+                    "nnarg"], $CellContext`\[Kappa]]]^Rational[-1, 2], 
+                   
+                   If[$CellContext`\[Kappa] >= 
+                    0, {$CellContext`x$2611, -Infinity, 
+                    Infinity}, {$CellContext`x$2611, $CellContext`\[Mu] - 
+                    Sqrt[-($CellContext`\[Sigma]^2/$CellContext`\[Kappa])], \
+$CellContext`\[Mu] + 
+                    Sqrt[-($CellContext`\[Sigma]^2/$CellContext`\[Kappa])]}]],\
+ $CellContext`x]^(-1))^($CellContext`\[Kappa]/(1 + 2 $CellContext`\[Kappa]))), 
+             Log[PDF[
+                ProbabilityDistribution[
+                Piecewise[{{(2 Pi)^
+                    Rational[
+                    1, 2] $CellContext`\[Sigma], $CellContext`\[Kappa] == 
+                    0}, {Pi^Rational[1, 2] (-$CellContext`\[Kappa])^
+                    Rational[-1, 2] $CellContext`\[Sigma] 
+                    Gamma[Rational[1, 2] + 
+                    Rational[-1, 2]/$CellContext`\[Kappa]]/Gamma[
+                    1 + Rational[-1, 
+                    2]/$CellContext`\[Kappa]], $CellContext`\[Kappa] < 0}}, 
+                    Pi^Rational[1, 2] $CellContext`\[Kappa]^
+                    Rational[-1, 2] $CellContext`\[Sigma] 
+                    Gamma[Rational[1, 2] + 
+                    Rational[1, 2]/$CellContext`\[Kappa]]^(-1) 
+                    Gamma[Rational[1, 2]/$CellContext`\[Kappa]]]^(-1) 
+                 Which[$CellContext`\[Kappa] > 
+                    0, (1 + $CellContext`\[Kappa] (($CellContext`x$2611 - \
+$CellContext`\[Mu])^2 $CellContext`\[Sigma]^(-2)))^((1 + 
+                    1 $CellContext`\[Kappa])/$CellContext`\[Kappa]), 
+                    
+                    Inequality[(-1)/1, LessEqual, $CellContext`\[Kappa], Less,
+                     0], 
+                    If[
+                    Simplify[
+                    1 + $CellContext`\[Kappa] (($CellContext`x$2611 - \
+$CellContext`\[Mu])^2 $CellContext`\[Sigma]^(-2))] >= 
+                    0, (1 + $CellContext`\[Kappa] (($CellContext`x$2611 - \
+$CellContext`\[Mu])^2 $CellContext`\[Sigma]^(-2)))^((1 + 
+                    1 $CellContext`\[Kappa])/$CellContext`\[Kappa]), 
+                    
+                    If[(1 + 1 $CellContext`\[Kappa])/$CellContext`\[Kappa] > 
+                    0, 0, Infinity]], $CellContext`\[Kappa] == 0, 
+                    
+                    Exp[($CellContext`x$2611 - $CellContext`\[Mu])^2 \
+$CellContext`\[Sigma]^(-2)], True, 
+                    Message[
+                    
+                    MessageName[$CellContext`CoupledExponential, 
+                    "nnarg"], $CellContext`\[Kappa]]]^Rational[-1, 2], 
+                 
+                 If[$CellContext`\[Kappa] >= 
+                  0, {$CellContext`x$2611, -Infinity, 
+                   Infinity}, {$CellContext`x$2611, $CellContext`\[Mu] - 
+                   Sqrt[-($CellContext`\[Sigma]^2/$CellContext`\[Kappa])], \
+$CellContext`\[Mu] + 
+                   Sqrt[-($CellContext`\[Sigma]^2/$CellContext`\[Kappa])]}]], \
+$CellContext`x]^(-1)]], Undefined] PDF[
+            ProbabilityDistribution[
+            Piecewise[{{(2 Pi)^
+                   Rational[
+                    1, 2] $CellContext`\[Sigma], $CellContext`\[Kappa] == 
+                  0}, {Pi^Rational[1, 2] (-$CellContext`\[Kappa])^
+                   Rational[-1, 2] $CellContext`\[Sigma] 
+                  Gamma[Rational[1, 2] + 
+                    Rational[-1, 2]/$CellContext`\[Kappa]]/Gamma[
+                  1 + Rational[-1, 
+                    2]/$CellContext`\[Kappa]], $CellContext`\[Kappa] < 0}}, 
+                Pi^Rational[1, 2] $CellContext`\[Kappa]^
+                 Rational[-1, 2] $CellContext`\[Sigma] 
+                Gamma[Rational[1, 2] + 
+                   Rational[1, 2]/$CellContext`\[Kappa]]^(-1) 
+                Gamma[Rational[1, 2]/$CellContext`\[Kappa]]]^(-1) 
+             Which[$CellContext`\[Kappa] > 
+                0, (1 + $CellContext`\[Kappa] (($CellContext`x$2611 - \
+$CellContext`\[Mu])^2 $CellContext`\[Sigma]^(-2)))^((1 + 
+                  1 $CellContext`\[Kappa])/$CellContext`\[Kappa]), 
+                Inequality[(-1)/1, LessEqual, $CellContext`\[Kappa], Less, 0], 
+                If[
+                Simplify[
+                  1 + $CellContext`\[Kappa] (($CellContext`x$2611 - \
+$CellContext`\[Mu])^2 $CellContext`\[Sigma]^(-2))] >= 
+                 0, (1 + $CellContext`\[Kappa] (($CellContext`x$2611 - \
+$CellContext`\[Mu])^2 $CellContext`\[Sigma]^(-2)))^((1 + 
+                   1 $CellContext`\[Kappa])/$CellContext`\[Kappa]), 
+                 
+                 If[(1 + 1 $CellContext`\[Kappa])/$CellContext`\[Kappa] > 0, 
+                  0, Infinity]], $CellContext`\[Kappa] == 0, 
+                
+                Exp[($CellContext`x$2611 - $CellContext`\[Mu])^2 \
+$CellContext`\[Sigma]^(-2)], True, 
+                Message[
+                 
+                 MessageName[$CellContext`CoupledExponential, 
+                  "nnarg"], $CellContext`\[Kappa]]]^Rational[-1, 2], 
+             
+             If[$CellContext`\[Kappa] >= 
+              0, {$CellContext`x$2611, -Infinity, 
+               Infinity}, {$CellContext`x$2611, $CellContext`\[Mu] - 
+               Sqrt[-($CellContext`\[Sigma]^2/$CellContext`\[Kappa])], \
+$CellContext`\[Mu] + 
+               Sqrt[-($CellContext`\[Sigma]^2/$CellContext`\[Kappa])]}]], \
+$CellContext`x], {$CellContext`x, 
+           DirectedInfinity[-1], 
+           DirectedInfinity[1]}, Assumptions -> $CellContext`\[Kappa] == 0, 
+          GenerateConditions -> Automatic, PrincipalValue -> 
+          False], $CellContext`\[Kappa] == 0], $CellContext`CoupledEntropy[
+         Pattern[$CellContext`dist, 
+          Blank[]], 
+         Pattern[$CellContext`\[Kappa], 
+          Blank[]], 
+         Optional[
+          Pattern[$CellContext`d, 
+           Blank[]], 1], 
+         Optional[
+          Pattern[$CellContext`\[Alpha], 
+           Blank[]], 2], 
+         Optional[
+          Pattern[$CellContext`\[Delta], 
+           Blank[]], 1], 
+         Optional[
+          Pattern[$CellContext`limits, 
+           Blank[]], {
+           DirectedInfinity[-1], 
+           DirectedInfinity[
+           1]}]] :> ($CellContext`CoupledEntropy[$CellContext`dist, \
+$CellContext`\[Kappa], $CellContext`d, $CellContext`\[Alpha], $CellContext`\
+\[Delta], $CellContext`limits] = \
+$CellContext`CoupledCrossEntropy[$CellContext`dist, $CellContext`dist, \
+$CellContext`\[Kappa], $CellContext`\[Alpha], $CellContext`d, $CellContext`\
+\[Delta], $CellContext`limits])}], "SubValues" -> None, "DefaultValues" -> 
+    None, "NValues" -> None, "FormatValues" -> None, "Options" -> None, 
+    "Attributes" -> {}, "FullName" -> "Global`CoupledEntropy"], 
+   False]]], "Output",
+ CellChangeTimes->{3.8259279142719717`*^9},
+ CellLabel->"Out[61]=",ExpressionUUID->"405d1d52-7dd9-4def-b0ea-62b439f79e44"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Head", "[", 
+   RowBox[{"f", "[", "x", "]"}], "]"}], "==", "f"}]], "Input",
+ CellChangeTimes->{{3.8259291530207644`*^9, 3.825929157084078*^9}, {
+  3.8259294899058104`*^9, 3.825929520580867*^9}},
+ CellLabel->"In[69]:=",ExpressionUUID->"8fae915c-e096-4981-96b0-da2d4cb4146f"],
+
+Cell[BoxData["True"], "Output",
+ CellChangeTimes->{
+  3.825929158013895*^9, {3.825929499759718*^9, 3.825929521433408*^9}},
+ CellLabel->"Out[69]=",ExpressionUUID->"e4e9ac71-5ba6-41fc-9f6f-ced49707f8c0"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Which", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"Level", "[", 
+      RowBox[{
+       RowBox[{"f", "[", 
+        RowBox[{"t", ",", "y"}], "]"}], ",", "1"}], "]"}], "[", 
+     RowBox[{"[", "1", "]"}], "]"}], "\[Equal]", "x"}], ",", "\"\<x\>\"", ",",
+    "True", ",", 
+   RowBox[{"Level", "[", 
+    RowBox[{
+     RowBox[{"f", "[", 
+      RowBox[{"x", ",", "y"}], "]"}], ",", "1"}], "]"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.825929199229501*^9, 3.8259292195110407`*^9}, {
+  3.8259293239633093`*^9, 3.825929333579493*^9}, {3.82592961608646*^9, 
+  3.825929620860917*^9}, {3.825929999068548*^9, 3.8259300954619913`*^9}},
+ CellLabel->"In[73]:=",ExpressionUUID->"a5408c28-f659-4c52-a5dd-f51a0e828e8b"],
+
+Cell[BoxData[
+ RowBox[{"Which", "[", 
+  RowBox[{
+   RowBox[{"t", "\[Equal]", "x"}], ",", "\<\"x\"\>", ",", "True", ",", 
+   RowBox[{"Level", "[", 
+    RowBox[{
+     RowBox[{"f", "[", 
+      RowBox[{"x", ",", "y"}], "]"}], ",", "1"}], "]"}]}], "]"}]], "Output",
+ CellChangeTimes->{{3.8259292082422247`*^9, 3.8259292200535183`*^9}, {
+   3.825929325292107*^9, 3.825929334299437*^9}, 3.8259296227751017`*^9, {
+   3.8259300650361357`*^9, 3.8259300963966827`*^9}},
+ CellLabel->"Out[73]=",ExpressionUUID->"f18e7f76-f1a0-4868-a7c4-a9912036a093"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"CoupledEntropy", "[", 
+  RowBox[{
+   RowBox[{"CoupledNormalDistribution", "[", 
+    RowBox[{"\[Mu]", ",", "\[Sigma]", ",", "\[Kappa]"}], "]"}], ",", 
+   "\[Kappa]", ",", "1", ",", "2", ",", "1", ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.825930660793663*^9, 3.825930663007132*^9}, 
+   3.825931047439567*^9},
+ CellLabel->"In[97]:=",ExpressionUUID->"5340b63e-326d-400b-80fe-29217f5665c1"],
+
+Cell[BoxData["ProbabilityDistribution"], "Output",
+ CellChangeTimes->{{3.82593102810312*^9, 3.825931072438539*^9}, {
+  3.8259311476747713`*^9, 3.8259311594913397`*^9}},
+ CellLabel->"Out[97]=",ExpressionUUID->"a2eaf7e0-c063-41ea-8438-90b5a0cda823"]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "CoupledEntropy", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"CoupledEntropy", "[", 
+   RowBox[{
+    RowBox[{"Hold", "[", "dist_", "]"}], ",", "\[Kappa]_", ",", 
+    RowBox[{"d_", ":", "1"}], ",", 
+    RowBox[{"\[Alpha]_", ":", "2"}], ",", 
+    RowBox[{"\[Delta]_", ":", "1"}], ",", 
+    RowBox[{"limits_", ":", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}]}]}], "]"}], ":=",
+   "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"CoupledEntropy", "[", 
+    RowBox[{
+     RowBox[{"Hold", "[", "dist", "]"}], ",", "\[Kappa]", ",", "d", ",", 
+     "\[Alpha]", ",", "\[Delta]", ",", "limits"}], "]"}], "=", 
+   "\[IndentingNewLine]", 
+   RowBox[{"CoupledCrossEntropy", "[", 
+    RowBox[{
+    "dist", ",", "dist", ",", "\[Kappa]", ",", "\[Alpha]", ",", "d", ",", 
+     "\[Delta]", ",", "limits"}], "]"}]}]}], "\[IndentingNewLine]"}], "Input",\
+
+ CellChangeTimes->{{3.8259310110523167`*^9, 3.8259310180807858`*^9}, {
+  3.8259310657878847`*^9, 3.8259310694052353`*^9}, {3.825931100369668*^9, 
+  3.825931156348258*^9}, {3.8260299404513083`*^9, 3.826029987392517*^9}},
+ CellLabel->
+  "In[101]:=",ExpressionUUID->"e2aa1d22-ca0f-401b-a32d-739e0e8d4b6a"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"CoupledEntropy", "[", 
+  RowBox[{
+   RowBox[{"CoupledNormalDistribution", "[", 
+    RowBox[{"\[Mu]", ",", "\[Sigma]", ",", "\[Kappa]"}], "]"}], ",", 
+   "\[Kappa]", ",", "1", ",", "2", ",", "1", ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}]}], 
+  "]"}]], "Input",
+ CellLabel->
+  "In[103]:=",ExpressionUUID->"1de836b9-7218-4f82-8aca-e425fab0e78f"],
+
+Cell[BoxData[
+ RowBox[{"CoupledEntropy", "[", 
+  RowBox[{
+   RowBox[{"ProbabilityDistribution", "[", 
+    RowBox[{
+     RowBox[{"1", "/", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"(", 
+         TagBox[GridBox[{
+            {"\[Piecewise]", GridBox[{
+               {
+                RowBox[{
+                 SqrtBox[
+                  RowBox[{"2", " ", "\[Pi]"}]], " ", "\[Sigma]"}], 
+                RowBox[{"\[Kappa]", "\[Equal]", "0"}]},
+               {
+                FractionBox[
+                 RowBox[{
+                  SqrtBox["\[Pi]"], " ", "\[Sigma]", " ", 
+                  RowBox[{"Gamma", "[", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "1"}], "+", "\[Kappa]"}], 
+                    RowBox[{"2", " ", "\[Kappa]"}]], "]"}]}], 
+                 RowBox[{
+                  SqrtBox[
+                   RowBox[{"-", "\[Kappa]"}]], " ", 
+                  RowBox[{"Gamma", "[", 
+                   RowBox[{"1", "-", 
+                    FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]]}], "]"}]}]], 
+                RowBox[{"\[Kappa]", "<", "0"}]},
+               {
+                FractionBox[
+                 RowBox[{
+                  SqrtBox["\[Pi]"], " ", "\[Sigma]", " ", 
+                  RowBox[{"Gamma", "[", 
+                   FractionBox["1", 
+                    RowBox[{"2", " ", "\[Kappa]"}]], "]"}]}], 
+                 RowBox[{
+                  SqrtBox["\[Kappa]"], " ", 
+                  RowBox[{"Gamma", "[", 
+                   FractionBox[
+                    RowBox[{"1", "+", "\[Kappa]"}], 
+                    RowBox[{"2", " ", "\[Kappa]"}]], "]"}]}]], 
+                TagBox["True",
+                 "PiecewiseDefault",
+                 AutoDelete->True]}
+              },
+              AllowedDimensions->{2, Automatic},
+              Editable->True,
+              
+              GridBoxAlignment->{
+               "Columns" -> {{Left}}, "Rows" -> {{Baseline}}},
+              GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{1.}}},
+              
+              GridBoxSpacings->{"Columns" -> {
+                  Offset[0.27999999999999997`], {
+                   Offset[0.84]}, 
+                  Offset[0.27999999999999997`]}, "Rows" -> {
+                  Offset[0.2], {
+                   Offset[0.4]}, 
+                  Offset[0.2]}},
+              Selectable->True]}
+           },
+           GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Baseline}}},
+           GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{1.}}},
+           GridBoxSpacings->{"Columns" -> {
+               Offset[0.27999999999999997`], {
+                Offset[0.35]}, 
+               Offset[0.27999999999999997`]}, "Rows" -> {
+               Offset[0.2], {
+                Offset[0.4]}, 
+               Offset[0.2]}}],
+          "Piecewise",
+          DeleteWithContents->True,
+          Editable->False,
+          SelectWithContents->True,
+          Selectable->False,
+          StripWrapperBoxes->True], ")"}], " ", 
+        RowBox[{"\[Sqrt]", 
+         RowBox[{"Which", "[", 
+          RowBox[{
+           RowBox[{"\[Kappa]", ">", "0"}], ",", 
+           SuperscriptBox[
+            RowBox[{"(", 
+             RowBox[{"1", "+", 
+              FractionBox[
+               RowBox[{"\[Kappa]", " ", 
+                SuperscriptBox[
+                 RowBox[{"(", 
+                  RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+               SuperscriptBox["\[Sigma]", "2"]]}], ")"}], 
+            FractionBox[
+             RowBox[{"1", "+", 
+              RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"]], ",", 
+           RowBox[{
+            RowBox[{"-", 
+             FractionBox["1", "1"]}], "\[LessEqual]", "\[Kappa]", "<", "0"}], 
+           ",", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"Simplify", "[", 
+               RowBox[{"1", "+", 
+                FractionBox[
+                 RowBox[{"\[Kappa]", " ", 
+                  SuperscriptBox[
+                   RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+                 SuperscriptBox["\[Sigma]", "2"]]}], "]"}], "\[GreaterEqual]",
+               "0"}], ",", 
+             SuperscriptBox[
+              RowBox[{"(", 
+               RowBox[{"1", "+", 
+                FractionBox[
+                 RowBox[{"\[Kappa]", " ", 
+                  SuperscriptBox[
+                   RowBox[{"(", 
+                    RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"]}], 
+                 SuperscriptBox["\[Sigma]", "2"]]}], ")"}], 
+              FractionBox[
+               RowBox[{"1", "+", 
+                RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"]], ",", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{
+                FractionBox[
+                 RowBox[{"1", "+", 
+                  RowBox[{"1", " ", "\[Kappa]"}]}], "\[Kappa]"], ">", "0"}], 
+               ",", "0", ",", "\[Infinity]"}], "]"}]}], "]"}], ",", 
+           RowBox[{"\[Kappa]", "\[Equal]", "0"}], ",", 
+           RowBox[{"Exp", "[", 
+            FractionBox[
+             SuperscriptBox[
+              RowBox[{"(", 
+               RowBox[{"x$2611", "-", "\[Mu]"}], ")"}], "2"], 
+             SuperscriptBox["\[Sigma]", "2"]], "]"}], ",", "True", ",", 
+           RowBox[{"Message", "[", 
+            RowBox[{
+             StyleBox[
+              RowBox[{"CoupledExponential", "::", "nnarg"}], "MessageName"], 
+             ",", "\[Kappa]"}], "]"}]}], "]"}]}]}], ")"}]}], ",", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"\[Kappa]", "\[GreaterEqual]", "0"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"x$2611", ",", 
+         RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"x$2611", ",", 
+         RowBox[{"\[Mu]", "-", 
+          SqrtBox[
+           RowBox[{"-", 
+            FractionBox[
+             SuperscriptBox["\[Sigma]", "2"], "\[Kappa]"]}]]}], ",", 
+         RowBox[{"\[Mu]", "+", 
+          SqrtBox[
+           RowBox[{"-", 
+            FractionBox[
+             SuperscriptBox["\[Sigma]", "2"], "\[Kappa]"]}]]}]}], "}"}]}], 
+      "]"}]}], "]"}], ",", "\[Kappa]", ",", "1", ",", "2", ",", "1", ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}]}], 
+  "]"}]], "Output",
+ CellChangeTimes->{3.826030013641473*^9, 3.826030044676659*^9},
+ CellLabel->
+  "Out[103]=",ExpressionUUID->"69eda950-9d1d-4d7a-a16c-f7dee72dca3d"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "CoupledEntropy"}]], "Input",
+ CellChangeTimes->{{3.826030054529974*^9, 3.826030059780655*^9}},
+ CellLabel->
+  "In[104]:=",ExpressionUUID->"e891c443-55bb-458a-9216-09cdd2d1a7db"],
+
+Cell[BoxData[
+ InterpretationBox[
+  StyleBox[
+   FrameBox[
+    DynamicModuleBox[{System`InformationDump`open$$ = True, 
+     System`InformationDump`mouseOver$$ = False}, 
+     PaneSelectorBox[{True->
+      TagBox[GridBox[{
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\" Symbol\"\>", "InformationTitleText",
+             StripOnInput->False,
+             BaseStyle -> None],
+            FrameMargins->{{4, 0}, {-1, 1}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\"Global`CoupledEntropy\"\>", "InformationUsageText",
+             StripOnInput->False,
+             LineSpacing->{1.5, 1.5, 3.}],
+            FrameMargins->{{10, 10}, {8, 10}}],
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False]},
+         {
+          PaneBox[GridBox[{
+             {
+              
+              DynamicModuleBox[{System`InformationDump`open$$ = {
+               False, False, False, False, False, False, False, False, False, 
+                False, False, False}}, 
+               StyleBox[GridBox[{
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Definitions\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"Definitions\"",
+                    TooltipStyle->"TextStyling"],
+                    Annotation[#, "Definitions", "Tooltip"]& ], GridBox[{
+                    {
+                    RowBox[{
+                    RowBox[{"CoupledEntropy", "[", 
+                    RowBox[{
+                    RowBox[{"Hold", "[", "dist_", "]"}], ",", "\[Kappa]_", 
+                    ",", 
+                    RowBox[{"d_", ":", "1"}], ",", 
+                    RowBox[{"\[Alpha]_", ":", "2"}], ",", 
+                    RowBox[{"\[Delta]_", ":", "1"}], ",", 
+                    RowBox[{"limits_", ":", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], 
+                    "}"}]}]}], "]"}], ":=", 
+                    RowBox[{
+                    RowBox[{"CoupledEntropy", "[", 
+                    RowBox[{
+                    RowBox[{"Hold", "[", "dist", "]"}], ",", "\[Kappa]", ",", 
+                    "d", ",", "\[Alpha]", ",", "\[Delta]", ",", "limits"}], 
+                    "]"}], "=", 
+                    RowBox[{"CoupledCrossEntropy", "[", 
+                    RowBox[{
+                    "dist", ",", "dist", ",", "\[Kappa]", ",", "\[Alpha]", 
+                    ",", "d", ",", "\[Delta]", ",", "limits"}], "]"}]}]}]}
+                    },
+                    DefaultBaseStyle->"Column",
+                    GridBoxAlignment->{"Columns" -> {{Left}}},
+                    
+                    GridBoxItemSize->{
+                    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]},
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Full Name\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"FullName\"",
+                    TooltipStyle->"TextStyling"],
+                    
+                    Annotation[#, "FullName", 
+                    "Tooltip"]& ], "\<\"Global`CoupledEntropy\"\>"}
+                 },
+                 AutoDelete->False,
+                 GridBoxAlignment->{"Columns" -> {Right, Left}},
+                 GridBoxDividers->None,
+                 GridBoxItemSize->{"Columns" -> {Automatic, Automatic}},
+                 GridBoxSpacings->{"Columns" -> {
+                    Offset[0.27999999999999997`], {
+                    Offset[0.5599999999999999]}, 
+                    Offset[0.27999999999999997`]}, "Rows" -> {
+                    Offset[0.2], {
+                    Offset[0.8]}, 
+                    Offset[0.2]}}], "DialogStyle",
+                StripOnInput->False],
+               DynamicModuleValues:>{}]}
+            },
+            DefaultBaseStyle->"Column",
+            GridBoxAlignment->{"Columns" -> {{Left}}},
+            GridBoxDividers->{"Columns" -> {{False}}, "Rows" -> {{False}}},
+            
+            GridBoxItemSize->{
+             "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+            GridBoxSpacings->{"Columns" -> {
+                Offset[0.27999999999999997`], {
+                 Offset[0.5599999999999999]}, 
+                Offset[0.27999999999999997`]}, "Rows" -> {
+                Offset[0.2], {
+                 Offset[3.6]}, 
+                Offset[0.2]}}],
+           FrameMargins->6], ""},
+         {
+          ItemBox[
+           TagBox[
+            ButtonBox[
+             PaneSelectorBox[{False->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "UpPointerOpener"],
+               ImageSizeCache->{10., {2., 8.}}], True->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "UpPointerOpenerHot"],
+               ImageSizeCache->{10., {2., 8.}}]}, Dynamic[
+              System`InformationDump`mouseOver$$]],
+             Alignment->Left,
+             Appearance->{"Default" -> None},
+             
+             ButtonFunction:>FEPrivate`Set[
+              System`InformationDump`open$$, False],
+             Evaluator->Automatic,
+             FrameMargins->{{9, 0}, {0, 0}},
+             ImageMargins->0,
+             ImageSize->Full,
+             Method->"Preemptive"],
+            
+            EventHandlerTag[{
+             "MouseEntered" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, True], 
+              "MouseExited" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, False], 
+              Method -> "Preemptive", PassEventsDown -> Automatic, 
+              PassEventsUp -> True}]],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], "\[SpanFromLeft]"}
+        },
+        AutoDelete->False,
+        FrameStyle->Directive[
+          GrayLevel[0.8], 
+          Thickness[Tiny]],
+        GridBoxAlignment->{"Columns" -> {Left, Right}, "Rows" -> {{Center}}},
+        GridBoxDividers->{
+         "Columns" -> {{None}}, "Rows" -> {False, {True}, False}},
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+       "Grid"], False->
+      TagBox[GridBox[{
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\" Symbol\"\>", "InformationTitleText",
+             StripOnInput->False],
+            FrameMargins->{{4, 0}, {-1, 1}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\"Global`CoupledEntropy\"\>", "InformationUsageText",
+             StripOnInput->False,
+             LineSpacing->{1.5, 1.5, 3.}],
+            FrameMargins->{{10, 10}, {8, 10}}],
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           TagBox[
+            ButtonBox[
+             PaneSelectorBox[{False->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "DownPointerOpener"],
+               ImageSizeCache->{10., {2., 8.}}], True->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "DownPointerOpenerHot"],
+               ImageSizeCache->{10., {2., 8.}}]}, Dynamic[
+              System`InformationDump`mouseOver$$]],
+             Alignment->Left,
+             Appearance->{"Default" -> None},
+             
+             ButtonFunction:>FEPrivate`Set[
+              System`InformationDump`open$$, True],
+             Evaluator->Automatic,
+             FrameMargins->{{9, 0}, {0, 0}},
+             ImageMargins->0,
+             ImageSize->Full,
+             Method->"Preemptive"],
+            
+            EventHandlerTag[{
+             "MouseEntered" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, True], 
+              "MouseExited" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, False], 
+              Method -> "Preemptive", PassEventsDown -> Automatic, 
+              PassEventsUp -> True}]],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], "\[SpanFromLeft]"}
+        },
+        AutoDelete->False,
+        FrameStyle->Directive[
+          GrayLevel[0.8], 
+          Thickness[Tiny]],
+        GridBoxAlignment->{"Columns" -> {Left, Right}, "Rows" -> {{Center}}},
+        GridBoxDividers->{
+         "Columns" -> {{None}}, "Rows" -> {False, {True}, False}},
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+       "Grid"]}, Dynamic[System`InformationDump`open$$],
+      BaselinePosition->Baseline,
+      FrameMargins->0,
+      ImageSize->Automatic],
+     DynamicModuleValues:>{}],
+    BaseStyle->"InformationGridFrame",
+    StripOnInput->False], "InformationGridPlain",
+   StripOnInput->False],
+  InformationData[
+   Association[
+   "ObjectType" -> "Symbol", "Usage" -> "Global`CoupledEntropy", 
+    "Documentation" -> None, "OwnValues" -> None, "UpValues" -> None, 
+    "DownValues" -> 
+    Information`InformationValueForm[
+     DownValues, $CellContext`CoupledEntropy, {$CellContext`CoupledEntropy[
+         Hold[
+          Pattern[$CellContext`dist, 
+           Blank[]]], 
+         Pattern[$CellContext`\[Kappa], 
+          Blank[]], 
+         Optional[
+          Pattern[$CellContext`d, 
+           Blank[]], 1], 
+         Optional[
+          Pattern[$CellContext`\[Alpha], 
+           Blank[]], 2], 
+         Optional[
+          Pattern[$CellContext`\[Delta], 
+           Blank[]], 1], 
+         Optional[
+          Pattern[$CellContext`limits, 
+           Blank[]], {
+           DirectedInfinity[-1], 
+           DirectedInfinity[1]}]] :> ($CellContext`CoupledEntropy[
+          
+          Hold[$CellContext`dist], $CellContext`\[Kappa], $CellContext`d, \
+$CellContext`\[Alpha], $CellContext`\[Delta], $CellContext`limits] = \
+$CellContext`CoupledCrossEntropy[$CellContext`dist, $CellContext`dist, \
+$CellContext`\[Kappa], $CellContext`\[Alpha], $CellContext`d, $CellContext`\
+\[Delta], $CellContext`limits])}], "SubValues" -> None, "DefaultValues" -> 
+    None, "NValues" -> None, "FormatValues" -> None, "Options" -> None, 
+    "Attributes" -> {}, "FullName" -> "Global`CoupledEntropy"], 
+   False]]], "Output",
+ CellChangeTimes->{3.826030060636634*^9},
+ CellLabel->
+  "Out[104]=",ExpressionUUID->"0a36ba6c-273c-4c95-ac03-f9881cfe3d9c"]
 }, Open  ]]
 }, Open  ]]
 },
-WindowSize->{1228, 854},
+WindowSize->{1009, 854},
 WindowMargins->{{33, Automatic}, {Automatic, 0}},
 FrontEndVersion->"12.1 for Mac OS X x86 (64-bit) (June 19, 2020)",
 StyleDefinitions->"Default.nb",
@@ -4399,13 +6781,13 @@ Cell[13796, 403, 671, 22, 52, "Output",ExpressionUUID->"87d0217e-28f0-47bc-a866-
 }, Open  ]],
 Cell[CellGroupData[{
 Cell[14504, 430, 673, 21, 38, "Input",ExpressionUUID->"0a45b8cb-8d3e-4fbc-ac8c-ce303b16bd8e"],
-Cell[15180, 453, 2161, 67, 94, "Output",ExpressionUUID->"8fb31925-5d9d-4126-9bea-39fd330edade"]
+Cell[15180, 453, 2161, 67, 83, "Output",ExpressionUUID->"8fb31925-5d9d-4126-9bea-39fd330edade"]
 }, Open  ]],
 Cell[CellGroupData[{
 Cell[17378, 525, 390, 10, 30, "Input",ExpressionUUID->"088f1d09-f254-4e05-9965-54c33a3455f3"],
 Cell[17771, 537, 1383, 41, 56, "Output",ExpressionUUID->"39ba7be0-6de3-42ba-bb0e-2c20f5dd0b2e"]
 }, Open  ]],
-Cell[19169, 581, 1738, 49, 52, "Input",ExpressionUUID->"1a7632fd-87c9-409a-a08e-dbb11a1aeb4e"],
+Cell[19169, 581, 1738, 49, 94, "Input",ExpressionUUID->"1a7632fd-87c9-409a-a08e-dbb11a1aeb4e"],
 Cell[CellGroupData[{
 Cell[20932, 634, 870, 27, 33, "Input",ExpressionUUID->"c6a64f5a-c41b-4ae2-a983-5abed770fcdc"],
 Cell[21805, 663, 617, 18, 37, "Output",ExpressionUUID->"26756705-0e1f-4dc6-9cd6-b12804717688"]
@@ -4422,7 +6804,7 @@ Cell[23932, 731, 335, 10, 34, "Output",ExpressionUUID->"a2e8d9d9-0f24-4368-a5f5-
 Cell[24282, 744, 3100, 69, 304, "Input",ExpressionUUID->"4e8d433f-9b48-417b-8f0e-1558dc9f8177"],
 Cell[CellGroupData[{
 Cell[27407, 817, 146, 2, 30, "Input",ExpressionUUID->"472675d1-ece9-4e53-94f3-4be3a88a1f59"],
-Cell[27556, 821, 3072, 90, 119, "Output",ExpressionUUID->"7642154c-1612-4747-a47b-bf189fc016bd"]
+Cell[27556, 821, 3072, 90, 140, "Output",ExpressionUUID->"7642154c-1612-4747-a47b-bf189fc016bd"]
 }, Open  ]],
 Cell[CellGroupData[{
 Cell[30665, 916, 697, 17, 94, "Input",ExpressionUUID->"6ec63dd9-b87d-431a-844c-4e2d47765ef1"],
@@ -4433,11 +6815,11 @@ Cell[42965, 1215, 2614, 63, 241, "Input",ExpressionUUID->"52a644f3-8ca3-471e-bc0
 Cell[45582, 1280, 697, 18, 34, "Output",ExpressionUUID->"8b8538b4-6730-4215-8e12-afea5e05c68f"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[46316, 1303, 1336, 37, 91, "Input",ExpressionUUID->"810d4078-0ce4-49aa-ba7d-e0e51311b748"],
-Cell[47655, 1342, 1337, 37, 60, "Output",ExpressionUUID->"41f00d5a-a448-4e05-b63d-bcd037431d02"]
+Cell[46316, 1303, 1336, 37, 117, "Input",ExpressionUUID->"810d4078-0ce4-49aa-ba7d-e0e51311b748"],
+Cell[47655, 1342, 1337, 37, 110, "Output",ExpressionUUID->"41f00d5a-a448-4e05-b63d-bcd037431d02"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[49029, 1384, 2140, 56, 150, "Input",ExpressionUUID->"54f6b41a-56a8-4757-b07d-3b4c8bdda499"],
+Cell[49029, 1384, 2140, 56, 171, "Input",ExpressionUUID->"54f6b41a-56a8-4757-b07d-3b4c8bdda499"],
 Cell[51172, 1442, 371, 9, 41, "Message",ExpressionUUID->"cb139f6d-7d30-4b27-bdc4-ecd42748d42e"],
 Cell[51546, 1453, 658, 13, 31, "Message",ExpressionUUID->"e11d1929-080c-4631-b856-7b3906c54da4"],
 Cell[52207, 1468, 371, 9, 41, "Message",ExpressionUUID->"97068e41-1707-48d1-bd63-2fa0b724bf13"],
@@ -4454,7 +6836,7 @@ Cell[66585, 1829, 245, 4, 30, "Input",ExpressionUUID->"4f401ed9-87ae-4daf-87d4-9
 Cell[66833, 1835, 689, 19, 60, "Output",ExpressionUUID->"8e7108f3-437a-414a-9346-788827360f38"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[67559, 1859, 1365, 37, 91, "Input",ExpressionUUID->"52ae8979-ed09-44b9-8951-a81d4796d1ca"],
+Cell[67559, 1859, 1365, 37, 117, "Input",ExpressionUUID->"52ae8979-ed09-44b9-8951-a81d4796d1ca"],
 Cell[68927, 1898, 1326, 36, 110, "Output",ExpressionUUID->"222419d2-3469-42de-8848-a7f8195b4b38"]
 }, Open  ]],
 Cell[70268, 1937, 187, 4, 30, "Input",ExpressionUUID->"8935511f-29f8-4bdd-bc09-432819f9c0cc"],
@@ -4548,7 +6930,39 @@ Cell[148125, 3996, 3434, 75, 239, "Output",ExpressionUUID->"c03af078-579d-4881-8
 }, Open  ]],
 Cell[CellGroupData[{
 Cell[151596, 4076, 1596, 41, 206, "Input",ExpressionUUID->"d1387008-7754-48a6-8fee-9eec71673eac"],
-Cell[153195, 4119, 10529, 216, 264, "Output",ExpressionUUID->"c694797a-8ce3-4d64-9d8f-bfabe6ea4642"]
+Cell[153195, 4119, 10529, 216, 241, "Output",ExpressionUUID->"c694797a-8ce3-4d64-9d8f-bfabe6ea4642"]
+}, Open  ]],
+Cell[163739, 4338, 1881, 50, 182, "Input",ExpressionUUID->"902083d3-83f4-40e6-bc9c-6f2498f8f534"],
+Cell[165623, 4390, 3716, 88, 270, "Input",ExpressionUUID->"8a3a21e1-2763-4f6c-9f06-f5a6c8dc590b"],
+Cell[169342, 4480, 1489, 43, 103, "Input",ExpressionUUID->"fda1b91e-6748-43a5-b91a-c14c12be3ec0"],
+Cell[CellGroupData[{
+Cell[170856, 4527, 485, 11, 30, "Input",ExpressionUUID->"184b1b4f-e42d-4bdb-ae74-e502715d3923"],
+Cell[171344, 4540, 22723, 497, 1509, "Output",ExpressionUUID->"44450b3f-c3fe-41dd-bff7-7440559711d9"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[194104, 5042, 202, 3, 30, "Input",ExpressionUUID->"adca31b9-c4cd-41ca-b00b-3235cc4ede0f"],
+Cell[194309, 5047, 48770, 1090, 340, "Output",ExpressionUUID->"405d1d52-7dd9-4def-b0ea-62b439f79e44"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[243116, 6142, 308, 6, 30, "Input",ExpressionUUID->"8fae915c-e096-4981-96b0-da2d4cb4146f"],
+Cell[243427, 6150, 201, 3, 34, "Output",ExpressionUUID->"e4e9ac71-5ba6-41fc-9f6f-ced49707f8c0"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[243665, 6158, 737, 18, 30, "Input",ExpressionUUID->"a5408c28-f659-4c52-a5dd-f51a0e828e8b"],
+Cell[244405, 6178, 537, 11, 34, "Output",ExpressionUUID->"f18e7f76-f1a0-4868-a7c4-a9912036a093"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[244979, 6194, 511, 12, 30, "Input",ExpressionUUID->"5340b63e-326d-400b-80fe-29217f5665c1"],
+Cell[245493, 6208, 247, 3, 34, "Output",ExpressionUUID->"a2eaf7e0-c063-41ea-8438-90b5a0cda823"]
+}, Open  ]],
+Cell[245755, 6214, 1262, 31, 115, "Input",ExpressionUUID->"e2aa1d22-ca0f-401b-a32d-739e0e8d4b6a"],
+Cell[CellGroupData[{
+Cell[247042, 6249, 423, 11, 30, "Input",ExpressionUUID->"1de836b9-7218-4f82-8aca-e425fab0e78f"],
+Cell[247468, 6262, 6536, 169, 394, "Output",ExpressionUUID->"69eda950-9d1d-4d7a-a16c-f7dee72dca3d"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[254041, 6436, 206, 4, 30, "Input",ExpressionUUID->"e891c443-55bb-458a-9216-09cdd2d1a7db"],
+Cell[254250, 6442, 11105, 275, 168, "Output",ExpressionUUID->"0a36ba6c-273c-4c95-ac03-f9881cfe3d9c"]
 }, Open  ]]
 }, Open  ]]
 }
