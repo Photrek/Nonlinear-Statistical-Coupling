@@ -96,7 +96,8 @@ class MultivariateCoupledNormal(CoupledNormal):
         # assert X.shape[-1] ==  self._loc.shape[-1], "input X and loc must have the same dims."
         sigma = np.matmul(self._scale, self._scale)
         sigma_inv = np.linalg.inv(sigma)
-        _normalized_X = lambda x: np.linalg.multi_dot([x, sigma_inv, x])
+        _normalized_X = lambda x: np.linalg.multi_dot([x-self._loc, sigma_inv, x-self._loc])
+        # BUG FIX: Not taking into account self._loc
         X_norm = np.apply_along_axis(_normalized_X, 1, X)
         norm_term = self._normalized_term(beta_func)
         p = (coupled_exponential(X_norm, self._kappa, self._dim))**(-1/self._alpha) / norm_term
