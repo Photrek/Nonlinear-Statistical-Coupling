@@ -3,6 +3,9 @@ import numpy as np
 from typing import List
 from scipy.special import beta, gamma
 from ..math.function import coupled_exponential
+# from ..math.entropy_norm import coupled_entropy_norm, \
+#                                 coupled_cross_entropy_norm, \
+#                                 coupled_kl_divergence_norm
 
 
 class CoupledNormal:
@@ -141,6 +144,43 @@ class CoupledNormal:
             beta_input_y = d/2
             gamma_input = d/2
             return func_term * beta(beta_input_x, beta_input_y)/gamma(gamma_input)
+
+    '''
+    def entropy(self, root: bool = False, n: int = 10000, rounds: int = 1,
+                seed: int = 1) -> [float, np.ndarray]:
+        return coupled_entropy_norm(dist=self,
+                                    kappa=self.kappa,
+                                    alpha=self.alpha,
+                                    root=root,
+                                    n=n,
+                                    rounds=rounds,
+                                    seed=seed
+                                    )
+
+    def cross_entropy(self, dist_q, root: bool = False, n: int = 10000,
+                      rounds: int = 1, seed: int = 1) -> [float, np.ndarray]:
+        return coupled_cross_entropy_norm(dist_p=self,
+                                          dist_q=dist_q,
+                                          kappa=self.kappa,
+                                          alpha=self.alpha,
+                                          root=root,
+                                          n=n,
+                                          rounds=rounds,
+                                          seed=seed
+                                          )
+
+    def kl_divergence(self, dist_q, root: bool = False, n: int = 10000,
+                      rounds: int = 1, seed: int = 1) -> [float, np.ndarray]:
+        return coupled_kl_divergence_norm(dist_p=self,
+                                          dist_q=dist_q,
+                                          kappa=self.kappa,
+                                          alpha=self.alpha,
+                                          root=root,
+                                          n=n,
+                                          rounds=rounds,
+                                          seed=seed
+                                          )
+    '''
 
     def __repr__(self) -> str:
         return f"<nsc.distributions.{self.__class__.__name__} batch_shape={str(self._batch_shape())} event_shape={str(self._event_shape())}>"

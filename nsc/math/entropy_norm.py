@@ -4,7 +4,7 @@ from math import gamma
 from numpy.linalg import det
 from .entropy import importance_sampling_integrator
 from .function import coupled_logarithm
-from ..coupled_normal import MultivariateCoupledNormal
+from ..multivariate_coupled_normal import MultivariateCoupledNormal
 
 
 def coupled_normal_entropy(sigma, kappa):
@@ -51,6 +51,7 @@ def coupled_normal_entropy(sigma, kappa):
     return entropy
 
 
+
 def biased_coupled_probability_norm(coupled_normal, kappa, alpha):
     """
     
@@ -84,6 +85,7 @@ def biased_coupled_probability_norm(coupled_normal, kappa, alpha):
                                                        * scale_mult), 
                                          kappa=new_kappa)
     return new_dist
+
 
 
 def coupled_probability_norm(coupled_normal,
@@ -153,7 +155,8 @@ def coupled_cross_entropy_norm(dist_p,
     # given parameters.
     my_coupled_probability = coupled_probability_norm(dist_p,
                                                       kappa = kappa, 
-                                                      alpha = alpha)
+                                                      alpha = alpha
+                                                      )
     
     dim = dist_p.dim
     
@@ -164,11 +167,13 @@ def coupled_cross_entropy_norm(dist_p,
         
         def no_root_coupled_cross_entropy(x):
             
-            return (my_coupled_probability(x)
-                    *(1/-alpha)
-                    *coupled_logarithm(value=raised_density_func_q(x),
-                                          kappa=kappa, 
-                                          dim=dim))
+            return (my_coupled_probability(x) * \
+                    (1/-alpha) * \
+                    coupled_logarithm(value=raised_density_func_q(x),
+                                      kappa=kappa, 
+                                      dim=dim
+                                      )
+                    )
         
         # Integrate the function.
         final_integration = -importance_sampling_integrator(no_root_coupled_cross_entropy, 
@@ -176,7 +181,8 @@ def coupled_cross_entropy_norm(dist_p,
                                                             sampler=dist_p.sample_n, 
                                                             n=n,
                                                             rounds=rounds,
-                                                            seed=seed)
+                                                            seed=seed
+                                                            )
         
     else:
         print("Not implemented yet.")
@@ -229,14 +235,14 @@ def coupled_entropy_norm(dist,
                                  seed=seed)
 
 
-def coupled_divergence_norm(dist_p, 
-                            dist_q, 
-                            kappa: float = 0.0, 
-                            alpha: float = 2.0, 
-                            root: bool = False,
-                            n=10000,
-                            rounds=1,
-                            seed=1) -> [float, np.ndarray]:
+def coupled_kl_divergence_norm(dist_p, 
+                               dist_q, 
+                               kappa: float = 0.0, 
+                               alpha: float = 2.0, 
+                               root: bool = False,
+                               n=10000,
+                               rounds=1,
+                               seed=1) -> [float, np.ndarray]:
     """
     
 

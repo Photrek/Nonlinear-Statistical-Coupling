@@ -4,6 +4,9 @@ from typing import List
 from scipy.special import gamma
 from .coupled_normal import CoupledNormal
 from ..math.function import coupled_exponential
+from ..math.entropy import coupled_entropy, \
+                           coupled_cross_entropy, \
+                           coupled_kl_divergence
 
 
 class MultivariateCoupledNormal(CoupledNormal):
@@ -119,3 +122,44 @@ class MultivariateCoupledNormal(CoupledNormal):
                 gamma_num = gamma((1 + (-1 + self._dim)*self._kappa) / (2*self._kappa))
                 gamma_dem = gamma((1 + self._dim*self._kappa) / (2*self._kappa))
                 return (np.sqrt(np.pi) * sigma_det**0.5 * gamma_num) / (np.sqrt(self._kappa) * gamma_dem)
+
+    def entropy(self, root: bool = False, n: int = 10000, rounds: int = 1,
+                seed: int = 1) -> [float, np.ndarray]:
+        return coupled_entropy(density_func=self.prob,
+                               sampler=self.sample_n,
+                               kappa=self.kappa,
+                               alpha=self.alpha,
+                               dim=self.dim,
+                               root=root,
+                               n=n,
+                               rounds=rounds,
+                               seed=seed
+                               )
+
+    def cross_entropy(self, dist_q, root: bool = False, n: int = 10000,
+                      rounds: int = 1, seed: int = 1) -> [float, np.ndarray]:
+        return coupled_cross_entropy(density_func_p=self.prob,
+                                     density_func_q=dist_q.prob,
+                                     sampler_p=self.sample_n,
+                                     kappa=self.kappa,
+                                     alpha=self.alpha,
+                                     dim=self.dim,
+                                     root=root,
+                                     n=n,
+                                     rounds=rounds,
+                                     seed=seed
+                                     )
+
+    def kl_divergence(self, dist_q, root: bool = False, n: int = 10000,
+                      rounds: int = 1, seed: int = 1) -> [float, np.ndarray]:
+        return coupled_kl_divergence(density_func_p=self.prob,
+                                     density_func_q=dist_q.prob,
+                                     sampler_p=self.sample_n,
+                                     kappa=self.kappa,
+                                     alpha=self.alpha,
+                                     dim=self.dim,
+                                     root=root,
+                                     n=n,
+                                     rounds=rounds,
+                                     seed=seed
+                                     )
