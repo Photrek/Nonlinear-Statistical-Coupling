@@ -63,19 +63,15 @@ def coupled_exponential(value: [int, float, np.ndarray],
 
     if kappa == 0:
         coupled_exp_value = np.exp(value)
-    elif kappa > 0: # KPN 4/13/21 adding logic for 1 + kappa*value <=0
-        if (1 + kappa*value) > 0: 
-            return (1 + kappa*value)**((1 + dim*kappa)/kappa)
-        else: # KPN 4/13/21 since kappa > 0 (1+dim*kappa)/kappa > 0
-            return 0.  
-        
+    elif kappa > 0:
+        coupled_exp_value = (1 + kappa*value)**((1 + dim*kappa)/kappa)
     # the following is given that kappa < 0
     else:
         def _compact_support(value, kappa, dim):
-            if (1 + kappa*value) > 0:  # KPN 4/13/21 removed equal sign; if = 0, then result is either 0 or inf
+            if (1 + kappa*value) >= 0:
                 try:
                     return (1 + kappa*value)**((1 + dim*kappa)/kappa)
-                except ZeroDivisionError: # KPN 4/13/21 ZeroDivisionError may no longer be necessary
+                except ZeroDivisionError:
                     print("Skipped ZeroDivisionError at the following: " + \
                           f"value = {value}, kappa = {kappa}. Therefore," + \
                           f"(1+kappa*value) = {(1+kappa*value)}"
