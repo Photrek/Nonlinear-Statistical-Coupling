@@ -62,25 +62,17 @@ def coupled_exponential(value: [int, float, np.ndarray],
     assert -1/dim <= kappa, "kappa must be greater than or equal to -1/dim."
 
     if kappa == 0:
+        # Does not have to be vectorized
         coupled_exp_value = np.exp(value)
-    elif kappa > 0:
-        coupled_exp_value = (1 + kappa*value)**((1 + dim*kappa)/kappa)
-    # the following is given that kappa < 0
     else:
-        def _compact_support(value, kappa, dim):
-            if (1 + kappa*value) >= 0:
-                try:
-                    return (1 + kappa*value)**((1 + dim*kappa)/kappa)
-                except ZeroDivisionError:
-                    print("Skipped ZeroDivisionError at the following: " + \
-                          f"value = {value}, kappa = {kappa}. Therefore," + \
-                          f"(1+kappa*value) = {(1+kappa*value)}"
-                          )
+        # inner function that takes in the value on a scalar-by-sclar basis
+        def _coupled_exponential_scalar(value, kappa, dim):
+            if (1 + kappa*value) > 0:
+                return (1 + kappa*value)**((1 + dim*kappa)/kappa)
             elif ((1 + dim*kappa)/kappa) > 0:
                 return 0.
             else:
-                return float('inf')    
-        compact_support = np.vectorize(_compact_support)
-        coupled_exp_value = compact_support(value, kappa, dim)
+                return float('inf')
+        coupled_exp_value = np.vectorize(_coupled_exponential_scalar)(value, kappa, dim)
 
     return coupled_exp_value
