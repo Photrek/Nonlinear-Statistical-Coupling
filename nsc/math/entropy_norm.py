@@ -4,7 +4,7 @@ from math import gamma
 from numpy.linalg import det
 from .entropy import importance_sampling_integrator
 from .function import coupled_logarithm
-from ..multivariate_coupled_normal import MultivariateCoupledNormal
+from ..distributions.multivariate_coupled_normal import MultivariateCoupledNormal
 
 
 def coupled_normal_entropy(sigma, kappa):
