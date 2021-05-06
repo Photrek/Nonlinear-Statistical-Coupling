@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
+numeric_tuple = (int, float, np.float32, np.float64, np.float128)
+
 
 def coupled_logarithm(value: [int, float, np.ndarray],
                       kappa: [int, float] = 0.0,
@@ -9,7 +11,7 @@ def coupled_logarithm(value: [int, float, np.ndarray],
     """
     Generalization of the logarithm function, which defines smooth
     transition to power functions.
-    
+
     Parameters
     ----------
     value : Input variable in which the coupled logarithm is applied to.
@@ -20,7 +22,7 @@ def coupled_logarithm(value: [int, float, np.ndarray],
           Accepts only int data type.
     """
     # convert value into np.ndarray (if scalar) to keep consistency
-    value = np.array(value) if isinstance(value, (int, float)) else value
+    value = np.array(value) if isinstance(value, numeric_tuple) else value
     assert isinstance(value, np.ndarray), "value must be an int, float, or np.ndarray."
     assert 0. not in value, "value must not be or contain np.ndarray zero(s)."
     if kappa == 0.:
@@ -51,10 +53,11 @@ def coupled_exponential(value: [int, float, np.ndarray],
     -------
     float
         The coupled exponential values.
-    
+
     """
     # convert number into np.ndarray to keep consistency
-    value = np.array(value) if isinstance(value, (int, float)) else value
+    isinstance(value, (int, float, ))
+    value = np.array(value) if isinstance(value, numeric_tuple) else value
     assert isinstance(value, np.ndarray), "value must be an int, float, or np.ndarray."
     # assert 0 not in value, "value must not be or contain np.ndarray zero(s)."
     assert isinstance(dim, int) and dim >= 0, "dim must be an integer greater than or equal to 0."
