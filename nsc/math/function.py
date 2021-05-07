@@ -62,7 +62,7 @@ def coupled_exponential(value: [int, float, np.ndarray],
     # assert 0 not in value, "value must not be or contain np.ndarray zero(s)."
     assert isinstance(dim, int) and dim >= 0, "dim must be an integer greater than or equal to 0."
     # check that -1/d <= kappa
-    assert -1/dim <= kappa, "kappa must be greater than or equal to -1/dim."
+    # assert -1/dim <= kappa, "kappa must be greater than or equal to -1/dim."
 
     if kappa == 0:
         # Does not have to be vectorized
