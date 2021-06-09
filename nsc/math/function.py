@@ -68,7 +68,16 @@ def coupled_exponential(value: [int, float, np.ndarray],
         # Does not have to be vectorized
         coupled_exp_value = np.exp(value)
     else:
-        coupled_exp_value = np.vectorize(_coupled_exponential_scalar)(value, kappa, dim)
+        #coupled_exp_value = np.vectorize(_coupled_exponential_scalar)(value, kappa, dim)
+        
+        #Positive base, function operates as normal 
+        condition_1 = (1 + kappa*value) > 0
+        
+        #Negative base and positive exponent should return 0
+        condition_2 = ((1 + kappa*value) <= 0) & (((1 + dim*kappa)/kappa) > 0)
+        
+        coupled_exp_value = np.where(condition_1, (1 + kappa*value)**((1+dim*kappa)/kappa), float('inf'))
+        coupled_exp_value = np.where(condition_2, 0, coupled_exp_value)
 
     return coupled_exp_value
 
