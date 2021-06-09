@@ -68,14 +68,16 @@ def coupled_exponential(value: [int, float, np.ndarray],
         # Does not have to be vectorized
         coupled_exp_value = np.exp(value)
     else:
-        # inner function that takes in the value on a scalar-by-sclar basis
-        def _coupled_exponential_scalar(value, kappa, dim):
-            if (1 + kappa*value) > 0:
-                return (1 + kappa*value)**((1 + dim*kappa)/kappa)
-            elif ((1 + dim*kappa)/kappa) > 0:
-                return 0.
-            else:
-                return float('inf')
         coupled_exp_value = np.vectorize(_coupled_exponential_scalar)(value, kappa, dim)
 
     return coupled_exp_value
+
+
+# inner function that takes in the value on a scalar-by-sclar basis
+def _coupled_exponential_scalar(value, kappa, dim):
+    if (1 + kappa*value) > 0:
+        return (1 + kappa*value)**((1 + dim*kappa)/kappa)
+    elif ((1 + dim*kappa)/kappa) > 0:
+        return 0.
+    else:
+        return float('inf')

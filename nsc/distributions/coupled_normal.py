@@ -40,7 +40,10 @@ class CoupledNormal:
         self._scale = scale
         self._kappa = kappa
         self._alpha = alpha
-        self._dim = self._n_dim()
+        self._batch_shape = self._get_batch_shape()
+        self._event_shape = self._get_event_shape()
+        self._dim = self._get_dim()
+#         self._norm_term = self._get_normalized_term()
 
     @property
     def loc(self):
@@ -62,10 +65,7 @@ class CoupledNormal:
     def dim(self):
         return self._dim
 
-    def _n_dim(self):
-        return 1 if self._event_shape() == [] else self._event_shape()[0]
-
-    def _batch_shape(self) -> List:
+    def _get_batch_shape(self) -> List:
         if self._rank(self._loc) == 0:
             # return [] signifying single batch of a single distribution
             return []
@@ -73,10 +73,13 @@ class CoupledNormal:
             # return the batch shape in list format
             return list(self._loc.shape)
 
-    def _event_shape(self) -> List:
+    def _get_event_shape(self) -> List:
         # For univariate Coupled Normal distribution, event shape is always []
         # [] signifies single random variable dim (regardless of batch size)
         return []
+
+    def _get_dim(self):
+        return 1 if self._event_shape == [] else self._event_shape[0]
 
     def _rank(self, value: [int, float, np.ndarray]) -> int:
         # specify the rank of a given value, with rank=0 for a scalar and rank=ndim for an ndarray
@@ -116,13 +119,13 @@ class CoupledNormal:
             assert X[0].shape == self._loc.shape, "X samples must have the same dimensions as loc and scale (check respective .shape())."
         # Calculate PDF with input X
         X_norm = (X-self._loc)**2 / self._scale**2
-        norm_term = self._normalized_term()
+        norm_term = self._get_normalized_term()
         # p is the density vector
         p = (coupled_exponential(X_norm, self._kappa))**-0.5 / norm_term
         return p
 
     # Normalization constant of 1-D Coupled Gaussian (NormCG)
-    def _normalized_term(self) -> [int, float, np.ndarray]:
+    def _get_normalized_term(self) -> [int, float, np.ndarray]:
         base_term = np.sqrt(2*np.pi) * self._scale
         norm_term = base_term*self._normalization_function()
         return norm_term
@@ -183,4 +186,4 @@ class CoupledNormal:
     '''
 
     def __repr__(self) -> str:
-        return f"<nsc.distributions.{self.__class__.__name__} batch_shape={str(self._batch_shape())} event_shape={str(self._event_shape())}>"
+        return f"<nsc.distributions.{self.__class__.__name__} batch_shape={str(self._batch_shape)} event_shape={str(self._event_shape)}>"
