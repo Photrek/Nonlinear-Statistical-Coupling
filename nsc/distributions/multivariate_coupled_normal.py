@@ -102,7 +102,7 @@ class MultivariateCoupledNormal(CoupledNormal):
                 normal_samp * tf.math.rsqrt(chi2_samp / self._df)[..., tf.newaxis])
         '''
 
-    def prob_(self, X: [List, np.ndarray], beta_func: bool = True) -> np.ndarray:
+    def prob(self, X: [List, np.ndarray], beta_func: bool = True) -> np.ndarray:
         # assert X.shape[-1] ==  self._loc.shape[-1], "input X and loc must have the same dims."
         _sigma_inv = np.linalg.inv(self._sigma)
         if self._batch_shape:
