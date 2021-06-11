@@ -83,6 +83,7 @@ def coupled_exponential(value: [int, float, np.ndarray],
 
 
 # inner function that takes in the value on a scalar-by-sclar basis
+'''
 def _coupled_exponential_scalar(value, kappa, dim):
     if (1 + kappa*value) > 0:
         return (1 + kappa*value)**((1 + dim*kappa)/kappa)
@@ -90,3 +91,4 @@ def _coupled_exponential_scalar(value, kappa, dim):
         return 0.
     else:
         return float('inf')
+'''
