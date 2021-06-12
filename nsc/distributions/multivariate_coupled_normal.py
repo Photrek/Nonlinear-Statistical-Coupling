@@ -5,8 +5,8 @@ from scipy.special import gamma
 from .coupled_normal import CoupledNormal
 from ..math.function import coupled_exponential
 from ..math.entropy import coupled_entropy, \
-                           coupled_cross_entropy, \
-                           coupled_kl_divergence
+                            coupled_cross_entropy, \
+                            coupled_kl_divergence
 
 
 class MultivariateCoupledNormal(CoupledNormal):
@@ -24,8 +24,10 @@ class MultivariateCoupledNormal(CoupledNormal):
                  validate_args: bool = True
                  ):
         if validate_args:
-            assert isinstance(loc, (list, np.ndarray)), "loc must be either a list or ndarray type. Otherwise use CoupledNormal."
-            assert isinstance(scale, (list, np.ndarray)), "scale must be either a list or ndarray type. Otherwise use CoupledNormal."
+            assert isinstance(loc, (list, np.ndarray)), \
+                "loc must be either a list or ndarray type. Otherwise use CoupledNormal."
+            assert isinstance(scale, (list, np.ndarray)), \
+                "scale must be either a list or ndarray type. Otherwise use CoupledNormal."
         super(MultivariateCoupledNormal, self).__init__(
             loc=loc,
             scale=scale,
@@ -34,17 +36,21 @@ class MultivariateCoupledNormal(CoupledNormal):
             validate_args=validate_args
         )
         if self._batch_shape:
-            _scale_diag = np.empty(shape=[d for d in self._scale.shape]+[self._scale.shape[-1]])
+            _scale_diag = np.empty(shape=[d for d in self._scale.shape]+\
+                                   [self._scale.shape[-1]]
+                                   )
             # This can be further optimized
             for i, _scale_batch in enumerate(self._scale):
                 # Ensure that scale sub-batch is indeed positive definite
-                assert self.is_positive_definite(np.diag(_scale_batch)), "scale must be positive definite, but not necessarily symmetric."
+                assert self.is_positive_definite(np.diag(_scale_batch)), \
+                    "scale must be positive definite, but not necessarily symmetric."
                 _scale_diag[i] = np.diag(_scale_batch)
             self._scale = _scale_diag
         else:
             self._scale = np.diag(self._scale)
             # Ensure that scale is indeed positive definite
-            assert self.is_positive_definite(self._scale), "scale must be positive definite, but not necessarily symmetric."
+            assert self.is_positive_definite(self._scale), \
+                "scale must be positive definite, but not necessarily symmetric."
         # need to revisit this if self._scale contains lower triangle and not diagonal
         self._sigma = np.matmul(self._scale, self._scale)
         self._norm_term = self._get_normalized_term() 
@@ -79,7 +85,11 @@ class MultivariateCoupledNormal(CoupledNormal):
 
     def sample_n(self, n: int) -> np.array:
         # normal_samples = np.random.normal(loc=self._loc, scale=self._scale, size=n)
-        mvn_samples = np.random.multivariate_normal(mean=self._loc, cov=self._scale, size=n, check_valid='warn')
+        mvn_samples = np.random.multivariate_normal(mean=self._loc,
+                                                    cov=self._scale,
+                                                    size=n,
+                                                    check_valid='warn'
+                                                    )
         chi2_samples = np.random.chisquare(df=1/self._kappa, size=n)
         # Transpose to allow for broadcasting the following: (n x d) / (n x 1)
         samples_T = mvn_samples.T / np.sqrt(chi2_samples*self._kappa)
@@ -106,12 +116,20 @@ class MultivariateCoupledNormal(CoupledNormal):
         # assert X.shape[-1] ==  self._loc.shape[-1], "input X and loc must have the same dims."
         _sigma_inv = np.linalg.inv(self._sigma)
         if self._batch_shape:
-            left = np.matmul(np.expand_dims(X-self._loc, axis=-2), _sigma_inv)
-            X_norm = np.matmul(left, np.expand_dims(X-self._loc, axis=-1))
+            X_norm = np.matmul(np.matmul(np.expand_dims(X-self._loc, axis=-2),
+                                         _sigma_inv
+                                         ), 
+                               np.expand_dims(X-self._loc, axis=-1)
+                               )
         else:
-            _normalized_X = lambda x: np.linalg.multi_dot([x-self._loc, _sigma_inv, x-self._loc])
+            _normalized_X = lambda x: np.linalg.multi_dot([x-self._loc,
+                                                           _sigma_inv,
+                                                           x-self._loc
+                                                           ]
+                                                          )
             X_norm = np.apply_along_axis(_normalized_X, 1, X)
-        p = (coupled_exponential(X_norm, self._kappa, self._dim))**(-1/self._alpha) / self._norm_term
+        p = (coupled_exponential(X_norm, self._kappa, self._dim))**(-1/self._alpha) \
+            / self._norm_term
         return p
 
     # Normalization constant of the multivariate Coupled Gaussian (NormMultiCoupled)
@@ -130,7 +148,8 @@ class MultivariateCoupledNormal(CoupledNormal):
             else:  # self._alpha == 2
                 gamma_num = gamma((1 + (-1 + self._dim)*self._kappa) / (2*self._kappa))
                 gamma_dem = gamma((1 + self._dim*self._kappa) / (2*self._kappa))
-                return (np.sqrt(np.pi) * _sigma_det**0.5 * gamma_num) / (np.sqrt(self._kappa) * gamma_dem)
+                return (np.sqrt(np.pi) * _sigma_det**0.5 * gamma_num) / \
+                    (np.sqrt(self._kappa) * gamma_dem)
 
     def entropy(self, kappa: [int, float] = None, root: bool = False,
                 n: int = 10000, rounds: int = 1, seed: int = 1

@@ -149,10 +149,11 @@ class CoupledNormal:
             return func_term * beta(beta_input_x, beta_input_y)/gamma(gamma_input)
 
     '''
-    def entropy(self, root: bool = False, n: int = 10000, rounds: int = 1,
-                seed: int = 1) -> [float, np.ndarray]:
+    def entropy(self, kappa: [int, float] = None, root: bool = False,
+                n: int = 10000, rounds: int = 1, seed: int = 1
+                ) -> [float, np.ndarray]:
         return coupled_entropy_norm(dist=self,
-                                    kappa=self.kappa,
+                                    kappa=kappa if kappa else self.kappa,
                                     alpha=self.alpha,
                                     root=root,
                                     n=n,
@@ -160,11 +161,12 @@ class CoupledNormal:
                                     seed=seed
                                     )
 
-    def cross_entropy(self, dist_q, root: bool = False, n: int = 10000,
-                      rounds: int = 1, seed: int = 1) -> [float, np.ndarray]:
+    def cross_entropy(self, dist_q, kappa: [int, float] = None, root: bool = False,
+                      n: int = 10000, rounds: int = 1, seed: int = 1
+                      ) -> [float, np.ndarray]:
         return coupled_cross_entropy_norm(dist_p=self,
                                           dist_q=dist_q,
-                                          kappa=self.kappa,
+                                          kappa=kappa if kappa else self.kappa,
                                           alpha=self.alpha,
                                           root=root,
                                           n=n,
@@ -172,11 +174,12 @@ class CoupledNormal:
                                           seed=seed
                                           )
 
-    def kl_divergence(self, dist_q, root: bool = False, n: int = 10000,
-                      rounds: int = 1, seed: int = 1) -> [float, np.ndarray]:
+    def kl_divergence(self, dist_q, kappa: [int, float] = None, root: bool = False,
+                      n: int = 10000, rounds: int = 1, seed: int = 1
+                      ) -> [float, np.ndarray]:
         return coupled_kl_divergence_norm(dist_p=self,
                                           dist_q=dist_q,
-                                          kappa=self.kappa,
+                                          kappa=kappa if kappa else self.kappa,
                                           alpha=self.alpha,
                                           root=root,
                                           n=n,
