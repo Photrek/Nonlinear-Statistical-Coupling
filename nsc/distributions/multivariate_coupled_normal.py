@@ -106,16 +106,8 @@ class MultivariateCoupledNormal(CoupledNormal):
         # assert X.shape[-1] ==  self._loc.shape[-1], "input X and loc must have the same dims."
         _sigma_inv = np.linalg.inv(self._sigma)
         if self._batch_shape:
-            X_norm = np.empty(shape=X.shape[:-1])
-            for i, x in enumerate(X):
-                A = np.expand_dims(x-self._loc, axis=-2)
-                B = np.expand_dims(x-self._loc, axis=-1)
-                X_norm[i] = np.matmul(np.matmul(A, _sigma_inv), B).reshape(-1)
-#             _normalized_X = lambda x: np.matmul(np.matmul(np.expand_dims(x-self._loc, axis=-2),
-#                                                           _sigma_inv
-#                                                           ),
-#                                                 np.expand_dims(x-self._loc, axis=-1)
-#                                                 )
+            left = np.matmul(np.expand_dims(X-self._loc, axis=-2), _sigma_inv)
+            X_norm = np.matmul(left, np.expand_dims(X-self._loc, axis=-1))
         else:
             _normalized_X = lambda x: np.linalg.multi_dot([x-self._loc, _sigma_inv, x-self._loc])
             X_norm = np.apply_along_axis(_normalized_X, 1, X)
