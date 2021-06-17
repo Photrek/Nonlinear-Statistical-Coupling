@@ -10,7 +10,13 @@ import numpy as np
 from typing import Any, List  # for NDArray types
 
 
-def importance_sampling_integrator(function, pdf, sampler, n=10000, rounds=1, seed=1):
+def importance_sampling_integrator(function, 
+                                   pdf, 
+                                   sampler, 
+                                   n: int = 100, 
+                                   rounds: int = 100, 
+                                   seed: int = 1
+                                   ) -> list:
     """
     
 
@@ -22,16 +28,16 @@ def importance_sampling_integrator(function, pdf, sampler, n=10000, rounds=1, se
         DESCRIPTION.
     sampler : TYPE
         DESCRIPTION.
-    n : TYPE, optional
-        DESCRIPTION. The default is 10000.
-    rounds : int
-        DESCRIPTION. The default is 5.
-    seed : TYPE, optional
+    n : int, optional
+        DESCRIPTION. The default is 100.
+    rounds : int, optional
+        DESCRIPTION. The default is 100.
+    seed : int, optional
         DESCRIPTION. The default is 1.
 
     Returns
     -------
-    TYPE
+    ouput : list
         DESCRIPTION.
 
     """
@@ -50,18 +56,26 @@ def importance_sampling_integrator(function, pdf, sampler, n=10000, rounds=1, se
         # Add the estimate of the integral to the estimates list.
         estimates.append(np.mean(sampled_values))
     
-    # Return the mean of the estimates as the estimate of the integral.
-    return np.mean(estimates)
+    # If there are more than 1 round, return the mean and standard deviation
+    # of the estimates.
+    if rounds > 1:
+        output = [np.mean(estimates), np.std(estimates)]
+    # If there is only one round, return the single estimate in a tuple.
+    else:
+        output = [np.mean(estimates)]
+    
+    return output
 
 
 def coupled_probability(density_func,
                         sampler,
-                        kappa = 0.0, 
-                        alpha = 1.0, 
+                        kappa: float = 0.0, 
+                        alpha: float = 1.0, 
                         dim = 1,
-                        n = 10000,
-                        rounds=1,
-                        seed=1):
+                        n: int = 100,
+                        rounds: int = 100,
+                        seed:int = 1
+                        ):
     """
     
 
@@ -71,17 +85,17 @@ def coupled_probability(density_func,
         DESCRIPTION.
     sampler : TYPE
         DESCRIPTION.
-    kappa : TYPE, optional
+    kappa : float, optional
         DESCRIPTION. The default is 0.0.
-    alpha : TYPE, optional
+    alpha : float, optional
         DESCRIPTION. The default is 1.0.
     dim : TYPE, optional
         DESCRIPTION. The default is 1.
-    n : TYPE, optional
-        DESCRIPTION. The default is 10000.
-    rounds : TYPE, optional
-        DESCRIPTION. The default is 5.
-    seed : TYPE, optional
+    n : int, optional
+        DESCRIPTION. The default is 100.
+    rounds : int, optional
+        DESCRIPTION. The default is 100.
+    seed : int, optional
         DESCRIPTION. The default is 1.
 
     Returns
@@ -90,7 +104,6 @@ def coupled_probability(density_func,
         DESCRIPTION.
 
     """
-
     
     # Calculate the risk-bias.
     kMult = (-alpha * kappa) / (1 + dim*kappa)
@@ -108,7 +121,8 @@ def coupled_probability(density_func,
                                                      sampler=sampler, 
                                                      n=n,
                                                      rounds=rounds,
-                                                     seed=seed)
+                                                     seed=seed
+                                                     )[0]
     
     
     # Define a function to calculate coupled densities
@@ -126,9 +140,10 @@ def coupled_cross_entropy(density_func_p,
                           alpha: float = 1.0, 
                           dim: int = 1,
                           root: bool = False,
-                          n=10000,
-                          rounds=1,
-                          seed=1) -> [float, Any]:
+                          n: int = 100,
+                          rounds: int = 100,
+                          seed: int = 1
+                          ) -> tuple:
     """
     
 
@@ -148,16 +163,16 @@ def coupled_cross_entropy(density_func_p,
         DESCRIPTION. The default is 1.
     root : bool, optional
         DESCRIPTION. The default is False.
-    n : TYPE, optional
-        DESCRIPTION. The default is 10000.
-    rounds : TYPE, optional
-        DESCRIPTION. The default is 5.
-    seed : TYPE, optional
+    n : int, optional
+        DESCRIPTION. The default is 100.
+    rounds : int, optional
+        DESCRIPTION. The default is 100.
+    seed : int, optional
         DESCRIPTION. The default is 1.
 
     Returns
     -------
-    [float, Any]
+    float
         DESCRIPTION.
 
     """
@@ -171,7 +186,8 @@ def coupled_cross_entropy(density_func_p,
                                                  dim=dim, 
                                                  n=n,
                                                  rounds=rounds,
-                                                 seed=seed)
+                                                 seed=seed
+                                                 )
     
     def raised_density_func_q(x):
         return density_func_q(x)**(-alpha)
@@ -187,30 +203,19 @@ def coupled_cross_entropy(density_func_p,
                                           dim=dim))
         
         # Integrate the function.
-        final_integration = -importance_sampling_integrator(no_root_coupled_cross_entropy, 
-                                                            pdf=density_func_p,
-                                                            sampler=sampler_p, 
-                                                            n=n,
-                                                            rounds=rounds,
-                                                            seed=seed)
-        
-    else:
-        def root_coupled_cross_entropy(x):
-
-            return (my_coupled_probability(x)
-                    *nsc.log(value=raised_density_func_q(x),
-                                          kappa=kappa, 
-                                          dim=dim)**(1/alpha))
-        
-        # Integrate the function.
-        final_integration = importance_sampling_integrator(root_coupled_cross_entropy, 
+        final_integration = importance_sampling_integrator(no_root_coupled_cross_entropy, 
                                                            pdf=density_func_p,
                                                            sampler=sampler_p, 
                                                            n=n,
                                                            rounds=rounds,
                                                            seed=seed)
+        final_integration[0] = -final_integration[0]
         
-    return final_integration
+    else:
+        print("Not implemented yet.")
+        pass
+        
+    return tuple(final_integration)
 
 
 def coupled_entropy(density_func, 
@@ -219,9 +224,10 @@ def coupled_entropy(density_func,
                     alpha: float = 1.0, 
                     dim: int = 1, 
                     root: bool = False,
-                    n=10000,
-                    rounds=1,
-                    seed=1) -> [float, Any]:
+                    n: int = 100,
+                    rounds: int = 100,
+                    seed: int = 1
+                    ) -> tuple:
     """
     
 
@@ -239,23 +245,22 @@ def coupled_entropy(density_func,
         DESCRIPTION. The default is 1.
     root : bool, optional
         DESCRIPTION. The default is False.
-    n : TYPE, optional
-        DESCRIPTION. The default is 10000.
-    rounds : TYPE, optional
-        DESCRIPTION. The default is 1.
-    seed : TYPE, optional
+    n : int, optional
+        DESCRIPTION. The default is 100.
+    rounds : int, optional
+        DESCRIPTION. The default is 100.
+    seed : int, optional
         DESCRIPTION. The default is 1.
 
     Returns
     -------
-    [float, Any]
+    tuple
         DESCRIPTION.
 
     """
-
     
-    return coupled_cross_entropy(density_func, 
-                                 density_func, 
+    return coupled_cross_entropy(density_func_p=density_func,
+                                 density_func_q=density_func, 
                                  sampler_p=sampler,
                                  kappa=kappa, 
                                  alpha=alpha, 
@@ -263,7 +268,8 @@ def coupled_entropy(density_func,
                                  root=root,
                                  n=n,
                                  rounds=rounds,
-                                 seed=seed)
+                                 seed=seed
+                                 )
 
 
 def coupled_divergence(density_func_p, 
@@ -273,9 +279,10 @@ def coupled_divergence(density_func_p,
                        alpha: float = 1.0, 
                        dim: int = 1, 
                        root: bool = False,
-                       n=10000,
-                       rounds=1,
-                       seed=1) -> [float, Any]:
+                       n: int = 100,
+                       rounds: int = 100,
+                       seed: int = 1
+                       ) -> float:
     """
     
 
@@ -295,16 +302,16 @@ def coupled_divergence(density_func_p,
         DESCRIPTION. The default is 1.
     root : bool, optional
         DESCRIPTION. The default is False.
-    n : TYPE, optional
-        DESCRIPTION. The default is 10000.
-    rounds : TYPE, optional
-        DESCRIPTION. The default is 1.
-    seed : TYPE, optional
+    n : int, optional
+        DESCRIPTION. The default is 100.
+    rounds : int, optional
+        DESCRIPTION. The default is 100.
+    seed : int, optional
         DESCRIPTION. The default is 1.
 
     Returns
     -------
-    [float, Any]
+    float
         DESCRIPTION.
 
     """
@@ -319,7 +326,7 @@ def coupled_divergence(density_func_p,
                                                            root=root,
                                                            n=n,
                                                            rounds=rounds,
-                                                           seed=seed)
+                                                           seed=seed)[0]
     # Calculate the  coupled entropy of dist_p
     coupled_entropy_of_dist_p = coupled_entropy(density_func_p, 
                                                 sampler=sampler_p,
@@ -329,21 +336,22 @@ def coupled_divergence(density_func_p,
                                                 root=root,
                                                 n=n,
                                                 rounds=rounds,
-                                                seed=seed)
+                                                seed=seed)[0]
     
     return coupled_cross_entropy_of_dists - coupled_entropy_of_dist_p
 
 
 def tsallis_entropy(density_func, 
                     sampler,
-                    kappa,
-                    alpha = 1, 
+                    kappa: float,
+                    alpha: float = 1.0, 
                     dim: int = 1, 
-                    normalize = False, 
-                    root = False,
-                    n=10000,
-                    rounds=1,
-                    seed=1):
+                    normalize: bool = False, 
+                    root: bool = False,
+                    n: int = 100,
+                    rounds: int = 100,
+                    seed: int = 1
+                    ) -> float:
     """
     
 
@@ -353,30 +361,29 @@ def tsallis_entropy(density_func,
         DESCRIPTION.
     sampler : TYPE
         DESCRIPTION.
-    kappa : TYPE
+    kappa : float
         DESCRIPTION.
-    alpha : TYPE, optional
-        DESCRIPTION. The default is 1.
+    alpha : float, optional
+        DESCRIPTION. The default is 1.0.
     dim : int, optional
         DESCRIPTION. The default is 1.
-    normalize : TYPE, optional
+    normalize : bool, optional
         DESCRIPTION. The default is False.
-    root : TYPE, optional
+    root : bool, optional
         DESCRIPTION. The default is False.
-    n : TYPE, optional
-        DESCRIPTION. The default is 10000.
-    rounds : TYPE, optional
-        DESCRIPTION. The default is 1.
-    seed : TYPE, optional
+    n : int, optional
+        DESCRIPTION. The default is 100.
+    rounds : int, optional
+        DESCRIPTION. The default is 100.
+    seed : int, optional
         DESCRIPTION. The default is 1.
 
     Returns
     -------
-    TYPE
+    float
         DESCRIPTION.
 
     """
-
     
     if normalize:
         entropy = (1+kappa)**(1/alpha) * coupled_entropy(density_func,  
@@ -397,7 +404,7 @@ def tsallis_entropy(density_func,
                                                   sampler=sampler, 
                                                   n=n,
                                                   rounds=rounds,
-                                                  seed=seed)
+                                                  seed=seed)[0]
                        * (1+kappa)**(1/alpha)
                        * coupled_entropy(density_func,
                                          sampler=sampler,
@@ -406,17 +413,18 @@ def tsallis_entropy(density_func,
                                          dim=dim,
                                          root=root,
                                          n=n,
-                                         rounds=rounds))
+                                         rounds=rounds)[0])
     
     return entropy
 
 def shannon_entropy(density_func, 
                     sampler,
                     dim: int = 1, 
-                    root = False,
-                    n=10000,
-                    rounds=1,
-                    seed=1):
+                    root: bool = False,
+                    n: int = 100,
+                    rounds: int = 100,
+                    seed: int = 1
+                    ) -> tuple:
     """
     
 
@@ -428,18 +436,18 @@ def shannon_entropy(density_func,
         DESCRIPTION.
     dim : int, optional
         DESCRIPTION. The default is 1.
-    root : TYPE, optional
+    root : bool, optional
         DESCRIPTION. The default is False.
-    n : TYPE, optional
-        DESCRIPTION. The default is 10000.
-    rounds : TYPE, optional
-        DESCRIPTION. The default is 1.
-    seed : TYPE, optional
+    n : int, optional
+        DESCRIPTION. The default is 100.
+    rounds : int, optional
+        DESCRIPTION. The default is 100.
+    seed : int, optional
         DESCRIPTION. The default is 1.
 
     Returns
     -------
-    TYPE
+    tuple
         DESCRIPTION.
 
     """
@@ -457,4 +465,5 @@ def shannon_entropy(density_func,
                            root=root,
                            n=n,
                            rounds=rounds,
-                           seed=seed)
+                           seed=seed
+                           )

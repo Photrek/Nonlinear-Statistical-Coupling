@@ -11,7 +11,13 @@ import numpy as np
 from math import gamma
 from typing import Any, List  # for NDArray types
 
-def importance_sampling_integrator(function, pdf, sampler, n=10000, rounds=1, seed=1):
+def importance_sampling_integrator(function, 
+                                   pdf, 
+                                   sampler, 
+                                   n: int = 100, 
+                                   rounds: int = 100, 
+                                   seed: int = 1
+                                   ) -> list:
     """
     
 
@@ -23,16 +29,16 @@ def importance_sampling_integrator(function, pdf, sampler, n=10000, rounds=1, se
         DESCRIPTION.
     sampler : TYPE
         DESCRIPTION.
-    n : TYPE, optional
-        DESCRIPTION. The default is 10000.
-    rounds : int
-        DESCRIPTION. The default is 5.
-    seed : TYPE, optional
+    n : int, optional
+        DESCRIPTION. The default is 100.
+    rounds : int, optional
+        DESCRIPTION. The default is 100.
+    seed : int, optional
         DESCRIPTION. The default is 1.
 
     Returns
     -------
-    TYPE
+    ouput : list
         DESCRIPTION.
 
     """
@@ -51,8 +57,16 @@ def importance_sampling_integrator(function, pdf, sampler, n=10000, rounds=1, se
         # Add the estimate of the integral to the estimates list.
         estimates.append(np.mean(sampled_values))
     
-    # Return the mean of the estimates as the estimate of the integral.
-    return np.mean(estimates)
+    # If there are more than 1 round, return the mean and standard deviation
+    # of the estimates.
+    if rounds > 1:
+        output = [np.mean(estimates), np.std(estimates)]
+    # If there is only one round, return the single estimate in a tuple.
+    else:
+        output = [np.mean(estimates)]
+    
+    return output
+
 
 def coupled_normal_entropy(Sigma, kappa):
     """
@@ -97,7 +111,10 @@ def coupled_normal_entropy(Sigma, kappa):
     # Return the coupled entropy.
     return entropy
 
-def biased_coupled_probability_norm(coupled_normal, kappa, alpha):
+def biased_coupled_probability_norm(coupled_normal, 
+                                    kappa, 
+                                    alpha
+                                    ):
     """
     
 
@@ -132,8 +149,8 @@ def biased_coupled_probability_norm(coupled_normal, kappa, alpha):
     return new_dist
 
 def coupled_probability_norm(coupled_normal,
-                             kappa = 0.0, 
-                             alpha = 2.0):
+                             kappa: float = 0.0
+                             ):
     """
     
 
@@ -141,10 +158,8 @@ def coupled_probability_norm(coupled_normal,
     ----------
     coupled_normal : TYPE
         DESCRIPTION.
-    kappa : TYPE, optional
+    kappa : float, optional
         DESCRIPTION. The default is 0.0.
-    alpha : TYPE, optional
-        DESCRIPTION. The default is 1.0.
 
     Returns
     -------
@@ -154,16 +169,16 @@ def coupled_probability_norm(coupled_normal,
     """
     
     # Return the new functions that calculates the coupled density of a value.
-    return biased_coupled_probability_norm(coupled_normal, kappa, alpha).prob
+    return biased_coupled_probability_norm(coupled_normal, kappa, alpha=2).prob
 
 def coupled_cross_entropy_norm(dist_p,
                                dist_q,
-                               kappa: float = 0.0, 
-                               alpha: float = 2.0, 
+                               kappa: float = 0.0,  
                                root: bool = False,
-                               n=10000,
-                               rounds=1,
-                               seed=1) -> [float, Any]:
+                               n: int = 100,
+                               rounds: int = 100,
+                               seed: int = 1
+                               ) -> tuple:
     """
     
 
@@ -175,29 +190,29 @@ def coupled_cross_entropy_norm(dist_p,
         DESCRIPTION.
     kappa : float, optional
         DESCRIPTION. The default is 0.0.
-    alpha : float, optional
-        DESCRIPTION. The default is 2.0.
     root : bool, optional
         DESCRIPTION. The default is False.
-    n : TYPE, optional
-        DESCRIPTION. The default is 10000.
-    rounds : TYPE, optional
-        DESCRIPTION. The default is 1.
-    seed : TYPE, optional
+    n : int, optional
+        DESCRIPTION. The default is 100.
+    rounds : int, optional
+        DESCRIPTION. The default is 100.
+    seed : int, optional
         DESCRIPTION. The default is 1.
 
     Returns
     -------
-    [float, Any]
+    tuple
         DESCRIPTION.
 
     """
+    
+    alpha = 2
     
     # Fit a coupled_probability function to density_func_p with the other
     # given parameters.
     my_coupled_probability = coupled_probability_norm(dist_p,
                                                       kappa = kappa, 
-                                                      alpha = alpha)
+                                                      )
     
     dim = dist_p.dim
     
@@ -215,27 +230,28 @@ def coupled_cross_entropy_norm(dist_p,
                                           dim=dim))
         
         # Integrate the function.
-        final_integration = -importance_sampling_integrator(no_root_coupled_cross_entropy, 
+        final_integration = importance_sampling_integrator(no_root_coupled_cross_entropy, 
                                                             pdf=dist_p.prob,
                                                             sampler=dist_p.sample_n, 
                                                             n=n,
                                                             rounds=rounds,
                                                             seed=seed)
+        final_integration[0] = -final_integration[0]
         
     else:
         print("Not implemented yet.")
         pass
         
-    return final_integration
+    return tuple(final_integration)
 
 
 def coupled_entropy_norm(dist,
                          kappa: float = 0.0, 
-                         alpha: float = 2.0, 
                          root: bool = False,
-                         n=10000,
-                         rounds=1,
-                         seed=1) -> [float, Any]:
+                         n: int = 100,
+                         rounds: int = 100,
+                         seed: int = 1
+                         ) -> tuple:
     """
     
 
@@ -266,7 +282,6 @@ def coupled_entropy_norm(dist,
     return coupled_cross_entropy_norm(dist,
                                  dist,
                                  kappa=kappa, 
-                                 alpha=alpha, 
                                  root=root,
                                  n=n,
                                  rounds=rounds,
@@ -274,12 +289,12 @@ def coupled_entropy_norm(dist,
 
 def coupled_divergence_norm(dist_p, 
                             dist_q, 
-                            kappa: float = 0.0, 
-                            alpha: float = 2.0, 
+                            kappa: float = 0.0,  
                             root: bool = False,
-                            n=10000,
-                            rounds=1,
-                            seed=1) -> [float, Any]:
+                            n: int = 100,
+                            rounds: int = 100,
+                            seed: int = 1
+                            ) -> float:
     """
     
 
@@ -291,40 +306,38 @@ def coupled_divergence_norm(dist_p,
         DESCRIPTION.
     kappa : float, optional
         DESCRIPTION. The default is 0.0.
-    alpha : float, optional
-        DESCRIPTION. The default is 1.0.
     root : bool, optional
         DESCRIPTION. The default is False.
-    n : TYPE, optional
-        DESCRIPTION. The default is 10000.
-    rounds : TYPE, optional
-        DESCRIPTION. The default is 1.
-    seed : TYPE, optional
+    n : int, optional
+        DESCRIPTION. The default is 100.
+    rounds : int, optional
+        DESCRIPTION. The default is 100.
+    seed : int, optional
         DESCRIPTION. The default is 1.
 
     Returns
     -------
-    [float, Any]
+    tuple
         DESCRIPTION.
 
-    """    
+    """ 
     
     # Calculate the coupled cross-entropy of the dist_p and dist_q.
     coupled_cross_entropy_of_dists = coupled_cross_entropy_norm(dist_p,
                                                                 dist_q,
                                                                 kappa=kappa,
-                                                                alpha=alpha,
                                                                 root=root,
                                                                 n=n,
                                                                 rounds=rounds,
-                                                                seed=seed)
+                                                                seed=seed
+                                                                )[0]
     # Calculate the  coupled entropy of dist_p
     coupled_entropy_of_dist_p = coupled_entropy_norm(dist_p, 
                                                      kappa=kappa, 
-                                                     alpha=alpha, 
                                                      root=root,
                                                      n=n,
                                                      rounds=rounds,
-                                                     seed=seed)
+                                                     seed=seed
+                                                     )[0]
     
     return coupled_cross_entropy_of_dists - coupled_entropy_of_dist_p
