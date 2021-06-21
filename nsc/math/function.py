@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy as np
+import tensorflow as tf
 
 numeric_tuple = (int, float, np.float32, np.float64, np.float128)
 
@@ -32,7 +33,7 @@ def coupled_logarithm(value: [int, float, np.ndarray],
     return coupled_log_value
 
 
-def coupled_exponential(value: [int, float, np.ndarray],
+def coupled_exponential(value: [int, float, np.ndarray, tf.Tensor],
                         kappa: float = 0.0,
                         dim: int = 1
                         ) -> [float, np.ndarray]:
@@ -41,7 +42,7 @@ def coupled_exponential(value: [int, float, np.ndarray],
 
     Parameters
     ----------
-    value : [float, np.ndarray]
+    value : [float, np.ndarray, tf.Tensor]
         Input values in which the coupled exponential is applied to.
     kappa : float,
         Coupling parameter which modifies the coupled exponential function. 
@@ -57,8 +58,8 @@ def coupled_exponential(value: [int, float, np.ndarray],
     """
     # convert number into np.ndarray to keep consistency
     isinstance(value, (int, float, ))
-    value = np.array(value) if isinstance(value, numeric_tuple) else value
-    assert isinstance(value, np.ndarray), "value must be an int, float, or np.ndarray."
+    #value = np.array(value) if isinstance(value, numeric_tuple) else value
+    #assert isinstance(value, np.ndarray, tf.Tensor), "value must be an int, float, or np.ndarray."
     # assert 0 not in value, "value must not be or contain np.ndarray zero(s)."
     assert isinstance(dim, int) and dim >= 0, "dim must be an integer greater than or equal to 0."
     # check that -1/d <= kappa
@@ -67,17 +68,23 @@ def coupled_exponential(value: [int, float, np.ndarray],
     if kappa == 0:
         # Does not have to be vectorized
         coupled_exp_value = np.exp(value)
-    else:
-        #coupled_exp_value = np.vectorize(_coupled_exponential_scalar)(value, kappa, dim)
-        
+    else:        
         #Positive base, function operates as normal 
         condition_1 = (1 + kappa*value) > 0
         
         #Negative base and positive exponent should return 0
         condition_2 = ((1 + kappa*value) <= 0) & (((1 + dim*kappa)/kappa) > 0)
         
-        coupled_exp_value = np.where(condition_1, (1 + kappa*value)**((1+dim*kappa)/kappa), float('inf'))
-        coupled_exp_value = np.where(condition_2, 0, coupled_exp_value)
+        #Where function used depends on input type, if tensor, use tf.where
+        if isinstance(value, tf.Tensor):
+            where = tf.where
+        
+        #Otherwise use the numpy version
+        else:
+            where = np.where
+            
+        coupled_exp_value = where(condition_1, (1 + kappa*value)**((1+dim*kappa)/kappa), float('inf'))
+        coupled_exp_value = where(condition_2, 0, coupled_exp_value)
 
     return coupled_exp_value
 
