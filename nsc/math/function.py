@@ -25,9 +25,13 @@ def coupled_logarithm(value: [int, float, np.ndarray, tf.Tensor],
     # convert value into np.ndarray (if scalar) to keep consistency
     value = np.array(value) if isinstance(value, numeric_tuple) else value
     #assert isinstance(value, np.ndarray), "value must be an int, float, or np.ndarray."
+    
+    #Checking if values contain zero 
     if isinstance(value, tf.Tensor):
+        #Tensorflow specific check
         assert tf.reduce_all(tf.not_equal(value,0)).numpy(), "value must not be or contain zero(s)."
     else:
+        #General check
         assert 0. not in value, "value must not be or contain zero(s)."
         
     if kappa == 0.:
