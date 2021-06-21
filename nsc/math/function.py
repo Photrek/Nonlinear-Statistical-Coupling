@@ -5,7 +5,7 @@ import tensorflow as tf
 numeric_tuple = (int, float, np.float32, np.float64, np.float128)
 
 
-def coupled_logarithm(value: [int, float, np.ndarray],
+def coupled_logarithm(value: [int, float, np.ndarray, tf.Tensor],
                       kappa: [int, float] = 0.0,
                       dim: int = 1
                       ) -> [float, np.ndarray]:
@@ -16,7 +16,7 @@ def coupled_logarithm(value: [int, float, np.ndarray],
     Parameters
     ----------
     value : Input variable in which the coupled logarithm is applied to.
-            Accepts int, float, and np.ndarray data types.
+            Accepts int, float, np.ndarray and tf.Tensor data types.
     kappa : Coupling parameter which modifies the coupled logarithm function.
             Accepts int and float data types.
     dim : The dimension (or rank) of value. If value is scalar, then dim = 1.
@@ -24,8 +24,12 @@ def coupled_logarithm(value: [int, float, np.ndarray],
     """
     # convert value into np.ndarray (if scalar) to keep consistency
     value = np.array(value) if isinstance(value, numeric_tuple) else value
-    assert isinstance(value, np.ndarray), "value must be an int, float, or np.ndarray."
-    assert 0. not in value, "value must not be or contain np.ndarray zero(s)."
+    #assert isinstance(value, np.ndarray), "value must be an int, float, or np.ndarray."
+    if isinstance(value, tf.Tensor):
+        assert tf.reduce_all(tf.not_equal(value,0)).numpy(), "value must not be or contain zero(s)."
+    else:
+        assert 0. not in value, "value must not be or contain zero(s)."
+        
     if kappa == 0.:
         coupled_log_value = np.log(value)  # divide by 0 if x == 0
     else:
