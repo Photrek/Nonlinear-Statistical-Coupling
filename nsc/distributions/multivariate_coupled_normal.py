@@ -82,35 +82,100 @@ class MultivariateCoupledNormal(CoupledNormal):
             return 0 
         else:
             return len(value.shape)
-
-    def sample_n(self, n: int) -> np.array:
-        # normal_samples = np.random.normal(loc=self._loc, scale=self._scale, size=n)
-        mvn_samples = np.random.multivariate_normal(mean=self._loc,
-                                                    cov=self._scale,
-                                                    size=n,
-                                                    check_valid='warn'
-                                                    )
-        chi2_samples = np.random.chisquare(df=1/self._kappa, size=n)
-        # Transpose to allow for broadcasting the following: (n x d) / (n x 1)
-        samples_T = mvn_samples.T / np.sqrt(chi2_samples*self._kappa)
-        samples = samples_T.T
-        return self._loc + samples
-        ''' TFP Source: https://github.com/tensorflow/probability/blob/v0.11.1/tensorflow_probability/python/distributions/multivariate_student_t.py#L238-L254
         
-        normal_seed, chi2_seed = samplers.split_seed(seed, salt='multivariate t')
+    
+    def _sample_(self, loc, Scale, kappa=0.0, n=1):
+        """Generate random variables of multivariate coupled normal 
+        distribution.
+        
+        Inputs
+        ------
+        loc : array_like
+            Mean of random variable, length determines dimension of random 
+            variable
+        Scale : array_like
+            Square array of covariance matrix
+        kappa : int or float
+            degree of coupling
+        n : int
+            Number of observations, return random array will be (n, len(loc))
+            
+        Returns
+        -------
+        samples : ndarray, (n, len(loc))
+            Each row is an independent draw of a multivariate coupled normally 
+            distributed random variable
+        """
 
-        loc = tf.broadcast_to(self._loc, self._sample_shape())
-        mvn = mvn_linear_operator.MultivariateNormalLinearOperator(
-            loc=tf.zeros_like(loc), scale=self._scale)
-        normal_samp = mvn.sample(n, seed=normal_seed)
+        # Convert loc to an array, if it is not already.
+        loc = np.asarray(loc)
+        # Find the number of dimensions of the distribution from the loc array.
+        dim = len(loc)
 
-        df = tf.broadcast_to(self.df, self.batch_shape_tensor())
-        chi2 = chi2_lib.Chi2(df=df)
-        chi2_samp = chi2.sample(n, seed=chi2_seed)
-
-        return (self._loc +
-                normal_samp * tf.math.rsqrt(chi2_samp / self._df)[..., tf.newaxis])
-        '''
+        # If kappa is 0, x is equal to 1.
+        if kappa == 0.0:
+            x = 1.0
+        # Otherwise, draw n samples of x where x_i ~ Chi-sq(df = 1/kappa) and 
+        # scale them by 1/kappa.
+        else:
+            x = np.random.chisquare(1.0/kappa, n) / (1.0/kappa)
+        
+        # Draw n samples from a multivariate normal centered at the origin 
+        # with the covariance matrix equal to scale.
+        z = np.random.multivariate_normal(np.zeros(dim), Scale, (n,))
+        
+        # Scale the z_i by the square root of x_i and add in the loc to get 
+        # the random draws of the coupled normal random variables.
+        samples = loc + z/np.sqrt(x)
+        
+        # Return the coupled normal random variables.
+        return samples
+    
+    
+    def sample_n(self, n=1):
+        """Generate random variables for batches of multivariate coupled 
+        normal distributions.
+    
+        Inputs
+        ------
+        n : int
+            Number of observations per distribution.
+            
+        Returns
+        -------
+        samples : ndarray, (loc.shape[0], n, loc.shape[1])
+            n samples from each distribution.
+        """
+        
+        loc, scale = self._loc, self._scale
+        
+        # Find the number of batches.
+        n_batches = self._batch_shape
+        
+        # Create a list to hold the samples from each distribution.
+        samples = []
+        
+        # Iterate through each of the batched samples' parameters.
+        for i in range(n_batches):
+            
+            # Get the i-th loc and scale arrays.
+            temp_loc = loc[i]
+            temp_scale = scale[i]
+            # Convert temp_scale to a diagonal matrix.
+            temp_scale = np.diag(temp_scale)
+            # Get the random draws from the i-th distribution.
+            temp_samples = self._sample_(
+                temp_loc, 
+                temp_scale, 
+                kappa=self._kappa, n=n)
+            # Add the samples to the list of samples.
+            samples.append(temp_samples)
+            
+        # Convert the list of samples to a 3-D array.
+        samples = np.array(samples, ndmin=3)
+        
+        # Return the samples.
+        return samples
 
     def prob(self, X: [List, np.ndarray], beta_func: bool = True) -> np.ndarray:
         # assert X.shape[-1] ==  self._loc.shape[-1], "input X and loc must have the same dims."
