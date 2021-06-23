@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
-numeric_tuple = (int, float, np.float32, np.float64, np.float128)
+numeric_tuple = (int, float, np.float32, np.float64, np.longdouble)
 
 
 def coupled_logarithm(value: [int, float, np.ndarray],
