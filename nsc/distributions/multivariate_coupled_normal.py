@@ -161,8 +161,7 @@ class MultivariateCoupledNormal(CoupledNormal):
             # Get the i-th loc and scale arrays.
             temp_loc = loc[i]
             temp_scale = scale[i]
-            # Convert temp_scale to a diagonal matrix.
-            temp_scale = np.diag(temp_scale)
+            
             # Get the random draws from the i-th distribution.
             temp_samples = self._sample_(
                 temp_loc, 
