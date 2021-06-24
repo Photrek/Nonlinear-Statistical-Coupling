@@ -183,6 +183,8 @@ class MultivariateCoupledNormal(CoupledNormal):
         # Invert the covariance matrices.
         _sigma_inv = np.linalg.inv(self._sigma)
         
+        _norm_term = self._norm_term
+        
         if self._batch_shape:
             # Demean the samples.
             demeaned_samples = X - loc
@@ -192,6 +194,17 @@ class MultivariateCoupledNormal(CoupledNormal):
             # Add in an axis at the second position for broadcasting (John added this).
             _sigma_inv = np.expand_dims(_sigma_inv, axis=1)
             X_norm = np.matmul(np.matmul(X_t, _sigma_inv), X)
+            
+            # We want to expand _norm_term to have the same number of 
+            # dimensions as X_norm.
+            
+            # Count the difference in dims between X_norm and _norm_term.
+            dim_diff = len(X_norm.shape) - len(_norm_term.shape)
+            # Create a list of the dimensions to expand.
+            expanded_dims = tuple([i+1 for i in range(dim_diff)])
+            # Expand those dimensions
+            _norm_term = np.expand_dims(_norm_term, axis=expanded_dims)
+            
         else:
             _normalized_X = lambda x: np.linalg.multi_dot([x-loc,
                                                            _sigma_inv,
@@ -200,7 +213,7 @@ class MultivariateCoupledNormal(CoupledNormal):
                                                           )
             X_norm = np.apply_along_axis(_normalized_X, 1, X)
         p = (coupled_exponential(X_norm, self._kappa, self._dim))**(-1/self._alpha) \
-            / self._norm_term
+            / _norm_term
         return p
 
     # Normalization constant of the multivariate Coupled Gaussian (NormMultiCoupled)
