@@ -4,9 +4,9 @@ from typing import List
 from scipy.special import gamma
 from .coupled_normal import CoupledNormal
 from ..math.function import coupled_exponential
-from ..math.entropy import coupled_entropy, \
-                            coupled_cross_entropy, \
-                            coupled_kl_divergence
+# from ..math.entropy import coupled_entropy, \
+#                             coupled_cross_entropy, \
+#                             coupled_kl_divergence
 
 
 class MultivariateCoupledNormal(CoupledNormal):
@@ -54,7 +54,15 @@ class MultivariateCoupledNormal(CoupledNormal):
         # need to revisit this if self._scale contains lower triangle and not diagonal
         self._sigma = np.matmul(self._scale, self._scale)
         self._norm_term = self._get_normalized_term() 
-            
+
+    @property
+    def sigma(self):
+        return self._sigma
+
+    @property
+    def norm(self):
+        return self._norm_term
+
     def _get_batch_shape(self) -> List:
         if self._rank(self._loc) == 1:
             # return [] signifying single batch of a multivariate distribution
@@ -151,6 +159,7 @@ class MultivariateCoupledNormal(CoupledNormal):
                 return (np.sqrt(np.pi) * _sigma_det**0.5 * gamma_num) / \
                     (np.sqrt(self._kappa) * gamma_dem)
 
+    '''
     def entropy(self, kappa: [int, float] = None, root: bool = False,
                 n: int = 10000, rounds: int = 1, seed: int = 1
                 ) -> [float, np.ndarray]:
@@ -194,3 +203,4 @@ class MultivariateCoupledNormal(CoupledNormal):
                                      rounds=rounds,
                                      seed=seed
                                      )
+    '''
