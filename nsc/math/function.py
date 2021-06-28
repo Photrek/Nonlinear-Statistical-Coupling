@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy as np
+import warnings
 
 numeric_tuple = (int, float, np.float32, np.float64, np.float128)
 
@@ -55,6 +56,9 @@ def coupled_exponential(value: [int, float, np.ndarray],
         The coupled exponential values.
 
     """
+    #Temporarily turn off warnings for invalid powers
+    warnings.simplefilter('ignore')
+    
     # convert number into np.ndarray to keep consistency
     isinstance(value, (int, float, ))
     value = np.array(value) if isinstance(value, numeric_tuple) else value
@@ -78,7 +82,10 @@ def coupled_exponential(value: [int, float, np.ndarray],
         
         coupled_exp_value = np.where(condition_1, (1 + kappa*value)**((1+dim*kappa)/kappa), float('inf'))
         coupled_exp_value = np.where(condition_2, 0, coupled_exp_value)
-
+    
+    #Turn warnings back on
+    warnings.simplefilter('default')
+    
     return coupled_exp_value
 
 
