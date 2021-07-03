@@ -3,7 +3,7 @@ import numpy as np
 from .function import coupled_logarithm, coupled_exponential
 
 
-def importance_sampling_integrator(function, pdf, sampler, n=10000, rounds=1, seed=1):
+def importance_sampling_integrator(function, pdf, sampler, n=10000, seed=1):
     """
     
 
@@ -17,8 +17,6 @@ def importance_sampling_integrator(function, pdf, sampler, n=10000, rounds=1, se
         DESCRIPTION.
     n : TYPE, optional
         DESCRIPTION. The default is 10000.
-    rounds : int
-        DESCRIPTION. The default is 5.
     seed : TYPE, optional
         DESCRIPTION. The default is 1.
 
@@ -31,20 +29,17 @@ def importance_sampling_integrator(function, pdf, sampler, n=10000, rounds=1, se
     # Set a random seed.
     np.random.seed(seed)
     
-    # Create a list to hold the estimates for each round.
-    estimates = []
-    
-    for i in range(rounds):
-        # Generate n samples from the probability distribution.
-        samples = sampler(n)
-        # Evaluate the function at the samples and divide by the probability 
-        # density of the distribution at those samples.
-        sampled_values = function(samples) / pdf(samples)
-        # Add the estimate of the integral to the estimates list.
-        estimates.append(np.mean(sampled_values))
+    # Generate n samples from the probability distribution.
+    samples = sampler(n)
+    #ipdb.set_trace()
+    # Evaluate the function at the samples and divide by the probability 
+    # density of the distribution at those samples.
+    sampled_values = function(samples) / pdf(samples)
+    # Add the estimate of the integral to the estimates list.
+    estimates = np.mean(sampled_values, axis=1) # Altered this for the batching.
     
     # Return the mean of the estimates as the estimate of the integral.
-    return np.mean(estimates)
+    return np.array(estimates)
 
 
 def coupled_probability(density_func,

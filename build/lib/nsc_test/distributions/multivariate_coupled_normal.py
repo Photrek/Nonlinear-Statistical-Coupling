@@ -147,10 +147,10 @@ class MultivariateCoupledNormal(CoupledNormal):
             n samples from each distribution.
         """
         
-        loc, scale = self._loc, self._scale
+        loc, scale = self._loc, self._sigma
         
         # Find the number of batches.
-        n_batches = self._batch_shape
+        n_batches = self.loc.shape[0]
         
         # Create a list to hold the samples from each distribution.
         samples = []
@@ -176,24 +176,44 @@ class MultivariateCoupledNormal(CoupledNormal):
         # Return the samples.
         return samples
 
-    def prob(self, X: [List, np.ndarray], beta_func: bool = True) -> np.ndarray:
+    def prob(self, X: [List, np.ndarray]) -> np.ndarray: # John removed beta_func as an argument because it didn't appear elsewhere.
         # assert X.shape[-1] ==  self._loc.shape[-1], "input X and loc must have the same dims."
+        loc = np.expand_dims(self._loc, axis=1) # John added this to broadcast x - loc
+        
+        # Invert the covariance matrices.
         _sigma_inv = np.linalg.inv(self._sigma)
+        
+        _norm_term = self._norm_term
+        
         if self._batch_shape:
-            X_norm = np.matmul(np.matmul(np.expand_dims(X-self._loc, axis=-2),
-                                         _sigma_inv
-                                         ), 
-                               np.expand_dims(X-self._loc, axis=-1)
-                               )
+            # Demean the samples.
+            demeaned_samples = X - loc
+            # Create X and X_t (John added this)
+            X = np.expand_dims(demeaned_samples, axis=-1)
+            X_t = np.expand_dims(demeaned_samples, axis=-2)
+            # Add in an axis at the second position for broadcasting (John added this).
+            _sigma_inv = np.expand_dims(_sigma_inv, axis=1)
+            X_norm = np.matmul(np.matmul(X_t, _sigma_inv), X)
+            
+            # We want to expand _norm_term to have the same number of 
+            # dimensions as X_norm.
+            
+            # Count the difference in dims between X_norm and _norm_term.
+            dim_diff = len(X_norm.shape) - len(_norm_term.shape)
+            # Create a list of the dimensions to expand.
+            expanded_dims = tuple([i+1 for i in range(dim_diff)])
+            # Expand those dimensions
+            _norm_term = np.expand_dims(_norm_term, axis=expanded_dims)
+            
         else:
-            _normalized_X = lambda x: np.linalg.multi_dot([x-self._loc,
+            _normalized_X = lambda x: np.linalg.multi_dot([x-loc,
                                                            _sigma_inv,
-                                                           x-self._loc
+                                                           x-loc
                                                            ]
                                                           )
             X_norm = np.apply_along_axis(_normalized_X, 1, X)
         p = (coupled_exponential(X_norm, self._kappa, self._dim))**(-1/self._alpha) \
-            / self._norm_term
+            / _norm_term
         return p
 
     # Normalization constant of the multivariate Coupled Gaussian (NormMultiCoupled)
