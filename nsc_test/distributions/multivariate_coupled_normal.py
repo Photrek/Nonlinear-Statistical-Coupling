@@ -119,6 +119,8 @@ class MultivariateCoupledNormal(CoupledNormal):
         # scale them by 1/kappa.
         else:
             x = np.random.chisquare(1.0/kappa, n) / (1.0/kappa)
+            # Make sure x will broadcast correctly.
+            x = x.reshape(n, 1)
         
         # Draw n samples from a multivariate normal centered at the origin 
         # with the covariance matrix equal to scale.

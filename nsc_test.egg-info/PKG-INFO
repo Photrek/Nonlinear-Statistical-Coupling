@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: nsc-test
-Version: 0.0.0.12
+Version: 0.0.0.13
 Summary: Library of core functions for the statistics of nonlinear systems.
 Home-page: https://github.com/kenricnelson/Nonlinear-Statistical-Coupling.git
 Author: Kevin R. Chen, Kenric P. Nelson, John Clements, Daniel Svoboda, and William Thistleton
