@@ -136,7 +136,7 @@ class CoupledNormal:
     def prob(self, X: [List, np.ndarray]) -> np.ndarray:
         # Check whether input X is valid
         X = np.asarray(X) if isinstance(X, List) else X
-        assert isinstance(X, np.ndarray), "X must be a List or np.ndarray."
+        assert isinstance(X, (np.ndarray, tf.Tensor)), "X must be a List or np.ndarray."
         # assert type(X[0]) == type(self._loc), "X samples must be the same type as loc and scale."
         if isinstance(X[0], np.ndarray):
             assert X[0].shape == self._loc.shape, "X samples must have the same dimensions as loc and scale (check respective .shape())."
