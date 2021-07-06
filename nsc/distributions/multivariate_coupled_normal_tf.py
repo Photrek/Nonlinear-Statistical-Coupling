@@ -186,7 +186,7 @@ class MultivariateCoupledNormal(CoupledNormal):
             if self._kappa == 0.0:
                 x = 1.0
             else:
-                chi2 = tfp.distributions.chi2(df=1/self._kappa)
+                chi2 = tfp.distributions.Chi2(df=1/self._kappa)
                 #Chi-square denominator should have shape [n_batches, n, dim]
                 x = chi2.sample(sample_shape=[n_batches, n, self._loc.shape[1]])*self._kappa
             
