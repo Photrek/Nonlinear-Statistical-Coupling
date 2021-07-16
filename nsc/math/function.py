@@ -65,6 +65,7 @@ def coupled_exponential(value: [int, float, np.ndarray],
     value = np.array(value) if isinstance(value, numeric_tuple) else value
     assert isinstance(value, np.ndarray), "value must be an int, float, or np.ndarray."
     # assert 0 not in value, "value must not be or contain np.ndarray zero(s)."
+    
     assert isinstance(dim, int) and dim >= 0, "dim must be an integer greater than or equal to 0."
     # check that -1/d <= kappa
     # assert -1/dim <= kappa, "kappa must be greater than or equal to -1/dim."
@@ -120,20 +121,21 @@ def coupled_product(value: List[float],
         dims = [dims]*len(value)
     else:
         assert len(value)==len(dims), "value and dims must have the same length!"
-        
+    
+    #Dim input for outer exponent should be equal to sum of dims
     D = np.sum(dims)
         
     exponent_temp = []
     
+    #Calculating coupled_logarithm for each input
     for val, dim in zip(value, dims):
         log_out = coupled_logarithm(value=val, kappa=kappa, dim=dim)
         exponent_temp.append(log_out)
     
+    #Summing the inputs to be fed into the coupled_exponential
     exponent = np.sum(exponent_temp)    
     
-    print(exponent, kappa, D)
-    
-    coupled_product_value = coupled_exponential(value=exponent, kappa=kappa, dim=D)
+    coupled_product_value = coupled_exponential(value=exponent, kappa=kappa, dim=int(D))
     
     return coupled_product_value
 
