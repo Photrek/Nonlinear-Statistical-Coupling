@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import warnings
+from typing import List
 
 numeric_tuple = (int, float, np.float32, np.float64, np.longdouble)
 
@@ -88,6 +89,53 @@ def coupled_exponential(value: [int, float, np.ndarray],
     
     return coupled_exp_value
 
+def coupled_product(value: List[float],
+                    kappa: float=0.0,
+                    dims: int=1) -> float:
+    """
+    Coupled product function
+    
+    Parameters
+    ----------
+    value: List[float]
+        The values to which the coupled product function is applied to.
+        Usually a list of probabilities.
+    kappa : float,
+        Coupling parameter which modifies the coupled product function. 
+        The default is 0.0.
+    dims : 
+        The dimensionality of the inputs when viewed as probability distributions.
+        The default is 1 for all inputs.
+        Can accept a list of dims but needs to be the same length as value.
+
+    Returns
+    -------
+    float
+        The result of the coupled product function.
+
+    """
+    
+    #Scalar input for dims
+    if type(dims) ==int:
+        dims = [dims]*len(value)
+    else:
+        assert len(value)==len(dims), "value and dims must have the same length!"
+        
+    D = np.sum(dims)
+        
+    exponent_temp = []
+    
+    for val, dim in zip(value, dims):
+        log_out = coupled_logarithm(value=val, kappa=kappa, dim=dim)
+        exponent_temp.append(log_out)
+    
+    exponent = np.sum(exponent_temp)    
+    
+    print(exponent, kappa, D)
+    
+    coupled_product_value = coupled_exponential(value=exponent, kappa=kappa, dim=D)
+    
+    return coupled_product_value
 
 # inner function that takes in the value on a scalar-by-sclar basis
 '''
