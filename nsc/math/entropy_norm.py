@@ -198,8 +198,9 @@ def coupled_cross_entropy_norm(dist_p,
     else:
         print("Not implemented yet.")
         pass
-        
-    return final_integration
+    
+    # Return the coupled cross-entropies in a 1-D array.
+    return final_integration.squeeze()
 
 
 def coupled_entropy_norm(dist,

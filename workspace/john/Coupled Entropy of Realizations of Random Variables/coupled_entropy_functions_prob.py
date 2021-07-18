@@ -6,7 +6,8 @@ import typing
 
 def coupled_cross_entropy_prob(probs_p, 
                                probs_q, 
-                               kappa: float = 0.0
+                               kappa: float = 0.0,
+                               dim=1
                                ) -> [float, np.ndarray]:
     """
     This function calculates the coupled cross-entropy between the 
@@ -21,6 +22,9 @@ def coupled_cross_entropy_prob(probs_p,
         Probabilities of x from distribution q.
     kappa : float, optional
         Degree of coupling used in the coupled logarithm. The default is 0.0.
+    dim : int, optional
+        Number of dimensions a of the random variable. The default is 1, 
+        assuming a univariate distribution.
 
     Returns
     -------
@@ -30,10 +34,24 @@ def coupled_cross_entropy_prob(probs_p,
     """
 
     # Take the coupled logarithm of the q(x).
-    log_q = coupled_logarithm(probs_q, kappa=kappa)
+    log_q = coupled_logarithm(probs_q, kappa=kappa, dim=dim)
+    
+    # If log_q is a vector, transpose it a
+    if len(log_q.shape) == 1:
+        log_q_t = np.transpose(log_q)
+    else:
+                
+        probs_p = np.expand_dims(probs_p, axis=-1)
+        log_q = np.expand_dims(log_q, axis=-1)
+        
+        range_of_dims = [i for i in range(1, len(log_q.shape))]
+        range_of_dims.reverse()
+        range_of_dims = [0] + range_of_dims
+        
+        log_q_t = np.transpose(log_q, axes=range_of_dims)
 
     # Calculate the negative sum of p(x) * coupled-log(q(x), kappa).
-    return -np.matmul(probs_p, log_q.T)
+    return -np.matmul(log_q_t, probs_p)
 
 
 def coupled_entropy_prob(probs_p, 
