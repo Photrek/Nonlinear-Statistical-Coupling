@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-from .function import coupled_logarithm, coupled_exponential
+from typing import Callable
+from .function import coupled_logarithm
 
 
-def importance_sampling_integrator(function, pdf, sampler, n=10000, seed=1) -> np.array:
+def importance_sampling_integrator(function: Callable[..., np.ndarray],
+                                   pdf: Callable[..., np.ndarray],
+                                   sampler: Callable[..., int],
+                                   n: int = 10000,
+                                   seed: int = 1
+                                   ) -> np.array:
     """
     
 
@@ -42,14 +48,15 @@ def importance_sampling_integrator(function, pdf, sampler, n=10000, seed=1) -> n
     return np.array(estimates)
 
 
-def coupled_probability(density_func,
-                        sampler,
-                        kappa = 0.0, 
-                        alpha = 1.0, 
-                        dim = 1,
-                        n = 10000,
-                        rounds=1,
-                        seed=1):
+def coupled_probability(density_func: Callable[..., np.ndarray],
+                        sampler: Callable[..., int],
+                        kappa: float = 0.0, 
+                        alpha: float = 1.0, 
+                        dim: int = 1,
+                        n: int = 10000,
+                        rounds: int = 1,
+                        seed: int = 1
+                        ) -> [float, np.ndarray]:
     """
     
 
@@ -96,7 +103,8 @@ def coupled_probability(density_func,
                                                      sampler=sampler, 
                                                      n=n,
                                                      rounds=rounds,
-                                                     seed=seed)
+                                                     seed=seed
+                                                     )
     
     
     # Define a function to calculate coupled densities
@@ -107,16 +115,17 @@ def coupled_probability(density_func,
     return coupled_prob
 
 
-def coupled_cross_entropy(density_func_p, 
-                          density_func_q, 
-                          sampler_p,
+def coupled_cross_entropy(density_func_p: Callable[..., np.ndarray],
+                          density_func_q: Callable[..., np.ndarray],
+                          sampler_p: Callable[..., int],
                           kappa: float = 0.0, 
                           alpha: float = 1.0, 
                           dim: int = 1,
                           root: bool = False,
-                          n=10000,
-                          rounds=1,
-                          seed=1) -> [float, np.ndarray]:
+                          n: int = 10000,
+                          rounds: int = 1,
+                          seed: int = 1
+                          ) -> [float, np.ndarray]:
     """
     
 
@@ -197,19 +206,20 @@ def coupled_cross_entropy(density_func_p,
                                                            n=n,
                                                            rounds=rounds,
                                                            seed=seed)
-        
+
     return final_integration
 
 
-def coupled_entropy(density_func, 
-                    sampler,
-                    kappa: float = 0.0, 
-                    alpha: float = 1.0, 
-                    dim: int = 1, 
+def coupled_entropy(density_func: Callable[..., np.ndarray],
+                    sampler: Callable[..., int],
+                    kappa: float = 0.0,
+                    alpha: float = 1.0,
+                    dim: int = 1,
                     root: bool = False,
-                    n=10000,
-                    rounds=1,
-                    seed=1) -> [float, np.ndarray]:
+                    n: int = 10000,
+                    rounds: int = 1,
+                    seed: int = 1
+                    ) -> [float, np.ndarray]:
     """
     
 
@@ -240,8 +250,6 @@ def coupled_entropy(density_func,
         DESCRIPTION.
 
     """
-
-    
     return coupled_cross_entropy(density_func, 
                                  density_func, 
                                  sampler_p=sampler,
@@ -255,18 +263,19 @@ def coupled_entropy(density_func,
                                  )
 
 
-def coupled_kl_divergence(density_func_p, 
-                       density_func_q, 
-                       sampler_p,
-                       kappa: float = 0.0, 
-                       alpha: float = 1.0, 
-                       dim: int = 1, 
-                       root: bool = False,
-                       n=10000,
-                       rounds=1,
-                       seed=1) -> [float, np.ndarray]:
+def coupled_kl_divergence(density_func_p: Callable[..., np.ndarray],
+                          density_func_q: Callable[..., np.ndarray],
+                          sampler_p: Callable[..., int],
+                          kappa: float = 0.0,
+                          alpha: float = 1.0,
+                          dim: int = 1,
+                          root: bool = False,
+                          n: int = 10000,
+                          rounds: int = 1,
+                          seed: int = 1
+                          ) -> [float, np.ndarray]:
     """
-    
+
 
     Parameters
     ----------
@@ -297,7 +306,7 @@ def coupled_kl_divergence(density_func_p,
         DESCRIPTION.
 
     """
-    
+
     # Calculate the coupled cross-entropy of the dist_p and dist_q.
     coupled_cross_entropy_of_dists = coupled_cross_entropy(density_func_p,
                                                            density_func_q,
@@ -321,5 +330,5 @@ def coupled_kl_divergence(density_func_p,
                                                 rounds=rounds,
                                                 seed=seed
                                                 )
-    
+
     return coupled_cross_entropy_of_dists - coupled_entropy_of_dist_p

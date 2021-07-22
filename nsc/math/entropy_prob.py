@@ -2,12 +2,13 @@
 import numpy as np
 #from .function import coupled_logarithm, coupled_exponential
 from nsc import log as coupled_logarithm
-import typing
+# import typing
 
-def coupled_cross_entropy_prob(probs_p, 
-                               probs_q, 
+
+def coupled_cross_entropy_prob(probs_p: np.ndarray,
+                               probs_q: np.ndarray,
                                kappa: float = 0.0,
-                               dim=1
+                               dim: int = 1
                                ) -> [float, np.ndarray]:
     """
     This function calculates the coupled cross-entropy between the 
@@ -35,7 +36,7 @@ def coupled_cross_entropy_prob(probs_p,
 
     # Take the coupled logarithm of the q(x).
     log_q = coupled_logarithm(probs_q, kappa=kappa, dim=dim)
-    
+
     # If log_q is a vector, transpose it a
     if len(log_q.shape) == 1:
         log_q_t = np.transpose(log_q)
@@ -54,7 +55,7 @@ def coupled_cross_entropy_prob(probs_p,
     return -np.matmul(log_q_t, probs_p)
 
 
-def coupled_entropy_prob(probs_p, 
+def coupled_entropy_prob(probs_p: np.ndarray,
                          kappa: float = 0.0
                          ) -> [float, np.ndarray]:
     """
@@ -75,7 +76,6 @@ def coupled_entropy_prob(probs_p,
         The coupled entropy of p.
 
     """
-
     # Return the cross-entropy of p with itself, which is the entropy of p.
     return coupled_cross_entropy_prob(probs_p, 
                                       probs_p, 
@@ -83,8 +83,8 @@ def coupled_entropy_prob(probs_p,
                                       )
 
 
-def coupled_kl_divergence_prob(probs_p, 
-                               probs_q, 
+def coupled_kl_divergence_prob(probs_p: np.ndarray,
+                               probs_q: np.ndarray,
                                kappa: float = 0.0
                                ) -> [float, np.ndarray]:
     """
@@ -105,8 +105,6 @@ def coupled_kl_divergence_prob(probs_p,
         The coupled KL divergence between p and q.
 
     """
-    
-    
     # Calculate the coupled cross-entropy of p and q.
     coupled_cross_entropy_of_dists = coupled_cross_entropy_prob(probs_p,
                                                                 probs_q,

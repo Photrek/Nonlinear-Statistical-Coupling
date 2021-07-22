@@ -105,37 +105,35 @@ class MultivariateCoupledNormal(CoupledNormal):
         samples : ndarray, (loc.shape[0], n, loc.shape[1])
             n samples from each distribution.
         """
-
         loc, scale = self._loc, self._sigma
-
         # Find the number of batches.
         n_batches = self.loc.shape[0]
-
         # Create a list to hold the samples from each distribution.
         samples = []
-
         # Iterate through each of the batched samples' parameters.
         for i in range(n_batches):
-
             # Get the i-th loc and scale arrays.
             temp_loc = loc[i]
             temp_scale = scale[i]
-
             # Get the random draws from the i-th distribution.
-            temp_samples = self._sample_(
-                temp_loc, 
-                temp_scale, 
-                kappa=self._kappa, n=n)
+            temp_samples = self._sample_(temp_loc,
+                                         temp_scale,
+                                         kappa=self._kappa,
+                                         n=n
+                                         )
             # Add the samples to the list of samples.
             samples.append(temp_samples)
-
         # Convert the list of samples to a 3-D array.
         samples = np.array(samples, ndmin=3)
-
         # Return the samples.
         return samples
 
-    def _sample_(self, loc, Scale, kappa=0.0, n=1) -> np.array:
+    def _sample_(self,
+                 loc: np.ndarray,
+                 scale: np.ndarray,
+                 kappa: float = 0.0,
+                 n: int = 1
+                 ) -> np.ndarray:
         """Generate random variables of multivariate coupled normal 
         distribution.
         
@@ -144,7 +142,7 @@ class MultivariateCoupledNormal(CoupledNormal):
         loc : array_like
             Mean of random variable, length determines dimension of random 
             variable
-        Scale : array_like
+        scale : array_like
             Square array of covariance matrix
         kappa : int or float
             degree of coupling
@@ -157,12 +155,10 @@ class MultivariateCoupledNormal(CoupledNormal):
             Each row is an independent draw of a multivariate coupled normally 
             distributed random variable
         """
-
         # Convert loc to an array, if it is not already.
         loc = np.asarray(loc)
         # Find the number of dimensions of the distribution from the loc array.
         dim = len(loc)
-
         # If kappa is 0, x is equal to 1.
         if kappa == 0.0:
             x = 1.0
@@ -172,27 +168,21 @@ class MultivariateCoupledNormal(CoupledNormal):
             x = np.random.chisquare(1.0/kappa, n) / (1.0/kappa)
             # Make sure x will broadcast correctly.
             x = x.reshape(n, 1)
-        
         # Draw n samples from a multivariate normal centered at the origin 
         # with the covariance matrix equal to scale.
-        z = np.random.multivariate_normal(np.zeros(dim), Scale, (n,))
-
+        z = np.random.multivariate_normal(np.zeros(dim), scale, (n,))
         # Scale the z_i by the square root of x_i and add in the loc to get 
         # the random draws of the coupled normal random variables.
         samples = loc + z/np.sqrt(x)
-
         # Return the coupled normal random variables.
         return samples
 
     def prob(self, X: [List, np.ndarray]) -> np.ndarray: # John removed beta_func as an argument because it didn't appear elsewhere.
         # assert X.shape[-1] ==  self._loc.shape[-1], "input X and loc must have the same dims."
         loc = np.expand_dims(self._loc, axis=1) # John added this to broadcast x - loc
-        
         # Invert the covariance matrices.
         _sigma_inv = np.linalg.inv(self._sigma)
-        
         _norm_term = self._norm_term
-        
         if self._batch_shape:
             # Demean the samples.
             demeaned_samples = X - loc
@@ -202,17 +192,14 @@ class MultivariateCoupledNormal(CoupledNormal):
             # Add in an axis at the second position for broadcasting (John added this).
             _sigma_inv = np.expand_dims(_sigma_inv, axis=1)
             X_norm = np.matmul(np.matmul(X_t, _sigma_inv), X)
-            
             # We want to expand _norm_term to have the same number of 
             # dimensions as X_norm.
-            
             # Count the difference in dims between X_norm and _norm_term.
             dim_diff = len(X_norm.shape) - len(_norm_term.shape)
             # Create a list of the dimensions to expand.
             expanded_dims = tuple([i+1 for i in range(dim_diff)])
             # Expand those dimensions
             _norm_term = np.expand_dims(_norm_term, axis=expanded_dims)
-            
         else:
             _normalized_X = lambda x: np.linalg.multi_dot([x-loc,
                                                            _sigma_inv,
@@ -241,7 +228,7 @@ class MultivariateCoupledNormal(CoupledNormal):
         '''
 
     # Normalization constant of the multivariate Coupled Gaussian (NormMultiCoupled)
-    def _get_normalized_term(self, beta_func = True) -> [int, float, np.ndarray]:
+    def _get_normalized_term(self, beta_func: float = True) -> [int, float, np.ndarray]:
         if beta_func:
             # need to revisit this if self._scale contains lower triangle and not diagnoal matrixes
 #             sigma = np.matmul(self._scale, self._scale.T)

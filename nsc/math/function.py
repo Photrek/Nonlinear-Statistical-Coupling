@@ -90,9 +90,8 @@ def coupled_exponential(value: [int, float, np.ndarray],
     
     return coupled_exp_value
 
-def coupled_product(value: List[float],
-                    kappa: float=0.0,
-                    dims: int=1) -> float:
+
+def coupled_product(value: List[float], kappa: float = 0.0, dims: int = 1) -> float:
     """
     Coupled product function
     
@@ -139,6 +138,7 @@ def coupled_product(value: List[float],
     
     return coupled_product_value
 
+
 def generalized_mean(values: np.ndarray, r: float = 1.0, weights: np.ndarray = None) -> float:
     """
     This function calculates the generalized mean of a 1-D array of non- 
@@ -161,7 +161,7 @@ def generalized_mean(values: np.ndarray, r: float = 1.0, weights: np.ndarray = N
     float
         DESCRIPTION : The coupled generalized mean.
     """
-    
+
     assert type(values) == np.ndarray, "values must be a 1-D numpy ndarray."
     if len(values.shape) != 1:
         assert ((len(values.shape) == 2) 
@@ -188,6 +188,7 @@ def generalized_mean(values: np.ndarray, r: float = 1.0, weights: np.ndarray = N
     
     # Return the generalized mean.
     return gen_mean
+
 
 # inner function that takes in the value on a scalar-by-sclar basis
 '''
