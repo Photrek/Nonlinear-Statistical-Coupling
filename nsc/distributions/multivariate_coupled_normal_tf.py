@@ -218,24 +218,6 @@ class MultivariateCoupledNormal(CoupledNormal):
         
         # Return the samples.
         return samples
-    
-    def sample_n_(self, n=1):
-        mvn_dist = tfp.distributions.MultivariateNormalTriL(scale_tril=self._scale)
-        z = mvn_dist.sample(n)
-        #Swapping first and second axes: [n, batch_size, dim] -> [batch_size, n, dim]
-        z = tf.transpose(z, perm=[1,0,2])
-        
-        if self._kappa == 0.0:
-            x = 1.0
-        else:
-            chi2 = tfp.distributions.chi2(df=1/self._kappa)
-            #Chi-square denominator should have shape [batch_size, n, dim]
-            x = chi2.sample(sample_shape=[self._loc.shape[0], n, self._loc.shape[1]])*self._kappa
-        
-        #Convert loc from [batch_size, dim] -> [batch_size, 1, dim] for broadcasting
-        samples = tf.expand_dims(self._loc, axis=1) + z/tf.math.sqrt(x)
-        
-        return(samples)
 
     def prob(self, X: [List, np.ndarray]) -> np.ndarray: # John removed beta_func as an argument because it didn't appear elsewhere.
         # assert X.shape[-1] ==  self._loc.shape[-1], "input X and loc must have the same dims."
