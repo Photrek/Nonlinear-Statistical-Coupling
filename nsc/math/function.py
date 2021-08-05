@@ -26,16 +26,18 @@ def coupled_logarithm(value: [int, float, np.ndarray, tf.Tensor],
     value = np.array(value) if isinstance(value, numeric_tuple) else value
     #assert isinstance(value, np.ndarray), "value must be an int, float, or np.ndarray."
     
-    #Checking if values contain zero 
+    #Tensorflow implementation
     if isinstance(value, tf.Tensor):
-        #Tensorflow specific check
+        #Check if values contain 0
         assert tf.reduce_all(tf.not_equal(value,0)).numpy(), "value must not be or contain zero(s)."
+        log = tf.math.log
     else:
         #General check
         assert 0. not in value, "value must not be or contain zero(s)."
+        log = np.log
         
     if kappa == 0.:
-        coupled_log_value = np.log(value)  # divide by 0 if x == 0
+        coupled_log_value = log(value)  # divide by 0 if x == 0
     else:
         coupled_log_value = (1. / kappa) * (value**(kappa / (1. + dim*kappa)) - 1.)
     return coupled_log_value
