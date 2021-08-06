@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-from .function import coupled_logarithm, coupled_exponential
+from typing import Callable
+from .function import coupled_logarithm
 
 
-def importance_sampling_integrator(function, pdf, sampler, n=10000, rounds=1, seed=1):
+def importance_sampling_integrator(function: Callable[..., np.ndarray],
+                                   pdf: Callable[..., np.ndarray],
+                                   sampler: Callable[..., int],
+                                   n: int = 10000,
+                                   seed: int = 1
+                                   ) -> np.array:
     """
     
 
@@ -17,8 +23,6 @@ def importance_sampling_integrator(function, pdf, sampler, n=10000, rounds=1, se
         DESCRIPTION.
     n : TYPE, optional
         DESCRIPTION. The default is 10000.
-    rounds : int
-        DESCRIPTION. The default is 5.
     seed : TYPE, optional
         DESCRIPTION. The default is 1.
 
@@ -31,30 +35,28 @@ def importance_sampling_integrator(function, pdf, sampler, n=10000, rounds=1, se
     # Set a random seed.
     np.random.seed(seed)
     
-    # Create a list to hold the estimates for each round.
-    estimates = []
-    
-    for i in range(rounds):
-        # Generate n samples from the probability distribution.
-        samples = sampler(n)
-        # Evaluate the function at the samples and divide by the probability 
-        # density of the distribution at those samples.
-        sampled_values = function(samples) / pdf(samples)
-        # Add the estimate of the integral to the estimates list.
-        estimates.append(np.mean(sampled_values))
+    # Generate n samples from the probability distribution.
+    samples = sampler(n)
+    #ipdb.set_trace()
+    # Evaluate the function at the samples and divide by the probability 
+    # density of the distribution at those samples.
+    sampled_values = function(samples) / pdf(samples)
+    # Add the estimate of the integral to the estimates list.
+    estimates = np.mean(sampled_values, axis=1) # Altered this for the batching.
     
     # Return the mean of the estimates as the estimate of the integral.
-    return np.mean(estimates)
+    return np.array(estimates)
 
 
-def coupled_probability(density_func,
-                        sampler,
-                        kappa = 0.0, 
-                        alpha = 1.0, 
-                        dim = 1,
-                        n = 10000,
-                        rounds=1,
-                        seed=1):
+def coupled_probability(density_func: Callable[..., np.ndarray],
+                        sampler: Callable[..., int],
+                        kappa: float = 0.0, 
+                        alpha: float = 1.0, 
+                        dim: int = 1,
+                        n: int = 10000,
+                        rounds: int = 1,
+                        seed: int = 1
+                        ) -> [float, np.ndarray]:
     """
     
 
@@ -101,7 +103,8 @@ def coupled_probability(density_func,
                                                      sampler=sampler, 
                                                      n=n,
                                                      rounds=rounds,
-                                                     seed=seed)
+                                                     seed=seed
+                                                     )
     
     
     # Define a function to calculate coupled densities
@@ -112,16 +115,17 @@ def coupled_probability(density_func,
     return coupled_prob
 
 
-def coupled_cross_entropy(density_func_p, 
-                          density_func_q, 
-                          sampler_p,
+def coupled_cross_entropy(density_func_p: Callable[..., np.ndarray],
+                          density_func_q: Callable[..., np.ndarray],
+                          sampler_p: Callable[..., int],
                           kappa: float = 0.0, 
                           alpha: float = 1.0, 
                           dim: int = 1,
                           root: bool = False,
-                          n=10000,
-                          rounds=1,
-                          seed=1) -> [float, np.ndarray]:
+                          n: int = 10000,
+                          rounds: int = 1,
+                          seed: int = 1
+                          ) -> [float, np.ndarray]:
     """
     
 
@@ -202,19 +206,20 @@ def coupled_cross_entropy(density_func_p,
                                                            n=n,
                                                            rounds=rounds,
                                                            seed=seed)
-        
+
     return final_integration
 
 
-def coupled_entropy(density_func, 
-                    sampler,
-                    kappa: float = 0.0, 
-                    alpha: float = 1.0, 
-                    dim: int = 1, 
+def coupled_entropy(density_func: Callable[..., np.ndarray],
+                    sampler: Callable[..., int],
+                    kappa: float = 0.0,
+                    alpha: float = 1.0,
+                    dim: int = 1,
                     root: bool = False,
-                    n=10000,
-                    rounds=1,
-                    seed=1) -> [float, np.ndarray]:
+                    n: int = 10000,
+                    rounds: int = 1,
+                    seed: int = 1
+                    ) -> [float, np.ndarray]:
     """
     
 
@@ -245,8 +250,6 @@ def coupled_entropy(density_func,
         DESCRIPTION.
 
     """
-
-    
     return coupled_cross_entropy(density_func, 
                                  density_func, 
                                  sampler_p=sampler,
@@ -260,18 +263,19 @@ def coupled_entropy(density_func,
                                  )
 
 
-def coupled_kl_divergence(density_func_p, 
-                       density_func_q, 
-                       sampler_p,
-                       kappa: float = 0.0, 
-                       alpha: float = 1.0, 
-                       dim: int = 1, 
-                       root: bool = False,
-                       n=10000,
-                       rounds=1,
-                       seed=1) -> [float, np.ndarray]:
+def coupled_kl_divergence(density_func_p: Callable[..., np.ndarray],
+                          density_func_q: Callable[..., np.ndarray],
+                          sampler_p: Callable[..., int],
+                          kappa: float = 0.0,
+                          alpha: float = 1.0,
+                          dim: int = 1,
+                          root: bool = False,
+                          n: int = 10000,
+                          rounds: int = 1,
+                          seed: int = 1
+                          ) -> [float, np.ndarray]:
     """
-    
+
 
     Parameters
     ----------
@@ -302,7 +306,7 @@ def coupled_kl_divergence(density_func_p,
         DESCRIPTION.
 
     """
-    
+
     # Calculate the coupled cross-entropy of the dist_p and dist_q.
     coupled_cross_entropy_of_dists = coupled_cross_entropy(density_func_p,
                                                            density_func_q,
@@ -326,56 +330,5 @@ def coupled_kl_divergence(density_func_p,
                                                 rounds=rounds,
                                                 seed=seed
                                                 )
-    
+
     return coupled_cross_entropy_of_dists - coupled_entropy_of_dist_p
-
-
-def generalized_mean(values: np.ndarray, r: float = 1.0, weights: np.ndarray = None) -> float:
-    """
-    This function calculates the generalized mean of a 1-D array of non- 
-    negative real numbers using the coupled logarithm and exponential functions.
-    
-    Parameters
-    ----------
-    values : np.ndarray
-        DESCRIPTION : A 1-D numpy array (row vector) of non-negative numbers
-         for which we are calculating the generalized mean.
-    r : float, optional
-        DESCRIPTION : The risk bias and the power of the generalized mean. 
-        The default is 1.0 (Arithmetric Mean).
-    weights : np.ndarray, optional
-        DESCRIPTION : A 1-D numpy array of the weights for each value. 
-        The default is None, which triggers a conditional to use equal weights.
-
-    Returns gen_mean
-    -------
-    float
-        DESCRIPTION : The coupled generalized mean.
-    """
-    
-    assert type(values) == np.ndarray, "values must be a 1-D numpy ndarray."
-    if len(values.shape) != 1:
-        assert ((len(values.shape) == 2) 
-                & ((values.shape[0] == 1)
-                  | (values.shape[1] == 1))), "values must be a 1-D numpy ndarray."
-    assert (values <= 0).sum() == 0, "all numbers in values must be greater than 0."
-    assert ((type(r) == int) | (type(r) == float) | (type(r) == np.int32 ) 
-            | (type(r) == np.float32) | (type(r) == np.int64) 
-            | (type(r) == np.float64)), "r must be a numeric data type, like a float or int."
-    assert ((type(weights) == type(None))
-            | (type(weights) == np.ndarray)), "weights must either be None or 1-D numpy ndarray."
-            
-    # If weights equals None, equally weight all observations.
-    if type(weights) == type(None):
-        weights = weights or np.ones(len(values))
-    
-    # Calculate the log of the generalized mean by taking the dot product of the
-    # weights vector and the vector of the coupled logarithm of the values and
-    # divide the result by the sum of the the weights.
-    log_gen_mean = np.dot(weights, coupled_logarithm(values, kappa=r, dim=0)) / np.sum(weights)
-        
-    # Calculate the generalized mean by exponentiating the log-generalized mean.
-    gen_mean = coupled_exponential(log_gen_mean, kappa=r, dim=0)
-    
-    # Return the generalized mean.
-    return gen_mean

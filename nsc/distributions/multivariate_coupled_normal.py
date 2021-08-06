@@ -4,9 +4,9 @@ from typing import List
 from scipy.special import gamma
 from .coupled_normal import CoupledNormal
 from ..math.function import coupled_exponential
-from ..math.entropy import coupled_entropy, \
-                            coupled_cross_entropy, \
-                            coupled_kl_divergence
+# from ..math.entropy import coupled_entropy, \
+#                             coupled_cross_entropy, \
+#                             coupled_kl_divergence
 
 
 class MultivariateCoupledNormal(CoupledNormal):
@@ -29,12 +29,12 @@ class MultivariateCoupledNormal(CoupledNormal):
             assert isinstance(scale, (list, np.ndarray)), \
                 "scale must be either a list or ndarray type. Otherwise use CoupledNormal."
         super(MultivariateCoupledNormal, self).__init__(
-            loc=loc,
-            scale=scale,
-            kappa=kappa,
-            alpha=alpha,
-            validate_args=validate_args
-        )
+              loc=loc,
+              scale=scale,
+              kappa=kappa,
+              alpha=alpha,
+              validate_args=validate_args
+              )
         if self._batch_shape:
             _scale_diag = np.empty(shape=[d for d in self._scale.shape]+\
                                    [self._scale.shape[-1]]
@@ -54,7 +54,15 @@ class MultivariateCoupledNormal(CoupledNormal):
         # need to revisit this if self._scale contains lower triangle and not diagonal
         self._sigma = np.matmul(self._scale, self._scale)
         self._norm_term = self._get_normalized_term() 
-            
+
+    @property
+    def sigma(self):
+        return self._sigma
+
+    @property
+    def norm(self):
+        return self._norm_term
+
     def _get_batch_shape(self) -> List:
         if self._rank(self._loc) == 1:
             # return [] signifying single batch of a multivariate distribution
@@ -75,7 +83,7 @@ class MultivariateCoupledNormal(CoupledNormal):
         except np.linalg.LinAlgError:
             return False
         return True
-        
+
     def _rank(self, value: [int, float, np.ndarray]) -> int:
         # specify the rank of a given value, with rank=0 for a scalar and rank=ndim for an ndarray
         if isinstance(value, (int, float)):
@@ -83,20 +91,127 @@ class MultivariateCoupledNormal(CoupledNormal):
         else:
             return len(value.shape)
 
-    def sample_n(self, n: int) -> np.array:
-        # normal_samples = np.random.normal(loc=self._loc, scale=self._scale, size=n)
-        mvn_samples = np.random.multivariate_normal(mean=self._loc,
-                                                    cov=self._scale,
-                                                    size=n,
-                                                    check_valid='warn'
-                                                    )
-        chi2_samples = np.random.chisquare(df=1/self._kappa, size=n)
-        # Transpose to allow for broadcasting the following: (n x d) / (n x 1)
-        samples_T = mvn_samples.T / np.sqrt(chi2_samples*self._kappa)
-        samples = samples_T.T
-        return self._loc + samples
-        ''' TFP Source: https://github.com/tensorflow/probability/blob/v0.11.1/tensorflow_probability/python/distributions/multivariate_student_t.py#L238-L254
+    def sample_n(self, n: int = 1) -> np.array:
+        """Generate random variables for batches of multivariate coupled 
+        normal distributions.
+
+        Inputs
+        ------
+        n : int
+            Number of observations per distribution.
+            
+        Returns
+        -------
+        samples : ndarray, (loc.shape[0], n, loc.shape[1])
+            n samples from each distribution.
+        """
+        loc, scale = self._loc, self._sigma
+        # Find the number of batches.
+        n_batches = self.loc.shape[0]
+        # Create a list to hold the samples from each distribution.
+        samples = []
+        # Iterate through each of the batched samples' parameters.
+        for i in range(n_batches):
+            # Get the i-th loc and scale arrays.
+            temp_loc = loc[i]
+            temp_scale = scale[i]
+            # Get the random draws from the i-th distribution.
+            temp_samples = self._sample_(temp_loc,
+                                         temp_scale,
+                                         kappa=self._kappa,
+                                         n=n
+                                         )
+            # Add the samples to the list of samples.
+            samples.append(temp_samples)
+        # Convert the list of samples to a 3-D array.
+        samples = np.array(samples, ndmin=3)
+        # Return the samples.
+        return samples
+
+    def _sample_(self,
+                 loc: np.ndarray,
+                 scale: np.ndarray,
+                 kappa: float = 0.0,
+                 n: int = 1
+                 ) -> np.ndarray:
+        """Generate random variables of multivariate coupled normal 
+        distribution.
         
+        Inputs
+        ------
+        loc : array_like
+            Mean of random variable, length determines dimension of random 
+            variable
+        scale : array_like
+            Square array of covariance matrix
+        kappa : int or float
+            degree of coupling
+        n : int
+            Number of observations, return random array will be (n, len(loc))
+            
+        Returns
+        -------
+        samples : ndarray, (n, len(loc))
+            Each row is an independent draw of a multivariate coupled normally 
+            distributed random variable
+        """
+        # Convert loc to an array, if it is not already.
+        loc = np.asarray(loc)
+        # Find the number of dimensions of the distribution from the loc array.
+        dim = len(loc)
+        # If kappa is 0, x is equal to 1.
+        if kappa == 0.0:
+            x = 1.0
+        # Otherwise, draw n samples of x where x_i ~ Chi-sq(df = 1/kappa) and 
+        # scale them by 1/kappa.
+        else:
+            x = np.random.chisquare(1.0/kappa, n) / (1.0/kappa)
+            # Make sure x will broadcast correctly.
+            x = x.reshape(n, 1)
+        # Draw n samples from a multivariate normal centered at the origin 
+        # with the covariance matrix equal to scale.
+        z = np.random.multivariate_normal(np.zeros(dim), scale, (n,))
+        # Scale the z_i by the square root of x_i and add in the loc to get 
+        # the random draws of the coupled normal random variables.
+        samples = loc + z/np.sqrt(x)
+        # Return the coupled normal random variables.
+        return samples
+
+    def prob(self, X: [List, np.ndarray]) -> np.ndarray: # John removed beta_func as an argument because it didn't appear elsewhere.
+        # assert X.shape[-1] ==  self._loc.shape[-1], "input X and loc must have the same dims."
+        loc = np.expand_dims(self._loc, axis=1) # John added this to broadcast x - loc
+        # Invert the covariance matrices.
+        _sigma_inv = np.linalg.inv(self._sigma)
+        _norm_term = self._norm_term
+        if self._batch_shape:
+            # Demean the samples.
+            demeaned_samples = X - loc
+            # Create X and X_t (John added this)
+            X = np.expand_dims(demeaned_samples, axis=-1)
+            X_t = np.expand_dims(demeaned_samples, axis=-2)
+            # Add in an axis at the second position for broadcasting (John added this).
+            _sigma_inv = np.expand_dims(_sigma_inv, axis=1)
+            X_norm = np.matmul(np.matmul(X_t, _sigma_inv), X)
+            # We want to expand _norm_term to have the same number of 
+            # dimensions as X_norm.
+            # Count the difference in dims between X_norm and _norm_term.
+            dim_diff = len(X_norm.shape) - len(_norm_term.shape)
+            # Create a list of the dimensions to expand.
+            expanded_dims = tuple([i+1 for i in range(dim_diff)])
+            # Expand those dimensions
+            _norm_term = np.expand_dims(_norm_term, axis=expanded_dims)
+        else:
+            _normalized_X = lambda x: np.linalg.multi_dot([x-loc,
+                                                           _sigma_inv,
+                                                           x-loc
+                                                           ]
+                                                          )
+            X_norm = np.apply_along_axis(_normalized_X, 1, X)
+        p = (coupled_exponential(X_norm, self._kappa, self._dim))**(-1/self._alpha) \
+            / _norm_term
+        return p
+        ''' TFP Source: https://github.com/tensorflow/probability/blob/v0.11.1/tensorflow_probability/python/distributions/multivariate_student_t.py#L238-L254
+
         normal_seed, chi2_seed = samplers.split_seed(seed, salt='multivariate t')
 
         loc = tf.broadcast_to(self._loc, self._sample_shape())
@@ -112,28 +227,8 @@ class MultivariateCoupledNormal(CoupledNormal):
                 normal_samp * tf.math.rsqrt(chi2_samp / self._df)[..., tf.newaxis])
         '''
 
-    def prob(self, X: [List, np.ndarray], beta_func: bool = True) -> np.ndarray:
-        # assert X.shape[-1] ==  self._loc.shape[-1], "input X and loc must have the same dims."
-        _sigma_inv = np.linalg.inv(self._sigma)
-        if self._batch_shape:
-            X_norm = np.matmul(np.matmul(np.expand_dims(X-self._loc, axis=-2),
-                                         _sigma_inv
-                                         ), 
-                               np.expand_dims(X-self._loc, axis=-1)
-                               )
-        else:
-            _normalized_X = lambda x: np.linalg.multi_dot([x-self._loc,
-                                                           _sigma_inv,
-                                                           x-self._loc
-                                                           ]
-                                                          )
-            X_norm = np.apply_along_axis(_normalized_X, 1, X)
-        p = (coupled_exponential(X_norm, self._kappa, self._dim))**(-1/self._alpha) \
-            / self._norm_term
-        return p
-
     # Normalization constant of the multivariate Coupled Gaussian (NormMultiCoupled)
-    def _get_normalized_term(self, beta_func = True) -> [int, float, np.ndarray]:
+    def _get_normalized_term(self, beta_func: float = True) -> [int, float, np.ndarray]:
         if beta_func:
             # need to revisit this if self._scale contains lower triangle and not diagnoal matrixes
 #             sigma = np.matmul(self._scale, self._scale.T)
@@ -151,6 +246,7 @@ class MultivariateCoupledNormal(CoupledNormal):
                 return (np.sqrt(np.pi) * _sigma_det**0.5 * gamma_num) / \
                     (np.sqrt(self._kappa) * gamma_dem)
 
+    '''
     def entropy(self, kappa: [int, float] = None, root: bool = False,
                 n: int = 10000, rounds: int = 1, seed: int = 1
                 ) -> [float, np.ndarray]:
@@ -194,3 +290,4 @@ class MultivariateCoupledNormal(CoupledNormal):
                                      rounds=rounds,
                                      seed=seed
                                      )
+    '''

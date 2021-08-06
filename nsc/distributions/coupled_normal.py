@@ -30,7 +30,7 @@ class CoupledNormal:
             assert type(loc) == type(scale), "loc and scale must be the same type."
             if isinstance(loc, np.ndarray):
                 # assert loc.shape == scale.shape, "loc and scale must have the same dimensions (check respective .shape())."
-                assert np.all((scale >= 0)), "All scale values must be greater or equal to 0."            
+                assert np.all((scale > 0)), "All scale values must be greater than 0."   
             else:
                 assert scale >= 0, "scale must be greater or equal to 0."            
             assert isinstance(kappa, (int, float)), "kappa must be an int or float type."

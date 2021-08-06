@@ -5,7 +5,7 @@ import tensorflow as tf
 numeric_tuple = (int, float, np.float32, np.float64, np.float128)
 
 
-ddef coupled_logarithm(value: [int, float, np.ndarray, tf.Tensor],
+def coupled_logarithm(value: [int, float, np.ndarray, tf.Tensor],
                       kappa: [int, float] = 0.0,
                       dim: int = 1
                       ) -> [float, np.ndarray]:

@@ -182,3 +182,15 @@ def generalized_mean(values: np.ndarray, r: float = 1.0, weights: np.ndarray = N
     
     # Return the generalized mean.
     return gen_mean
+
+
+# inner function that takes in the value on a scalar-by-sclar basis
+'''
+def _coupled_exponential_scalar(value, kappa, dim):
+    if (1 + kappa*value) > 0:
+        return (1 + kappa*value)**((1 + dim*kappa)/kappa)
+    elif ((1 + dim*kappa)/kappa) > 0:
+        return 0.
+    else:
+        return float('inf')
+'''

@@ -4,13 +4,15 @@ from math import gamma
 from numpy.linalg import det
 from .entropy import importance_sampling_integrator
 from .function import coupled_logarithm
+from ..distributions.coupled_normal import CoupledNormal
 from ..distributions.multivariate_coupled_normal import MultivariateCoupledNormal
 
 
-def coupled_normal_entropy(sigma, kappa):
+def coupled_normal_entropy(sigma: np.ndarray, kappa: float):
     """
     This function calculates the coupled entropy of a coupled Gaussian 
     distribution using its sigma matrix and kappa value.
+    
     Parameters
     ----------
     sigma : numpy ndarray
@@ -25,8 +27,8 @@ def coupled_normal_entropy(sigma, kappa):
         covariance matrix equivalent of sigma and coupling value kappa.
     """
     
-    assert ((type(sigma) == np.ndarray)
-            & (sigma.shape[0] == sigma.shape[1])), "sigma is a square matrix!"
+    #assert ((type(sigma) == np.ndarray)
+    #        & (sigma.shape[0] == sigma.shape[1])), "sigma is a square matrix!"
     
     # Find the number of dimensions using the square matrix sigma.
     dim = sigma.shape[0]
@@ -51,8 +53,10 @@ def coupled_normal_entropy(sigma, kappa):
     return entropy
 
 
-
-def biased_coupled_probability_norm(coupled_normal, kappa, alpha):
+def biased_coupled_probability_norm(coupled_normal: CoupledNormal,
+                                    kappa: float,
+                                    alpha: int
+                                    ):
     """
     
 
@@ -80,17 +84,31 @@ def biased_coupled_probability_norm(coupled_normal, kappa, alpha):
     new_kappa = ((coupled_normal.kappa + dim*kappa*coupled_normal.kappa)
                  /(1 + kappa*(dim + alpha + dim*alpha*coupled_normal.kappa)))
     
+    # If the batch shape is not an empty list, multiply the diagonal values of
+    # each standard deviation matrix by scale_mult to get the new scale 
+    # vectors.
+    if coupled_normal._batch_shape:
+        new_scale = np.diagonal(
+            coupled_normal.scale, 
+            axis1=1, 
+            axis2=2
+            )*scale_mult
+    # If the batch shape is an empty list (only one distribution), take the 
+    # diagonal values and multiply them by scale_mult to get the new scale 
+    # vector.
+    else:
+        new_scale = np.diag(coupled_normal.scale) * scale_mult
+        
     new_dist = MultivariateCoupledNormal(loc=coupled_normal.loc, 
-                                         scale=np.diag(coupled_normal.scale 
-                                                       * scale_mult), 
+                                         scale=new_scale, 
                                          kappa=new_kappa)
     return new_dist
 
 
-
-def coupled_probability_norm(coupled_normal,
-                             kappa = 0.0, 
-                             alpha = 2.0):
+def coupled_probability_norm(coupled_normal: CoupledNormal,
+                             kappa: float = 0.0, 
+                             alpha: float = 2.0
+                             ):
     """
     
 
@@ -114,14 +132,14 @@ def coupled_probability_norm(coupled_normal,
     return biased_coupled_probability_norm(coupled_normal, kappa, alpha).prob
 
 
-def coupled_cross_entropy_norm(dist_p,
-                               dist_q,
+def coupled_cross_entropy_norm(dist_p: CoupledNormal,
+                               dist_q: CoupledNormal,
                                kappa: float = 0.0, 
                                alpha: float = 2.0, 
                                root: bool = False,
-                               n=10000,
-                               rounds=1,
-                               seed=1) -> [float, np.ndarray]:
+                               n: int = 10000,
+                               seed: int = 1
+                               ) -> [float, np.ndarray]:
     """
     
 
@@ -139,8 +157,6 @@ def coupled_cross_entropy_norm(dist_p,
         DESCRIPTION. The default is False.
     n : TYPE, optional
         DESCRIPTION. The default is 10000.
-    rounds : TYPE, optional
-        DESCRIPTION. The default is 1.
     seed : TYPE, optional
         DESCRIPTION. The default is 1.
 
@@ -162,7 +178,7 @@ def coupled_cross_entropy_norm(dist_p,
     
     def raised_density_func_q(x):
         return dist_q.prob(x)**(-alpha)
-    
+
     if root == False:
         
         def no_root_coupled_cross_entropy(x):
@@ -180,24 +196,24 @@ def coupled_cross_entropy_norm(dist_p,
                                                             pdf=dist_p.prob,
                                                             sampler=dist_p.sample_n, 
                                                             n=n,
-                                                            rounds=rounds,
                                                             seed=seed
                                                             )
         
     else:
         print("Not implemented yet.")
         pass
-        
-    return final_integration
+    
+    # Return the coupled cross-entropies in a 1-D array.
+    return final_integration.squeeze()
 
 
-def coupled_entropy_norm(dist,
+def coupled_entropy_norm(dist: CoupledNormal,
                          kappa: float = 0.0, 
                          alpha: float = 2.0, 
                          root: bool = False,
-                         n=10000,
-                         rounds=1,
-                         seed=1) -> [float, np.ndarray]:
+                         n: int = 10000,
+                         seed: int = 1
+                         ) -> [float, np.ndarray]:
     """
     
 
@@ -213,8 +229,6 @@ def coupled_entropy_norm(dist,
         DESCRIPTION. The default is False.
     n : TYPE, optional
         DESCRIPTION. The default is 10000.
-    rounds : TYPE, optional
-        DESCRIPTION. The default is 1.
     seed : TYPE, optional
         DESCRIPTION. The default is 1.
 
@@ -224,25 +238,24 @@ def coupled_entropy_norm(dist,
         DESCRIPTION.
 
     """
-
     return coupled_cross_entropy_norm(dist,
-                                 dist,
-                                 kappa=kappa, 
-                                 alpha=alpha, 
-                                 root=root,
-                                 n=n,
-                                 rounds=rounds,
-                                 seed=seed)
+                                      dist,
+                                      kappa=kappa, 
+                                      alpha=alpha, 
+                                      root=root,
+                                      n=n,
+                                      seed=seed
+                                      )
 
 
-def coupled_kl_divergence_norm(dist_p, 
-                               dist_q, 
+def coupled_kl_divergence_norm(dist_p: CoupledNormal,
+                               dist_q: CoupledNormal,
                                kappa: float = 0.0, 
                                alpha: float = 2.0, 
                                root: bool = False,
-                               n=10000,
-                               rounds=1,
-                               seed=1) -> [float, np.ndarray]:
+                               n: int = 10000,
+                               seed: int = 1
+                               ) -> [float, np.ndarray]:
     """
     
 
@@ -260,8 +273,6 @@ def coupled_kl_divergence_norm(dist_p,
         DESCRIPTION. The default is False.
     n : TYPE, optional
         DESCRIPTION. The default is 10000.
-    rounds : TYPE, optional
-        DESCRIPTION. The default is 1.
     seed : TYPE, optional
         DESCRIPTION. The default is 1.
 
@@ -271,7 +282,6 @@ def coupled_kl_divergence_norm(dist_p,
         DESCRIPTION.
 
     """    
-    
     # Calculate the coupled cross-entropy of the dist_p and dist_q.
     coupled_cross_entropy_of_dists = coupled_cross_entropy_norm(dist_p,
                                                                 dist_q,
@@ -279,15 +289,15 @@ def coupled_kl_divergence_norm(dist_p,
                                                                 alpha=alpha,
                                                                 root=root,
                                                                 n=n,
-                                                                rounds=rounds,
-                                                                seed=seed)
+                                                                seed=seed
+                                                                )
     # Calculate the  coupled entropy of dist_p
     coupled_entropy_of_dist_p = coupled_entropy_norm(dist_p, 
                                                      kappa=kappa, 
                                                      alpha=alpha, 
                                                      root=root,
                                                      n=n,
-                                                     rounds=rounds,
-                                                     seed=seed)
+                                                     seed=seed
+                                                     )
     
     return coupled_cross_entropy_of_dists - coupled_entropy_of_dist_p
