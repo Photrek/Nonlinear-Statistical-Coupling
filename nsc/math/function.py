@@ -14,7 +14,6 @@ def coupled_logarithm(value: [int, float, np.ndarray, tf.Tensor],
     """
     Generalization of the logarithm function, which defines smooth
     transition to power functions.
-
     Parameters
     ----------
     value : Input variable in which the coupled logarithm is applied to.
@@ -41,7 +40,6 @@ def coupled_exponential(value: [int, float, np.ndarray],
                         ) -> [float, np.ndarray]:
     """
     Generalization of the exponential function.
-
     Parameters
     ----------
     value : [float, np.ndarray]
@@ -51,12 +49,10 @@ def coupled_exponential(value: [int, float, np.ndarray],
         The default is 0.0.
     dim : int, optional
         The dimension of x, or rank if x is a tensor. The default is 1.
-
     Returns
     -------
     float
         The coupled exponential values.
-
     """
     #Temporarily turn off warnings for invalid powers
     warnings.simplefilter('ignore')
@@ -108,12 +104,10 @@ def coupled_product(value: List[float], kappa: float = 0.0, dims: int = 1) -> fl
         The dimensionality of the inputs when viewed as probability distributions.
         The default is 1 for all inputs.
         Can accept a list of dims but needs to be the same length as value.
-
     Returns
     -------
     float
         The result of the coupled product function.
-
     """
     
     #Scalar input for dims
@@ -156,7 +150,6 @@ def generalized_mean(values: np.ndarray, r: float = 1.0, weights: np.ndarray = N
     weights : np.ndarray, optional
         DESCRIPTION : A 1-D numpy array of the weights for each value. 
         The default is None, which triggers a conditional to use equal weights.
-
     Returns gen_mean
     -------
     float
