@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import tensorflow as tf
+import ipdb
 import tensorflow_probability as tfp
 from typing import List, Union
 from scipy.special import gamma
-from .coupled_normal_tf import CoupledNormal
+from .coupled_normal import CoupledNormal
 from ..math.function import coupled_exponential
 from ..math.entropy import coupled_entropy, \
                             coupled_cross_entropy, \
@@ -219,6 +220,46 @@ class MultivariateCoupledNormal(CoupledNormal):
         # Return the samples.
         return samples
 
+    def prob_(self, X: [List, np.ndarray]) -> np.ndarray: # John removed beta_func as an argument because it didn't appear elsewhere.
+        # assert X.shape[-1] ==  self._loc.shape[-1], "input X and loc must have the same dims."
+        loc = np.expand_dims(self._loc, axis=1) # John added this to broadcast x - loc
+        
+        # Invert the covariance matrices.
+        _sigma_inv = np.linalg.inv(self._sigma)
+        
+        _norm_term = self._norm_term
+        
+        if self._batch_shape:
+            # Demean the samples.
+            demeaned_samples = X - loc
+            # Create X and X_t (John added this)
+            X = np.expand_dims(demeaned_samples, axis=-1)
+            X_t = np.expand_dims(demeaned_samples, axis=-2)
+            # Add in an axis at the second position for broadcasting (John added this).
+            _sigma_inv = np.expand_dims(_sigma_inv, axis=1)
+            X_norm = np.matmul(np.matmul(X_t, _sigma_inv), X)
+            
+            # We want to expand _norm_term to have the same number of 
+            # dimensions as X_norm.
+            
+            # Count the difference in dims between X_norm and _norm_term.
+            dim_diff = len(X_norm.shape) - len(_norm_term.shape)
+            # Create a list of the dimensions to expand.
+            expanded_dims = tuple([i+1 for i in range(dim_diff)])
+            # Expand those dimensions
+            _norm_term = np.expand_dims(_norm_term, axis=expanded_dims)
+            
+        else:
+            _normalized_X = lambda x: np.linalg.multi_dot([x-loc,
+                                                           _sigma_inv,
+                                                           x-loc
+                                                           ]
+                                                          )
+            X_norm = np.apply_along_axis(_normalized_X, 1, X)
+        p = (coupled_exponential(X_norm, self._kappa, self._dim))**(-1/self._alpha) \
+            / _norm_term
+        return p
+    
     def prob(self, X: [List, np.ndarray]) -> np.ndarray: # John removed beta_func as an argument because it didn't appear elsewhere.
         # assert X.shape[-1] ==  self._loc.shape[-1], "input X and loc must have the same dims."
         loc = np.expand_dims(self._loc, axis=1) # John added this to broadcast x - loc
@@ -259,13 +300,14 @@ class MultivariateCoupledNormal(CoupledNormal):
             / _norm_term
         return p
 
-    # Normalization constant of the multivariate Coupled Gaussian (NormMultiCoupled)
+    # Normalization constant of the multivariate Coupled Gaussian (NormMultiCoupled)    
     def _get_normalized_term(self, beta_func = True) -> [int, float, np.ndarray]:
+        
         if beta_func:
             # need to revisit this if self._scale contains lower triangle and not diagnoal matrixes
 #             sigma = np.matmul(self._scale, self._scale.T)
-            _sigma_det = np.linalg.det(self._sigma)
-            base_term = np.sqrt((2 * np.pi)**self._dim * _sigma_det)
+            _sigma_det = tf.linalg.det(self._sigma)
+            base_term = tf.math.sqrt((2 * np.pi)**self._dim * _sigma_det)
             return base_term*self._normalization_function()
         else:
 #             sigma = np.matmul(self._scale, self._scale.T)

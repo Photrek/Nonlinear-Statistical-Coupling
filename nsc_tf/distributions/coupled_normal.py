@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import tensorflow as tf
+import ipdb
 from typing import List
 from scipy.special import beta, gamma
+from tensorflow.math import lbeta, lgamma
 from ..math.function import coupled_exponential
 from typing import Union
 # from ..math.entropy_norm import coupled_entropy_norm, \
@@ -154,6 +156,7 @@ class CoupledNormal:
         return norm_term
 
     def _normalization_function(self):
+        
         k, d = self._kappa, self._dim
         assert -1/d < k, "kappa must be greater than -1/dim."
         if k == 0:
@@ -163,13 +166,13 @@ class CoupledNormal:
             beta_input_x = 1/(2*k) + 1
             beta_input_y = d/2
             gamma_input = d/2
-            return func_term * beta(beta_input_x, beta_input_y)/gamma(gamma_input)
+            return func_term * tf.exp(lbeta([beta_input_x, beta_input_y]))/tf.exp(lgamma(gamma_input))
         else:  # -1 < self._kappa < 0:
             func_term = 1 / (-2*k)**(d/2)
             beta_input_x = (1 + d*k)/(-2*k) + 1
             beta_input_y = d/2
             gamma_input = d/2
-            return func_term * beta(beta_input_x, beta_input_y)/gamma(gamma_input)
+            return func_term * tf.exp(lbeta([beta_input_x, beta_input_y]))/tf.exp(gamma(gamma_input))
 
     '''
     def entropy(self, kappa: [int, float] = None, root: bool = False,
