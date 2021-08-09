@@ -260,12 +260,12 @@ class MultivariateCoupledNormal(CoupledNormal):
             / _norm_term
         return p
     
-    def prob(self, X: [List, np.ndarray]) -> np.ndarray: # John removed beta_func as an argument because it didn't appear elsewhere.
+    def prob(self, X: tf.Tensor) -> tf.Tensor: # John removed beta_func as an argument because it didn't appear elsewhere.
         # assert X.shape[-1] ==  self._loc.shape[-1], "input X and loc must have the same dims."
-        loc = np.expand_dims(self._loc, axis=1) # John added this to broadcast x - loc
+        loc = tf.expand_dims(self._loc, axis=1) # John added this to broadcast x - loc
         
         # Invert the covariance matrices.
-        _sigma_inv = np.linalg.inv(self._sigma)
+        _sigma_inv = tf.linalg.inv(self._sigma)
         
         _norm_term = self._norm_term
         
@@ -273,11 +273,11 @@ class MultivariateCoupledNormal(CoupledNormal):
             # Demean the samples.
             demeaned_samples = X - loc
             # Create X and X_t (John added this)
-            X = np.expand_dims(demeaned_samples, axis=-1)
-            X_t = np.expand_dims(demeaned_samples, axis=-2)
+            X = tf.expand_dims(demeaned_samples, axis=-1)
+            X_t = tf.expand_dims(demeaned_samples, axis=-2)
             # Add in an axis at the second position for broadcasting (John added this).
-            _sigma_inv = np.expand_dims(_sigma_inv, axis=1)
-            X_norm = np.matmul(np.matmul(X_t, _sigma_inv), X)
+            _sigma_inv = tf.expand_dims(_sigma_inv, axis=1)
+            X_norm = tf.linalg.matmul(tf.linalg.matmul(X_t, _sigma_inv), X)
             
             # We want to expand _norm_term to have the same number of 
             # dimensions as X_norm.
@@ -287,7 +287,8 @@ class MultivariateCoupledNormal(CoupledNormal):
             # Create a list of the dimensions to expand.
             expanded_dims = tuple([i+1 for i in range(dim_diff)])
             # Expand those dimensions
-            _norm_term = np.expand_dims(_norm_term, axis=expanded_dims)
+            for dim in expanded_dims:
+                _norm_term = tf.expand_dims(_norm_term, axis=dim)
             
         else:
             _normalized_X = lambda x: np.linalg.multi_dot([x-loc,
