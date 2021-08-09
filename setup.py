@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-PACKAGE_NAME = "nsc_tf"
+PACKAGE_NAME = "nsc"
 
 here = os.path.abspath(os.path.dirname(__file__))
 info = {}
