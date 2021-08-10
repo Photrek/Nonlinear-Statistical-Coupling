@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from tf import reduce_mean
-from tf.random import set_seed
+from tensorflow import reduce_mean
+from tensorflow.random import set_seed
 import numpy as np
 from .function import coupled_logarithm, coupled_exponential
 
