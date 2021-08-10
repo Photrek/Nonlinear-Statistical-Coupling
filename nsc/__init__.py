@@ -9,7 +9,9 @@
 
 # Lib
 from .math.function import coupled_logarithm as log, \
-                           coupled_exponential as exp
+                           coupled_exponential as exp, \
+                           generalized_mean as gmean, \
+                           log_generalized_mean as log_gmean
 from .math.entropy import coupled_probability as prob, \
                           coupled_entropy as entropy, \
                           coupled_cross_entropy as cross_entropy, \
