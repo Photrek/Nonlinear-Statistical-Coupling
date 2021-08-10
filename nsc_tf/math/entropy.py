@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-import tensorflow as tf
+from tf import reduce_mean
+from tf.random import set_seed
 import numpy as np
 from .function import coupled_logarithm, coupled_exponential
 
@@ -31,10 +32,12 @@ def importance_sampling_integrator(function, pdf, sampler, n=10000, seed=1):
     Returns
     -------
     tf.Tensor
+        The estimated integral(s) of the function over the support of the
+        sampling distribution.
 
     """
     # Set a random seed.
-    tf.random.set_seed(seed)
+    set_seed(seed)
     
     # Generate n samples from the probability distribution.
     samples = sampler(n)
@@ -43,7 +46,7 @@ def importance_sampling_integrator(function, pdf, sampler, n=10000, seed=1):
     sampled_values = function(samples) / pdf(samples)
     
     # Return the mean sampled values as the estimates.
-    return tf.reduce_mean(sampled_values, axis=0)
+    return reduce_mean(sampled_values, axis=0)
 
 
 def coupled_probability(density_func,
