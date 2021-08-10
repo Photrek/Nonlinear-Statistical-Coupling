@@ -1,50 +1,49 @@
 # -*- coding: utf-8 -*-
+import tensorflow as tf
 import numpy as np
 from .function import coupled_logarithm, coupled_exponential
 
 
-def importance_sampling_integrator(function, pdf, sampler, n=10000, rounds=1, seed=1):
+def importance_sampling_integrator(function, pdf, sampler, n=10000, seed=1):
     """
-    
+    This function performs Monte Carlo integration using importance sampling.
+    It takes in a function to be integrated, the probability density of a
+    distribution used to generate random numbers of the same domain as the
+    function being integrated, a sampling function for that distribution, the
+    number of random samples to use, and a random seed. It returns a tensor
+    of the estimate(s) for the integral of the function.
 
     Parameters
     ----------
-    function : TYPE
-        DESCRIPTION.
-    pdf : TYPE
-        DESCRIPTION.
-    sampler : TYPE
-        DESCRIPTION.
+    function : function
+        The function being integrated.
+    pdf : function
+        The probability density function of the distribution generating the 
+        random numbers.
+    sampler : function
+        A function that takes in a parameter, n, and returns n random numbers.
     n : TYPE, optional
-        DESCRIPTION. The default is 10000.
-    rounds : int
-        DESCRIPTION. The default is 5.
-    seed : TYPE, optional
-        DESCRIPTION. The default is 1.
+        Number of random numbers to generate for the estimates. 
+        The default is 10000.
+    seed : int or float, optional
+        A random seed for reproducibility. The default is 1.
 
     Returns
     -------
-    TYPE
-        DESCRIPTION.
+    tf.Tensor
 
     """
     # Set a random seed.
-    np.random.seed(seed)
+    tf.random.set_seed(seed)
     
-    # Create a list to hold the estimates for each round.
-    estimates = []
+    # Generate n samples from the probability distribution.
+    samples = sampler(n)
+    # Evaluate the function at the samples and divide by the probability 
+    # density of the distribution at those samples.
+    sampled_values = function(samples) / pdf(samples)
     
-    for i in range(rounds):
-        # Generate n samples from the probability distribution.
-        samples = sampler(n)
-        # Evaluate the function at the samples and divide by the probability 
-        # density of the distribution at those samples.
-        sampled_values = function(samples) / pdf(samples)
-        # Add the estimate of the integral to the estimates list.
-        estimates.append(np.mean(sampled_values))
-    
-    # Return the mean of the estimates as the estimate of the integral.
-    return np.mean(estimates)
+    # Return the mean sampled values as the estimates.
+    return tf.reduce_mean(sampled_values, axis=0)
 
 
 def coupled_probability(density_func,
