@@ -51,7 +51,7 @@ def importance_sampling_integrator_norm(function, pdf, sampler, n=1000, seed=1):
     weighted_function_samples /= tf.squeeze(pdf(samples), axis=[-2, -1])
     
     # Return the estimated integral values for the function outputs.
-    return tf.reduce_mean(x, axis=1)
+    return tf.reduce_mean(weighted_function_samples, axis=1)
 
 def coupled_normal_entropy(sigma, kappa):
     """
