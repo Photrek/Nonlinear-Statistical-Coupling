@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import tensorflow as tf
-import ipdb
 from typing import List
 from scipy.special import beta, gamma
 from tensorflow.math import lbeta, lgamma

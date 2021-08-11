@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import tensorflow as tf
-import ipdb
 import tensorflow_probability as tfp
 from typing import List, Union
 from scipy.special import gamma
