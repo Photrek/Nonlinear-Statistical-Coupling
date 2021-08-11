@@ -239,12 +239,13 @@ def coupled_cross_entropy_norm(dist_p,
                     )
         
         # Integrate the function.
-        final_integration = -importance_sampling_integrator(no_root_coupled_cross_entropy, 
-                                                            pdf=dist_p.prob,
-                                                            sampler=dist_p.sample_n, 
-                                                            n=n,
-                                                            seed=seed
-                                                            )
+        final_integration = -importance_sampling_integrator_norm(
+            no_root_coupled_cross_entropy,
+            pdf=dist_p.prob,
+            sampler=dist_p.sample_n,
+            n=n,
+            seed=seed
+            )
         
     else:
         print("Not implemented yet.")
