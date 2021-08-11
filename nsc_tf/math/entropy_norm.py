@@ -4,10 +4,54 @@ from math import pi
 from tensorflow import repeat
 from tensorflow.math import lgamma, exp
 from tensorflow.linalg import det, diag_part
-from .entropy import importance_sampling_integrator
 from .function import coupled_logarithm
 from ..distributions.multivariate_coupled_normal import MultivariateCoupledNormal
 
+def importance_sampling_integrator_norm(function, pdf, sampler, n=1000, seed=1):
+    """
+    This function performs Monte Carlo integration using importance sampling.
+    It takes in a function to be integrated, the probability density of a
+    distribution used to generate random numbers of the same domain as the
+    function being integrated, a sampling function for that distribution, the
+    number of random samples to use, and a random seed. It returns a tensor
+    of the estimate(s) for the integral of the function.
+    
+    Parameters
+    ----------
+    function : function
+      The function being integrated. It can have multiple outputs if they
+      are batched.
+    pdf : function
+      The probability density function of the distribution generating the 
+      random numbers.
+    sampler : function
+      A function that takes in a parameter, n, and returns n random numbers.
+    n : TYPE, optional
+      Number of random numbers to generate for the estimates. 
+      The default is 10000.
+    seed : int or float, optional
+      A random seed for reproducibility. The default is 1.
+    
+    Returns
+    -------
+    tf.Tensor
+      The estimated integral(s) of the function over the support of the
+      sampling distribution.
+      
+    """
+    
+    # Set a random seed for reproducibility.
+    tf.random.set_seed(seed)
+    
+    # Generate n random samples using the sampling function.
+    samples = sampler(n)
+    # Evaluate the function being integrated on the samples.
+    weighted_function_samples = tf.squeeze(function(samples), axis=[-2, -1])
+    # Weight the samples by their associated probability densities.
+    weighted_function_samples /= tf.squeeze(pdf(samples), axis=[-2, -1])
+    
+    # Return the estimated integral values for the function outputs.
+    return tf.reduce_mean(x, axis=1)
 
 def coupled_normal_entropy(sigma, kappa):
     """
