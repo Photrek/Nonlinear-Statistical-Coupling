@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from math import pi
 
-from tensorflow import repeat
+from tensorflow import repeat, squeeze, reduce_mean
+from tensorflow.random import set_seed
 from tensorflow.math import lgamma, exp
 from tensorflow.linalg import det, diag_part
 from .function import coupled_logarithm
@@ -41,17 +42,17 @@ def importance_sampling_integrator_norm(function, pdf, sampler, n=1000, seed=1):
     """
     
     # Set a random seed for reproducibility.
-    tf.random.set_seed(seed)
+    set_seed(seed)
     
     # Generate n random samples using the sampling function.
     samples = sampler(n)
     # Evaluate the function being integrated on the samples.
-    weighted_function_samples = tf.squeeze(function(samples), axis=[-2, -1])
+    weighted_function_samples = squeeze(function(samples), axis=[-2, -1])
     # Weight the samples by their associated probability densities.
-    weighted_function_samples /= tf.squeeze(pdf(samples), axis=[-2, -1])
+    weighted_function_samples /= squeeze(pdf(samples), axis=[-2, -1])
     
     # Return the estimated integral values for the function outputs.
-    return tf.reduce_mean(weighted_function_samples, axis=1)
+    return reduce_mean(weighted_function_samples, axis=1)
 
 def coupled_normal_entropy(sigma, kappa):
     """
