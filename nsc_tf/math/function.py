@@ -2,7 +2,8 @@
 import numpy as np
 import tensorflow as tf
 
-numeric_tuple = (int, float, np.float32, np.float64, np.float128)
+#numeric_tuple = (int, float, np.float32, np.float64, np.float128)
+numeric_tuple = (int, float, np.longdouble)
 
 
 def coupled_logarithm(value: [int, float, np.ndarray, tf.Tensor],
