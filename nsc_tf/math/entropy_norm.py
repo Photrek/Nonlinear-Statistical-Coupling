@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from math import pi
 
-from tensorflow import repeat, squeeze, reduce_mean
+from tensorflow import repeat, squeeze, reduce_mean, matmul, expand_dims, transpose
 from tensorflow.random import set_seed
-from tensorflow.math import lgamma, exp
-from tensorflow.linalg import det, diag_part
+from tensorflow.math import log, lgamma, exp
+from tensorflow.linalg import det, diag_part, inv, trace
 from .function import coupled_logarithm
 from ..distributions.multivariate_coupled_normal import MultivariateCoupledNormal
 
@@ -153,33 +153,6 @@ def biased_coupled_probability_norm(coupled_normal, kappa, alpha):
     return new_dist
 
 
-
-def coupled_probability_norm(coupled_normal,
-                             kappa = 0.0, 
-                             alpha = 2.0):
-    """
-    
-
-    Parameters
-    ----------
-    coupled_normal : TYPE
-        DESCRIPTION.
-    kappa : TYPE, optional
-        DESCRIPTION. The default is 0.0.
-    alpha : TYPE, optional
-        DESCRIPTION. The default is 1.0.
-
-    Returns
-    -------
-    TYPE
-        DESCRIPTION.
-
-    """
-    
-    # Return the new functions that calculates the coupled density of a value.
-    return biased_coupled_probability_norm(coupled_normal, kappa, alpha).prob
-
-
 def coupled_cross_entropy_norm(dist_p,
                                dist_q,
                                kappa: float = 0.0, 
@@ -217,10 +190,11 @@ def coupled_cross_entropy_norm(dist_p,
     
     # Fit a coupled_probability function to density_func_p with the other
     # given parameters.
-    my_coupled_probability = coupled_probability_norm(dist_p,
-                                                      kappa = kappa, 
-                                                      alpha = alpha
-                                                      )
+    my_coupled_probability = biased_coupled_probability_norm(
+        dist_p,
+        kappa=kappa,
+        alpha=alpha
+        ).prob
     
     dim = dist_p.dim
     
@@ -296,6 +270,57 @@ def coupled_entropy_norm(dist,
                                  seed=seed)
 
 
+def kl_divergence(dist_p, dist_q):
+    """This function calculates the KL divergence between two Multivariate
+    Gaussian distributions.
+
+    Parameters
+    ----------
+    dist_p : MultivariateCoupledNormal
+        The distribution whose relative entropy is being measured.
+    dist_q : MultivariateCoupledNormal
+        The reference distribution.
+
+    Returns
+    -------
+    kl_div : tf.Tensor
+        The analytical KL divergence between two multivariate Gaussians.
+    """
+
+    # Store the locs for easy access.
+    loc_p = dist_p.loc
+    loc_q = dist_q.loc
+
+    # Use the scales (std. devs.) to get the covariance matrices.
+    cov_p = matmul(dist_p.scale, dist_p.scale, adjoint_b=True)
+    cov_q = matmul(dist_q.scale, dist_q.scale, adjoint_b=True)
+
+    # Find the difference between the locs and insert a dimension at the 
+    # beginning for broadcasting.
+    loc_diff = expand_dims(loc_q - loc_p, axis=1)
+
+    # Create a list from the shape of the loc_diff without the batch 
+    # dimension.
+    loc_diff_dims = [i for i in range(1, len(loc_diff.shape))]
+    # Reverse the non-batch dimension shapes.
+    loc_diff_dims.reverse()
+    # Create the shape of the transpose of the loc_diff for each batch.
+    loc_diff_dims_transpose = [0] + loc_diff_dims
+
+    # Calculate the KL Divergence
+    kl_div = log(det(cov_q)) - log(det(cov_p)) - loc_p.shape[1]
+    kl_div += trace(matmul(inv(cov_q), cov_p))
+    kl_div += squeeze(
+        matmul(
+            matmul(loc_diff, inv(cov_q)), 
+            transpose(loc_diff, loc_diff_dims_transpose)
+            )
+        )
+    kl_div *= 0.5
+
+    return kl_div
+
+
 def coupled_kl_divergence_norm(dist_p, 
                                dist_q, 
                                kappa: float = 0.0, 
@@ -329,22 +354,37 @@ def coupled_kl_divergence_norm(dist_p,
     TYPE
         DESCRIPTION.
 
-    """    
-    
-    # Calculate the coupled cross-entropy of the dist_p and dist_q.
-    coupled_cross_entropy_of_dists = coupled_cross_entropy_norm(dist_p,
-                                                                dist_q,
-                                                                kappa=kappa,
-                                                                alpha=alpha,
-                                                                root=root,
-                                                                n=n,
-                                                                seed=seed)
-    # Calculate the  coupled entropy of dist_p
-    coupled_entropy_of_dist_p = coupled_entropy_norm(dist_p, 
-                                                     kappa=kappa, 
-                                                     alpha=alpha, 
-                                                     root=root,
-                                                     n=n,
-                                                     seed=seed)
-    
-    return coupled_cross_entropy_of_dists - coupled_entropy_of_dist_p
+    """
+
+    # If the Coupled Gaussians have 0 coupling and the user wants the KL
+    # Divergence, return the KL divergence of the two multivariate Gaussians.
+    if (dist_p.kappa, dist_q.kappa, kappa) == (0., 0., 0.):
+      # Calculate the KL divergence of the two multivariate Gaussians.
+      divergence =  kl_divergence(dist_p, dist_q)
+
+    # Otherwise return the approximate coupled divergence.
+    else:
+      # Calculate the coupled cross-entropy of the dist_p and dist_q.
+      coupled_cross_entropy_of_dists = coupled_cross_entropy_norm(
+          dist_p,
+          dist_q,
+          kappa=kappa,
+          alpha=alpha,
+          root=root,
+          n=n,
+          seed=seed
+          )
+      # Calculate the  coupled entropy of dist_p
+      coupled_entropy_of_dist_p = coupled_entropy_norm(
+          dist_p,
+          kappa=kappa,
+          alpha=alpha,
+          root=root,
+          n=n,
+          seed=seed
+          )
+      # Calculate the approximate coupled divergence.    
+      divergence = coupled_cross_entropy_of_dists - coupled_entropy_of_dist_p
+
+    # Return the calculated divergence.
+    return divergence
