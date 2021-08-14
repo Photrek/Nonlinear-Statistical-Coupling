@@ -34,13 +34,13 @@ class CoupledNormal:
             scale = np.asarray(scale) if isinstance(scale, List) else scale
             
         if validate_args:
-            assert isinstance(loc, (int, float, np.ndarray, tf.Tensor)), "loc must be either an int/float type for scalar, or an list/tensor type for multidimensional."
-            assert isinstance(scale, (int, float, np.ndarray, tf.Tensor)), "scale must be either an int/float type for scalar, or an list/tensor type for multidimensional."
+            assert isinstance(loc, (int, float, np.ndarray, tf.Tensor, tf.Variable)), "loc must be either an int/float type for scalar, or an list/tensor type for multidimensional."
+            assert isinstance(scale, (int, float, np.ndarray, tf.Tensor, tf.Variable)), "scale must be either an int/float type for scalar, or an list/tensor type for multidimensional."
             assert type(loc) == type(scale), "loc and scale must be the same type."
             
             if isinstance(loc, np.ndarray):
                 assert np.all((scale >= 0)), "All scale values must be greater or equal to 0." 
-            if isinstance(loc, tf.Tensor):
+            if isinstance(loc, (tf.Tensor, tf.Variable)):
                 # assert loc.shape == scale.shape, "loc and scale must have the same dimensions (check respective .shape())."
                 assert tf.math.reduce_all((scale >= 0)), "All scale values must be greater or equal to 0."            
             else:

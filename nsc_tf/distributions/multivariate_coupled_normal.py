@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import tensorflow as tf
+import ipdb
 import tensorflow_probability as tfp
 from typing import List, Union
 from scipy.special import gamma
@@ -26,9 +27,9 @@ class MultivariateCoupledNormal(CoupledNormal):
                  validate_args: bool = True
                  ):
         if validate_args:
-            assert isinstance(loc, (list, np.ndarray, tf.Tensor)), \
+            assert isinstance(loc, (list, np.ndarray, tf.Tensor, tf.Variable)), \
                 "loc must be either a list or array like. Otherwise use CoupledNormal."
-            assert isinstance(scale, (list, np.ndarray, tf.Tensor)), \
+            assert isinstance(scale, (list, np.ndarray, tf.Tensor, tf.Variable)), \
                 "scale must be either a list or array like. Otherwise use CoupledNormal."
         super(MultivariateCoupledNormal, self).__init__(
             loc=loc,
@@ -41,7 +42,7 @@ class MultivariateCoupledNormal(CoupledNormal):
         #Generating covariance matrices
         if self._batch_shape:
             #Tensorflow
-            if isinstance(scale, tf.Tensor):
+            if isinstance(scale, (tf.Tensor, tf.Variable)):
                 _scale_diag = tf.linalg.diag(scale)
                 for _scale_batch in _scale_diag:
                     assert self.is_positive_definite(_scale_batch), \
@@ -53,7 +54,7 @@ class MultivariateCoupledNormal(CoupledNormal):
                                        [self._scale.shape[-1]]
                                        )
                 # This can be further optimized
-                for i, _scale_batch in enumerate(self._scale):
+                for i, _scale_batch in enumerate(self._scale.numpy()):
                     # Ensure that scale sub-batch is indeed positive definite
                     assert self.is_positive_definite(np.diag(_scale_batch)), \
                         "scale must be positive definite, but not necessarily symmetric."
@@ -167,17 +168,17 @@ class MultivariateCoupledNormal(CoupledNormal):
         samples : ndarray, (loc.shape[0], n, loc.shape[1])
             n samples from each distribution.
         """
-        
+        #ipdb.set_trace()
         loc, scale = self._loc, self._sigma
         
         # Find the number of batches.
         n_batches = self._loc.shape[0]
         
         #Tensorflow
-        if isinstance(self._loc, tf.Tensor):
+        if isinstance(self._loc, (tf.Tensor, tf.Variable)):
             
             #Generating normal variates with covariance matrices given by scale
-            mvn_dist = tfp.distributions.MultivariateNormalTriL(scale_tril=self._scale)
+            mvn_dist = tfp.distributions.MultivariateNormalTriL(scale_tril=scale)
             z = mvn_dist.sample(n)
             
             #Swapping first and second axes: [n, n_batches, dim] -> [n_batches, n, dim]
@@ -191,7 +192,7 @@ class MultivariateCoupledNormal(CoupledNormal):
                 x = chi2.sample(sample_shape=[n_batches, n, self._loc.shape[1]])*self._kappa
             
             #Convert loc from [n_batches, dim] -> [n_batches, 1, dim] for broadcasting
-            samples = tf.expand_dims(self._loc, axis=1) + z/tf.math.sqrt(x)
+            samples = tf.expand_dims(loc, axis=1) + z/tf.math.sqrt(x)
         
         #Numpy
         else:
