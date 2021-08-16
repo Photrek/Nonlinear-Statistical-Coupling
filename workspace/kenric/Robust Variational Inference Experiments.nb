@@ -1,0 +1,132 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      4799,        124]
+NotebookOptionsPosition[      4009,        102]
+NotebookOutlinePosition[      4403,        118]
+CellTagsIndexPosition[      4360,        115]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Experiments for Robust Variational Inference", "Subsection",
+ CellChangeTimes->{{3.828717824874784*^9, 
+  3.8287178339129753`*^9}},ExpressionUUID->"3b4e8ae2-c7a2-48fd-a22a-\
+e50ad61449ec"],
+
+Cell["\<\
+1. What experiments will demonstrate robustness against outliers?
+2. How will these experiments be compared with other results?\
+\>", "Text",
+ CellChangeTimes->{{3.8287178451245937`*^9, 
+  3.828717893539692*^9}},ExpressionUUID->"bb357f4f-62bf-4ea8-b386-\
+781c925062d3"],
+
+Cell[CellGroupData[{
+
+Cell["Review of Prior Results", "Subsubsection",
+ CellChangeTimes->{{3.828718183418509*^9, 
+  3.828718187723529*^9}},ExpressionUUID->"cfcebace-c3e9-4eb2-bfe4-\
+7b5daa55bf74"],
+
+Cell["\<\
+M.Figurnov, K.Struminsky, and D.Vetrov, \"Robust Variational Inference,\" \
+Nov.2016.\
+\>", "Text",
+ CellChangeTimes->{{3.828718206070479*^9, 
+  3.8287182164525633`*^9}},ExpressionUUID->"cc01b34f-8780-4605-8de7-\
+1a845c0ec0e9"],
+
+Cell[TextData[{
+ "* Modifies the log evidence to include an error term ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    UnderscriptBox["\[Sum]", "i"], 
+    RowBox[{"Log", "[", 
+     RowBox[{"\[Epsilon]", " ", "+", " ", 
+      RowBox[{"p", "(", 
+       SubscriptBox["x", "i"], ")"}]}], "]"}]}], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "a1bcef3b-e919-48a3-bc52-654aecd44f73"],
+ "\n* Derives a robust ELBO from this\n* adaptively modifies \[Epsilon]: \
+\[Epsilon] = \[Alpha] ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"Exp", "[", 
+    FractionBox[
+     RowBox[{"\[ScriptCapitalL]", "(", 
+      RowBox[{"X", ",", "\[Theta]", ",", "\[Phi]"}], ")"}], 
+     RowBox[{"\[LeftBracketingBar]", "X", "\[RightBracketingBar]"}]], "]"}], 
+   TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "6358bfde-6515-4864-bdb6-0d271238d47a"],
+ "\n* Experiments add noise to MNIST and OMNIGLOT and demonstrates that rVAE \
+has improved log-likelihood\n* Without the noise the performance of rVAE is \
+degraded substantially unless \[Alpha] is very small\n\nF. Futami, I. Sato, \
+M. S.-I. C. on, and undefined 2018, \[OpenCurlyDoubleQuote]Variational \
+inference based on robust divergences,\[CloseCurlyDoubleQuote] \
+proceedings.mlr.press.\n* This paper specifically adds outlier samples and \
+evaluates the ability of a robust divergence to train for filtering of the \
+outliers. This looks like a good experiment to reproduce for our own \
+experiments.\n* The cross-entropy and divergence functions used involve \
+raising probabilities to a power which makes them similar to the coupled \
+entropy functions.\n* A difficulty with this comparison will be the \
+following: We are focused on increasing the weight given to outliers for the \
+purpose of insuring that the system can handle outliers, while this paper is \
+focused on filtering the influence of outliers. To perform a similar function \
+would require focus on the compact-support domain of the metrics and \
+distributions."
+}], "Text",
+ CellChangeTimes->{{3.828718274737988*^9, 3.828718378825903*^9}, {
+  3.8287185740539227`*^9, 3.828718602919582*^9}, {3.8287186558207617`*^9, 
+  3.828718784995562*^9}, {3.828718904983642*^9, 3.828718940926528*^9}, {
+  3.8287189970475073`*^9, 3.828719022409492*^9}, {3.828719085003714*^9, 
+  3.828719166546788*^9}, {3.828719286735457*^9, 3.828719373272811*^9}, {
+  3.828719531792988*^9, 
+  3.828719630705863*^9}},ExpressionUUID->"5a94473c-306f-4915-8257-\
+10a1db100352"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{808, 755},
+WindowMargins->{{Automatic, 178}, {30, Automatic}},
+FrontEndVersion->"12.1 for Mac OS X x86 (64-bit) (June 19, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"8c506245-703c-4d1a-880f-bda4aebd09f4"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 194, 3, 54, "Subsection",ExpressionUUID->"3b4e8ae2-c7a2-48fd-a22a-e50ad61449ec"],
+Cell[777, 27, 279, 6, 58, "Text",ExpressionUUID->"bb357f4f-62bf-4ea8-b386-781c925062d3"],
+Cell[CellGroupData[{
+Cell[1081, 37, 174, 3, 45, "Subsubsection",ExpressionUUID->"cfcebace-c3e9-4eb2-bfe4-7b5daa55bf74"],
+Cell[1258, 42, 237, 6, 35, "Text",ExpressionUUID->"cc01b34f-8780-4605-8de7-1a845c0ec0e9"],
+Cell[1498, 50, 2483, 48, 387, "Text",ExpressionUUID->"5a94473c-306f-4915-8257-10a1db100352"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+

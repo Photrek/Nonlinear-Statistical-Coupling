@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[    134656,       3148]
+NotebookDataLength[    134657,       3148]
 NotebookOptionsPosition[    126484,       3020]
-NotebookOutlinePosition[    126963,       3039]
-CellTagsIndexPosition[    126920,       3036]
+NotebookOutlinePosition[    126964,       3039]
+CellTagsIndexPosition[    126921,       3036]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -3019,7 +3019,7 @@ Cell[BoxData[
 }, Open  ]]
 },
 WindowSize->{1092, 855},
-WindowMargins->{{-1, Automatic}, {Automatic, 38}},
+WindowMargins->{{-1, Automatic}, {Automatic, 150}},
 PrintingCopies->1,
 PrintingPageRange->{1, Automatic},
 Magnification:>1.25 Inherited,
