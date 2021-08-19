@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[    571449,      13059]
-NotebookOptionsPosition[    562263,      12899]
-NotebookOutlinePosition[    562740,      12918]
-CellTagsIndexPosition[    562697,      12915]
+NotebookDataLength[    619983,      14017]
+NotebookOptionsPosition[    610834,      13859]
+NotebookOutlinePosition[    611312,      13878]
+CellTagsIndexPosition[    611269,      13875]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -11334,15 +11334,17 @@ Cell[BoxData[
       RowBox[{
       "\[Mu]Post", ",", "\[Sigma]Post", ",", "\[Mu]Prior", ",", 
        "\[Sigma]Prior", ",", "\[Mu]Post1", ",", "\[Mu]Post2", ",", 
-       "\[Sigma]Post1", ",", "\[Sigma]Post2", ",", "\[Kappa]"}], "}"}], 
+       "\[Sigma]Post1", ",", "\[Sigma]Post2", ",", "\[Kappa]Div"}], "}"}], 
      "\[Element]", "Reals"}], "&&", 
     RowBox[{"0", "<", "\[Mu]Post", "<", "\[Infinity]"}], "&&", 
     RowBox[{"0", "<", "\[Sigma]Post", "<", "\[Infinity]"}], "&&", 
     RowBox[{"0", "<", "\[Mu]Prior", "<", "\[Infinity]"}], "&&", 
     RowBox[{"0", "<", "\[Sigma]Post", "<", "\[Infinity]"}], "&&", 
-    RowBox[{"0", "<", "\[Kappa]", "<", "\[Infinity]"}]}]}], ";"}]], "Input",
- CellChangeTimes->{{3.83795867688349*^9, 3.8379587046320343`*^9}},
- CellLabel->"In[5]:=",ExpressionUUID->"5f458fe7-3566-4dc9-bc93-4a66153edf7a"],
+    RowBox[{"0", "<", "\[Kappa]Div", "<", "\[Infinity]"}]}]}], ";"}]], "Input",\
+
+ CellChangeTimes->{{3.83795867688349*^9, 3.8379587046320343`*^9}, {
+   3.838221717249976*^9, 3.838221717989717*^9}, 3.838221859332169*^9},
+ CellLabel->"In[61]:=",ExpressionUUID->"5f458fe7-3566-4dc9-bc93-4a66153edf7a"],
 
 Cell[CellGroupData[{
 
@@ -11359,1043 +11361,633 @@ Cell[BoxData[
    RowBox[{"NormalDistribution", "[", 
     RowBox[{"\[Mu]Post", ",", "\[Sigma]Post"}], "]"}], ",", " ", 
    RowBox[{"NormalDistribution", "[", 
-    RowBox[{"\[Mu]Prior", ",", "\[Sigma]Prior"}], "]"}], ",", "\[Kappa]"}], 
+    RowBox[{"0", ",", "\[Sigma]Prior"}], "]"}], ",", "\[Kappa]Div"}], 
   "]"}]], "Input",
  CellChangeTimes->{{3.837954825491067*^9, 3.837954966049317*^9}, {
-  3.837955039024172*^9, 3.83795506275027*^9}},
+   3.837955039024172*^9, 3.83795506275027*^9}, {3.838221746824174*^9, 
+   3.838221747266309*^9}, 3.838224936374353*^9},
  CellLabel->"In[62]:=",ExpressionUUID->"2be48d52-cffe-47c1-bd82-4dd75ee6799a"],
 
 Cell[BoxData[
  RowBox[{
   RowBox[{"-", 
-   RowBox[{
-    SubsuperscriptBox["\[Integral]", 
-     RowBox[{"-", "\[Infinity]"}], "\[Infinity]"], 
-    RowBox[{
-     RowBox[{
-      RowBox[{"If", "[", 
-       RowBox[{
-        RowBox[{
-         FractionBox["\[Kappa]", 
-          RowBox[{"1", "+", 
-           RowBox[{"2", " ", "\[Kappa]"}]}]], "\[Equal]", "0"}], ",", 
-        RowBox[{"PDF", "[", 
-         RowBox[{
-          RowBox[{"NormalDistribution", "[", 
-           RowBox[{"\[Mu]Post", ",", "\[Sigma]Post"}], "]"}], ",", "x"}], 
-         "]"}], ",", 
-        RowBox[{"FullSimplify", "[", 
-         FractionBox[
-          SuperscriptBox[
-           RowBox[{"PDF", "[", 
-            RowBox[{
-             RowBox[{"NormalDistribution", "[", 
-              RowBox[{"\[Mu]Post", ",", "\[Sigma]Post"}], "]"}], ",", "x"}], 
-            "]"}], 
-           RowBox[{"1", "-", 
-            RowBox[{"-", 
-             FractionBox["\[Kappa]", 
-              RowBox[{"1", "+", 
-               RowBox[{"2", " ", "\[Kappa]"}]}]]}]}]], 
-          RowBox[{
-           SubsuperscriptBox["\[Integral]", 
-            RowBox[{"-", "\[Infinity]"}], "\[Infinity]"], 
-           RowBox[{
-            SuperscriptBox[
-             RowBox[{"PDF", "[", 
-              RowBox[{
-               RowBox[{"NormalDistribution", "[", 
-                RowBox[{"\[Mu]Post", ",", "\[Sigma]Post"}], "]"}], ",", "y"}],
-               "]"}], 
-             RowBox[{"1", "-", 
-              RowBox[{"-", 
-               FractionBox["\[Kappa]", 
-                RowBox[{"1", "+", 
-                 RowBox[{"2", " ", "\[Kappa]"}]}]]}]}]], 
-            RowBox[{"\[DifferentialD]", "y"}]}]}]], "]"}]}], "]"}], " ", 
-      RowBox[{"If", "[", 
-       RowBox[{
-        RowBox[{
-         RowBox[{
-          SuperscriptBox["\[ExponentialE]", 
-           FractionBox[
-            SuperscriptBox[
-             RowBox[{"(", 
-              RowBox[{"x", "-", "\[Mu]Post"}], ")"}], "2"], 
-            RowBox[{"2", " ", 
-             SuperscriptBox["\[Sigma]Post", "2"]}]]], " ", "\[Sigma]Post"}], 
-         "\[GreaterEqual]", "0"}], ",", 
-        RowBox[{"If", "[", 
-         RowBox[{
-          RowBox[{"\[Kappa]", "\[NotEqual]", "0"}], ",", 
-          FractionBox[
-           RowBox[{
-            SuperscriptBox[
-             RowBox[{"(", 
-              RowBox[{
-               SuperscriptBox["\[ExponentialE]", 
-                FractionBox[
-                 SuperscriptBox[
-                  RowBox[{"(", 
-                   RowBox[{"x", "-", "\[Mu]Post"}], ")"}], "2"], 
-                 RowBox[{"2", " ", 
-                  SuperscriptBox["\[Sigma]Post", "2"]}]]], " ", 
-               SqrtBox[
-                RowBox[{"2", " ", "\[Pi]"}]], " ", "\[Sigma]Post"}], ")"}], 
-             FractionBox["\[Kappa]", 
-              RowBox[{"1", "+", 
-               RowBox[{"2", " ", "\[Kappa]"}]}]]], "-", "1"}], "\[Kappa]"], 
-          ",", 
-          RowBox[{"Log", "[", 
-           RowBox[{
-            SuperscriptBox["\[ExponentialE]", 
-             FractionBox[
-              SuperscriptBox[
-               RowBox[{"(", 
-                RowBox[{"x", "-", "\[Mu]Post"}], ")"}], "2"], 
-              RowBox[{"2", " ", 
-               SuperscriptBox["\[Sigma]Post", "2"]}]]], " ", 
-            SqrtBox[
-             RowBox[{"2", " ", "\[Pi]"}]], " ", "\[Sigma]Post"}], "]"}]}], 
-         "]"}], ",", "Undefined"}], "]"}]}], 
-     RowBox[{"\[DifferentialD]", "x"}]}]}]}], "+", 
-  RowBox[{
-   SubsuperscriptBox["\[Integral]", 
-    RowBox[{"-", "\[Infinity]"}], "\[Infinity]"], 
-   RowBox[{
-    RowBox[{
-     FractionBox["1", "2"], " ", 
-     RowBox[{"If", "[", 
-      RowBox[{
-       RowBox[{
-        FractionBox["\[Kappa]", 
-         RowBox[{"1", "+", "\[Kappa]"}]], "\[Equal]", "0"}], ",", 
-       RowBox[{"PDF", "[", 
-        RowBox[{
-         RowBox[{"NormalDistribution", "[", 
-          RowBox[{"\[Mu]Post", ",", "\[Sigma]Post"}], "]"}], ",", "x"}], 
-        "]"}], ",", 
-       RowBox[{"FullSimplify", "[", 
-        FractionBox[
-         SuperscriptBox[
-          RowBox[{"PDF", "[", 
-           RowBox[{
-            RowBox[{"NormalDistribution", "[", 
-             RowBox[{"\[Mu]Post", ",", "\[Sigma]Post"}], "]"}], ",", "x"}], 
-           "]"}], 
-          RowBox[{"1", "-", 
-           RowBox[{"-", 
-            FractionBox[
-             RowBox[{"2", " ", "\[Kappa]"}], 
-             RowBox[{"1", "+", "\[Kappa]"}]]}]}]], 
-         RowBox[{
-          SubsuperscriptBox["\[Integral]", 
-           RowBox[{"-", "\[Infinity]"}], "\[Infinity]"], 
-          RowBox[{
-           SuperscriptBox[
-            RowBox[{"PDF", "[", 
-             RowBox[{
-              RowBox[{"NormalDistribution", "[", 
-               RowBox[{"\[Mu]Post", ",", "\[Sigma]Post"}], "]"}], ",", "y"}], 
-             "]"}], 
-            RowBox[{"1", "-", 
-             RowBox[{"-", 
-              FractionBox[
-               RowBox[{"2", " ", "\[Kappa]"}], 
-               RowBox[{"1", "+", "\[Kappa]"}]]}]}]], 
-           RowBox[{"\[DifferentialD]", "y"}]}]}]], "]"}]}], "]"}], " ", 
-     RowBox[{"If", "[", 
-      RowBox[{
-       RowBox[{
-        RowBox[{
-         SuperscriptBox["\[ExponentialE]", 
-          FractionBox[
-           SuperscriptBox[
-            RowBox[{"(", 
-             RowBox[{"x", "-", "\[Mu]Prior"}], ")"}], "2"], 
-           SuperscriptBox["\[Sigma]Prior", "2"]]], " ", 
-         SuperscriptBox["\[Sigma]Prior", "2"]}], "\[GreaterEqual]", "0"}], 
-       ",", 
-       RowBox[{"If", "[", 
-        RowBox[{
-         RowBox[{"\[Kappa]", "\[NotEqual]", "0"}], ",", 
-         FractionBox[
-          RowBox[{
-           SuperscriptBox[
-            RowBox[{"(", 
-             RowBox[{"2", " ", 
-              SuperscriptBox["\[ExponentialE]", 
-               FractionBox[
-                SuperscriptBox[
-                 RowBox[{"(", 
-                  RowBox[{"x", "-", "\[Mu]Prior"}], ")"}], "2"], 
-                SuperscriptBox["\[Sigma]Prior", "2"]]], " ", "\[Pi]", " ", 
-              SuperscriptBox["\[Sigma]Prior", "2"]}], ")"}], 
-            FractionBox["\[Kappa]", 
-             RowBox[{"1", "+", 
-              RowBox[{"1", " ", "\[Kappa]"}]}]]], "-", "1"}], "\[Kappa]"], 
-         ",", 
-         RowBox[{"Log", "[", 
-          RowBox[{"2", " ", 
-           SuperscriptBox["\[ExponentialE]", 
-            FractionBox[
-             SuperscriptBox[
-              RowBox[{"(", 
-               RowBox[{"x", "-", "\[Mu]Prior"}], ")"}], "2"], 
-             SuperscriptBox["\[Sigma]Prior", "2"]]], " ", "\[Pi]", " ", 
-           SuperscriptBox["\[Sigma]Prior", "2"]}], "]"}]}], "]"}], ",", 
-       "Undefined"}], "]"}]}], 
-    RowBox[{"\[DifferentialD]", "x"}]}]}]}]], "Output",
- CellChangeTimes->{3.837955350502491*^9, 3.837956713399682*^9},
- CellLabel->"Out[62]=",ExpressionUUID->"89f9ea29-f5cb-4059-acaf-6ccb233cae65"]
-}, Open  ]],
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"-", 
-   RowBox[{
-    SubsuperscriptBox["\[Integral]", 
-     RowBox[{"-", "\[Infinity]"}], "\[Infinity]"], 
-    RowBox[{
-     RowBox[{"FullSimplify", "[", 
-      FractionBox[
-       SuperscriptBox[
-        RowBox[{"PDF", "[", 
-         RowBox[{
-          RowBox[{"NormalDistribution", "[", 
-           RowBox[{"\[Mu]Post", ",", "\[Sigma]Post"}], "]"}], ",", "x"}], 
-         "]"}], 
-        RowBox[{"1", "-", 
-         RowBox[{"-", 
-          FractionBox["\[Kappa]", 
-           RowBox[{"1", "+", 
-            RowBox[{"2", " ", "\[Kappa]"}]}]]}]}]], 
-       RowBox[{
-        SubsuperscriptBox["\[Integral]", 
-         RowBox[{"-", "\[Infinity]"}], "\[Infinity]"], 
-        RowBox[{
-         SuperscriptBox[
-          RowBox[{"PDF", "[", 
-           RowBox[{
-            RowBox[{"NormalDistribution", "[", 
-             RowBox[{"\[Mu]Post", ",", "\[Sigma]Post"}], "]"}], ",", "y"}], 
-           "]"}], 
-          RowBox[{"1", "-", 
-           RowBox[{"-", 
-            FractionBox["\[Kappa]", 
-             RowBox[{"1", "+", 
-              RowBox[{"2", " ", "\[Kappa]"}]}]]}]}]], 
-         RowBox[{"\[DifferentialD]", "y"}]}]}]], "]"}], 
-     FractionBox[
-      RowBox[{
-       SuperscriptBox[
-        RowBox[{"(", 
-         RowBox[{
-          SuperscriptBox["\[ExponentialE]", 
-           FractionBox[
-            SuperscriptBox[
-             RowBox[{"(", 
-              RowBox[{"x", "-", "\[Mu]Post"}], ")"}], "2"], 
-            RowBox[{"2", " ", 
-             SuperscriptBox["\[Sigma]Post", "2"]}]]], " ", 
-          SqrtBox[
-           RowBox[{"2", " ", "\[Pi]"}]], " ", "\[Sigma]Post"}], ")"}], 
-        FractionBox["\[Kappa]", 
-         RowBox[{"1", "+", 
-          RowBox[{"2", " ", "\[Kappa]"}]}]]], "-", "1"}], "\[Kappa]"], 
-     RowBox[{"\[DifferentialD]", "x"}]}]}]}], "+", 
-  RowBox[{
-   SubsuperscriptBox["\[Integral]", 
-    RowBox[{"-", "\[Infinity]"}], "\[Infinity]"], 
-   RowBox[{
-    FractionBox["1", "2"], " ", 
-    RowBox[{"FullSimplify", "[", 
-     FractionBox[
-      SuperscriptBox[
-       RowBox[{"PDF", "[", 
-        RowBox[{
-         RowBox[{"NormalDistribution", "[", 
-          RowBox[{"\[Mu]Post", ",", "\[Sigma]Post"}], "]"}], ",", "x"}], 
-        "]"}], 
-       RowBox[{"1", "-", 
-        RowBox[{"-", 
-         FractionBox[
-          RowBox[{"2", " ", "\[Kappa]"}], 
-          RowBox[{"1", "+", "\[Kappa]"}]]}]}]], 
-      RowBox[{
-       SubsuperscriptBox["\[Integral]", 
-        RowBox[{"-", "\[Infinity]"}], "\[Infinity]"], 
-       RowBox[{
-        SuperscriptBox[
-         RowBox[{"PDF", "[", 
-          RowBox[{
-           RowBox[{"NormalDistribution", "[", 
-            RowBox[{"\[Mu]Post", ",", "\[Sigma]Post"}], "]"}], ",", "y"}], 
-          "]"}], 
-         RowBox[{"1", "-", 
-          RowBox[{"-", 
-           FractionBox[
-            RowBox[{"2", " ", "\[Kappa]"}], 
-            RowBox[{"1", "+", "\[Kappa]"}]]}]}]], 
-        RowBox[{"\[DifferentialD]", "y"}]}]}]], "]"}], 
-    FractionBox[
-     RowBox[{
-      SuperscriptBox[
-       RowBox[{"(", 
-        RowBox[{"2", " ", 
-         SuperscriptBox["\[ExponentialE]", 
-          FractionBox[
-           SuperscriptBox[
-            RowBox[{"(", 
-             RowBox[{"x", "-", "\[Mu]Prior"}], ")"}], "2"], 
-           SuperscriptBox["\[Sigma]Prior", "2"]]], " ", "\[Pi]", " ", 
-         SuperscriptBox["\[Sigma]Prior", "2"]}], ")"}], 
-       FractionBox["\[Kappa]", 
-        RowBox[{"1", "+", 
-         RowBox[{"1", " ", "\[Kappa]"}]}]]], "-", "1"}], "\[Kappa]"], 
-    RowBox[{"\[DifferentialD]", "x"}]}]}]}]], "Input",
- CellChangeTimes->{{3.8379567944297333`*^9, 3.837956854404533*^9}, {
-  3.8380635605226994`*^9, 
-  3.838063592007452*^9}},ExpressionUUID->"57e1ae55-d00f-466f-86ec-\
-c21b12e9e68a"],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{
-   FractionBox["1", "\[Kappa]"], "-", 
-   FractionBox[
-    RowBox[{
-     SuperscriptBox[
-      RowBox[{"(", 
-       RowBox[{"2", " ", "\[Pi]"}], ")"}], 
-      FractionBox["\[Kappa]", 
-       RowBox[{"2", "+", 
-        RowBox[{"4", " ", "\[Kappa]"}]}]]], " ", 
-     SqrtBox[
-      RowBox[{"1", "+", 
-       RowBox[{"5", " ", "\[Kappa]"}], "+", 
-       RowBox[{"6", " ", 
-        SuperscriptBox["\[Kappa]", "2"]}]}]], " ", 
-     SuperscriptBox["\[Sigma]Post", 
-      FractionBox["\[Kappa]", 
-       RowBox[{"1", "+", 
-        RowBox[{"2", " ", "\[Kappa]"}]}]]]}], 
-    RowBox[{"\[Kappa]", "+", 
-     RowBox[{"2", " ", 
-      SuperscriptBox["\[Kappa]", "2"]}]}]], "+", 
-   RowBox[{
-    FractionBox["1", 
-     RowBox[{"4", " ", "\[Kappa]"}]], 
-    RowBox[{"(", 
-     RowBox[{
-      RowBox[{"-", "3"}], "+", 
-      FractionBox[
-       RowBox[{
-        SuperscriptBox["2", 
-         RowBox[{"1", "+", 
-          FractionBox["\[Kappa]", 
-           RowBox[{"1", "+", "\[Kappa]"}]]}]], " ", 
-        SuperscriptBox["\[ExponentialE]", 
-         RowBox[{"-", 
-          FractionBox[
-           RowBox[{"\[Kappa]", " ", 
-            RowBox[{"(", 
-             RowBox[{"1", "+", 
-              RowBox[{"3", " ", "\[Kappa]"}]}], ")"}], " ", 
-            SuperscriptBox[
-             RowBox[{"(", 
-              RowBox[{"\[Mu]Post", "-", "\[Mu]Prior"}], ")"}], "2"]}], 
-           RowBox[{
-            RowBox[{"(", 
-             RowBox[{"1", "+", "\[Kappa]"}], ")"}], " ", 
-            RowBox[{"(", 
-             RowBox[{
-              RowBox[{"2", " ", "\[Kappa]", " ", 
-               SuperscriptBox["\[Sigma]Post", "2"]}], "-", 
-              SuperscriptBox["\[Sigma]Prior", "2"], "-", 
-              RowBox[{"3", " ", "\[Kappa]", " ", 
-               SuperscriptBox["\[Sigma]Prior", "2"]}]}], ")"}]}]]}]], " ", 
-        SuperscriptBox["\[Pi]", 
-         FractionBox["\[Kappa]", 
-          RowBox[{"1", "+", "\[Kappa]"}]]], " ", 
-        SuperscriptBox["\[Sigma]Prior", "2"], " ", 
-        SuperscriptBox[
-         RowBox[{"Abs", "[", "\[Sigma]Prior", "]"}], 
-         FractionBox[
-          RowBox[{
-           RowBox[{"-", "1"}], "+", "\[Kappa]"}], 
-          RowBox[{"1", "+", "\[Kappa]"}]]]}], 
-       SqrtBox[
-        FractionBox[
-         RowBox[{
-          RowBox[{
-           RowBox[{"-", "2"}], " ", "\[Kappa]", " ", 
-           SuperscriptBox["\[Sigma]Post", "2"]}], "+", 
-          SuperscriptBox["\[Sigma]Prior", "2"], "+", 
-          RowBox[{"3", " ", "\[Kappa]", " ", 
-           SuperscriptBox["\[Sigma]Prior", "2"]}]}], 
-         RowBox[{"1", "+", 
-          RowBox[{"3", " ", "\[Kappa]"}]}]]]], "+", 
-      RowBox[{"Erf", "[", 
-       FractionBox[
-        RowBox[{
-         SqrtBox[
-          FractionBox[
-           RowBox[{"1", "+", 
-            RowBox[{"3", " ", "\[Kappa]"}]}], 
-           RowBox[{"1", "+", "\[Kappa]"}]]], " ", "\[Mu]Post"}], 
-        RowBox[{
-         SqrtBox["2"], " ", "\[Sigma]Post"}]], "]"}], "+", 
-      RowBox[{"GammaRegularized", "[", 
-       RowBox[{
-        FractionBox["1", "2"], ",", 
-        FractionBox[
-         RowBox[{
-          RowBox[{"(", 
-           RowBox[{"1", "+", 
-            RowBox[{"3", " ", "\[Kappa]"}]}], ")"}], " ", 
-          SuperscriptBox["\[Mu]Post", "2"]}], 
-         RowBox[{"2", " ", 
-          RowBox[{"(", 
-           RowBox[{"1", "+", "\[Kappa]"}], ")"}], " ", 
-          SuperscriptBox["\[Sigma]Post", "2"]}]]}], "]"}]}], ")"}]}]}], "//", 
-  "FullSimplify"}]], "Input",
- CellChangeTimes->{{3.838063615398856*^9, 3.838063627448599*^9}},
- CellLabel->"In[11]:=",ExpressionUUID->"da1763e2-86aa-4e46-bba5-ea63c1487cfd"],
-
-Cell[BoxData["$Aborted"], "Output",
- CellChangeTimes->{3.838063686165299*^9},
- CellLabel->"Out[11]=",ExpressionUUID->"1a2e4ee8-2399-4674-b2e4-f0fa235dcb53"]
-}, Open  ]],
-
-Cell["Set \[Mu]Prior to zero since this expression is very complex", "Text",
- CellChangeTimes->{{3.837957233366618*^9, 
-  3.837957246449523*^9}},ExpressionUUID->"39492619-ac02-4015-80df-\
-7928e7d430db"],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{
-   RowBox[{
-    FractionBox["1", "\[Kappa]"], "-", 
-    FractionBox[
-     RowBox[{
-      SuperscriptBox[
-       RowBox[{"(", 
-        RowBox[{"2", " ", "\[Pi]"}], ")"}], 
-       FractionBox["\[Kappa]", 
-        RowBox[{"2", "+", 
-         RowBox[{"4", " ", "\[Kappa]"}]}]]], " ", 
-      SqrtBox[
-       RowBox[{"1", "+", 
-        RowBox[{"5", " ", "\[Kappa]"}], "+", 
-        RowBox[{"6", " ", 
-         SuperscriptBox["\[Kappa]", "2"]}]}]], " ", 
-      SuperscriptBox["\[Sigma]Post", 
-       FractionBox["\[Kappa]", 
-        RowBox[{"1", "+", 
-         RowBox[{"2", " ", "\[Kappa]"}]}]]]}], 
-     RowBox[{"\[Kappa]", "+", 
-      RowBox[{"2", " ", 
-       SuperscriptBox["\[Kappa]", "2"]}]}]], "+", 
-    RowBox[{
-     FractionBox["1", 
-      RowBox[{"4", " ", "\[Kappa]"}]], 
-     RowBox[{"(", 
-      RowBox[{
-       RowBox[{"-", "3"}], "+", 
-       FractionBox[
-        RowBox[{
-         SuperscriptBox["2", 
-          RowBox[{"1", "+", 
-           FractionBox["\[Kappa]", 
-            RowBox[{"1", "+", "\[Kappa]"}]]}]], " ", 
-         SuperscriptBox["\[ExponentialE]", 
-          RowBox[{"-", 
-           FractionBox[
-            RowBox[{"\[Kappa]", " ", 
-             RowBox[{"(", 
-              RowBox[{"1", "+", 
-               RowBox[{"3", " ", "\[Kappa]"}]}], ")"}], " ", 
-             SuperscriptBox[
-              RowBox[{"(", 
-               RowBox[{"\[Mu]Post", "-", "\[Mu]Prior"}], ")"}], "2"]}], 
-            RowBox[{
-             RowBox[{"(", 
-              RowBox[{"1", "+", "\[Kappa]"}], ")"}], " ", 
-             RowBox[{"(", 
-              RowBox[{
-               RowBox[{"2", " ", "\[Kappa]", " ", 
-                SuperscriptBox["\[Sigma]Post", "2"]}], "-", 
-               SuperscriptBox["\[Sigma]Prior", "2"], "-", 
-               RowBox[{"3", " ", "\[Kappa]", " ", 
-                SuperscriptBox["\[Sigma]Prior", "2"]}]}], ")"}]}]]}]], " ", 
-         SuperscriptBox["\[Pi]", 
-          FractionBox["\[Kappa]", 
-           RowBox[{"1", "+", "\[Kappa]"}]]], " ", 
-         SuperscriptBox["\[Sigma]Prior", "2"], " ", 
-         SuperscriptBox[
-          RowBox[{"Abs", "[", "\[Sigma]Prior", "]"}], 
-          FractionBox[
-           RowBox[{
-            RowBox[{"-", "1"}], "+", "\[Kappa]"}], 
-           RowBox[{"1", "+", "\[Kappa]"}]]]}], 
-        SqrtBox[
-         FractionBox[
-          RowBox[{
-           RowBox[{
-            RowBox[{"-", "2"}], " ", "\[Kappa]", " ", 
-            SuperscriptBox["\[Sigma]Post", "2"]}], "+", 
-           SuperscriptBox["\[Sigma]Prior", "2"], "+", 
-           RowBox[{"3", " ", "\[Kappa]", " ", 
-            SuperscriptBox["\[Sigma]Prior", "2"]}]}], 
-          RowBox[{"1", "+", 
-           RowBox[{"3", " ", "\[Kappa]"}]}]]]], "+", 
-       RowBox[{"Erf", "[", 
-        FractionBox[
-         RowBox[{
-          SqrtBox[
-           FractionBox[
-            RowBox[{"1", "+", 
-             RowBox[{"3", " ", "\[Kappa]"}]}], 
-            RowBox[{"1", "+", "\[Kappa]"}]]], " ", "\[Mu]Post"}], 
-         RowBox[{
-          SqrtBox["2"], " ", "\[Sigma]Post"}]], "]"}], "+", 
-       RowBox[{"GammaRegularized", "[", 
-        RowBox[{
-         FractionBox["1", "2"], ",", 
-         FractionBox[
-          RowBox[{
-           RowBox[{"(", 
-            RowBox[{"1", "+", 
-             RowBox[{"3", " ", "\[Kappa]"}]}], ")"}], " ", 
-           SuperscriptBox["\[Mu]Post", "2"]}], 
-          RowBox[{"2", " ", 
-           RowBox[{"(", 
-            RowBox[{"1", "+", "\[Kappa]"}], ")"}], " ", 
-           SuperscriptBox["\[Sigma]Post", "2"]}]]}], "]"}]}], ")"}]}]}], "/.", 
-   RowBox[{"\[Mu]Prior", "->", "0"}]}], "//", "FullSimplify"}]], "Input",
- CellChangeTimes->{{3.83795711281964*^9, 3.837957127372624*^9}, 
-   3.838063699903255*^9},
- CellLabel->"In[12]:=",ExpressionUUID->"d63d8b1c-88e8-4052-9aca-eac646e82ed9"],
-
-Cell[BoxData[
- RowBox[{
-  FractionBox["1", "\[Kappa]"], "-", 
-  FractionBox[
-   RowBox[{
-    SuperscriptBox[
-     RowBox[{"(", 
-      RowBox[{"2", " ", "\[Pi]"}], ")"}], 
-     FractionBox["\[Kappa]", 
-      RowBox[{"2", "+", 
-       RowBox[{"4", " ", "\[Kappa]"}]}]]], " ", 
-    SqrtBox[
-     RowBox[{"1", "+", 
-      RowBox[{"5", " ", "\[Kappa]"}], "+", 
-      RowBox[{"6", " ", 
-       SuperscriptBox["\[Kappa]", "2"]}]}]], " ", 
-    SuperscriptBox["\[Sigma]Post", 
-     FractionBox["\[Kappa]", 
-      RowBox[{"1", "+", 
-       RowBox[{"2", " ", "\[Kappa]"}]}]]]}], 
-   RowBox[{"\[Kappa]", "+", 
-    RowBox[{"2", " ", 
-     SuperscriptBox["\[Kappa]", "2"]}]}]], "+", 
-  FractionBox[
-   RowBox[{
-    RowBox[{"-", "1"}], "+", 
-    FractionBox[
-     RowBox[{
-      SuperscriptBox["\[ExponentialE]", 
-       FractionBox[
-        RowBox[{"\[Kappa]", " ", 
-         RowBox[{"(", 
-          RowBox[{"1", "+", 
-           RowBox[{"3", " ", "\[Kappa]"}]}], ")"}], " ", 
-         SuperscriptBox["\[Mu]Post", "2"]}], 
-        RowBox[{
-         RowBox[{"(", 
-          RowBox[{"1", "+", "\[Kappa]"}], ")"}], " ", 
-         RowBox[{"(", 
-          RowBox[{
-           RowBox[{
-            RowBox[{"-", "2"}], " ", "\[Kappa]", " ", 
-            SuperscriptBox["\[Sigma]Post", "2"]}], "+", 
-           SuperscriptBox["\[Sigma]Prior", "2"], "+", 
-           RowBox[{"3", " ", "\[Kappa]", " ", 
-            SuperscriptBox["\[Sigma]Prior", "2"]}]}], ")"}]}]]], " ", 
-      SuperscriptBox[
-       RowBox[{"(", 
-        RowBox[{"2", " ", "\[Pi]"}], ")"}], 
-       FractionBox["\[Kappa]", 
-        RowBox[{"1", "+", "\[Kappa]"}]]], " ", 
-      SuperscriptBox[
-       RowBox[{"Abs", "[", "\[Sigma]Prior", "]"}], 
-       RowBox[{"3", "-", 
-        FractionBox["2", 
-         RowBox[{"1", "+", "\[Kappa]"}]]}]]}], 
-     SqrtBox[
-      RowBox[{
-       RowBox[{"-", 
-        FractionBox[
-         RowBox[{"2", " ", "\[Kappa]", " ", 
-          SuperscriptBox["\[Sigma]Post", "2"]}], 
-         RowBox[{"1", "+", 
-          RowBox[{"3", " ", "\[Kappa]"}]}]]}], "+", 
-       SuperscriptBox["\[Sigma]Prior", "2"]}]]]}], 
-   RowBox[{"2", " ", "\[Kappa]"}]]}]], "Output",
- CellChangeTimes->{3.8379571462996807`*^9, 3.8380638522230673`*^9},
- CellLabel->"Out[12]=",ExpressionUUID->"56fef7af-e4dc-49e0-8b5a-1d0142b1b239"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{"FullSimplify", "[", 
-  RowBox[{
-   FractionBox["1", "\[Kappa]"], "-", 
-   FractionBox[
-    RowBox[{
-     SuperscriptBox[
-      RowBox[{"(", 
-       RowBox[{"2", " ", "\[Pi]"}], ")"}], 
-      FractionBox["\[Kappa]", 
-       RowBox[{"2", "+", 
-        RowBox[{"4", " ", "\[Kappa]"}]}]]], " ", 
-     SqrtBox[
-      RowBox[{"1", "+", 
-       RowBox[{"5", " ", "\[Kappa]"}], "+", 
-       RowBox[{"6", " ", 
-        SuperscriptBox["\[Kappa]", "2"]}]}]], " ", 
-     SuperscriptBox["\[Sigma]Post", 
-      FractionBox["\[Kappa]", 
-       RowBox[{"1", "+", 
-        RowBox[{"2", " ", "\[Kappa]"}]}]]]}], 
-    RowBox[{"\[Kappa]", "+", 
-     RowBox[{"2", " ", 
-      SuperscriptBox["\[Kappa]", "2"]}]}]], "+", 
    FractionBox[
     RowBox[{
      RowBox[{"-", "1"}], "+", 
-     FractionBox[
-      RowBox[{
-       SuperscriptBox["\[ExponentialE]", 
-        FractionBox[
-         RowBox[{"\[Kappa]", " ", 
-          RowBox[{"(", 
-           RowBox[{"1", "+", 
-            RowBox[{"3", " ", "\[Kappa]"}]}], ")"}], " ", 
-          SuperscriptBox["\[Mu]Post", "2"]}], 
-         RowBox[{
-          RowBox[{"(", 
-           RowBox[{"1", "+", "\[Kappa]"}], ")"}], " ", 
-          RowBox[{"(", 
-           RowBox[{
-            RowBox[{
-             RowBox[{"-", "2"}], " ", "\[Kappa]", " ", 
-             SuperscriptBox["\[Sigma]Post", "2"]}], "+", 
-            SuperscriptBox["\[Sigma]Prior", "2"], "+", 
-            RowBox[{"3", " ", "\[Kappa]", " ", 
-             SuperscriptBox["\[Sigma]Prior", "2"]}]}], ")"}]}]]], " ", 
-       SuperscriptBox[
-        RowBox[{"(", 
-         RowBox[{"2", " ", "\[Pi]"}], ")"}], 
-        FractionBox["\[Kappa]", 
-         RowBox[{"1", "+", "\[Kappa]"}]]], " ", 
-       SuperscriptBox[
-        RowBox[{"Abs", "[", "\[Sigma]Prior", "]"}], 
-        RowBox[{"3", "-", 
-         FractionBox["2", 
-          RowBox[{"1", "+", "\[Kappa]"}]]}]]}], 
-      SqrtBox[
-       RowBox[{
-        RowBox[{"-", 
-         FractionBox[
-          RowBox[{"2", " ", "\[Kappa]", " ", 
-           SuperscriptBox["\[Sigma]Post", "2"]}], 
-          RowBox[{"1", "+", 
-           RowBox[{"3", " ", "\[Kappa]"}]}]]}], "+", 
-        SuperscriptBox["\[Sigma]Prior", "2"]}]]]}], 
-    RowBox[{"2", " ", "\[Kappa]"}]]}], "]"}]], "Input",
- CellChangeTimes->{{3.837956990848379*^9, 3.837957003140235*^9}, {
-  3.837957179704764*^9, 3.837957181397656*^9}},
- CellLabel->"In[66]:=",ExpressionUUID->"083b6094-3ca5-4dfb-921a-5918d1ba1482"],
-
-Cell[BoxData[
- RowBox[{
-  FractionBox["1", "\[Kappa]"], "-", 
-  FractionBox[
-   RowBox[{
-    SuperscriptBox[
-     RowBox[{"(", 
-      RowBox[{"2", " ", "\[Pi]"}], ")"}], 
-     FractionBox["\[Kappa]", 
-      RowBox[{"2", "+", 
-       RowBox[{"4", " ", "\[Kappa]"}]}]]], " ", 
-    SqrtBox[
-     RowBox[{"1", "+", 
-      RowBox[{"5", " ", "\[Kappa]"}], "+", 
-      RowBox[{"6", " ", 
-       SuperscriptBox["\[Kappa]", "2"]}]}]], " ", 
-    SuperscriptBox["\[Sigma]Post", 
-     FractionBox["\[Kappa]", 
-      RowBox[{"1", "+", 
-       RowBox[{"2", " ", "\[Kappa]"}]}]]]}], 
-   RowBox[{"\[Kappa]", "+", 
-    RowBox[{"2", " ", 
-     SuperscriptBox["\[Kappa]", "2"]}]}]], "+", 
-  FractionBox[
-   RowBox[{
-    RowBox[{"-", "1"}], "+", 
-    FractionBox[
      RowBox[{
-      SuperscriptBox["\[ExponentialE]", 
-       FractionBox[
-        RowBox[{"\[Kappa]", " ", 
-         RowBox[{"(", 
-          RowBox[{"1", "+", 
-           RowBox[{"3", " ", "\[Kappa]"}]}], ")"}], " ", 
-         SuperscriptBox["\[Mu]Post", "2"]}], 
-        RowBox[{
-         RowBox[{"(", 
-          RowBox[{"1", "+", "\[Kappa]"}], ")"}], " ", 
-         RowBox[{"(", 
-          RowBox[{
-           RowBox[{
-            RowBox[{"-", "2"}], " ", "\[Kappa]", " ", 
-            SuperscriptBox["\[Sigma]Post", "2"]}], "+", 
-           SuperscriptBox["\[Sigma]Prior", "2"], "+", 
-           RowBox[{"3", " ", "\[Kappa]", " ", 
-            SuperscriptBox["\[Sigma]Prior", "2"]}]}], ")"}]}]]], " ", 
       SuperscriptBox[
        RowBox[{"(", 
         RowBox[{"2", " ", "\[Pi]"}], ")"}], 
-       FractionBox["\[Kappa]", 
-        RowBox[{"1", "+", "\[Kappa]"}]]], " ", 
-      SuperscriptBox[
-       RowBox[{"Abs", "[", "\[Sigma]Prior", "]"}], 
-       RowBox[{"3", "-", 
-        FractionBox["2", 
-         RowBox[{"1", "+", "\[Kappa]"}]]}]]}], 
-     SqrtBox[
-      RowBox[{
-       RowBox[{"-", 
-        FractionBox[
-         RowBox[{"2", " ", "\[Kappa]", " ", 
-          SuperscriptBox["\[Sigma]Post", "2"]}], 
-         RowBox[{"1", "+", 
-          RowBox[{"3", " ", "\[Kappa]"}]}]]}], "+", 
-       SuperscriptBox["\[Sigma]Prior", "2"]}]]]}], 
-   RowBox[{"2", " ", "\[Kappa]"}]]}]], "Output",
- CellChangeTimes->{3.8379572788722258`*^9},
- CellLabel->"Out[66]=",ExpressionUUID->"62e2b774-3830-415a-87a8-91636fd17c1a"]
+       FractionBox["\[Kappa]Div", 
+        RowBox[{"1", "+", "\[Kappa]Div"}]]], " ", 
+      SqrtBox[
+       FractionBox[
+        RowBox[{"1", "+", 
+         RowBox[{"3", " ", "\[Kappa]Div"}]}], 
+        RowBox[{"1", "+", "\[Kappa]Div"}]]], " ", 
+      SuperscriptBox["\[Sigma]Post", 
+       FractionBox[
+        RowBox[{"2", " ", "\[Kappa]Div"}], 
+        RowBox[{"1", "+", "\[Kappa]Div"}]]]}]}], 
+    RowBox[{"2", " ", "\[Kappa]Div"}]]}], "+", 
+  RowBox[{"(", 
+   TagBox[GridBox[{
+      {"\[Piecewise]", GridBox[{
+         {
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{
+             SuperscriptBox["\[ExponentialE]", 
+              RowBox[{"-", 
+               FractionBox[
+                RowBox[{
+                 RowBox[{"(", 
+                  RowBox[{"1", "+", 
+                   RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+                 SuperscriptBox["\[Mu]Post", "2"]}], 
+                RowBox[{"2", " ", 
+                 RowBox[{"(", 
+                  RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+                 SuperscriptBox["\[Sigma]Post", "2"]}]]}]], " ", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"-", 
+                 SuperscriptBox["2", 
+                  RowBox[{"1", "+", 
+                   FractionBox["\[Kappa]Div", 
+                    RowBox[{"1", "+", "\[Kappa]Div"}]]}]]}], " ", 
+                SuperscriptBox["\[ExponentialE]", 
+                 FractionBox[
+                  SuperscriptBox[
+                   RowBox[{"(", 
+                    RowBox[{"\[Mu]Post", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div", " ", "\[Mu]Post"}]}], 
+                    ")"}], "2"], 
+                  RowBox[{
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"], " ", 
+                   RowBox[{"(", 
+                    RowBox[{"2", "+", 
+                    RowBox[{"\[Kappa]Div", " ", 
+                    RowBox[{"(", 
+                    RowBox[{"6", "-", 
+                    FractionBox[
+                    RowBox[{"4", " ", 
+                    SuperscriptBox["\[Sigma]Post", "2"]}], 
+                    SuperscriptBox["\[Sigma]Prior", "2"]]}], ")"}]}]}], 
+                    ")"}]}]]], " ", 
+                SuperscriptBox["\[Pi]", 
+                 FractionBox["\[Kappa]Div", 
+                  RowBox[{"1", "+", "\[Kappa]Div"}]]], " ", 
+                SqrtBox[
+                 RowBox[{
+                  SuperscriptBox[
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], "2"], " ", 
+                  RowBox[{"(", 
+                   RowBox[{"1", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}]}]], " ", 
+                SuperscriptBox[
+                 RowBox[{"(", 
+                  RowBox[{"-", "\[Sigma]Prior"}], ")"}], 
+                 FractionBox[
+                  RowBox[{"2", " ", "\[Kappa]Div"}], 
+                  RowBox[{"1", "+", "\[Kappa]Div"}]]], " ", "\[Sigma]Prior"}],
+                "-", 
+               RowBox[{"3", " ", 
+                SuperscriptBox["\[ExponentialE]", 
+                 FractionBox[
+                  RowBox[{
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+                   SuperscriptBox["\[Mu]Post", "2"]}], 
+                  RowBox[{"2", " ", 
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}]]], " ", 
+                SqrtBox[
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"-", "2"}], " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}], "+", 
+                  SuperscriptBox["\[Sigma]Prior", "2"], "+", 
+                  RowBox[{"3", " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Prior", "2"]}]}]]}], "-", 
+               RowBox[{"3", " ", 
+                SuperscriptBox["\[ExponentialE]", 
+                 FractionBox[
+                  RowBox[{
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+                   SuperscriptBox["\[Mu]Post", "2"]}], 
+                  RowBox[{"2", " ", 
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}]]], " ", 
+                "\[Kappa]Div", " ", 
+                SqrtBox[
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"-", "2"}], " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}], "+", 
+                  SuperscriptBox["\[Sigma]Prior", "2"], "+", 
+                  RowBox[{"3", " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Prior", "2"]}]}]]}], "+", 
+               RowBox[{
+                SuperscriptBox["\[ExponentialE]", 
+                 FractionBox[
+                  RowBox[{
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+                   SuperscriptBox["\[Mu]Post", "2"]}], 
+                  RowBox[{"2", " ", 
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}]]], " ", 
+                SqrtBox[
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"-", "2"}], " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}], "+", 
+                  SuperscriptBox["\[Sigma]Prior", "2"], "+", 
+                  RowBox[{"3", " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Prior", "2"]}]}]], " ", 
+                RowBox[{"Erf", "[", 
+                 FractionBox[
+                  RowBox[{
+                   SqrtBox[
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div"}]}], 
+                    RowBox[{"1", "+", "\[Kappa]Div"}]]], " ", "\[Mu]Post"}], 
+                  RowBox[{
+                   SqrtBox["2"], " ", "\[Sigma]Post"}]], "]"}]}], "+", 
+               RowBox[{
+                SuperscriptBox["\[ExponentialE]", 
+                 FractionBox[
+                  RowBox[{
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+                   SuperscriptBox["\[Mu]Post", "2"]}], 
+                  RowBox[{"2", " ", 
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}]]], " ", 
+                "\[Kappa]Div", " ", 
+                SqrtBox[
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"-", "2"}], " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}], "+", 
+                  SuperscriptBox["\[Sigma]Prior", "2"], "+", 
+                  RowBox[{"3", " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Prior", "2"]}]}]], " ", 
+                RowBox[{"Erf", "[", 
+                 FractionBox[
+                  RowBox[{
+                   SqrtBox[
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div"}]}], 
+                    RowBox[{"1", "+", "\[Kappa]Div"}]]], " ", "\[Mu]Post"}], 
+                  RowBox[{
+                   SqrtBox["2"], " ", "\[Sigma]Post"}]], "]"}]}], "+", 
+               RowBox[{
+                SuperscriptBox["\[ExponentialE]", 
+                 FractionBox[
+                  RowBox[{
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+                   SuperscriptBox["\[Mu]Post", "2"]}], 
+                  RowBox[{"2", " ", 
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}]]], " ", 
+                SqrtBox[
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"-", "2"}], " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}], "+", 
+                  SuperscriptBox["\[Sigma]Prior", "2"], "+", 
+                  RowBox[{"3", " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Prior", "2"]}]}]], " ", 
+                RowBox[{"GammaRegularized", "[", 
+                 RowBox[{
+                  FractionBox["1", "2"], ",", 
+                  FractionBox[
+                   RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+                    SuperscriptBox["\[Mu]Post", "2"]}], 
+                   RowBox[{"2", " ", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+                    SuperscriptBox["\[Sigma]Post", "2"]}]]}], "]"}]}], "+", 
+               RowBox[{
+                SuperscriptBox["\[ExponentialE]", 
+                 FractionBox[
+                  RowBox[{
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+                   SuperscriptBox["\[Mu]Post", "2"]}], 
+                  RowBox[{"2", " ", 
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}]]], " ", 
+                "\[Kappa]Div", " ", 
+                SqrtBox[
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"-", "2"}], " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}], "+", 
+                  SuperscriptBox["\[Sigma]Prior", "2"], "+", 
+                  RowBox[{"3", " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Prior", "2"]}]}]], " ", 
+                RowBox[{"GammaRegularized", "[", 
+                 RowBox[{
+                  FractionBox["1", "2"], ",", 
+                  FractionBox[
+                   RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+                    SuperscriptBox["\[Mu]Post", "2"]}], 
+                   RowBox[{"2", " ", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+                    SuperscriptBox["\[Sigma]Post", "2"]}]]}], "]"}]}]}], 
+              ")"}]}], ")"}], "/", 
+           RowBox[{"(", 
+            RowBox[{"4", " ", "\[Kappa]Div", " ", 
+             RowBox[{"(", 
+              RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+             SqrtBox[
+              RowBox[{
+               RowBox[{
+                RowBox[{"-", "2"}], " ", "\[Kappa]Div", " ", 
+                SuperscriptBox["\[Sigma]Post", "2"]}], "+", 
+               SuperscriptBox["\[Sigma]Prior", "2"], "+", 
+               RowBox[{"3", " ", "\[Kappa]Div", " ", 
+                SuperscriptBox["\[Sigma]Prior", "2"]}]}]]}], ")"}]}], 
+          RowBox[{"\[Sigma]Prior", "<", "0"}]},
+         {
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{
+             SuperscriptBox["\[ExponentialE]", 
+              RowBox[{"-", 
+               FractionBox[
+                RowBox[{
+                 RowBox[{"(", 
+                  RowBox[{"1", "+", 
+                   RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+                 SuperscriptBox["\[Mu]Post", "2"]}], 
+                RowBox[{"2", " ", 
+                 RowBox[{"(", 
+                  RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+                 SuperscriptBox["\[Sigma]Post", "2"]}]]}]], " ", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{
+                SuperscriptBox["2", 
+                 RowBox[{"1", "+", 
+                  FractionBox["\[Kappa]Div", 
+                   RowBox[{"1", "+", "\[Kappa]Div"}]]}]], " ", 
+                SuperscriptBox["\[ExponentialE]", 
+                 FractionBox[
+                  SuperscriptBox[
+                   RowBox[{"(", 
+                    RowBox[{"\[Mu]Post", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div", " ", "\[Mu]Post"}]}], 
+                    ")"}], "2"], 
+                  RowBox[{
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"], " ", 
+                   RowBox[{"(", 
+                    RowBox[{"2", "+", 
+                    RowBox[{"\[Kappa]Div", " ", 
+                    RowBox[{"(", 
+                    RowBox[{"6", "-", 
+                    FractionBox[
+                    RowBox[{"4", " ", 
+                    SuperscriptBox["\[Sigma]Post", "2"]}], 
+                    SuperscriptBox["\[Sigma]Prior", "2"]]}], ")"}]}]}], 
+                    ")"}]}]]], " ", 
+                SuperscriptBox["\[Pi]", 
+                 FractionBox["\[Kappa]Div", 
+                  RowBox[{"1", "+", "\[Kappa]Div"}]]], " ", 
+                SqrtBox[
+                 RowBox[{
+                  SuperscriptBox[
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], "2"], " ", 
+                  RowBox[{"(", 
+                   RowBox[{"1", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}]}]], " ", 
+                SuperscriptBox["\[Sigma]Prior", 
+                 RowBox[{"1", "+", 
+                  FractionBox[
+                   RowBox[{"2", " ", "\[Kappa]Div"}], 
+                   RowBox[{"1", "+", "\[Kappa]Div"}]]}]]}], "-", 
+               RowBox[{"3", " ", 
+                SuperscriptBox["\[ExponentialE]", 
+                 FractionBox[
+                  RowBox[{
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+                   SuperscriptBox["\[Mu]Post", "2"]}], 
+                  RowBox[{"2", " ", 
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}]]], " ", 
+                SqrtBox[
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"-", "2"}], " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}], "+", 
+                  SuperscriptBox["\[Sigma]Prior", "2"], "+", 
+                  RowBox[{"3", " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Prior", "2"]}]}]]}], "-", 
+               RowBox[{"3", " ", 
+                SuperscriptBox["\[ExponentialE]", 
+                 FractionBox[
+                  RowBox[{
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+                   SuperscriptBox["\[Mu]Post", "2"]}], 
+                  RowBox[{"2", " ", 
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}]]], " ", 
+                "\[Kappa]Div", " ", 
+                SqrtBox[
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"-", "2"}], " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}], "+", 
+                  SuperscriptBox["\[Sigma]Prior", "2"], "+", 
+                  RowBox[{"3", " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Prior", "2"]}]}]]}], "+", 
+               RowBox[{
+                SuperscriptBox["\[ExponentialE]", 
+                 FractionBox[
+                  RowBox[{
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+                   SuperscriptBox["\[Mu]Post", "2"]}], 
+                  RowBox[{"2", " ", 
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}]]], " ", 
+                SqrtBox[
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"-", "2"}], " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}], "+", 
+                  SuperscriptBox["\[Sigma]Prior", "2"], "+", 
+                  RowBox[{"3", " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Prior", "2"]}]}]], " ", 
+                RowBox[{"Erf", "[", 
+                 FractionBox[
+                  RowBox[{
+                   SqrtBox[
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div"}]}], 
+                    RowBox[{"1", "+", "\[Kappa]Div"}]]], " ", "\[Mu]Post"}], 
+                  RowBox[{
+                   SqrtBox["2"], " ", "\[Sigma]Post"}]], "]"}]}], "+", 
+               RowBox[{
+                SuperscriptBox["\[ExponentialE]", 
+                 FractionBox[
+                  RowBox[{
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+                   SuperscriptBox["\[Mu]Post", "2"]}], 
+                  RowBox[{"2", " ", 
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}]]], " ", 
+                "\[Kappa]Div", " ", 
+                SqrtBox[
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"-", "2"}], " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}], "+", 
+                  SuperscriptBox["\[Sigma]Prior", "2"], "+", 
+                  RowBox[{"3", " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Prior", "2"]}]}]], " ", 
+                RowBox[{"Erf", "[", 
+                 FractionBox[
+                  RowBox[{
+                   SqrtBox[
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div"}]}], 
+                    RowBox[{"1", "+", "\[Kappa]Div"}]]], " ", "\[Mu]Post"}], 
+                  RowBox[{
+                   SqrtBox["2"], " ", "\[Sigma]Post"}]], "]"}]}], "+", 
+               RowBox[{
+                SuperscriptBox["\[ExponentialE]", 
+                 FractionBox[
+                  RowBox[{
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+                   SuperscriptBox["\[Mu]Post", "2"]}], 
+                  RowBox[{"2", " ", 
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}]]], " ", 
+                SqrtBox[
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"-", "2"}], " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}], "+", 
+                  SuperscriptBox["\[Sigma]Prior", "2"], "+", 
+                  RowBox[{"3", " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Prior", "2"]}]}]], " ", 
+                RowBox[{"GammaRegularized", "[", 
+                 RowBox[{
+                  FractionBox["1", "2"], ",", 
+                  FractionBox[
+                   RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+                    SuperscriptBox["\[Mu]Post", "2"]}], 
+                   RowBox[{"2", " ", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+                    SuperscriptBox["\[Sigma]Post", "2"]}]]}], "]"}]}], "+", 
+               RowBox[{
+                SuperscriptBox["\[ExponentialE]", 
+                 FractionBox[
+                  RowBox[{
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+                   SuperscriptBox["\[Mu]Post", "2"]}], 
+                  RowBox[{"2", " ", 
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}]]], " ", 
+                "\[Kappa]Div", " ", 
+                SqrtBox[
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"-", "2"}], " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Post", "2"]}], "+", 
+                  SuperscriptBox["\[Sigma]Prior", "2"], "+", 
+                  RowBox[{"3", " ", "\[Kappa]Div", " ", 
+                   SuperscriptBox["\[Sigma]Prior", "2"]}]}]], " ", 
+                RowBox[{"GammaRegularized", "[", 
+                 RowBox[{
+                  FractionBox["1", "2"], ",", 
+                  FractionBox[
+                   RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+                    SuperscriptBox["\[Mu]Post", "2"]}], 
+                   RowBox[{"2", " ", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+                    SuperscriptBox["\[Sigma]Post", "2"]}]]}], "]"}]}]}], 
+              ")"}]}], ")"}], "/", 
+           RowBox[{"(", 
+            RowBox[{"4", " ", "\[Kappa]Div", " ", 
+             RowBox[{"(", 
+              RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+             SqrtBox[
+              RowBox[{
+               RowBox[{
+                RowBox[{"-", "2"}], " ", "\[Kappa]Div", " ", 
+                SuperscriptBox["\[Sigma]Post", "2"]}], "+", 
+               SuperscriptBox["\[Sigma]Prior", "2"], "+", 
+               RowBox[{"3", " ", "\[Kappa]Div", " ", 
+                SuperscriptBox["\[Sigma]Prior", "2"]}]}]]}], ")"}]}], 
+          RowBox[{"\[Sigma]Prior", ">", "0"}]},
+         {"0", 
+          TagBox["True",
+           "PiecewiseDefault",
+           AutoDelete->True]}
+        },
+        AllowedDimensions->{2, Automatic},
+        Editable->True,
+        GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Baseline}}},
+        GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{1.}}},
+        GridBoxSpacings->{"Columns" -> {
+            Offset[0.27999999999999997`], {
+             Offset[0.84]}, 
+            Offset[0.27999999999999997`]}, "Rows" -> {
+            Offset[0.2], {
+             Offset[0.4]}, 
+            Offset[0.2]}},
+        Selectable->True]}
+     },
+     GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Baseline}}},
+     GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{1.}}},
+     GridBoxSpacings->{"Columns" -> {
+         Offset[0.27999999999999997`], {
+          Offset[0.35]}, 
+         Offset[0.27999999999999997`]}, "Rows" -> {
+         Offset[0.2], {
+          Offset[0.4]}, 
+         Offset[0.2]}}],
+    "Piecewise",
+    DeleteWithContents->True,
+    Editable->False,
+    SelectWithContents->True,
+    Selectable->False,
+    StripWrapperBoxes->True], ")"}]}]], "Output",
+ CellChangeTimes->{3.838225227312347*^9},
+ CellLabel->"Out[62]=",ExpressionUUID->"7be38081-bd5c-498d-a4ae-c8e611e5c516"]
 }, Open  ]],
 
-Cell["Simplify by hand", "Text",
- CellChangeTimes->{{3.838065293177423*^9, 
-  3.838065298085738*^9}},ExpressionUUID->"a3b9557f-05ab-4e48-8ffb-\
-83398b155f1c"],
-
-Cell[BoxData[
- RowBox[{
-  FractionBox["1", 
-   RowBox[{"2", "\[Kappa]"}]], "-", 
-  RowBox[{
-   FractionBox["1", "\[Kappa]"], 
-   SuperscriptBox[
-    RowBox[{"(", 
-     RowBox[{"2", " ", "\[Pi]"}], ")"}], 
-    FractionBox["\[Kappa]", 
-     RowBox[{"2", "+", 
-      RowBox[{"4", " ", "\[Kappa]"}]}]]], " ", 
-   SqrtBox[
-    FractionBox[
-     RowBox[{"1", "+", 
-      RowBox[{"3", " ", "\[Kappa]"}]}], 
-     RowBox[{"1", "+", 
-      RowBox[{"2", "\[Kappa]"}]}]]], " ", 
-   SuperscriptBox["\[Sigma]Post", 
-    FractionBox["\[Kappa]", 
-     RowBox[{"1", "+", 
-      RowBox[{"2", " ", "\[Kappa]"}]}]]]}], "+", 
-  RowBox[{
-   SuperscriptBox[
-    RowBox[{"(", 
-     RowBox[{"2", " ", "\[Pi]"}], ")"}], 
-    FractionBox["\[Kappa]", 
-     RowBox[{"1", "+", "\[Kappa]"}]]], 
-   SuperscriptBox["\[ExponentialE]", 
-    FractionBox[
-     RowBox[{"\[Kappa]", " ", 
-      RowBox[{"(", 
-       RowBox[{"1", "+", 
-        RowBox[{"3", " ", "\[Kappa]"}]}], ")"}], " ", 
-      SuperscriptBox["\[Mu]Post", "2"]}], 
-     RowBox[{
-      RowBox[{"(", 
-       RowBox[{"1", "+", "\[Kappa]"}], ")"}], " ", 
-      RowBox[{"(", 
-       RowBox[{
-        RowBox[{
-         RowBox[{"-", "2"}], " ", "\[Kappa]", " ", 
-         SuperscriptBox["\[Sigma]Post", "2"]}], "+", 
-        SuperscriptBox["\[Sigma]Prior", "2"], "+", 
-        RowBox[{"3", " ", "\[Kappa]", " ", 
-         SuperscriptBox["\[Sigma]Prior", "2"]}]}], ")"}]}]]], "  ", 
-   SqrtBox[
-    FractionBox[
-     RowBox[{"1", "+", 
-      RowBox[{"3", "\[Kappa]"}]}], 
-     RowBox[{
-      RowBox[{
-       RowBox[{"-", "2"}], " ", "\[Kappa]", " ", 
-       SuperscriptBox["\[Sigma]Post", "2"]}], "+", 
-      RowBox[{
-       RowBox[{"(", 
-        RowBox[{"1", "+", 
-         RowBox[{"3", "\[Kappa]"}]}], ")"}], 
-       SuperscriptBox["\[Sigma]Prior", "2"]}]}]]], 
-   SuperscriptBox["\[Sigma]Prior", 
-    FractionBox[
-     RowBox[{"3", "+", "\[Kappa]"}], 
-     RowBox[{"1", "+", "\[Kappa]"}]]]}]}]], "Input",
- CellChangeTimes->{{3.838065310334979*^9, 3.838065318261367*^9}, {
-  3.838065362404088*^9, 3.838065420314352*^9}, {3.838065471637718*^9, 
-  3.838065497909971*^9}, {3.8380655391344223`*^9, 
-  3.83806564973768*^9}},ExpressionUUID->"ee0331ad-6dcc-4d9b-9d31-\
-fda29d6227f0"],
-
-Cell["Check the case when \[Sigma]Prior = 1", "Text",
- CellChangeTimes->{{3.8379572882453203`*^9, 
-  3.837957300597081*^9}},ExpressionUUID->"aa127a3a-d5ba-4f56-a179-\
-d4d4bd9c7a50"],
+Cell["Substitute \[Sigma]Prior->1", "Text",
+ CellChangeTimes->{{3.8382254089076233`*^9, 
+  3.8382254164619923`*^9}},ExpressionUUID->"57881073-774a-4667-b6d8-\
+9dacd482c8ec"],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
  RowBox[{
-  RowBox[{
-   RowBox[{
-    FractionBox["1", "\[Kappa]"], "-", 
-    FractionBox[
-     RowBox[{
-      SuperscriptBox[
-       RowBox[{"(", 
-        RowBox[{"2", " ", "\[Pi]"}], ")"}], 
-       FractionBox["\[Kappa]", 
-        RowBox[{"2", "+", 
-         RowBox[{"4", " ", "\[Kappa]"}]}]]], " ", 
-      SqrtBox[
-       RowBox[{"1", "+", 
-        RowBox[{"5", " ", "\[Kappa]"}], "+", 
-        RowBox[{"6", " ", 
-         SuperscriptBox["\[Kappa]", "2"]}]}]], " ", 
-      SuperscriptBox["\[Sigma]Post", 
-       FractionBox["\[Kappa]", 
-        RowBox[{"1", "+", 
-         RowBox[{"2", " ", "\[Kappa]"}]}]]]}], 
-     RowBox[{"\[Kappa]", "+", 
-      RowBox[{"2", " ", 
-       SuperscriptBox["\[Kappa]", "2"]}]}]], "+", 
-    FractionBox[
-     RowBox[{
-      RowBox[{"-", "1"}], "+", 
-      FractionBox[
-       RowBox[{
-        SuperscriptBox["\[ExponentialE]", 
-         FractionBox[
-          RowBox[{"\[Kappa]", " ", 
-           RowBox[{"(", 
-            RowBox[{"1", "+", 
-             RowBox[{"3", " ", "\[Kappa]"}]}], ")"}], " ", 
-           SuperscriptBox["\[Mu]Post", "2"]}], 
-          RowBox[{
-           RowBox[{"(", 
-            RowBox[{"1", "+", "\[Kappa]"}], ")"}], " ", 
-           RowBox[{"(", 
-            RowBox[{
-             RowBox[{
-              RowBox[{"-", "2"}], " ", "\[Kappa]", " ", 
-              SuperscriptBox["\[Sigma]Post", "2"]}], "+", 
-             SuperscriptBox["\[Sigma]Prior", "2"], "+", 
-             RowBox[{"3", " ", "\[Kappa]", " ", 
-              SuperscriptBox["\[Sigma]Prior", "2"]}]}], ")"}]}]]], " ", 
-        SuperscriptBox[
-         RowBox[{"(", 
-          RowBox[{"2", " ", "\[Pi]"}], ")"}], 
-         FractionBox["\[Kappa]", 
-          RowBox[{"1", "+", "\[Kappa]"}]]], " ", 
-        SuperscriptBox[
-         RowBox[{"Abs", "[", "\[Sigma]Prior", "]"}], 
-         RowBox[{"3", "-", 
-          FractionBox["2", 
-           RowBox[{"1", "+", "\[Kappa]"}]]}]]}], 
-       SqrtBox[
-        RowBox[{
-         RowBox[{"-", 
-          FractionBox[
-           RowBox[{"2", " ", "\[Kappa]", " ", 
-            SuperscriptBox["\[Sigma]Post", "2"]}], 
-           RowBox[{"1", "+", 
-            RowBox[{"3", " ", "\[Kappa]"}]}]]}], "+", 
-         SuperscriptBox["\[Sigma]Prior", "2"]}]]]}], 
-     RowBox[{"2", " ", "\[Kappa]"}]]}], "/.", 
+  RowBox[{"%62", "/.", 
    RowBox[{"\[Sigma]Prior", "->", "1"}]}], "//", "FullSimplify"}]], "Input",
- CellChangeTimes->{{3.8379573084486217`*^9, 3.837957350384788*^9}},
- CellLabel->"In[67]:=",ExpressionUUID->"7330ec80-8be2-4754-9583-0d812b6a8596"],
+ CellChangeTimes->{{3.838225376969396*^9, 3.83822540485968*^9}},
+ CellLabel->"In[63]:=",ExpressionUUID->"33428ddf-03c7-4848-8792-2d7a21473a41"],
 
 Cell[BoxData[
- RowBox[{
-  FractionBox["1", "\[Kappa]"], "-", 
-  FractionBox[
-   RowBox[{
-    SuperscriptBox[
-     RowBox[{"(", 
-      RowBox[{"2", " ", "\[Pi]"}], ")"}], 
-     FractionBox["\[Kappa]", 
-      RowBox[{"2", "+", 
-       RowBox[{"4", " ", "\[Kappa]"}]}]]], " ", 
-    SqrtBox[
-     RowBox[{"1", "+", 
-      RowBox[{"5", " ", "\[Kappa]"}], "+", 
-      RowBox[{"6", " ", 
-       SuperscriptBox["\[Kappa]", "2"]}]}]], " ", 
-    SuperscriptBox["\[Sigma]Post", 
-     FractionBox["\[Kappa]", 
-      RowBox[{"1", "+", 
-       RowBox[{"2", " ", "\[Kappa]"}]}]]]}], 
-   RowBox[{"\[Kappa]", "+", 
-    RowBox[{"2", " ", 
-     SuperscriptBox["\[Kappa]", "2"]}]}]], "+", 
-  FractionBox[
-   RowBox[{
-    RowBox[{"-", "1"}], "+", 
-    FractionBox[
+ FractionBox[
+  RowBox[{
+   SuperscriptBox["2", 
+    RowBox[{"-", 
+     FractionBox["1", 
+      RowBox[{"1", "+", "\[Kappa]Div"}]]}]], " ", 
+   SuperscriptBox["\[Pi]", 
+    FractionBox["\[Kappa]Div", 
+     RowBox[{"1", "+", "\[Kappa]Div"}]]], " ", 
+   RowBox[{"(", 
+    RowBox[{
      RowBox[{
-      SuperscriptBox["\[ExponentialE]", 
+      RowBox[{"-", 
+       SqrtBox[
+        RowBox[{"3", "-", 
+         FractionBox["2", 
+          RowBox[{"1", "+", "\[Kappa]Div"}]]}]]}], " ", 
+      SuperscriptBox["\[Sigma]Post", 
        FractionBox[
-        RowBox[{"\[Kappa]", " ", 
-         RowBox[{"(", 
-          RowBox[{"1", "+", 
-           RowBox[{"3", " ", "\[Kappa]"}]}], ")"}], " ", 
-         SuperscriptBox["\[Mu]Post", "2"]}], 
-        RowBox[{
-         RowBox[{"(", 
-          RowBox[{"1", "+", "\[Kappa]"}], ")"}], " ", 
-         RowBox[{"(", 
-          RowBox[{"1", "+", 
-           RowBox[{"\[Kappa]", " ", 
-            RowBox[{"(", 
-             RowBox[{"3", "-", 
-              RowBox[{"2", " ", 
-               SuperscriptBox["\[Sigma]Post", "2"]}]}], ")"}]}]}], ")"}]}]]], 
-      " ", 
-      SuperscriptBox[
-       RowBox[{"(", 
-        RowBox[{"2", " ", "\[Pi]"}], ")"}], 
-       FractionBox["\[Kappa]", 
-        RowBox[{"1", "+", "\[Kappa]"}]]]}], 
-     SqrtBox[
-      RowBox[{"1", "-", 
-       FractionBox[
-        RowBox[{"2", " ", "\[Kappa]", " ", 
-         SuperscriptBox["\[Sigma]Post", "2"]}], 
-        RowBox[{"1", "+", 
-         RowBox[{"3", " ", "\[Kappa]"}]}]]}]]]}], 
-   RowBox[{"2", " ", "\[Kappa]"}]]}]], "Output",
- CellChangeTimes->{3.8379576920110083`*^9},
- CellLabel->"Out[67]=",ExpressionUUID->"b419ad4f-60a7-4527-9e89-a5ae86dbf393"]
-}, Open  ]],
-
-Cell["Simplify by hand", "Text",
- CellChangeTimes->{{3.838061386257614*^9, 
-  3.8380613946561527`*^9}},ExpressionUUID->"b04dbc72-dcd1-4368-9fdf-\
-6c61506e2391"],
-
-Cell[BoxData[
- RowBox[{
-  FractionBox[
-   SuperscriptBox[
-    RowBox[{"(", 
-     RowBox[{"2", " ", "\[Pi]"}], ")"}], 
-    FractionBox["\[Kappa]", 
-     RowBox[{"1", "+", "\[Kappa]"}]]], 
-   RowBox[{"2", "\[Kappa]"}]], 
-  RowBox[{"(", 
-   RowBox[{
-    SuperscriptBox[
-     RowBox[{"(", 
-      RowBox[{"2", " ", "\[Pi]"}], ")"}], 
+        RowBox[{"2", " ", "\[Kappa]Div"}], 
+        RowBox[{"1", "+", "\[Kappa]Div"}]]]}], "+", 
      FractionBox[
-      RowBox[{"-", "\[Kappa]"}], 
-      RowBox[{"1", "+", "\[Kappa]"}]]], "-", 
-    FractionBox[
-     RowBox[{"2", 
-      SuperscriptBox[
-       RowBox[{"(", 
-        RowBox[{"2", " ", "\[Pi]"}], ")"}], 
+      SuperscriptBox["\[ExponentialE]", 
        RowBox[{"-", 
         FractionBox[
-         RowBox[{"\[Kappa]", " ", 
+         RowBox[{"\[Kappa]Div", " ", 
           RowBox[{"(", 
            RowBox[{"1", "+", 
-            RowBox[{"3", " ", "\[Kappa]"}]}], ")"}]}], 
-         RowBox[{"2", 
+            RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+          SuperscriptBox["\[Mu]Post", "2"]}], 
+         RowBox[{
           RowBox[{"(", 
-           RowBox[{"1", "+", 
-            RowBox[{"2", "\[Kappa]"}]}], ")"}], 
+           RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
           RowBox[{"(", 
-           RowBox[{"1", "+", "\[Kappa]"}], ")"}]}]]}]], " ", 
+           RowBox[{
+            RowBox[{"-", "1"}], "+", 
+            RowBox[{"\[Kappa]Div", " ", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"-", "3"}], "+", 
+               RowBox[{"2", " ", 
+                SuperscriptBox["\[Sigma]Post", "2"]}]}], ")"}]}]}], 
+           ")"}]}]]}]], 
       SqrtBox[
-       RowBox[{"1", "+", 
-        RowBox[{"5", " ", "\[Kappa]"}], "+", 
-        RowBox[{"6", " ", 
-         SuperscriptBox["\[Kappa]", "2"]}]}]], " ", 
-      SuperscriptBox["\[Sigma]Post", 
-       FractionBox["\[Kappa]", 
-        RowBox[{"1", "+", 
-         RowBox[{"2", " ", "\[Kappa]"}]}]]]}], 
-     RowBox[{"(", 
-      RowBox[{"1", "+", 
-       RowBox[{"2", " ", "\[Kappa]"}]}], ")"}]], "+", 
-    RowBox[{
-     SuperscriptBox["\[ExponentialE]", 
-      FractionBox[
-       RowBox[{"\[Kappa]", " ", 
-        RowBox[{"(", 
+       RowBox[{"1", "-", 
+        FractionBox[
+         RowBox[{"2", " ", "\[Kappa]Div", " ", 
+          SuperscriptBox["\[Sigma]Post", "2"]}], 
          RowBox[{"1", "+", 
-          RowBox[{"3", " ", "\[Kappa]"}]}], ")"}], " ", 
-        SuperscriptBox["\[Mu]Post", "2"]}], 
-       RowBox[{
-        RowBox[{"(", 
-         RowBox[{"1", "+", "\[Kappa]"}], ")"}], " ", 
-        RowBox[{"(", 
-         RowBox[{"1", "+", 
-          RowBox[{"\[Kappa]", " ", 
-           RowBox[{"(", 
-            RowBox[{"3", "-", 
-             RowBox[{"2", " ", 
-              SuperscriptBox["\[Sigma]Post", "2"]}]}], ")"}]}]}], ")"}]}]]], 
-     SqrtBox[
-      FractionBox[
-       RowBox[{"1", "+", 
-        RowBox[{"3", " ", "\[Kappa]"}]}], 
-       RowBox[{"1", "+", 
-        RowBox[{"3", " ", "\[Kappa]"}], "-", 
-        RowBox[{"2", " ", "\[Kappa]", " ", 
-         SuperscriptBox["\[Sigma]Post", "2"]}]}]]]}]}], " ", ")"}]}]], "Input",\
-
- CellChangeTimes->{{3.8380614083403807`*^9, 3.8380614216522017`*^9}, {
-  3.8380616273345737`*^9, 3.8380616488809223`*^9}, {3.838061690655706*^9, 
-  3.838061738115979*^9}, {3.838061779344853*^9, 3.838061823617321*^9}, {
-  3.8380619864042664`*^9, 3.838061991756792*^9}, {3.838062114662837*^9, 
-  3.8380621174944696`*^9}},ExpressionUUID->"b8adedd8-6e24-4589-b824-\
-f4f68ff27093"],
+          RowBox[{"3", " ", "\[Kappa]Div"}]}]]}]]]}], ")"}]}], 
+  "\[Kappa]Div"]], "Output",
+ CellChangeTimes->{3.8382254418410387`*^9},
+ CellLabel->"Out[63]=",ExpressionUUID->"0fd74837-5faf-4cff-94e9-a616917af0b2"]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
@@ -12428,15 +12020,15 @@ Cell[BoxData[{
     SuperscriptBox[
      RowBox[{"(", 
       RowBox[{"2", "\[Pi]"}], ")"}], 
-     FractionBox["\[Kappa]", 
-      RowBox[{"1", "+", "\[Kappa]"}]]], 
+     FractionBox["\[Kappa]Div", 
+      RowBox[{"1", "+", "\[Kappa]Div"}]]], 
     SqrtBox[
      FractionBox[
       RowBox[{"1", "+", 
-       RowBox[{"3", "\[Kappa]"}]}], 
+       RowBox[{"3", "\[Kappa]Div"}]}], 
       RowBox[{"1", "+", 
-       RowBox[{"3", "\[Kappa]"}], "-", 
-       RowBox[{"2", "\[Kappa]", " ", 
+       RowBox[{"3", "\[Kappa]Div"}], "-", 
+       RowBox[{"2", "\[Kappa]Div", " ", 
         SuperscriptBox["\[Sigma]Post", "2"]}]}]]], 
     RowBox[{"Exp", "[", 
      RowBox[{
@@ -12445,14 +12037,14 @@ Cell[BoxData[{
        RowBox[{
         RowBox[{"(", 
          RowBox[{"1", "+", 
-          RowBox[{"3", "\[Kappa]"}]}], ")"}], "\[Kappa]"}], 
+          RowBox[{"3", "\[Kappa]Div"}]}], ")"}], "\[Kappa]Div"}], 
        RowBox[{
         RowBox[{"(", 
-         RowBox[{"1", "+", "\[Kappa]"}], ")"}], 
+         RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], 
         RowBox[{"(", 
          RowBox[{"1", "+", 
-          RowBox[{"3", "\[Kappa]"}], "-", 
-          RowBox[{"2", "\[Kappa]", " ", 
+          RowBox[{"3", "\[Kappa]Div"}], "-", 
+          RowBox[{"2", "\[Kappa]Div", " ", 
            SuperscriptBox["\[Sigma]Post", "2"]}]}], ")"}]}]]}], "]"}]}]}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
@@ -12462,29 +12054,31 @@ Cell[BoxData[{
      RowBox[{"(", 
       RowBox[{"2", "\[Pi]", " ", 
        SuperscriptBox["\[Sigma]Post", "2"]}], ")"}], 
-     FractionBox["\[Kappa]", 
-      RowBox[{"1", "+", "\[Kappa]"}]]], 
+     FractionBox["\[Kappa]Div", 
+      RowBox[{"1", "+", "\[Kappa]Div"}]]], 
     SqrtBox[
      FractionBox[
       RowBox[{"1", "+", 
-       RowBox[{"3", "\[Kappa]"}]}], 
-      RowBox[{"1", "+", "\[Kappa]"}]]]}]}], ";"}]}], "Input",
+       RowBox[{"3", "\[Kappa]Div"}]}], 
+      RowBox[{"1", "+", "\[Kappa]Div"}]]]}]}], ";"}]}], "Input",
  CellChangeTimes->{{3.83806047799655*^9, 3.838060557850945*^9}, {
    3.8380606530261383`*^9, 3.838060668072356*^9}, {3.838060708653017*^9, 
    3.838060804544137*^9}, {3.838060876972156*^9, 3.838060969742075*^9}, {
-   3.8380610358652983`*^9, 3.8380611559001904`*^9}, 3.838061206002*^9},
- CellLabel->"In[2]:=",ExpressionUUID->"146c6b89-f753-40d3-a8a5-c28a824d31ed"],
-
-Cell[CellGroupData[{
+   3.8380610358652983`*^9, 3.8380611559001904`*^9}, 3.838061206002*^9, {
+   3.8381131525849133`*^9, 3.8381131560466957`*^9}, {3.838113255499707*^9, 
+   3.8381132582464447`*^9}, {3.838222811675083*^9, 
+   3.83822282443125*^9}},ExpressionUUID->"146c6b89-f753-40d3-a8a5-\
+c28a824d31ed"],
 
 Cell[BoxData[
  RowBox[{"KLDivergence", " ", "=", 
   RowBox[{
    FractionBox[
     RowBox[{"KLTerm1", "-", "KLTerm2"}], 
-    RowBox[{"2", "\[Kappa]"}]], "//", "FullSimplify"}]}]], "Input",
- CellChangeTimes->{{3.838061145611435*^9, 3.838061188045424*^9}},
- CellLabel->"In[4]:=",ExpressionUUID->"23d466c2-7c27-4c2f-9d12-e4aed0f75b95"],
+    RowBox[{"2", "\[Kappa]Div"}]], "//", "FullSimplify"}]}]], "Input",
+ CellChangeTimes->{{3.838061145611435*^9, 3.838061188045424*^9}, 
+   3.8382228253201437`*^9},ExpressionUUID->"23d466c2-7c27-4c2f-9d12-\
+e4aed0f75b95"],
 
 Cell[BoxData[
  FractionBox[
@@ -12492,10 +12086,10 @@ Cell[BoxData[
    SuperscriptBox["2", 
     RowBox[{"-", 
      FractionBox["1", 
-      RowBox[{"1", "+", "\[Kappa]"}]]}]], " ", 
+      RowBox[{"1", "+", "\[Kappa]Div"}]]}]], " ", 
    SuperscriptBox["\[Pi]", 
-    FractionBox["\[Kappa]", 
-     RowBox[{"1", "+", "\[Kappa]"}]]], " ", 
+    FractionBox["\[Kappa]Div", 
+     RowBox[{"1", "+", "\[Kappa]Div"}]]], " ", 
    RowBox[{"(", 
     RowBox[{
      RowBox[{
@@ -12503,26 +12097,25 @@ Cell[BoxData[
        SqrtBox[
         RowBox[{"3", "-", 
          FractionBox["2", 
-          RowBox[{"1", "+", "\[Kappa]"}]]}]]}], " ", 
-      SuperscriptBox[
-       RowBox[{"(", 
-        SuperscriptBox["\[Sigma]Post", "2"], ")"}], 
-       FractionBox["\[Kappa]", 
-        RowBox[{"1", "+", "\[Kappa]"}]]]}], "+", 
+          RowBox[{"1", "+", "\[Kappa]Div"}]]}]]}], " ", 
+      SuperscriptBox["\[Sigma]Post", 
+       FractionBox[
+        RowBox[{"2", " ", "\[Kappa]Div"}], 
+        RowBox[{"1", "+", "\[Kappa]Div"}]]]}], "+", 
      RowBox[{
       SuperscriptBox["\[ExponentialE]", 
        FractionBox[
-        RowBox[{"\[Kappa]", " ", 
+        RowBox[{"\[Kappa]Div", " ", 
          RowBox[{"(", 
           RowBox[{"1", "+", 
-           RowBox[{"3", " ", "\[Kappa]"}]}], ")"}], " ", 
+           RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
          SuperscriptBox["\[Mu]Post", "2"]}], 
         RowBox[{
          RowBox[{"(", 
-          RowBox[{"1", "+", "\[Kappa]"}], ")"}], " ", 
+          RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
          RowBox[{"(", 
           RowBox[{"1", "+", 
-           RowBox[{"\[Kappa]", " ", 
+           RowBox[{"\[Kappa]Div", " ", 
             RowBox[{"(", 
              RowBox[{"3", "-", 
               RowBox[{"2", " ", 
@@ -12531,15 +12124,76 @@ Cell[BoxData[
       SqrtBox[
        FractionBox[
         RowBox[{"1", "+", 
-         RowBox[{"3", " ", "\[Kappa]"}]}], 
+         RowBox[{"3", " ", "\[Kappa]Div"}]}], 
         RowBox[{"1", "+", 
-         RowBox[{"3", " ", "\[Kappa]"}], "-", 
-         RowBox[{"2", " ", "\[Kappa]", " ", 
+         RowBox[{"3", " ", "\[Kappa]Div"}], "-", 
+         RowBox[{"2", " ", "\[Kappa]Div", " ", 
           SuperscriptBox["\[Sigma]Post", "2"]}]}]]]}]}], ")"}]}], 
-  "\[Kappa]"]], "Output",
- CellChangeTimes->{{3.8380611896773*^9, 3.8380612124066763`*^9}},
- CellLabel->"Out[4]=",ExpressionUUID->"325e94f4-6cdd-435b-95ac-7c93512f97c3"]
-}, Open  ]],
+  "\[Kappa]Div"]], "Input",
+ CellChangeTimes->{{3.838222826234171*^9, 3.8382228372836027`*^9}, {
+  3.838225525111514*^9, 
+  3.838225525499404*^9}},ExpressionUUID->"74ca1dfd-ef62-4b81-9d0b-\
+3783275f156c"],
+
+Cell[TextData[{
+ "Saved Value\n",
+ Cell[BoxData[
+  FractionBox[
+   RowBox[{
+    SuperscriptBox["2", 
+     RowBox[{"-", 
+      FractionBox["1", 
+       RowBox[{"1", "+", "\[Kappa]"}]]}]], " ", 
+    SuperscriptBox["\[Pi]", 
+     FractionBox["\[Kappa]", 
+      RowBox[{"1", "+", "\[Kappa]"}]]], " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", 
+        SqrtBox[
+         RowBox[{"3", "-", 
+          FractionBox["2", 
+           RowBox[{"1", "+", "\[Kappa]"}]]}]]}], " ", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         SuperscriptBox["\[Sigma]Post", "2"], ")"}], 
+        FractionBox["\[Kappa]", 
+         RowBox[{"1", "+", "\[Kappa]"}]]]}], "+", 
+      RowBox[{
+       SuperscriptBox["\[ExponentialE]", 
+        FractionBox[
+         RowBox[{"\[Kappa]", " ", 
+          RowBox[{"(", 
+           RowBox[{"1", "+", 
+            RowBox[{"3", " ", "\[Kappa]"}]}], ")"}], " ", 
+          SuperscriptBox["\[Mu]Post", "2"]}], 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"1", "+", "\[Kappa]"}], ")"}], " ", 
+          RowBox[{"(", 
+           RowBox[{"1", "+", 
+            RowBox[{"\[Kappa]", " ", 
+             RowBox[{"(", 
+              RowBox[{"3", "-", 
+               RowBox[{"2", " ", 
+                SuperscriptBox["\[Sigma]Post", "2"]}]}], ")"}]}]}], ")"}]}]]],
+        " ", 
+       SqrtBox[
+        FractionBox[
+         RowBox[{"1", "+", 
+          RowBox[{"3", " ", "\[Kappa]"}]}], 
+         RowBox[{"1", "+", 
+          RowBox[{"3", " ", "\[Kappa]"}], "-", 
+          RowBox[{"2", " ", "\[Kappa]", " ", 
+           SuperscriptBox["\[Sigma]Post", "2"]}]}]]]}]}], ")"}]}], 
+   "\[Kappa]"]],
+  CellChangeTimes->{{3.8380611896773*^9, 3.8380612124066763`*^9}},
+  ExpressionUUID->"09ed7904-eb11-4dcb-b46e-0904aeaae4f1"]
+}], "Text",
+ CellChangeTimes->{{3.838113626563286*^9, 
+  3.838113633364264*^9}},ExpressionUUID->"ef648fc3-2a56-4122-ad48-\
+610ae95fdb13"],
 
 Cell[BoxData[
  FractionBox[
@@ -12595,273 +12249,322 @@ Cell[BoxData[
   3.8380616157644997`*^9}},ExpressionUUID->"5f4e0150-ed8b-4d33-978c-\
 5a5fecbbcb61"],
 
-Cell[TextData[{
- "Determine whether new derivation equals Cao\[CloseCurlyQuote]s code\n* From \
-inspection, the multiplying term ",
- Cell[BoxData[
-  FractionBox[
-   SuperscriptBox[
-    RowBox[{"(", 
-     RowBox[{"2", " ", "\[Pi]"}], ")"}], 
-    FractionBox["\[Kappa]", 
-     RowBox[{"1", "+", "\[Kappa]"}]]], 
-   RowBox[{"2", "\[Kappa]"}]]],
-  CellChangeTimes->{{3.8380614083403807`*^9, 3.8380614216522017`*^9}, {
-   3.8380616273345737`*^9, 3.8380616488809223`*^9}, {3.838061690655706*^9, 
-   3.838061738115979*^9}, {3.838061779344853*^9, 3.838061823617321*^9}, {
-   3.8380619864042664`*^9, 3.838061991756792*^9}, {3.838062114662837*^9, 
-   3.8380621174944696`*^9}},ExpressionUUID->
-  "3fe15a48-19af-4262-babb-4643805e1db9"],
- "and the second additive term ",
- Cell[BoxData[
-  RowBox[{
-   SuperscriptBox["\[ExponentialE]", 
-    FractionBox[
-     RowBox[{"\[Kappa]", " ", 
-      RowBox[{"(", 
-       RowBox[{"1", "+", 
-        RowBox[{"3", " ", "\[Kappa]"}]}], ")"}], " ", 
-      SuperscriptBox["\[Mu]Post", "2"]}], 
-     RowBox[{
-      RowBox[{"(", 
-       RowBox[{"1", "+", "\[Kappa]"}], ")"}], " ", 
-      RowBox[{"(", 
-       RowBox[{"1", "+", 
-        RowBox[{"\[Kappa]", " ", 
-         RowBox[{"(", 
-          RowBox[{"3", "-", 
-           RowBox[{"2", " ", 
-            SuperscriptBox["\[Sigma]Post", "2"]}]}], ")"}]}]}], ")"}]}]]], 
-   " ", 
-   SqrtBox[
-    FractionBox[
-     RowBox[{"1", "+", 
-      RowBox[{"3", " ", "\[Kappa]"}]}], 
-     RowBox[{"1", "+", 
-      RowBox[{"3", " ", "\[Kappa]"}], "-", 
-      RowBox[{"2", " ", "\[Kappa]", " ", 
-       SuperscriptBox["\[Sigma]Post", "2"]}]}]]]}]],
-  CellChangeTimes->{{3.8380611896773*^9, 3.8380612124066763`*^9}},
-  ExpressionUUID->"9a14b575-a3cb-4661-b547-cecdf4bf27b2"],
- "are equal.  Need to determine whether the first additive terms are equal"
-}], "Text",
+Cell["Determine whether new derivation equals Cao\[CloseCurlyQuote]s code", \
+"Text",
  CellChangeTimes->{{3.83806154802037*^9, 3.838061574043674*^9}, {
-  3.838062258971599*^9, 
-  3.8380623344634132`*^9}},ExpressionUUID->"03c29459-8d58-40f5-b93b-\
+  3.838062258971599*^9, 3.8380623344634132`*^9}, {3.838222754084587*^9, 
+  3.8382227556500874`*^9}},ExpressionUUID->"03c29459-8d58-40f5-b93b-\
 2ce1d493ae08"],
 
-Cell[BoxData[""], "Input",
- CellChangeTimes->{{3.8380622540302677`*^9, 
-  3.838062255410801*^9}},ExpressionUUID->"ea2f8d22-7b82-4e4b-9f6c-\
-b23afc58aaea"],
-
 Cell[CellGroupData[{
 
 Cell[BoxData[
  RowBox[{
   RowBox[{
-   SuperscriptBox[
-    RowBox[{"(", 
-     RowBox[{"2", " ", "\[Pi]"}], ")"}], 
-    FractionBox[
-     RowBox[{"-", "\[Kappa]"}], 
-     RowBox[{"1", "+", "\[Kappa]"}]]], "-", 
-   FractionBox[
-    RowBox[{"2", 
-     SuperscriptBox[
-      RowBox[{"(", 
-       RowBox[{"2", " ", "\[Pi]"}], ")"}], 
-      RowBox[{"-", 
-       FractionBox[
-        RowBox[{"\[Kappa]", " ", 
-         RowBox[{"(", 
-          RowBox[{"1", "+", 
-           RowBox[{"3", " ", "\[Kappa]"}]}], ")"}]}], 
-        RowBox[{"2", 
-         RowBox[{"(", 
-          RowBox[{"1", "+", 
-           RowBox[{"2", "\[Kappa]"}]}], ")"}], 
-         RowBox[{"(", 
-          RowBox[{"1", "+", "\[Kappa]"}], ")"}]}]]}]], " ", 
-     SqrtBox[
-      RowBox[{"1", "+", 
-       RowBox[{"5", " ", "\[Kappa]"}], "+", 
-       RowBox[{"6", " ", 
-        SuperscriptBox["\[Kappa]", "2"]}]}]], " ", 
-     SuperscriptBox["\[Sigma]Post", 
-      FractionBox["\[Kappa]", 
-       RowBox[{"1", "+", 
-        RowBox[{"2", " ", "\[Kappa]"}]}]]]}], 
-    RowBox[{"(", 
-     RowBox[{"1", "+", 
-      RowBox[{"2", " ", "\[Kappa]"}]}], ")"}]]}], "==", 
-  RowBox[{
-   RowBox[{"-", 
-    SqrtBox[
-     RowBox[{"3", "-", 
-      FractionBox["2", 
-       RowBox[{"1", "+", "\[Kappa]"}]]}]]}], " ", 
-   SuperscriptBox[
-    RowBox[{"(", 
-     SuperscriptBox["\[Sigma]Post", "2"], ")"}], 
-    FractionBox["\[Kappa]", 
-     RowBox[{"1", "+", "\[Kappa]"}]]]}]}]], "Input",
- CellChangeTimes->{{3.8380623446599627`*^9, 3.838062373830309*^9}},
- CellLabel->"In[9]:=",ExpressionUUID->"0efba2e4-de51-4dec-8e1a-8a87fa101329"],
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{
-   SuperscriptBox[
-    RowBox[{"(", 
-     RowBox[{"2", " ", "\[Pi]"}], ")"}], 
-    RowBox[{"-", 
-     FractionBox["\[Kappa]", 
-      RowBox[{"1", "+", "\[Kappa]"}]]}]], "-", 
+   FractionBox["1", 
+    RowBox[{"2", "\[Kappa]Div"}]], "-", 
    FractionBox[
     RowBox[{
-     SuperscriptBox["2", 
-      RowBox[{"1", "-", 
-       FractionBox[
-        RowBox[{"\[Kappa]", " ", 
-         RowBox[{"(", 
-          RowBox[{"1", "+", 
-           RowBox[{"3", " ", "\[Kappa]"}]}], ")"}]}], 
-        RowBox[{"2", " ", 
-         RowBox[{"(", 
-          RowBox[{"1", "+", "\[Kappa]"}], ")"}], " ", 
-         RowBox[{"(", 
-          RowBox[{"1", "+", 
-           RowBox[{"2", " ", "\[Kappa]"}]}], ")"}]}]]}]], " ", 
-     SuperscriptBox["\[Pi]", 
-      RowBox[{"-", 
-       FractionBox[
-        RowBox[{"\[Kappa]", " ", 
-         RowBox[{"(", 
-          RowBox[{"1", "+", 
-           RowBox[{"3", " ", "\[Kappa]"}]}], ")"}]}], 
-        RowBox[{"2", " ", 
-         RowBox[{"(", 
-          RowBox[{"1", "+", "\[Kappa]"}], ")"}], " ", 
-         RowBox[{"(", 
-          RowBox[{"1", "+", 
-           RowBox[{"2", " ", "\[Kappa]"}]}], ")"}]}]]}]], " ", 
-     SqrtBox[
-      RowBox[{"1", "+", 
-       RowBox[{"5", " ", "\[Kappa]"}], "+", 
-       RowBox[{"6", " ", 
-        SuperscriptBox["\[Kappa]", "2"]}]}]], " ", 
-     SuperscriptBox["\[Sigma]Post", 
-      FractionBox["\[Kappa]", 
-       RowBox[{"1", "+", 
-        RowBox[{"2", " ", "\[Kappa]"}]}]]]}], 
-    RowBox[{"1", "+", 
-     RowBox[{"2", " ", "\[Kappa]"}]}]]}], "\[Equal]", 
-  RowBox[{
-   RowBox[{"-", 
-    SqrtBox[
-     RowBox[{"3", "-", 
-      FractionBox["2", 
-       RowBox[{"1", "+", "\[Kappa]"}]]}]]}], " ", 
-   SuperscriptBox[
-    RowBox[{"(", 
-     SuperscriptBox["\[Sigma]Post", "2"], ")"}], 
-    FractionBox["\[Kappa]", 
-     RowBox[{"1", "+", "\[Kappa]"}]]]}]}]], "Output",
- CellChangeTimes->{3.8380623756138287`*^9},
- CellLabel->"Out[9]=",ExpressionUUID->"60bc7da7-d97e-4b99-bce7-c1349348e737"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{
-   SuperscriptBox[
-    RowBox[{"(", 
-     RowBox[{"2", " ", "\[Pi]"}], ")"}], 
-    FractionBox[
-     RowBox[{"-", "\[Kappa]"}], 
-     RowBox[{"1", "+", "\[Kappa]"}]]], "-", 
-   FractionBox[
-    RowBox[{"2", 
      SuperscriptBox[
       RowBox[{"(", 
        RowBox[{"2", " ", "\[Pi]"}], ")"}], 
-      RowBox[{"-", 
-       FractionBox[
-        RowBox[{"\[Kappa]", " ", 
-         RowBox[{"(", 
-          RowBox[{"1", "+", 
-           RowBox[{"3", " ", "\[Kappa]"}]}], ")"}]}], 
-        RowBox[{"2", 
-         RowBox[{"(", 
-          RowBox[{"1", "+", 
-           RowBox[{"2", "\[Kappa]"}]}], ")"}], 
-         RowBox[{"(", 
-          RowBox[{"1", "+", "\[Kappa]"}], ")"}]}]]}]], " ", 
+      FractionBox["\[Kappa]Div", 
+       RowBox[{"2", "+", 
+        RowBox[{"4", " ", "\[Kappa]Div"}]}]]], " ", 
      SqrtBox[
       RowBox[{"1", "+", 
-       RowBox[{"5", " ", "\[Kappa]"}], "+", 
+       RowBox[{"5", " ", "\[Kappa]Div"}], "+", 
        RowBox[{"6", " ", 
-        SuperscriptBox["\[Kappa]", "2"]}]}]], " ", 
+        SuperscriptBox["\[Kappa]Div", "2"]}]}]], " ", 
      SuperscriptBox["\[Sigma]Post", 
-      FractionBox["\[Kappa]", 
+      FractionBox["\[Kappa]Div", 
        RowBox[{"1", "+", 
-        RowBox[{"2", " ", "\[Kappa]"}]}]]]}], 
-    RowBox[{"(", 
-     RowBox[{"1", "+", 
-      RowBox[{"2", " ", "\[Kappa]"}]}], ")"}]]}], "//", 
-  "FullSimplify"}]], "Input",
- CellChangeTimes->{{3.838062449841042*^9, 3.8380624525283003`*^9}},
- CellLabel->"In[10]:=",ExpressionUUID->"06fcd94e-8f00-4745-8cc2-73fcb666897a"],
-
-Cell[BoxData[
- RowBox[{
-  SuperscriptBox[
-   RowBox[{"(", 
-    RowBox[{"2", " ", "\[Pi]"}], ")"}], 
-   RowBox[{
-    RowBox[{"-", "1"}], "+", 
-    FractionBox["1", 
-     RowBox[{"1", "+", "\[Kappa]"}]]}]], "-", 
+        RowBox[{"2", " ", "\[Kappa]Div"}]}]]]}], 
+    RowBox[{"\[Kappa]Div", "+", 
+     RowBox[{"2", " ", 
+      SuperscriptBox["\[Kappa]Div", "2"]}]}]], "+", 
+   FractionBox[
+    FractionBox[
+     RowBox[{
+      SuperscriptBox["\[ExponentialE]", 
+       RowBox[{"-", 
+        FractionBox[
+         RowBox[{"\[Kappa]Div", " ", 
+          RowBox[{"(", 
+           RowBox[{"1", "+", 
+            RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+          SuperscriptBox["\[Mu]Post", "2"]}], 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"-", "1"}], "+", 
+            RowBox[{"\[Kappa]Div", " ", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"-", "3"}], "+", 
+               RowBox[{"2", " ", 
+                SuperscriptBox["\[Sigma]Post", "2"]}]}], ")"}]}]}], 
+           ")"}]}]]}]], " ", 
+      SuperscriptBox[
+       RowBox[{"(", 
+        RowBox[{"2", " ", "\[Pi]"}], ")"}], 
+       FractionBox["\[Kappa]Div", 
+        RowBox[{"1", "+", "\[Kappa]Div"}]]]}], 
+     SqrtBox[
+      RowBox[{"1", "-", 
+       FractionBox[
+        RowBox[{"2", " ", "\[Kappa]Div", " ", 
+         SuperscriptBox["\[Sigma]Post", "2"]}], 
+        RowBox[{"1", "+", 
+         RowBox[{"3", " ", "\[Kappa]Div"}]}]]}]]], 
+    RowBox[{"2", " ", "\[Kappa]Div"}]]}], "==", 
   FractionBox[
    RowBox[{
     SuperscriptBox["2", 
-     FractionBox[
-      RowBox[{"2", "+", 
-       RowBox[{"5", " ", "\[Kappa]"}], "+", 
-       SuperscriptBox["\[Kappa]", "2"]}], 
-      RowBox[{"2", "+", 
-       RowBox[{"6", " ", "\[Kappa]"}], "+", 
-       RowBox[{"4", " ", 
-        SuperscriptBox["\[Kappa]", "2"]}]}]]], " ", 
-    SuperscriptBox["\[Pi]", 
      RowBox[{"-", 
-      FractionBox[
-       RowBox[{"\[Kappa]", " ", 
-        RowBox[{"(", 
+      FractionBox["1", 
+       RowBox[{"1", "+", "\[Kappa]Div"}]]}]], " ", 
+    SuperscriptBox["\[Pi]", 
+     FractionBox["\[Kappa]Div", 
+      RowBox[{"1", "+", "\[Kappa]Div"}]]], " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", 
+        SqrtBox[
+         RowBox[{"3", "-", 
+          FractionBox["2", 
+           RowBox[{"1", "+", "\[Kappa]Div"}]]}]]}], " ", 
+       SuperscriptBox["\[Sigma]Post", 
+        FractionBox[
+         RowBox[{"2", " ", "\[Kappa]Div"}], 
+         RowBox[{"1", "+", "\[Kappa]Div"}]]]}], "+", 
+      RowBox[{
+       SuperscriptBox["\[ExponentialE]", 
+        FractionBox[
+         RowBox[{"\[Kappa]Div", " ", 
+          RowBox[{"(", 
+           RowBox[{"1", "+", 
+            RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+          SuperscriptBox["\[Mu]Post", "2"]}], 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+          RowBox[{"(", 
+           RowBox[{"1", "+", 
+            RowBox[{"\[Kappa]Div", " ", 
+             RowBox[{"(", 
+              RowBox[{"3", "-", 
+               RowBox[{"2", " ", 
+                SuperscriptBox["\[Sigma]Post", "2"]}]}], ")"}]}]}], ")"}]}]]],
+        " ", 
+       SqrtBox[
+        FractionBox[
          RowBox[{"1", "+", 
-          RowBox[{"3", " ", "\[Kappa]"}]}], ")"}]}], 
+          RowBox[{"3", " ", "\[Kappa]Div"}]}], 
+         RowBox[{"1", "+", 
+          RowBox[{"3", " ", "\[Kappa]Div"}], "-", 
+          RowBox[{"2", " ", "\[Kappa]Div", " ", 
+           SuperscriptBox["\[Sigma]Post", "2"]}]}]]]}]}], ")"}]}], 
+   "\[Kappa]Div"]}]], "Input",
+ CellChangeTimes->{{3.838222776330415*^9, 3.8382227841814423`*^9}, 
+   3.838222849503587*^9, {3.8382229039253893`*^9, 3.8382229042792253`*^9}},
+ CellLabel->"In[96]:=",ExpressionUUID->"e0422523-fefe-4c68-b64c-66c894a5941a"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   FractionBox["1", 
+    RowBox[{"2", " ", "\[Kappa]Div"}]], "-", 
+   FractionBox[
+    RowBox[{
+     SuperscriptBox[
+      RowBox[{"(", 
+       RowBox[{"2", " ", "\[Pi]"}], ")"}], 
+      FractionBox["\[Kappa]Div", 
        RowBox[{"2", "+", 
-        RowBox[{"6", " ", "\[Kappa]"}], "+", 
-        RowBox[{"4", " ", 
-         SuperscriptBox["\[Kappa]", "2"]}]}]]}]], " ", 
-    SqrtBox[
-     RowBox[{"1", "+", 
-      RowBox[{"\[Kappa]", " ", 
-       RowBox[{"(", 
-        RowBox[{"5", "+", 
-         RowBox[{"6", " ", "\[Kappa]"}]}], ")"}]}]}]], " ", 
-    SuperscriptBox["\[Sigma]Post", 
-     FractionBox["\[Kappa]", 
+        RowBox[{"4", " ", "\[Kappa]Div"}]}]]], " ", 
+     SqrtBox[
       RowBox[{"1", "+", 
-       RowBox[{"2", " ", "\[Kappa]"}]}]]]}], 
-   RowBox[{"1", "+", 
-    RowBox[{"2", " ", "\[Kappa]"}]}]]}]], "Output",
- CellChangeTimes->{3.8380624570748653`*^9},
- CellLabel->"Out[10]=",ExpressionUUID->"8f29a5f3-1165-4551-9c8a-78ab6e3090f6"]
-}, Open  ]]
+       RowBox[{"5", " ", "\[Kappa]Div"}], "+", 
+       RowBox[{"6", " ", 
+        SuperscriptBox["\[Kappa]Div", "2"]}]}]], " ", 
+     SuperscriptBox["\[Sigma]Post", 
+      FractionBox["\[Kappa]Div", 
+       RowBox[{"1", "+", 
+        RowBox[{"2", " ", "\[Kappa]Div"}]}]]]}], 
+    RowBox[{"\[Kappa]Div", "+", 
+     RowBox[{"2", " ", 
+      SuperscriptBox["\[Kappa]Div", "2"]}]}]], "+", 
+   FractionBox[
+    RowBox[{
+     SuperscriptBox["2", 
+      RowBox[{
+       RowBox[{"-", "1"}], "+", 
+       FractionBox["\[Kappa]Div", 
+        RowBox[{"1", "+", "\[Kappa]Div"}]]}]], " ", 
+     SuperscriptBox["\[ExponentialE]", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[Kappa]Div", " ", 
+         RowBox[{"(", 
+          RowBox[{"1", "+", 
+           RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+         SuperscriptBox["\[Mu]Post", "2"]}], 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"-", "1"}], "+", 
+           RowBox[{"\[Kappa]Div", " ", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "3"}], "+", 
+              RowBox[{"2", " ", 
+               SuperscriptBox["\[Sigma]Post", "2"]}]}], ")"}]}]}], 
+          ")"}]}]]}]], " ", 
+     SuperscriptBox["\[Pi]", 
+      FractionBox["\[Kappa]Div", 
+       RowBox[{"1", "+", "\[Kappa]Div"}]]]}], 
+    RowBox[{"\[Kappa]Div", " ", 
+     SqrtBox[
+      RowBox[{"1", "-", 
+       FractionBox[
+        RowBox[{"2", " ", "\[Kappa]Div", " ", 
+         SuperscriptBox["\[Sigma]Post", "2"]}], 
+        RowBox[{"1", "+", 
+         RowBox[{"3", " ", "\[Kappa]Div"}]}]]}]]}]]}], "\[Equal]", 
+  FractionBox[
+   RowBox[{
+    SuperscriptBox["2", 
+     RowBox[{"-", 
+      FractionBox["1", 
+       RowBox[{"1", "+", "\[Kappa]Div"}]]}]], " ", 
+    SuperscriptBox["\[Pi]", 
+     FractionBox["\[Kappa]Div", 
+      RowBox[{"1", "+", "\[Kappa]Div"}]]], " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", 
+        SqrtBox[
+         RowBox[{"3", "-", 
+          FractionBox["2", 
+           RowBox[{"1", "+", "\[Kappa]Div"}]]}]]}], " ", 
+       SuperscriptBox["\[Sigma]Post", 
+        FractionBox[
+         RowBox[{"2", " ", "\[Kappa]Div"}], 
+         RowBox[{"1", "+", "\[Kappa]Div"}]]]}], "+", 
+      RowBox[{
+       SuperscriptBox["\[ExponentialE]", 
+        FractionBox[
+         RowBox[{"\[Kappa]Div", " ", 
+          RowBox[{"(", 
+           RowBox[{"1", "+", 
+            RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+          SuperscriptBox["\[Mu]Post", "2"]}], 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+          RowBox[{"(", 
+           RowBox[{"1", "+", 
+            RowBox[{"\[Kappa]Div", " ", 
+             RowBox[{"(", 
+              RowBox[{"3", "-", 
+               RowBox[{"2", " ", 
+                SuperscriptBox["\[Sigma]Post", "2"]}]}], ")"}]}]}], ")"}]}]]],
+        " ", 
+       SqrtBox[
+        FractionBox[
+         RowBox[{"1", "+", 
+          RowBox[{"3", " ", "\[Kappa]Div"}]}], 
+         RowBox[{"1", "+", 
+          RowBox[{"3", " ", "\[Kappa]Div"}], "-", 
+          RowBox[{"2", " ", "\[Kappa]Div", " ", 
+           SuperscriptBox["\[Sigma]Post", "2"]}]}]]]}]}], ")"}]}], 
+   "\[Kappa]Div"]}]], "Output",
+ CellChangeTimes->{3.838222913770131*^9},
+ CellLabel->"Out[96]=",ExpressionUUID->"c4b8ce63-f586-4e4a-90b9-4537718b9298"]
+}, Open  ]],
+
+Cell["Simplify by Hand", "Text",
+ CellChangeTimes->{{3.838222962245688*^9, 
+  3.838222965715672*^9}},ExpressionUUID->"12b3d0ba-d509-416f-b294-\
+35fdcbff8279"],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["1", "\[Kappa]Div"], 
+  RowBox[{"(", 
+   RowBox[{
+    FractionBox[
+     RowBox[{"1", "+", 
+      RowBox[{"2", " ", "\[Kappa]Div"}], "-", 
+      RowBox[{"2", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"2", " ", "\[Pi]"}], ")"}], 
+        FractionBox["\[Kappa]Div", 
+         RowBox[{"2", "+", 
+          RowBox[{"4", " ", "\[Kappa]Div"}]}]]], " ", 
+       SqrtBox[
+        RowBox[{"1", "+", 
+         RowBox[{"5", " ", "\[Kappa]Div"}], "+", 
+         RowBox[{"6", " ", 
+          SuperscriptBox["\[Kappa]Div", "2"]}]}]], " ", 
+       SuperscriptBox["\[Sigma]Post", 
+        FractionBox["\[Kappa]Div", 
+         RowBox[{"1", "+", 
+          RowBox[{"2", " ", "\[Kappa]Div"}]}]]]}]}], 
+     RowBox[{"2", 
+      RowBox[{"(", 
+       RowBox[{"1", "+", 
+        RowBox[{"2", " ", "\[Kappa]Div"}]}], ")"}]}]], "+", 
+    FractionBox[
+     FractionBox[
+      RowBox[{
+       SuperscriptBox["\[ExponentialE]", 
+        RowBox[{"-", 
+         FractionBox[
+          RowBox[{"\[Kappa]Div", " ", 
+           RowBox[{"(", 
+            RowBox[{"1", "+", 
+             RowBox[{"3", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+           SuperscriptBox["\[Mu]Post", "2"]}], 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"1", "+", "\[Kappa]Div"}], ")"}], " ", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"-", "1"}], "+", 
+             RowBox[{"\[Kappa]Div", " ", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"-", "3"}], "+", 
+                RowBox[{"2", " ", 
+                 SuperscriptBox["\[Sigma]Post", "2"]}]}], ")"}]}]}], 
+            ")"}]}]]}]], " ", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"2", " ", "\[Pi]"}], ")"}], 
+        FractionBox["\[Kappa]Div", 
+         RowBox[{"1", "+", "\[Kappa]Div"}]]]}], 
+      SqrtBox[
+       RowBox[{"1", "-", 
+        FractionBox[
+         RowBox[{"2", " ", "\[Kappa]Div", " ", 
+          SuperscriptBox["\[Sigma]Post", "2"]}], 
+         RowBox[{"1", "+", 
+          RowBox[{"3", " ", "\[Kappa]Div"}]}]]}]]], 
+     RowBox[{"2", " "}]]}], ")"}]}]], "Input",
+ CellChangeTimes->{{3.838223034227206*^9, 3.838223090015622*^9}, 
+   3.83822340211856*^9, {3.838223434962696*^9, 3.838223459052519*^9}, {
+   3.838223510535136*^9, 
+   3.838223542883832*^9}},ExpressionUUID->"0450a2f5-c187-450d-b5b4-\
+9f3a2ddd728d"]
 }, Open  ]]
 }, Open  ]],
 
@@ -12895,10 +12598,1267 @@ Cell[BoxData[
    3.8379589834931297`*^9},ExpressionUUID->"9fb49256-fc24-4588-948b-\
 79c7218fdcd5"]
 }, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Coupled Divergence of Coupled Distributions using Series Approximation\
+\>", "Section",
+ CellChangeTimes->{{3.8382931292299213`*^9, 
+  3.8382931494504023`*^9}},ExpressionUUID->"d041046d-7e41-4a65-a616-\
+27fe1fc561b6"],
+
+Cell["\<\
+The Coupled Divergence of two Coupled Gaussian distributions does not have an \
+analytical solution. The numerical integration has proved impractical for \
+machine learning applications which require thousands of such computations. \
+This section of the Coupled VAE notebook will solve for a series \
+approximation for the Coupled Divergence of two Coupled Gaussian \
+distributions.\
+\>", "Text",
+ CellChangeTimes->{{3.838293155555193*^9, 3.838293211305969*^9}, {
+  3.838293355989541*^9, 
+  3.838293417549233*^9}},ExpressionUUID->"03ae72f1-6d96-4ead-941a-\
+26361c8e4577"],
+
+Cell["Setup variables for dim number of dimensions", "Text",
+ CellChangeTimes->{{3.838294509921274*^9, 
+  3.838294526650096*^9}},ExpressionUUID->"e2e39390-a7d1-43df-975a-\
+905415f19045"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"dim", "=", "2"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Mu]Post", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"Symbol", "[", 
+      RowBox[{"\"\<\[Mu]Post\>\"", "<>", 
+       RowBox[{"ToString", "[", "i", "]"}]}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "dim"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Sigma]Post", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"Symbol", "[", 
+      RowBox[{"\"\<\[Sigma]Post\>\"", "<>", 
+       RowBox[{"ToString", "[", "i", "]"}]}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "dim"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Mu]Prior", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{"0", ",", "dim"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[Sigma]Prior", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"Symbol", "[", 
+      RowBox[{"\"\<\[Mu]Prior\>\"", "<>", 
+       RowBox[{"ToString", "[", "i", "]"}]}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "dim"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[CapitalSigma]Post", " ", "=", " ", 
+   RowBox[{"DiagonalMatrix", "[", 
+    RowBox[{"\[Sigma]Post", "^", "2"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"\[CapitalSigma]Prior", "=", 
+   RowBox[{"DiagonalMatrix", "[", 
+    RowBox[{"\[Sigma]Prior", "^", "2"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"x", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"Symbol", "[", 
+      RowBox[{"\"\<x\>\"", "<>", 
+       RowBox[{"ToString", "[", "i", "]"}]}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "dim"}], "}"}]}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.838294541100628*^9, 3.838294671289236*^9}, {
+  3.838294714271311*^9, 3.838294770126367*^9}, {3.8382948477903748`*^9, 
+  3.8382948507988863`*^9}, {3.838301132601399*^9, 3.838301135906232*^9}, {
+  3.8383086147296543`*^9, 3.838308629260683*^9}, {3.83832495923543*^9, 
+  3.8383249873132677`*^9}},
+ CellLabel->
+  "In[196]:=",ExpressionUUID->"c81f3b4a-e806-4b8d-b317-902e44d9b979"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"$Assumptions", "=", 
+  RowBox[{
+   RowBox[{"Apply", "[", 
+    RowBox[{"And", ",", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"0", " ", "<", 
+        RowBox[{
+        "\[Mu]Post", "\[LeftDoubleBracket]", "i", "\[RightDoubleBracket]"}], 
+        "<", "\[Infinity]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "2"}], "}"}]}], "]"}]}], "]"}], "&&", 
+   "\[IndentingNewLine]", 
+   RowBox[{"\[Kappa]Div", "\[Element]", "Reals"}], "&&", 
+   RowBox[{"0", "<", "\[Kappa]Div", "<", "\[Infinity]"}], "&&", 
+   RowBox[{"\[Kappa]Dist", "\[Element]", "Reals"}], "&&", 
+   RowBox[{"0", "<", "\[Kappa]Dist", "<", "\[Infinity]"}], "&&", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Flatten", "[", 
+     RowBox[{"{", 
+      RowBox[{
+      "\[Mu]Post", ",", "\[Sigma]Post", ",", "\[Sigma]Prior", ",", 
+       "\[CapitalSigma]Post", ",", "\[CapitalSigma]Prior"}], "}"}], "]"}], 
+    "\[Element]", "Reals", " "}]}]}]], "Input",
+ CellChangeTimes->{{3.838294867086081*^9, 3.838294990394651*^9}, {
+  3.8382951750412607`*^9, 3.838295220697384*^9}, {3.838295258870171*^9, 
+  3.838295329790936*^9}, {3.8382953768289003`*^9, 3.838295444583235*^9}, {
+  3.838295973778246*^9, 3.8382960232573442`*^9}, {3.838296420017104*^9, 
+  3.8382964381679163`*^9}, {3.83829647026656*^9, 3.8382964976327972`*^9}, {
+  3.838299627591144*^9, 3.838299656145453*^9}, {3.838324070991387*^9, 
+  3.8383240755569553`*^9}},
+ CellLabel->
+  "In[180]:=",ExpressionUUID->"d292a72a-5c7f-4d1e-952a-8bc23615b647"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"0", "<", "\[Mu]Post1", "<", "\[Infinity]"}], "&&", 
+  RowBox[{"0", "<", "\[Mu]Post2", "<", "\[Infinity]"}], "&&", 
+  RowBox[{"\[Kappa]Div", "\[Element]", 
+   TemplateBox[{},
+    "Reals"]}], "&&", 
+  RowBox[{"0", "<", "\[Kappa]Div", "<", "\[Infinity]"}], "&&", 
+  RowBox[{"\[Kappa]Dist", "\[Element]", 
+   TemplateBox[{},
+    "Reals"]}], "&&", 
+  RowBox[{"0", "<", "\[Kappa]Dist", "<", "\[Infinity]"}], "&&", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{
+    "\[Mu]Post1", "|", "\[Mu]Post2", "|", "\[Sigma]Post1", "|", 
+     "\[Sigma]Post2", "|", "\[Mu]Prior1", "|", "\[Mu]Prior2", "|", 
+     SuperscriptBox["\[Sigma]Post1", "2"], "|", 
+     SuperscriptBox["\[Sigma]Post2", "2"], "|", 
+     SuperscriptBox["\[Mu]Prior1", "2"], "|", 
+     SuperscriptBox["\[Mu]Prior2", "2"]}], ")"}], "\[Element]", 
+   TemplateBox[{},
+    "Reals"]}]}]], "Output",
+ CellChangeTimes->{{3.8382996304266148`*^9, 3.8382996583027077`*^9}, 
+   3.838307897796736*^9, 3.8383240766796103`*^9},
+ CellLabel->
+  "Out[180]=",ExpressionUUID->"c9b501d6-a4e5-4d76-85f1-036561b35b4f"]
+}, Open  ]],
+
+Cell["\<\
+Define the Multivariate Coupled Cross Entropy
+\t* Will assume integration of -\[Infinity] to \[Infinity] for all dimensions
+\t* Will not include the parameter \[Delta]
+\t* Will assume CoupledGaussian distributions with same coupled \
+\>", "Text",
+ CellChangeTimes->{{3.838305517998163*^9, 3.8383055260193872`*^9}, {
+  3.838305632906995*^9, 3.838305739202429*^9}, {3.838305976219481*^9, 
+  3.8383059845514812`*^9}},ExpressionUUID->"2e810095-0828-4b6c-9eb9-\
+d2e150b8e07f"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"MultiCoupledCrossEntropyCoupledNormal", "[", 
+    RowBox[{
+    "\[Mu]P_", ",", "\[CapitalSigma]P_", ",", "\[Mu]Q_", ",", 
+     "\[CapitalSigma]Q_", ",", "\[Kappa]Dist_", ",", "\[Kappa]CE_", ",", 
+     RowBox[{"d_", ":", "2"}]}], "]"}], ":=", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Integrate", "["}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"FullSimplify", "[", 
+    RowBox[{"Series", "[", 
+     RowBox[{
+      RowBox[{"FullSimplify", "[", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"BiasedCoupledDistribution", "[", 
+         RowBox[{
+         "\[Mu]P", ",", "\[CapitalSigma]P", ",", "\[Kappa]Dist", ",", "2", 
+          ",", "\[Kappa]CE"}], "]"}], "\[IndentingNewLine]", 
+        FractionBox["1", "2"], 
+        SuperscriptBox[
+         RowBox[{"CoupledLogarithm", "[", "\[IndentingNewLine]", 
+          RowBox[{"PDF", "[", 
+           RowBox[{
+            RowBox[{"MultivariateCoupledDistribution", "[", 
+             RowBox[{
+             "\[Mu]Q", ",", "\[CapitalSigma]Q", ",", "\[Kappa]Dist", ",", 
+              "2"}], "]"}], ",", "\[IndentingNewLine]", "x"}], "]"}], 
+          "\[IndentingNewLine]", "]"}], 
+         RowBox[{"-", "2"}]]}], "\[IndentingNewLine]", "]"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Replace", "[", 
+       RowBox[{
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"i", ",", "j", ",", "3"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", "x"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"j", ",", "\[Mu]Post"}], "}"}]}], "]"}], ",", 
+        RowBox[{"List", "->", "Sequence"}], ",", "2", ",", 
+        RowBox[{"Heads", "->", "True"}]}], "]"}]}], "\[IndentingNewLine]", 
+     "]"}], "]"}]}], 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{
+     RowBox[{",", "\[IndentingNewLine]", 
+      RowBox[{"Replace", "[", 
+       RowBox[{
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"i", ",", 
+            RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", "x"}], "}"}]}], "]"}], ",", 
+        RowBox[{"List", "->", "Sequence"}], ",", "1", ",", 
+        RowBox[{"Heads", "->", "True"}]}], "]"}]}], "\[IndentingNewLine]", 
+     "]"}], "//", "FullSimplify"}], "*)"}], "\[IndentingNewLine]"}]], "Input",\
+
+ CellChangeTimes->{{3.838305536479985*^9, 3.8383055644906807`*^9}, {
+   3.838305689092291*^9, 3.838305689910657*^9}, {3.838305774380681*^9, 
+   3.8383057821383133`*^9}, {3.838305918022048*^9, 3.838306031840475*^9}, {
+   3.8383060859678373`*^9, 3.838306239866312*^9}, {3.838306320701736*^9, 
+   3.838306601193519*^9}, {3.838306631866997*^9, 3.8383066613618317`*^9}, {
+   3.83830681425537*^9, 3.838306847341546*^9}, {3.83830723446603*^9, 
+   3.838307237642766*^9}, {3.8383086669186687`*^9, 3.838308739754414*^9}, {
+   3.838308809169119*^9, 3.8383088454103737`*^9}, {3.838316864191271*^9, 
+   3.83831690770142*^9}, {3.838316977464312*^9, 3.838316987179007*^9}, {
+   3.838317029326623*^9, 3.838317148844202*^9}, {3.8383238870940123`*^9, 
+   3.8383239324973383`*^9}, {3.838324119951668*^9, 3.838324188071599*^9}, 
+   3.83832440971883*^9, {3.838324515361484*^9, 3.838324556744042*^9}, {
+   3.838324620489327*^9, 3.838324620610223*^9}, {3.838324712387527*^9, 
+   3.838324722662774*^9}, {3.838324766128793*^9, 3.838324773488162*^9}, {
+   3.8383258037489557`*^9, 3.838325803808968*^9}},
+ CellLabel->
+  "In[204]:=",ExpressionUUID->"db7f7ac3-682d-43e0-9ad8-021fa6803e72"],
+
+Cell[CellGroupData[{
+
+Cell["Solution of Series at level 2 and 3", "Subsection",
+ CellChangeTimes->{{3.838326479629952*^9, 
+  3.8383264952005053`*^9}},ExpressionUUID->"5b543769-dd0f-4612-8f3b-\
+9a8fe1a3db7f"],
+
+Cell["Compute Just the Series to level 3", "Text",
+ CellChangeTimes->{{3.8383257880599546`*^9, 3.838325796480959*^9}, {
+  3.8383258272834272`*^9, 
+  3.838325827442635*^9}},ExpressionUUID->"772957f6-8590-485d-93c4-\
+34c736518c9b"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"MultiCoupledCrossEntropyCoupledNormal", "[", 
+  RowBox[{
+  "\[Mu]Post", ",", "\[CapitalSigma]Post", ",", "\[Mu]Prior", ",", 
+   "\[CapitalSigma]Prior", ",", "\[Kappa]Dist", ",", "\[Kappa]Div", ",", 
+   "2"}], "]"}]], "Input",
+ CellChangeTimes->{{3.83832584071004*^9, 3.838325850965762*^9}},
+ CellLabel->
+  "In[205]:=",ExpressionUUID->"13c3315b-eaf3-466e-87bf-7fccd76e713a"],
+
+Cell[BoxData[
+ TemplateBox[{
+   TagBox[
+    GridBox[{{"\[Piecewise]", 
+       GridBox[{{
+          RowBox[{
+            RowBox[{"(", 
+              RowBox[{"2", " ", 
+                RowBox[{"ProbabilityDistribution", "[", 
+                  RowBox[{
+                    RowBox[{"-", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "/", 
+                    RowBox[{"(", 
+                    
+                    RowBox[{"2", " ", "\[Pi]", " ", "\[Sigma]Post1", " ", 
+                    "\[Sigma]Post2", " ", 
+                    RowBox[{"\[Sqrt]", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    FractionBox["1", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"4", " ", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Dist"}], ")"}], " ", 
+                    "\[Kappa]Div"}]}]], 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"2", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{
+                    FractionBox["1", 
+                    RowBox[{
+                    SuperscriptBox["\[Sigma]Post1", "2"], " ", 
+                    SuperscriptBox["\[Sigma]Post2", "2"]}]], 
+                    RowBox[{"\[Kappa]Dist", " ", 
+                    SqrtBox[
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"2", " ", "\[Kappa]Div"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"4", " ", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Dist"}], ")"}], " ", 
+                    "\[Kappa]Div"}]}]]], " ", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"\[FormalX]2", "-", "\[Mu]Post2"}], ")"}], "2"], 
+                    " ", 
+                    SuperscriptBox["\[Sigma]Post1", "2"]}], "+", 
+                    RowBox[{
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"\[FormalX]1", "-", "\[Mu]Post1"}], ")"}], "2"], 
+                    " ", 
+                    SuperscriptBox["\[Sigma]Post2", "2"]}]}], ")"}]}]}]}], 
+                    ")"}], 
+                    FractionBox[
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"2", " ", "\[Kappa]Dist"}]}], ")"}], " ", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"4", " ", "\[Kappa]Div"}]}], ")"}]}], 
+                    RowBox[{"\[Kappa]Dist", "+", 
+                    
+                    RowBox[{"2", " ", "\[Kappa]Dist", " ", 
+                    "\[Kappa]Div"}]}]]]}]}], ")"}]}]}], ")"}]}], ")"}]}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"\[FormalX]1", ",", 
+                    RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}],
+                     ",", 
+                    RowBox[{"{", 
+                    RowBox[{"\[FormalX]2", ",", 
+                    RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], 
+                    "}"}]}], "]"}]}], ")"}], "/", 
+            SuperscriptBox[
+             RowBox[{"(", 
+               RowBox[{
+                 RowBox[{"2", " ", 
+                   RowBox[{"Log", "[", "\[Pi]", "]"}]}], "-", 
+                 RowBox[{"2", " ", 
+                   RowBox[{"Log", "[", 
+                    RowBox[{
+                    RowBox[{"-", "\[Mu]Prior1"}], " ", "\[Mu]Prior2"}], 
+                    "]"}]}], "+", 
+                 RowBox[{"Log", "[", 
+                   RowBox[{"4", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{
+                    SuperscriptBox["\[Mu]Prior1", "2"], " ", 
+                    SuperscriptBox["\[Mu]Prior2", "2"]}], ")"}], 
+                    RowBox[{
+                    RowBox[{"-", "1"}], "/", "\[Kappa]Dist"}]], " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    SuperscriptBox["x2", "2"], " ", "\[Kappa]Dist", " ", 
+                    SuperscriptBox["\[Mu]Prior1", "2"]}], "+", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    SuperscriptBox["x1", "2"], " ", "\[Kappa]Dist"}], "+", 
+                    SuperscriptBox["\[Mu]Prior1", "2"]}], ")"}], " ", 
+                    SuperscriptBox["\[Mu]Prior2", "2"]}]}], ")"}], 
+                    RowBox[{"2", "+", 
+                    FractionBox["1", "\[Kappa]Dist"]}]]}], "]"}]}], ")"}], 
+             "2"]}], 
+          RowBox[{
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{"\[Mu]Prior1", "\[GreaterEqual]", "0"}], "||", 
+                RowBox[{"\[Mu]Prior2", "\[GreaterEqual]", "0"}]}], ")"}], 
+            "&&", 
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{"\[Mu]Prior1", "<", "0"}], "||", 
+                RowBox[{"\[Mu]Prior2", "<", "0"}]}], ")"}], "&&", 
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{"\[Sigma]Post1", "\[GreaterEqual]", "0"}], "||", 
+                RowBox[{"\[Sigma]Post2", "\[GreaterEqual]", "0"}]}], ")"}], 
+            "&&", 
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{"\[Sigma]Post1", "<", "0"}], "||", 
+                RowBox[{"\[Sigma]Post2", "<", "0"}]}], ")"}], "&&", 
+            RowBox[{
+              RowBox[{
+                FractionBox[
+                 RowBox[{
+                   SuperscriptBox["x1", "2"], " ", "\[Kappa]Dist"}], 
+                 SuperscriptBox["\[Mu]Prior1", "2"]], "+", 
+                FractionBox[
+                 RowBox[{
+                   SuperscriptBox["x2", "2"], " ", "\[Kappa]Dist"}], 
+                 SuperscriptBox["\[Mu]Prior2", "2"]]}], ">", 
+              RowBox[{"-", "1"}]}], "&&", 
+            RowBox[{
+              FractionBox[
+               RowBox[{"\[Kappa]Dist", " ", 
+                 SqrtBox[
+                  FractionBox[
+                   RowBox[{"1", "+", 
+                    RowBox[{"2", " ", "\[Kappa]Div"}]}], 
+                   RowBox[{"1", "+", 
+                    RowBox[{"4", " ", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Dist"}], ")"}], " ", 
+                    "\[Kappa]Div"}]}]]], " ", 
+                 RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"\[FormalX]2", "-", "\[Mu]Post2"}], ")"}], "2"], 
+                    " ", 
+                    SuperscriptBox["\[Sigma]Post1", "2"]}], "+", 
+                    RowBox[{
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"\[FormalX]1", "-", "\[Mu]Post1"}], ")"}], "2"], 
+                    " ", 
+                    SuperscriptBox["\[Sigma]Post2", "2"]}]}], ")"}]}], 
+               RowBox[{
+                 SuperscriptBox["\[Sigma]Post1", "2"], " ", 
+                 SuperscriptBox["\[Sigma]Post2", "2"]}]], ">", 
+              RowBox[{"-", "1"}]}]}]}, {
+          RowBox[{
+            RowBox[{"(", 
+              RowBox[{"2", " ", 
+                RowBox[{"ProbabilityDistribution", "[", 
+                  RowBox[{
+                    RowBox[{"-", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "/", 
+                    RowBox[{"(", 
+                    
+                    RowBox[{"2", " ", "\[Pi]", " ", "\[Sigma]Post1", " ", 
+                    "\[Sigma]Post2", " ", 
+                    RowBox[{"\[Sqrt]", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    FractionBox["1", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"4", " ", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Dist"}], ")"}], " ", 
+                    "\[Kappa]Div"}]}]], 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"2", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{
+                    FractionBox["1", 
+                    RowBox[{
+                    SuperscriptBox["\[Sigma]Post1", "2"], " ", 
+                    SuperscriptBox["\[Sigma]Post2", "2"]}]], 
+                    RowBox[{"\[Kappa]Dist", " ", 
+                    SqrtBox[
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"2", " ", "\[Kappa]Div"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"4", " ", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Dist"}], ")"}], " ", 
+                    "\[Kappa]Div"}]}]]], " ", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"\[FormalX]2", "-", "\[Mu]Post2"}], ")"}], "2"], 
+                    " ", 
+                    SuperscriptBox["\[Sigma]Post1", "2"]}], "+", 
+                    RowBox[{
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"\[FormalX]1", "-", "\[Mu]Post1"}], ")"}], "2"], 
+                    " ", 
+                    SuperscriptBox["\[Sigma]Post2", "2"]}]}], ")"}]}]}]}], 
+                    ")"}], 
+                    FractionBox[
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"2", " ", "\[Kappa]Dist"}]}], ")"}], " ", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"4", " ", "\[Kappa]Div"}]}], ")"}]}], 
+                    RowBox[{"\[Kappa]Dist", "+", 
+                    
+                    RowBox[{"2", " ", "\[Kappa]Dist", " ", 
+                    "\[Kappa]Div"}]}]]]}]}], ")"}]}]}], ")"}]}], ")"}]}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"\[FormalX]1", ",", 
+                    RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}],
+                     ",", 
+                    RowBox[{"{", 
+                    RowBox[{"\[FormalX]2", ",", 
+                    RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], 
+                    "}"}]}], "]"}]}], ")"}], "/", 
+            SuperscriptBox[
+             RowBox[{"(", 
+               RowBox[{
+                 RowBox[{"2", " ", 
+                   RowBox[{"Log", "[", "\[Pi]", "]"}]}], "-", 
+                 RowBox[{"2", " ", 
+                   RowBox[{"Log", "[", 
+                    RowBox[{"\[Mu]Prior1", " ", "\[Mu]Prior2"}], "]"}]}], "+", 
+                 RowBox[{"Log", "[", 
+                   RowBox[{"4", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{
+                    SuperscriptBox["\[Mu]Prior1", "2"], " ", 
+                    SuperscriptBox["\[Mu]Prior2", "2"]}], ")"}], 
+                    RowBox[{
+                    RowBox[{"-", "1"}], "/", "\[Kappa]Dist"}]], " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    SuperscriptBox["x2", "2"], " ", "\[Kappa]Dist", " ", 
+                    SuperscriptBox["\[Mu]Prior1", "2"]}], "+", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    SuperscriptBox["x1", "2"], " ", "\[Kappa]Dist"}], "+", 
+                    SuperscriptBox["\[Mu]Prior1", "2"]}], ")"}], " ", 
+                    SuperscriptBox["\[Mu]Prior2", "2"]}]}], ")"}], 
+                    RowBox[{"2", "+", 
+                    FractionBox["1", "\[Kappa]Dist"]}]]}], "]"}]}], ")"}], 
+             "2"]}], 
+          RowBox[{
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{"\[Mu]Prior1", "\[GreaterEqual]", "0"}], "||", 
+                RowBox[{"\[Mu]Prior2", "<", "0"}]}], ")"}], "&&", 
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{"\[Mu]Prior1", "<", "0"}], "||", 
+                RowBox[{"\[Mu]Prior2", "\[GreaterEqual]", "0"}]}], ")"}], 
+            "&&", 
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{"\[Sigma]Post1", "\[GreaterEqual]", "0"}], "||", 
+                RowBox[{"\[Sigma]Post2", "\[GreaterEqual]", "0"}]}], ")"}], 
+            "&&", 
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{"\[Sigma]Post1", "<", "0"}], "||", 
+                RowBox[{"\[Sigma]Post2", "<", "0"}]}], ")"}], "&&", 
+            RowBox[{
+              RowBox[{
+                FractionBox[
+                 RowBox[{
+                   SuperscriptBox["x1", "2"], " ", "\[Kappa]Dist"}], 
+                 SuperscriptBox["\[Mu]Prior1", "2"]], "+", 
+                FractionBox[
+                 RowBox[{
+                   SuperscriptBox["x2", "2"], " ", "\[Kappa]Dist"}], 
+                 SuperscriptBox["\[Mu]Prior2", "2"]]}], ">", 
+              RowBox[{"-", "1"}]}], "&&", 
+            RowBox[{
+              FractionBox[
+               RowBox[{"\[Kappa]Dist", " ", 
+                 SqrtBox[
+                  FractionBox[
+                   RowBox[{"1", "+", 
+                    RowBox[{"2", " ", "\[Kappa]Div"}]}], 
+                   RowBox[{"1", "+", 
+                    RowBox[{"4", " ", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Dist"}], ")"}], " ", 
+                    "\[Kappa]Div"}]}]]], " ", 
+                 RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"\[FormalX]2", "-", "\[Mu]Post2"}], ")"}], "2"], 
+                    " ", 
+                    SuperscriptBox["\[Sigma]Post1", "2"]}], "+", 
+                    RowBox[{
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"\[FormalX]1", "-", "\[Mu]Post1"}], ")"}], "2"], 
+                    " ", 
+                    SuperscriptBox["\[Sigma]Post2", "2"]}]}], ")"}]}], 
+               RowBox[{
+                 SuperscriptBox["\[Sigma]Post1", "2"], " ", 
+                 SuperscriptBox["\[Sigma]Post2", "2"]}]], ">", 
+              RowBox[{"-", "1"}]}]}]}, {
+          RowBox[{
+            RowBox[{"(", 
+              RowBox[{"2", " ", 
+                RowBox[{"ProbabilityDistribution", "[", 
+                  RowBox[{
+                    RowBox[{"1", "/", 
+                    RowBox[{"(", 
+                    
+                    RowBox[{
+                    "2", " ", "\[Pi]", " ", "\[Sigma]Post1", " ", 
+                    "\[Sigma]Post2", " ", 
+                    RowBox[{"\[Sqrt]", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    FractionBox["1", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"4", " ", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Dist"}], ")"}], " ", 
+                    "\[Kappa]Div"}]}]], 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"2", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"\[Kappa]Dist", " ", 
+                    SqrtBox[
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"2", " ", "\[Kappa]Div"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"4", " ", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Dist"}], ")"}], " ", 
+                    "\[Kappa]Div"}]}]]], " ", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"\[FormalX]2", "-", "\[Mu]Post2"}], ")"}], "2"], 
+                    " ", 
+                    SuperscriptBox["\[Sigma]Post1", "2"]}], "+", 
+                    RowBox[{
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"\[FormalX]1", "-", "\[Mu]Post1"}], ")"}], "2"], 
+                    " ", 
+                    SuperscriptBox["\[Sigma]Post2", "2"]}]}], ")"}]}], 
+                    RowBox[{
+                    SuperscriptBox["\[Sigma]Post1", "2"], " ", 
+                    SuperscriptBox["\[Sigma]Post2", "2"]}]]}], ")"}], 
+                    FractionBox[
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"2", " ", "\[Kappa]Dist"}]}], ")"}], " ", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"4", " ", "\[Kappa]Div"}]}], ")"}]}], 
+                    RowBox[{"\[Kappa]Dist", "+", 
+                    
+                    RowBox[{"2", " ", "\[Kappa]Dist", " ", 
+                    "\[Kappa]Div"}]}]]]}]}], ")"}]}]}], ")"}]}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"\[FormalX]1", ",", 
+                    RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}],
+                     ",", 
+                    RowBox[{"{", 
+                    RowBox[{"\[FormalX]2", ",", 
+                    RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], 
+                    "}"}]}], "]"}]}], ")"}], "/", 
+            SuperscriptBox[
+             RowBox[{"(", 
+               RowBox[{
+                 RowBox[{"2", " ", 
+                   RowBox[{"Log", "[", "\[Pi]", "]"}]}], "-", 
+                 RowBox[{"2", " ", 
+                   RowBox[{"Log", "[", 
+                    RowBox[{
+                    RowBox[{"-", "\[Mu]Prior1"}], " ", "\[Mu]Prior2"}], 
+                    "]"}]}], "+", 
+                 RowBox[{"Log", "[", 
+                   RowBox[{"4", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{
+                    SuperscriptBox["\[Mu]Prior1", "2"], " ", 
+                    SuperscriptBox["\[Mu]Prior2", "2"]}], ")"}], 
+                    RowBox[{
+                    RowBox[{"-", "1"}], "/", "\[Kappa]Dist"}]], " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    SuperscriptBox["x2", "2"], " ", "\[Kappa]Dist", " ", 
+                    SuperscriptBox["\[Mu]Prior1", "2"]}], "+", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    SuperscriptBox["x1", "2"], " ", "\[Kappa]Dist"}], "+", 
+                    SuperscriptBox["\[Mu]Prior1", "2"]}], ")"}], " ", 
+                    SuperscriptBox["\[Mu]Prior2", "2"]}]}], ")"}], 
+                    RowBox[{"2", "+", 
+                    FractionBox["1", "\[Kappa]Dist"]}]]}], "]"}]}], ")"}], 
+             "2"]}], 
+          RowBox[{
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{"\[Mu]Prior1", "\[GreaterEqual]", "0"}], "||", 
+                RowBox[{"\[Mu]Prior2", "\[GreaterEqual]", "0"}]}], ")"}], 
+            "&&", 
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{"\[Mu]Prior1", "<", "0"}], "||", 
+                RowBox[{"\[Mu]Prior2", "<", "0"}]}], ")"}], "&&", 
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{"\[Sigma]Post1", "\[GreaterEqual]", "0"}], "||", 
+                RowBox[{"\[Sigma]Post2", "<", "0"}]}], ")"}], "&&", 
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{"\[Sigma]Post1", "<", "0"}], "||", 
+                RowBox[{"\[Sigma]Post2", "\[GreaterEqual]", "0"}]}], ")"}], 
+            "&&", 
+            RowBox[{
+              RowBox[{
+                FractionBox[
+                 RowBox[{
+                   SuperscriptBox["x1", "2"], " ", "\[Kappa]Dist"}], 
+                 SuperscriptBox["\[Mu]Prior1", "2"]], "+", 
+                FractionBox[
+                 RowBox[{
+                   SuperscriptBox["x2", "2"], " ", "\[Kappa]Dist"}], 
+                 SuperscriptBox["\[Mu]Prior2", "2"]]}], ">", 
+              RowBox[{"-", "1"}]}], "&&", 
+            RowBox[{
+              FractionBox[
+               RowBox[{"\[Kappa]Dist", " ", 
+                 SqrtBox[
+                  FractionBox[
+                   RowBox[{"1", "+", 
+                    RowBox[{"2", " ", "\[Kappa]Div"}]}], 
+                   RowBox[{"1", "+", 
+                    RowBox[{"4", " ", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Dist"}], ")"}], " ", 
+                    "\[Kappa]Div"}]}]]], " ", 
+                 RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"\[FormalX]2", "-", "\[Mu]Post2"}], ")"}], "2"], 
+                    " ", 
+                    SuperscriptBox["\[Sigma]Post1", "2"]}], "+", 
+                    RowBox[{
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"\[FormalX]1", "-", "\[Mu]Post1"}], ")"}], "2"], 
+                    " ", 
+                    SuperscriptBox["\[Sigma]Post2", "2"]}]}], ")"}]}], 
+               RowBox[{
+                 SuperscriptBox["\[Sigma]Post1", "2"], " ", 
+                 SuperscriptBox["\[Sigma]Post2", "2"]}]], ">", 
+              RowBox[{"-", "1"}]}]}]}, {
+          RowBox[{
+            RowBox[{"(", 
+              RowBox[{"2", " ", 
+                RowBox[{"ProbabilityDistribution", "[", 
+                  RowBox[{
+                    FractionBox["1", 
+                    
+                    RowBox[{
+                    "2", " ", "\[Pi]", " ", "\[Sigma]Post1", " ", 
+                    "\[Sigma]Post2", " ", 
+                    SqrtBox[
+                    FractionBox[
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"2", " ", "\[Kappa]Div"}]}], ")"}], " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"\[Kappa]Dist", " ", 
+                    SqrtBox[
+                    FractionBox[
+                    RowBox[{"1", "+", 
+                    RowBox[{"2", " ", "\[Kappa]Div"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"4", " ", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Dist"}], ")"}], " ", 
+                    "\[Kappa]Div"}]}]]], " ", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"\[FormalX]2", "-", "\[Mu]Post2"}], ")"}], "2"], 
+                    " ", 
+                    SuperscriptBox["\[Sigma]Post1", "2"]}], "+", 
+                    RowBox[{
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"\[FormalX]1", "-", "\[Mu]Post1"}], ")"}], "2"], 
+                    " ", 
+                    SuperscriptBox["\[Sigma]Post2", "2"]}]}], ")"}]}], 
+                    RowBox[{
+                    SuperscriptBox["\[Sigma]Post1", "2"], " ", 
+                    SuperscriptBox["\[Sigma]Post2", "2"]}]]}], ")"}], 
+                    FractionBox[
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"2", " ", "\[Kappa]Dist"}]}], ")"}], " ", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"4", " ", "\[Kappa]Div"}]}], ")"}]}], 
+                    RowBox[{"\[Kappa]Dist", "+", 
+                    
+                    RowBox[{"2", " ", "\[Kappa]Dist", " ", 
+                    "\[Kappa]Div"}]}]]]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"4", " ", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Dist"}], ")"}], " ", 
+                    "\[Kappa]Div"}]}]]]}]], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"\[FormalX]1", ",", 
+                    RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}],
+                     ",", 
+                    RowBox[{"{", 
+                    RowBox[{"\[FormalX]2", ",", 
+                    RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], 
+                    "}"}]}], "]"}]}], ")"}], "/", 
+            SuperscriptBox[
+             RowBox[{"(", 
+               RowBox[{
+                 RowBox[{"2", " ", 
+                   RowBox[{"Log", "[", "\[Pi]", "]"}]}], "-", 
+                 RowBox[{"2", " ", 
+                   RowBox[{"Log", "[", 
+                    RowBox[{"\[Mu]Prior1", " ", "\[Mu]Prior2"}], "]"}]}], "+", 
+                 RowBox[{"Log", "[", 
+                   RowBox[{"4", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{
+                    SuperscriptBox["\[Mu]Prior1", "2"], " ", 
+                    SuperscriptBox["\[Mu]Prior2", "2"]}], ")"}], 
+                    RowBox[{
+                    RowBox[{"-", "1"}], "/", "\[Kappa]Dist"}]], " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    SuperscriptBox["x2", "2"], " ", "\[Kappa]Dist", " ", 
+                    SuperscriptBox["\[Mu]Prior1", "2"]}], "+", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    SuperscriptBox["x1", "2"], " ", "\[Kappa]Dist"}], "+", 
+                    SuperscriptBox["\[Mu]Prior1", "2"]}], ")"}], " ", 
+                    SuperscriptBox["\[Mu]Prior2", "2"]}]}], ")"}], 
+                    RowBox[{"2", "+", 
+                    FractionBox["1", "\[Kappa]Dist"]}]]}], "]"}]}], ")"}], 
+             "2"]}], 
+          RowBox[{
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{"\[Mu]Prior1", "\[GreaterEqual]", "0"}], "||", 
+                RowBox[{"\[Mu]Prior2", "<", "0"}]}], ")"}], "&&", 
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{"\[Mu]Prior1", "<", "0"}], "||", 
+                RowBox[{"\[Mu]Prior2", "\[GreaterEqual]", "0"}]}], ")"}], 
+            "&&", 
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{"\[Sigma]Post1", "\[GreaterEqual]", "0"}], "||", 
+                RowBox[{"\[Sigma]Post2", "<", "0"}]}], ")"}], "&&", 
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{"\[Sigma]Post1", "<", "0"}], "||", 
+                RowBox[{"\[Sigma]Post2", "\[GreaterEqual]", "0"}]}], ")"}], 
+            "&&", 
+            RowBox[{
+              RowBox[{
+                FractionBox[
+                 RowBox[{
+                   SuperscriptBox["x1", "2"], " ", "\[Kappa]Dist"}], 
+                 SuperscriptBox["\[Mu]Prior1", "2"]], "+", 
+                FractionBox[
+                 RowBox[{
+                   SuperscriptBox["x2", "2"], " ", "\[Kappa]Dist"}], 
+                 SuperscriptBox["\[Mu]Prior2", "2"]]}], ">", 
+              RowBox[{"-", "1"}]}], "&&", 
+            RowBox[{
+              FractionBox[
+               RowBox[{"\[Kappa]Dist", " ", 
+                 SqrtBox[
+                  FractionBox[
+                   RowBox[{"1", "+", 
+                    RowBox[{"2", " ", "\[Kappa]Div"}]}], 
+                   RowBox[{"1", "+", 
+                    RowBox[{"4", " ", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Dist"}], ")"}], " ", 
+                    "\[Kappa]Div"}]}]]], " ", 
+                 RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"\[FormalX]2", "-", "\[Mu]Post2"}], ")"}], "2"], 
+                    " ", 
+                    SuperscriptBox["\[Sigma]Post1", "2"]}], "+", 
+                    RowBox[{
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"\[FormalX]1", "-", "\[Mu]Post1"}], ")"}], "2"], 
+                    " ", 
+                    SuperscriptBox["\[Sigma]Post2", "2"]}]}], ")"}]}], 
+               RowBox[{
+                 SuperscriptBox["\[Sigma]Post1", "2"], " ", 
+                 SuperscriptBox["\[Sigma]Post2", "2"]}]], ">", 
+              RowBox[{"-", "1"}]}]}]}, {
+          FractionBox[
+           RowBox[{"2", " ", 
+             RowBox[{"ProbabilityDistribution", "[", 
+               RowBox[{"ComplexInfinity", ",", 
+                 RowBox[{"{", 
+                   RowBox[{"\[FormalX]1", ",", 
+                    RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}],
+                  ",", 
+                 RowBox[{"{", 
+                   RowBox[{"\[FormalX]2", ",", 
+                    RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], 
+                   "}"}]}], "]"}]}], 
+           SuperscriptBox[
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{"2", " ", 
+                  RowBox[{"Log", "[", "\[Pi]", "]"}]}], "-", 
+                RowBox[{"2", " ", 
+                  RowBox[{"Log", "[", 
+                    RowBox[{
+                    RowBox[{"-", "\[Mu]Prior1"}], " ", "\[Mu]Prior2"}], 
+                    "]"}]}], "+", 
+                RowBox[{"Log", "[", 
+                  RowBox[{"4", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{
+                    SuperscriptBox["\[Mu]Prior1", "2"], " ", 
+                    SuperscriptBox["\[Mu]Prior2", "2"]}], ")"}], 
+                    RowBox[{
+                    RowBox[{"-", "1"}], "/", "\[Kappa]Dist"}]], " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    SuperscriptBox["x2", "2"], " ", "\[Kappa]Dist", " ", 
+                    SuperscriptBox["\[Mu]Prior1", "2"]}], "+", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    SuperscriptBox["x1", "2"], " ", "\[Kappa]Dist"}], "+", 
+                    SuperscriptBox["\[Mu]Prior1", "2"]}], ")"}], " ", 
+                    SuperscriptBox["\[Mu]Prior2", "2"]}]}], ")"}], 
+                    RowBox[{"2", "+", 
+                    FractionBox["1", "\[Kappa]Dist"]}]]}], "]"}]}], ")"}], 
+            "2"]], 
+          RowBox[{
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{"\[Mu]Prior1", "\[GreaterEqual]", "0"}], "||", 
+                RowBox[{"\[Mu]Prior2", "\[GreaterEqual]", "0"}]}], ")"}], 
+            "&&", 
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{"\[Mu]Prior1", "<", "0"}], "||", 
+                RowBox[{"\[Mu]Prior2", "<", "0"}]}], ")"}], "&&", 
+            RowBox[{
+              RowBox[{
+                FractionBox[
+                 RowBox[{
+                   SuperscriptBox["x1", "2"], " ", "\[Kappa]Dist"}], 
+                 SuperscriptBox["\[Mu]Prior1", "2"]], "+", 
+                FractionBox[
+                 RowBox[{
+                   SuperscriptBox["x2", "2"], " ", "\[Kappa]Dist"}], 
+                 SuperscriptBox["\[Mu]Prior2", "2"]]}], ">", 
+              RowBox[{"-", "1"}]}], "&&", 
+            RowBox[{
+              FractionBox[
+               RowBox[{"\[Kappa]Dist", " ", 
+                 SqrtBox[
+                  FractionBox[
+                   RowBox[{"1", "+", 
+                    RowBox[{"2", " ", "\[Kappa]Div"}]}], 
+                   RowBox[{"1", "+", 
+                    RowBox[{"4", " ", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Dist"}], ")"}], " ", 
+                    "\[Kappa]Div"}]}]]], " ", 
+                 RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"\[FormalX]2", "-", "\[Mu]Post2"}], ")"}], "2"], 
+                    " ", 
+                    SuperscriptBox["\[Sigma]Post1", "2"]}], "+", 
+                    RowBox[{
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"\[FormalX]1", "-", "\[Mu]Post1"}], ")"}], "2"], 
+                    " ", 
+                    SuperscriptBox["\[Sigma]Post2", "2"]}]}], ")"}]}], 
+               RowBox[{
+                 SuperscriptBox["\[Sigma]Post1", "2"], " ", 
+                 SuperscriptBox["\[Sigma]Post2", "2"]}]], "\[LessEqual]", 
+              RowBox[{"-", "1"}]}]}]}, {
+          FractionBox[
+           RowBox[{"2", " ", 
+             RowBox[{"ProbabilityDistribution", "[", 
+               RowBox[{"ComplexInfinity", ",", 
+                 RowBox[{"{", 
+                   RowBox[{"\[FormalX]1", ",", 
+                    RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}],
+                  ",", 
+                 RowBox[{"{", 
+                   RowBox[{"\[FormalX]2", ",", 
+                    RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], 
+                   "}"}]}], "]"}]}], 
+           SuperscriptBox[
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{"2", " ", 
+                  RowBox[{"Log", "[", "\[Pi]", "]"}]}], "-", 
+                RowBox[{"2", " ", 
+                  RowBox[{"Log", "[", 
+                    RowBox[{"\[Mu]Prior1", " ", "\[Mu]Prior2"}], "]"}]}], "+", 
+                RowBox[{"Log", "[", 
+                  RowBox[{"4", " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{
+                    SuperscriptBox["\[Mu]Prior1", "2"], " ", 
+                    SuperscriptBox["\[Mu]Prior2", "2"]}], ")"}], 
+                    RowBox[{
+                    RowBox[{"-", "1"}], "/", "\[Kappa]Dist"}]], " ", 
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    SuperscriptBox["x2", "2"], " ", "\[Kappa]Dist", " ", 
+                    SuperscriptBox["\[Mu]Prior1", "2"]}], "+", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{
+                    SuperscriptBox["x1", "2"], " ", "\[Kappa]Dist"}], "+", 
+                    SuperscriptBox["\[Mu]Prior1", "2"]}], ")"}], " ", 
+                    SuperscriptBox["\[Mu]Prior2", "2"]}]}], ")"}], 
+                    RowBox[{"2", "+", 
+                    FractionBox["1", "\[Kappa]Dist"]}]]}], "]"}]}], ")"}], 
+            "2"]], 
+          RowBox[{
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{"\[Mu]Prior1", "\[GreaterEqual]", "0"}], "||", 
+                RowBox[{"\[Mu]Prior2", "<", "0"}]}], ")"}], "&&", 
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{"\[Mu]Prior1", "<", "0"}], "||", 
+                RowBox[{"\[Mu]Prior2", "\[GreaterEqual]", "0"}]}], ")"}], 
+            "&&", 
+            RowBox[{
+              RowBox[{
+                FractionBox[
+                 RowBox[{
+                   SuperscriptBox["x1", "2"], " ", "\[Kappa]Dist"}], 
+                 SuperscriptBox["\[Mu]Prior1", "2"]], "+", 
+                FractionBox[
+                 RowBox[{
+                   SuperscriptBox["x2", "2"], " ", "\[Kappa]Dist"}], 
+                 SuperscriptBox["\[Mu]Prior2", "2"]]}], ">", 
+              RowBox[{"-", "1"}]}], "&&", 
+            RowBox[{
+              FractionBox[
+               RowBox[{"\[Kappa]Dist", " ", 
+                 SqrtBox[
+                  FractionBox[
+                   RowBox[{"1", "+", 
+                    RowBox[{"2", " ", "\[Kappa]Div"}]}], 
+                   RowBox[{"1", "+", 
+                    RowBox[{"4", " ", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", "\[Kappa]Dist"}], ")"}], " ", 
+                    "\[Kappa]Div"}]}]]], " ", 
+                 RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"\[FormalX]2", "-", "\[Mu]Post2"}], ")"}], "2"], 
+                    " ", 
+                    SuperscriptBox["\[Sigma]Post1", "2"]}], "+", 
+                    RowBox[{
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"\[FormalX]1", "-", "\[Mu]Post1"}], ")"}], "2"], 
+                    " ", 
+                    SuperscriptBox["\[Sigma]Post2", "2"]}]}], ")"}]}], 
+               RowBox[{
+                 SuperscriptBox["\[Sigma]Post1", "2"], " ", 
+                 SuperscriptBox["\[Sigma]Post2", "2"]}]], "\[LessEqual]", 
+              RowBox[{"-", "1"}]}]}]}, {"0", 
+          TagBox["True", "PiecewiseDefault", AutoDelete -> True]}}, 
+        AllowedDimensions -> {2, Automatic}, Editable -> True, 
+        GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Baseline}}}, 
+        GridBoxItemSize -> {"Columns" -> {{Automatic}}, "Rows" -> {{1.}}}, 
+        GridBoxSpacings -> {"Columns" -> {
+            Offset[0.27999999999999997`], {
+             Offset[0.84]}, 
+            Offset[0.27999999999999997`]}, "Rows" -> {
+            Offset[0.2], {
+             Offset[0.4]}, 
+            Offset[0.2]}}, Selectable -> True]}}, 
+     GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Baseline}}}, 
+     GridBoxItemSize -> {"Columns" -> {{Automatic}}, "Rows" -> {{1.}}}, 
+     GridBoxSpacings -> {"Columns" -> {
+         Offset[0.27999999999999997`], {
+          Offset[0.35]}, 
+         Offset[0.27999999999999997`]}, "Rows" -> {
+         Offset[0.2], {
+          Offset[0.4]}, 
+         Offset[0.2]}}], "Piecewise", DeleteWithContents -> True, Editable -> 
+    False, SelectWithContents -> True, Selectable -> False, StripWrapperBoxes -> 
+    True], 
+   InterpretationBox[
+    DynamicModuleBox[{Typeset`open = False}, 
+     TemplateBox[{"Expression", 
+       StyleBox[
+        TagBox[
+         TooltipBox["\"condition\"", 
+          TagBox[
+           RowBox[{
+             FractionBox["1", 
+              SqrtBox[
+               TagBox[
+                GridBox[{{"\[Piecewise]", 
+                   GridBox[{{
+                    SuperscriptBox[
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{
+                    SuperscriptBox["x1", "2"], " ", "\[Kappa]Dist"}], 
+                    SuperscriptBox["\[Mu]Prior1", "2"]], "+", 
+                    FractionBox[
+                    RowBox[{
+                    SuperscriptBox["x2", "2"], " ", "\[Kappa]Dist"}], 
+                    SuperscriptBox["\[Mu]Prior2", "2"]]}], ")"}], 
+                    RowBox[{"2", "+", 
+                    FractionBox["1", "\[Kappa]Dist"]}]], 
+                    RowBox[{
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{
+                    SuperscriptBox["x1", "2"], " ", "\[Kappa]Dist"}], 
+                    SuperscriptBox["\[Mu]Prior1", "2"]], "+", 
+                    FractionBox[
+                    RowBox[{
+                    SuperscriptBox["x2", "2"], " ", "\[Kappa]Dist"}], 
+                    SuperscriptBox["\[Mu]Prior2", "2"]]}], ">", "0"}]}, {
+                    "0", 
+                    TagBox["True", "PiecewiseDefault", AutoDelete -> True]}}, 
+                    ColumnAlignments -> {Left}, ColumnSpacings -> 1.2, 
+                    ColumnWidths -> Automatic, 
+                    AllowedDimensions -> {2, Automatic}, Selectable -> True, 
+                    Editable -> True]}}, ColumnAlignments -> {Left}, 
+                 ColumnSpacings -> 0.5, ColumnWidths -> Automatic], 
+                "Piecewise", SyntaxForm -> Equal, SelectWithContents -> True, 
+                StripWrapperBoxes -> True, Selectable -> False, Editable -> 
+                False, DeleteWithContents -> True]]], "\[GreaterEqual]", 
+             "0"}], Short[#, 7]& ]], Annotation[#, 
+          Short[
+          Piecewise[{{(
+                 1 + $CellContext`x1^2 $CellContext`\[Kappa]Dist \
+$CellContext`\[Mu]Prior1^(-2) + $CellContext`x2^2 $CellContext`\[Kappa]Dist \
+$CellContext`\[Mu]Prior2^(-2))^(2 + $CellContext`\[Kappa]Dist^(-1)), 
+                1 + $CellContext`x1^2 $CellContext`\[Kappa]Dist $CellContext`\
+\[Mu]Prior1^(-2) + $CellContext`x2^2 $CellContext`\[Kappa]Dist $CellContext`\
+\[Mu]Prior2^(-2) > 0}}, 0]^Rational[-1, 2] >= 0, 7], "Tooltip"]& ], 
+        "IconizedCustomName", StripOnInput -> False], 
+       GridBox[{{
+          RowBox[{
+            TagBox["\"Head: \"", "IconizedLabel"], "\[InvisibleSpace]", 
+            TagBox["GreaterEqual", "IconizedItem"]}]}, {
+          RowBox[{
+            TagBox["\"Byte count: \"", "IconizedLabel"], "\[InvisibleSpace]", 
+            
+            TagBox["1624", "IconizedItem"]}]}}, 
+        GridBoxAlignment -> {"Columns" -> {{Left}}}, DefaultBaseStyle -> 
+        "Column", 
+        GridBoxItemSize -> {
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+       Dynamic[Typeset`open]}, "IconizedObject"]], 
+    Piecewise[{{(
+          1 + $CellContext`x1^2 $CellContext`\[Kappa]Dist \
+$CellContext`\[Mu]Prior1^(-2) + $CellContext`x2^2 $CellContext`\[Kappa]Dist \
+$CellContext`\[Mu]Prior2^(-2))^(2 + $CellContext`\[Kappa]Dist^(-1)), 
+         1 + $CellContext`x1^2 $CellContext`\[Kappa]Dist \
+$CellContext`\[Mu]Prior1^(-2) + $CellContext`x2^2 $CellContext`\[Kappa]Dist \
+$CellContext`\[Mu]Prior2^(-2) > 0}}, 0]^Rational[-1, 2] >= 0, 
+    SelectWithContents -> True, Selectable -> False]},
+  "ConditionalExpression"]], "Output",
+ CellChangeTimes->{3.8383259648292837`*^9},
+ CellLabel->
+  "Out[205]=",ExpressionUUID->"cbf8b156-4eab-4748-9f57-94c425e2c820"]
+}, Open  ]]
+}, Open  ]]
 }, Open  ]]
 },
 WindowSize->{1107, 855},
-WindowMargins->{{-1, Automatic}, {Automatic, 0}},
+WindowMargins->{{37, Automatic}, {Automatic, 74}},
 PrintingCopies->1,
 PrintingPageRange->{1, Automatic},
 Magnification:>1.25 Inherited,
@@ -13005,60 +13965,58 @@ Cell[508685, 11305, 563, 10, 96, "Output",ExpressionUUID->"7135ebac-040e-424a-bc
 }, Open  ]],
 Cell[CellGroupData[{
 Cell[509309, 11322, 174, 3, 84, "Section",ExpressionUUID->"4cb01bbf-b6f3-47b1-8c31-b9bf3b6a4518"],
-Cell[509486, 11327, 842, 17, 64, "Input",ExpressionUUID->"5f458fe7-3566-4dc9-bc93-4a66153edf7a"],
+Cell[509486, 11327, 923, 19, 64, "Input",ExpressionUUID->"5f458fe7-3566-4dc9-bc93-4a66153edf7a"],
 Cell[CellGroupData[{
-Cell[510353, 11348, 170, 3, 67, "Subsection",ExpressionUUID->"f2af3ae0-e43b-4e0a-810a-e9fe9a4a5c16"],
+Cell[510434, 11350, 170, 3, 67, "Subsection",ExpressionUUID->"f2af3ae0-e43b-4e0a-810a-e9fe9a4a5c16"],
 Cell[CellGroupData[{
-Cell[510548, 11355, 493, 10, 64, "Input",ExpressionUUID->"2be48d52-cffe-47c1-bd82-4dd75ee6799a"],
-Cell[511044, 11367, 6760, 182, 473, "Output",ExpressionUUID->"89f9ea29-f5cb-4059-acaf-6ccb233cae65"]
+Cell[510629, 11357, 560, 11, 64, "Input",ExpressionUUID->"2be48d52-cffe-47c1-bd82-4dd75ee6799a"],
+Cell[511192, 11370, 23864, 548, 1487, "Output",ExpressionUUID->"7be38081-bd5c-498d-a4ae-c8e611e5c516"]
 }, Open  ]],
-Cell[517819, 11552, 3721, 107, 326, "Input",ExpressionUUID->"57e1ae55-d00f-466f-86ec-c21b12e9e68a"],
+Cell[535071, 11921, 173, 3, 43, "Text",ExpressionUUID->"57881073-774a-4667-b6d8-9dacd482c8ec"],
 Cell[CellGroupData[{
-Cell[521565, 11663, 3620, 102, 321, InheritFromParent,ExpressionUUID->"da1763e2-86aa-4e46-bba5-ea63c1487cfd"],
-Cell[525188, 11767, 156, 2, 42, "Output",ExpressionUUID->"1a2e4ee8-2399-4674-b2e4-f0fa235dcb53"]
-}, Open  ]],
-Cell[525359, 11772, 202, 3, 44, "Text",ExpressionUUID->"39492619-ac02-4015-80df-7928e7d430db"],
-Cell[CellGroupData[{
-Cell[525586, 11779, 3798, 104, 321, "Input",ExpressionUUID->"d63d8b1c-88e8-4052-9aca-eac646e82ed9"],
-Cell[529387, 11885, 2287, 67, 121, "Output",ExpressionUUID->"56fef7af-e4dc-49e0-8b5a-1d0142b1b239"]
+Cell[535269, 11928, 268, 5, 37, "Input",ExpressionUUID->"33428ddf-03c7-4848-8792-2d7a21473a41"],
+Cell[535540, 11935, 1757, 53, 132, "Output",ExpressionUUID->"0fd74837-5faf-4cff-94e9-a616917af0b2"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[531711, 11957, 2436, 69, 187, "Input",ExpressionUUID->"083b6094-3ca5-4dfb-921a-5918d1ba1482"],
-Cell[534150, 12028, 2263, 67, 121, "Output",ExpressionUUID->"62e2b774-3830-415a-87a8-91636fd17c1a"]
+Cell[537334, 11993, 211, 4, 56, "Subsubsection",ExpressionUUID->"b736d6b9-2d7c-42e6-9930-3ed7a0ae60f1"],
+Cell[537548, 11999, 639, 14, 187, "Text",ExpressionUUID->"c50f9056-6e21-4c37-b095-2e5f813238a1"],
+Cell[538190, 12015, 1967, 55, 142, "Input",ExpressionUUID->"146c6b89-f753-40d3-a8a5-c28a824d31ed"],
+Cell[540160, 12072, 340, 8, 58, "Input",ExpressionUUID->"23d466c2-7c27-4c2f-9d12-e4aed0f75b95"],
+Cell[540503, 12082, 1757, 53, 116, InheritFromParent,ExpressionUUID->"74ca1dfd-ef62-4b81-9d0b-3783275f156c"],
+Cell[542263, 12137, 1906, 58, 136, "Text",ExpressionUUID->"ef648fc3-2a56-4122-ad48-610ae95fdb13"],
+Cell[544172, 12197, 1707, 52, 114, "Input",ExpressionUUID->"5f4e0150-ed8b-4d33-978c-5a5fecbbcb61"],
+Cell[545882, 12251, 309, 5, 44, "Text",ExpressionUUID->"03c29459-8d58-40f5-b93b-2ce1d493ae08"],
+Cell[CellGroupData[{
+Cell[546216, 12260, 3822, 113, 251, "Input",ExpressionUUID->"e0422523-fefe-4c68-b64c-66c894a5941a"],
+Cell[550041, 12375, 3789, 114, 225, "Output",ExpressionUUID->"c4b8ce63-f586-4e4a-90b9-4537718b9298"]
 }, Open  ]],
-Cell[536428, 12098, 158, 3, 44, "Text",ExpressionUUID->"a3b9557f-05ab-4e48-8ffb-83398b155f1c"],
-Cell[536589, 12103, 2199, 67, 148, "Input",ExpressionUUID->"ee0331ad-6dcc-4d9b-9d31-fda29d6227f0"],
-Cell[538791, 12172, 181, 3, 44, "Text",ExpressionUUID->"aa127a3a-d5ba-4f56-a179-d4d4bd9c7a50"],
-Cell[CellGroupData[{
-Cell[538997, 12179, 2511, 70, 158, "Input",ExpressionUUID->"7330ec80-8be2-4754-9583-0d812b6a8596"],
-Cell[541511, 12251, 1941, 60, 121, "Output",ExpressionUUID->"b419ad4f-60a7-4527-9e89-a5ae86dbf393"]
-}, Open  ]],
-Cell[543467, 12314, 160, 3, 44, "Text",ExpressionUUID->"b04dbc72-dcd1-4368-9fdf-6c61506e2391"],
-Cell[543630, 12319, 2638, 78, 154, "Input",ExpressionUUID->"b8adedd8-6e24-4589-b824-f4f68ff27093"],
-Cell[CellGroupData[{
-Cell[546293, 12401, 211, 4, 56, "Subsubsection",ExpressionUUID->"b736d6b9-2d7c-42e6-9930-3ed7a0ae60f1"],
-Cell[546507, 12407, 639, 14, 188, "Text",ExpressionUUID->"c50f9056-6e21-4c37-b095-2e5f813238a1"],
-Cell[547149, 12423, 1791, 52, 137, "Input",ExpressionUUID->"146c6b89-f753-40d3-a8a5-c28a824d31ed"],
-Cell[CellGroupData[{
-Cell[548965, 12479, 330, 7, 56, "Input",ExpressionUUID->"23d466c2-7c27-4c2f-9d12-e4aed0f75b95"],
-Cell[549298, 12488, 1712, 52, 117, "Output",ExpressionUUID->"325e94f4-6cdd-435b-95ac-7c93512f97c3"]
-}, Open  ]],
-Cell[551025, 12543, 1707, 52, 114, "Input",ExpressionUUID->"5f4e0150-ed8b-4d33-978c-5a5fecbbcb61"],
-Cell[552735, 12597, 1995, 53, 166, "Text",ExpressionUUID->"03c29459-8d58-40f5-b93b-2ce1d493ae08"],
-Cell[554733, 12652, 154, 3, 37, "Input",ExpressionUUID->"ea2f8d22-7b82-4e4b-9f6c-b23afc58aaea"],
-Cell[CellGroupData[{
-Cell[554912, 12659, 1571, 50, 76, "Input",ExpressionUUID->"0efba2e4-de51-4dec-8e1a-8a87fa101329"],
-Cell[556486, 12711, 1916, 60, 76, "Output",ExpressionUUID->"60bc7da7-d97e-4b99-bce7-c1349348e737"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[558439, 12776, 1293, 40, 74, "Input",ExpressionUUID->"06fcd94e-8f00-4745-8cc2-73fcb666897a"],
-Cell[559735, 12818, 1413, 44, 101, "Output",ExpressionUUID->"8f29a5f3-1165-4551-9c8a-78ab6e3090f6"]
-}, Open  ]]
+Cell[553845, 12492, 158, 3, 44, "Text",ExpressionUUID->"12b3d0ba-d509-416f-b294-35fdcbff8279"],
+Cell[554006, 12497, 2381, 69, 191, "Input",ExpressionUUID->"0450a2f5-c187-450d-b5b4-9f3a2ddd728d"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[561209, 12869, 168, 3, 67, "Subsection",ExpressionUUID->"e799f090-7b5e-4921-83c5-571bbbcac89b"],
-Cell[561380, 12874, 855, 21, 64, "Input",ExpressionUUID->"9fb49256-fc24-4588-948b-79c7218fdcd5"]
+Cell[556436, 12572, 168, 3, 67, "Subsection",ExpressionUUID->"e799f090-7b5e-4921-83c5-571bbbcac89b"],
+Cell[556607, 12577, 855, 21, 64, "Input",ExpressionUUID->"9fb49256-fc24-4588-948b-79c7218fdcd5"]
+}, Open  ]]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[557511, 12604, 227, 5, 113, "Section",ExpressionUUID->"d041046d-7e41-4a65-a616-27fe1fc561b6"],
+Cell[557741, 12611, 581, 11, 131, "Text",ExpressionUUID->"03ae72f1-6d96-4ead-941a-26361c8e4577"],
+Cell[558325, 12624, 186, 3, 44, "Text",ExpressionUUID->"e2e39390-a7d1-43df-975a-905415f19045"],
+Cell[558514, 12629, 2189, 61, 220, "Input",ExpressionUUID->"c81f3b4a-e806-4b8d-b317-902e44d9b979"],
+Cell[CellGroupData[{
+Cell[560728, 12694, 1512, 34, 90, "Input",ExpressionUUID->"d292a72a-5c7f-4d1e-952a-8bc23615b647"],
+Cell[562243, 12730, 1078, 26, 73, "Output",ExpressionUUID->"c9b501d6-a4e5-4d76-85f1-036561b35b4f"]
+}, Open  ]],
+Cell[563336, 12759, 481, 9, 131, "Text",ExpressionUUID->"2e810095-0828-4b6c-9eb9-d2e150b8e07f"],
+Cell[563820, 12770, 3563, 77, 425, "Input",ExpressionUUID->"db7f7ac3-682d-43e0-9ad8-021fa6803e72"],
+Cell[CellGroupData[{
+Cell[567408, 12851, 185, 3, 67, "Subsection",ExpressionUUID->"5b543769-dd0f-4612-8f3b-9a8fe1a3db7f"],
+Cell[567596, 12856, 229, 4, 44, "Text",ExpressionUUID->"772957f6-8590-485d-93c4-34c736518c9b"],
+Cell[CellGroupData[{
+Cell[567850, 12864, 397, 8, 37, "Input",ExpressionUUID->"13c3315b-eaf3-466e-87bf-7fccd76e713a"],
+Cell[568250, 12874, 42544, 980, 3016, "Output",ExpressionUUID->"cbf8b156-4eab-4748-9f57-94c425e2c820"]
+}, Open  ]]
 }, Open  ]]
 }, Open  ]]
 }
