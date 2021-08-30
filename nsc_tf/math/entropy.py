@@ -17,7 +17,8 @@ def importance_sampling_integrator(function, pdf, sampler, n=10000, seed=1):
     Parameters
     ----------
     function : function
-        The function being integrated.
+        The function being integrated. It can have multiple outputs if they
+        are batched.
     pdf : function
         The probability density function of the distribution generating the 
         random numbers.
@@ -88,14 +89,14 @@ def coupled_probability(density_func,
 
     
     # Calculate the risk-bias.
-    kMult = (-alpha * kappa) / (1 + dim*kappa)
+    risk_bias = (-alpha * kappa) / (1 + dim*kappa)
     
     def raised_density_func(x):
-        return density_func(x) ** (1-kMult)
+        return density_func(x) ** (1-risk_bias)
     
 
     def raised_density_func_integration(x):
-        return density_func(x) ** (1-kMult)
+        return density_func(x) ** (1-risk_bias)
     
     # Calculate the normalization factor to the coupled CDF equals 1.
     division_factor = importance_sampling_integrator(raised_density_func_integration, 

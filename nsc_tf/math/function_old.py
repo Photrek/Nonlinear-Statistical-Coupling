@@ -117,17 +117,17 @@ def coupled_probability(density_func: Callable[..., np.ndarray],
 
     """
     # Calculate the risk-bias.
-    kMult = (-alpha * kappa) / (1 + dim*kappa)
+    risk_bias = (-alpha * kappa) / (1 + dim*kappa)
 
     def raised_density_func(x):
-        return density_func(x) ** (1-kMult)
+        return density_func(x) ** (1-risk_bias)
 
     def raised_density_func_integration(*args):
         if dim == 1:
             x = np.array(args)
         else:
             x = np.array([args]).reshape(1, dim)
-        return density_func(x) ** (1-kMult)
+        return density_func(x) ** (1-risk_bias)
 
     # Calculate the normalization factor to the coupled CDF equals 1.
     division_factor = nquad(raised_density_func_integration, support)[0]
@@ -494,9 +494,9 @@ def coupled_probability(dist, dx: float, kappa: float = 0.0, alpha: float = 1.0,
     """
     
     # Calculate the risk-bias.
-    kMult = (-alpha * kappa) / (1 + dim*kappa)
+    risk_bias = (-alpha * kappa) / (1 + dim*kappa)
     # Raise the distribution densities to 1 - the risk-bias
-    new_dist_temp = dist ** (1-kMult)
+    new_dist_temp = dist ** (1-risk_bias)
     # Forget dist inside the function to free up memory.
     del dist
     # Calculate the normalization factor to the coupled CDF equals 1.
