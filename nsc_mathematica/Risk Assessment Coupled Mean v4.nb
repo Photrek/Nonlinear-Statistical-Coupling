@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[   1503749,      30197]
-NotebookOptionsPosition[   1484776,      29911]
-NotebookOutlinePosition[   1485255,      29930]
-CellTagsIndexPosition[   1485212,      29927]
+NotebookDataLength[   1506940,      30275]
+NotebookOptionsPosition[   1487260,      29977]
+NotebookOutlinePosition[   1487739,      29996]
+CellTagsIndexPosition[   1487696,      29993]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -27207,7 +27207,7 @@ Cell[BoxData[""], "Input",
    3.916682713027396*^9},ExpressionUUID->"bf4df238-79fa-4f85-9b76-\
 599bcfe07026"]
 }, Open  ]]
-}, Open  ]],
+}, Closed]],
 
 Cell[CellGroupData[{
 
@@ -27842,7 +27842,7 @@ Cell[BoxData[
  CellLabel->"Out[78]=",ExpressionUUID->"d9d279ea-117d-405c-8a02-15db24646a98"]
 }, Open  ]]
 }, Open  ]]
-}, Open  ]],
+}, Closed]],
 
 Cell[CellGroupData[{
 
@@ -29907,10 +29907,76 @@ Cell["Coupled Mean of Two State Examples", "Subsection",
  CellChangeTimes->{{3.801044166945435*^9, 
   3.801044177888317*^9}},ExpressionUUID->"cf5c1957-4fa7-42d4-a3ed-\
 550d2afa5b2e"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Coupled ELBO Assessment Example", "Section",
+ CellChangeTimes->{{3.926484787956389*^9, 
+  3.9264847992252827`*^9}},ExpressionUUID->"3f928b20-5392-4d6a-b311-\
+b21fbf0f5af9"],
+
+Cell[CellGroupData[{
+
+Cell["Description of Coupled ELBO Assessment", "Subsection",
+ CellChangeTimes->{{3.926484826065757*^9, 
+  3.926484839140167*^9}},ExpressionUUID->"c01e7f70-7d36-45ab-b05b-\
+9e59432e6eb4"],
+
+Cell["\<\
+The Evidence Lower Bound (ELBO) is composed of two components the divergence \
+between the latent posterior and prior probabilities and log-likelihood of \
+the data reconstruction. In  log-space the coupled components are additive, \
+thus in the probability space the components are combined using the coupled \
+product.\
+\>", "Text",
+ CellChangeTimes->{{3.926484845820641*^9, 3.926484871480921*^9}, {
+  3.9264849666432247`*^9, 3.9264849851021967`*^9}, {3.926485025146194*^9, 
+  3.9264850296728983`*^9}, {3.926485079833449*^9, 3.926485120707171*^9}, {
+  3.92693292533897*^9, 
+  3.9269329822693253`*^9}},ExpressionUUID->"db40b99d-ce8a-4de9-ab7d-\
+d56b4fbed40c"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Coupled Log-Likelihood", "Subsection",
+ CellChangeTimes->{{3.9269330126323013`*^9, 
+  3.926933018894125*^9}},ExpressionUUID->"57560bb4-ec53-4ef3-97e5-\
+5d49404a00a6"],
+
+Cell[TextData[{
+ "The ELBO training cost function measures the log-likelihood of the \
+reconstructed images, treating each pixel and image as independent. For the \
+assessment, a cross-entropy between the original data and the reconstructed \
+data is measured.\n\nQuestion: ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"p", "(", 
+    RowBox[{
+     SubscriptBox["x", "i"], "|", 
+     SubscriptBox["z", "i"]}], ")"}], TraditionalForm]],
+  FormatType->TraditionalForm,ExpressionUUID->
+  "38d5874a-5d1b-4e37-9149-b76947fd0898"],
+ " represents the probability of the data x (an image for instance) given a \
+latent variable z. Put the algorithm seems to be measuring the p(white) and \
+p(black) for each image.  How does this represent the probability of the \
+reconstruction be a sample from the data?"
+}], "Text",
+ CellChangeTimes->{{3.926933072304605*^9, 3.926933156789051*^9}, {
+  3.9269332158816*^9, 
+  3.926933498208438*^9}},ExpressionUUID->"4eec0594-8851-401d-ab1c-\
+9f0a01979590"],
+
+Cell["Source and Generated Images", "Subsubsection",
+ CellChangeTimes->{{3.9269342297217216`*^9, 
+  3.926934237499072*^9}},ExpressionUUID->"70112723-170b-463e-a986-\
+0a1e45b6dabd"]
+}, Open  ]]
 }, Open  ]]
 },
 WindowSize->{921, 847},
-WindowMargins->{{10, Automatic}, {Automatic, 0}},
+WindowMargins->{{12, Automatic}, {Automatic, 0}},
 PrintingCopies->1,
 PrintingPageRange->{1, Automatic},
 Magnification:>1.5 Inherited,
@@ -30031,8 +30097,8 @@ Cell[819537, 15808, 346, 5, 81, "Subsection",ExpressionUUID->"5f90ecea-5780-4e82
 Cell[819886, 15815, 992, 19, 329, "Text",ExpressionUUID->"24837619-4cb1-43de-bae8-0247624be931"],
 Cell[820881, 15836, 223, 5, 53, "Text",ExpressionUUID->"8ff8589f-bf76-4734-b0f7-9e4ac0b58e3b"],
 Cell[CellGroupData[{
-Cell[821129, 15845, 2440, 61, 317, "Input",ExpressionUUID->"cb9f5092-1751-4e3b-9cc9-813b285028a2"],
-Cell[823572, 15908, 680, 20, 104, "Output",ExpressionUUID->"acea301f-a2f0-4900-92c7-a02f4ca48bf0"]
+Cell[821129, 15845, 2440, 61, 300, "Input",ExpressionUUID->"cb9f5092-1751-4e3b-9cc9-813b285028a2"],
+Cell[823572, 15908, 680, 20, 87, "Output",ExpressionUUID->"acea301f-a2f0-4900-92c7-a02f4ca48bf0"]
 }, Open  ]],
 Cell[824267, 15931, 287, 6, 88, "Text",ExpressionUUID->"953b4c84-20bd-44cc-8b9f-0aa0b2e25434"],
 Cell[824557, 15939, 4499, 102, 574, "Input",ExpressionUUID->"4d611c11-65dd-43f9-9845-4f1c65817af9"],
@@ -30126,9 +30192,9 @@ Cell[1366270, 26927, 14273, 270, 1261, "Input",ExpressionUUID->"06fe6ddc-3a5b-4b
 Cell[1380546, 27199, 147, 3, 78, "Input",ExpressionUUID->"27af8c35-57ee-4352-9f17-f04882bedb2a"],
 Cell[1380696, 27204, 177, 3, 46, "Input",ExpressionUUID->"bf4df238-79fa-4f85-9b76-599bcfe07026"]
 }, Open  ]]
-}, Open  ]],
+}, Closed]],
 Cell[CellGroupData[{
-Cell[1380922, 27213, 165, 3, 101, "Section",ExpressionUUID->"c38dfeda-0dbd-4214-82d8-1a52cdf5b2e2"],
+Cell[1380922, 27213, 165, 3, 78, "Section",ExpressionUUID->"c38dfeda-0dbd-4214-82d8-1a52cdf5b2e2"],
 Cell[1381090, 27218, 423, 9, 157, "Text",ExpressionUUID->"b4658bbb-3171-4a81-af53-b0a372ca88c2"],
 Cell[1381516, 27229, 273, 6, 53, "Text",ExpressionUUID->"6553b507-d727-4808-b997-6e48cdc88f5d"],
 Cell[1381792, 27237, 253, 4, 53, "Text",ExpressionUUID->"3aa728c1-74db-4c30-963f-d6134adec814"],
@@ -30167,9 +30233,9 @@ Cell[1401587, 27815, 439, 12, 69, "Input",ExpressionUUID->"f671a7e4-ca01-498c-8c
 Cell[1402029, 27829, 460, 12, 103, "Output",ExpressionUUID->"d9d279ea-117d-405c-8a02-15db24646a98"]
 }, Open  ]]
 }, Open  ]]
-}, Open  ]],
+}, Closed]],
 Cell[CellGroupData[{
-Cell[1402550, 27848, 196, 3, 158, "Section",ExpressionUUID->"b7a40297-b97d-43bc-b132-60433d4d0c2f"],
+Cell[1402550, 27848, 196, 3, 135, "Section",ExpressionUUID->"b7a40297-b97d-43bc-b132-60433d4d0c2f"],
 Cell[1402749, 27853, 402, 8, 157, "Text",ExpressionUUID->"3b83550d-5140-47df-a2a8-014beff3db68"],
 Cell[CellGroupData[{
 Cell[1403176, 27865, 169, 3, 67, "Subsubsection",ExpressionUUID->"6846b3f8-5b63-4592-9b9f-e7aa37029fe2"],
@@ -30198,6 +30264,18 @@ Cell[1473311, 29596, 186, 3, 81, "Subsection",ExpressionUUID->"8b1f3df3-3b6a-4a8
 Cell[1473500, 29601, 11063, 301, 1464, "Text",ExpressionUUID->"baca9752-b88d-4044-8b36-d60f274583d6"]
 }, Open  ]],
 Cell[1484578, 29905, 182, 3, 81, "Subsection",ExpressionUUID->"cf5c1957-4fa7-42d4-a3ed-550d2afa5b2e"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[1484797, 29913, 178, 3, 78, "Section",ExpressionUUID->"3f928b20-5392-4d6a-b311-b21fbf0f5af9"],
+Cell[CellGroupData[{
+Cell[1485000, 29920, 186, 3, 81, "Subsection",ExpressionUUID->"c01e7f70-7d36-45ab-b05b-9e59432e6eb4"],
+Cell[1485189, 29925, 670, 12, 191, "Text",ExpressionUUID->"db40b99d-ce8a-4de9-ab7d-d56b4fbed40c"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1485896, 29942, 172, 3, 81, "Subsection",ExpressionUUID->"57560bb4-ec53-4ef3-97e5-5d49404a00a6"],
+Cell[1486071, 29947, 978, 21, 297, "Text",ExpressionUUID->"4eec0594-8851-401d-ab1c-9f0a01979590"],
+Cell[1487052, 29970, 180, 3, 67, "Subsubsection",ExpressionUUID->"70112723-170b-463e-a986-0a1e45b6dabd"]
+}, Open  ]]
 }, Open  ]]
 }
 ]

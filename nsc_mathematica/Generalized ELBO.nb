@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[    498485,       9673]
-NotebookOptionsPosition[    494598,       9601]
-NotebookOutlinePosition[    495023,       9618]
-CellTagsIndexPosition[    494980,       9615]
+NotebookDataLength[    498550,       9639]
+NotebookOptionsPosition[    494668,       9567]
+NotebookOutlinePosition[    495082,       9584]
+CellTagsIndexPosition[    495039,       9581]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -5402,8 +5402,7 @@ particular the relationship  ",
          FontWeight->"Plain"]}], 
        StyleBox[")",
         FontWeight->"Plain"]}]}]}]}], TraditionalForm]], "Input",
-  FormatType->"TraditionalForm",ExpressionUUID->
-  "51931520-33c1-4cfd-91a0-39e516fdc6d9"],
+  ExpressionUUID->"51931520-33c1-4cfd-91a0-39e516fdc6d9"],
  ". The cross-entropy expression from which the coupled entropy and coupled \
 divergence can be derived has the form \n",
  Cell[BoxData[
@@ -5429,8 +5428,7 @@ divergence can be derived has the form \n",
        SubscriptBox["log", 
         RowBox[{"\[Kappa]", ",", "\[Alpha]", ",", "d"}]], 
        SuperscriptBox["q", 
-        RowBox[{"-", "1"}]]}], "]"}]}]}], TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
+        RowBox[{"-", "1"}]]}], "]"}]}]}], TraditionalForm]],ExpressionUUID->
   "b73daffa-0c7e-4017-99c7-dfbf1778e662"],
  ". To facilitate further analysis the expressions for the generalized ELBO \
 were written so that ",
@@ -5438,8 +5436,7 @@ were written so that ",
   FormBox[
    FractionBox[
     RowBox[{"-", "1"}], 
-    RowBox[{"2", "\[Kappa]"}]], TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
+    RowBox[{"2", "\[Kappa]"}]], TraditionalForm]],ExpressionUUID->
   "1e8d4348-b14e-473b-9837-a47828d86d42"],
  "is the multiple for both terms and the probabilities are raised to the \
 power ",
@@ -5449,28 +5446,33 @@ power ",
     RowBox[{
      RowBox[{"-", "\[Alpha]"}], " ", "\[Kappa]"}], 
     RowBox[{"1", " ", "+", " ", 
-     RowBox[{"d", " ", "\[Kappa]"}]}]], TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
+     RowBox[{"d", " ", "\[Kappa]"}]}]], TraditionalForm]],ExpressionUUID->
   "ee82bd25-1ab1-456b-a332-5d6680ecd947"],
- "."
+ ". The generalized ELBO is going to be optimized for different values of \
+\[Kappa] with \[Alpha] = 2",
+ StyleBox[".",
+  FontSlant->"Italic"]
 }], "Text",
  CellChangeTimes->{{3.8254202566836777`*^9, 3.825420506875201*^9}, {
   3.825420542837049*^9, 3.8254206383621607`*^9}, {3.825420668483214*^9, 
   3.825420698901121*^9}, {3.8254207496073236`*^9, 3.825420793875718*^9}, {
   3.825420829142066*^9, 3.8254209629506407`*^9}, {3.825421326469761*^9, 
   3.825421332810667*^9}, {3.825421385940749*^9, 3.825421486467236*^9}, {
-  3.825421868735942*^9, 
-  3.825421910683133*^9}},ExpressionUUID->"579faf2f-7ffb-46d4-a62e-\
-abd7f67882ce"],
+  3.825421868735942*^9, 3.825421910683133*^9}, {3.933397362930677*^9, 
+  3.933397363929315*^9}, {3.9333976110985813`*^9, 
+  3.9333976119641657`*^9}},ExpressionUUID->"579faf2f-7ffb-46d4-a62e-\
+abd7f67882ce"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Risk Assessment - Coupled ELBO in Probability Domain", "Subsection",
+ CellChangeTimes->{{3.933397392937558*^9, 
+  3.933397419981657*^9}},ExpressionUUID->"178b8903-df24-447d-9cdd-\
+98f3e260c1ce"],
 
 Cell[TextData[{
- "The generalized ELBO is going to be optimized for different values of \
-\[Kappa] with \[Alpha] = 2 and ",
- StyleBox["d ",
-  FontSlant->"Italic"],
- "= 1",
- StyleBox[". ",
-  FontSlant->"Italic"],
  "To facilitate a comparison across \[Kappa], the single sample expression \
 can be translated to the probability domain by applying the inverse of the \
 coupled logarithm expression.\nGiven ",
@@ -5526,69 +5528,201 @@ coupled logarithm expression.\nGiven ",
       RowBox[{"d", " ", "\[Kappa]"}]}], "\[Alpha]"]], TraditionalForm]],
   ExpressionUUID->"9a3e7a32-7704-4672-8570-c297d8455729"],
  ". Completing this translation to the probability domain and substituting \
-for alpha and d gives\n",
+for \[Alpha] = 2 and d = 1 gives the following expressions. Note that in the \
+probability domain the coupled divergence and the coupled log-likelihood are \
+combined using the coupled product.\n",
  Cell[BoxData[
   FormBox[
-   SuperscriptBox[
-    RowBox[{
-     RowBox[{
+   RowBox[{
+    SuperscriptBox[
+     RowBox[{"(", 
       RowBox[{
-       SuperscriptBox[
-        RowBox[{"(", 
+       SubscriptBox["exp", "\[Kappa]"], "(", 
+       RowBox[{"2", 
+        RowBox[{"\[ScriptCapitalL]", "(", 
          RowBox[{
-          SubscriptBox["exp", "\[Kappa]"], "(", 
-          RowBox[{"2", 
-           RowBox[{"\[ScriptCapitalL]", "(", 
+          StyleBox["\[Theta]",
+           FontWeight->"Bold"], ",", 
+          RowBox[{
+           StyleBox["\[Phi]",
+            FontWeight->"Bold"], ";", "\[Kappa]"}], ",", "2", ",", 
+          RowBox[{"1", ";", 
+           SuperscriptBox[
+            StyleBox["x",
+             FontWeight->"Bold"], 
+            RowBox[{"(", "i", ")"}]]}]}], ")"}]}], ")"}], ")"}], 
+     FractionBox[
+      RowBox[{"1", "+", 
+       RowBox[{"d", " ", "\[Kappa]"}]}], 
+      RowBox[{"-", "2", " "}]]], "=", "\[IndentingNewLine]", 
+    RowBox[{
+     SuperscriptBox[
+      RowBox[{"(", 
+       RowBox[{
+        SubscriptBox["exp", "\[Kappa]"], "(", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"-", "2"}], 
+          RowBox[{
+           SubscriptBox["D", "\[Kappa]"], "(", 
+           RowBox[{
             RowBox[{
-             StyleBox["\[Theta]",
-              FontWeight->"Bold"], ",", 
-             RowBox[{
+             SubsuperscriptBox["q", 
               StyleBox["\[Phi]",
-               FontWeight->"Bold"], ";", "\[Kappa]"}], ",", "2", ",", 
-             RowBox[{"1", ";", 
+               FontWeight->"Bold"], 
+              RowBox[{"2", "/", 
+               RowBox[{"(", 
+                RowBox[{"1", "+", 
+                 RowBox[{"d", " ", "\[Kappa]"}]}], ")"}]}]], "(", 
+             RowBox[{
+              StyleBox["z",
+               FontWeight->"Bold"], "|", 
               SuperscriptBox[
                StyleBox["x",
                 FontWeight->"Bold"], 
-               RowBox[{"(", "i", ")"}]]}]}], ")"}]}], ")"}], ")"}], 
-        FractionBox[
-         RowBox[{"1", "+", 
-          RowBox[{"d", " ", "\[Kappa]"}]}], 
-         RowBox[{"-", "2", " "}]]], "=", 
-       SuperscriptBox[
-        RowBox[{"(", 
-         RowBox[{"1", "+", 
-          RowBox[{"2", 
-           RowBox[{"\[Kappa]", "(", 
+               RowBox[{"(", "i", ")"}]]}], ")"}], "||", 
             RowBox[{
+             SubsuperscriptBox["p", 
+              StyleBox["\[Theta]",
+               FontWeight->"Bold"], 
+              RowBox[{"2", "/", 
+               RowBox[{"(", 
+                RowBox[{"1", "+", 
+                 RowBox[{"d", " ", "\[Kappa]"}]}], ")"}]}]], "(", 
+             StyleBox["z",
+              FontWeight->"Bold"], ")"}]}], ")"}]}], " ", "+", " ", 
+         RowBox[{"2", 
+          RowBox[{
+           SubscriptBox["\[DoubleStruckCapitalE]", 
+            RowBox[{
+             SubsuperscriptBox["q", 
+              StyleBox["\[Phi]",
+               FontWeight->"Bold"], 
+              RowBox[{"(", 
+               RowBox[{"2", ",", "d", ",", "\[Kappa]"}], ")"}]], "(", 
              RowBox[{
-              FractionBox[
-               RowBox[{"-", "1"}], 
-               RowBox[{"2", "\[Kappa]"}]], 
+              StyleBox["z",
+               FontWeight->"Bold"], "|", 
+              SuperscriptBox[
+               StyleBox["x",
+                FontWeight->"Bold"], 
+               RowBox[{"(", "i", ")"}]]}], ")"}]], "[", 
+           RowBox[{
+            SubscriptBox["log", "\[Kappa]"], 
+            RowBox[{
+             SubsuperscriptBox["p", 
+              StyleBox["\[Theta]",
+               FontWeight->"Bold"], 
+              RowBox[{"2", "/", 
+               RowBox[{"(", 
+                RowBox[{"1", "+", 
+                 RowBox[{"d", " ", "\[Kappa]"}]}], ")"}]}]], "(", 
+             RowBox[{
+              SuperscriptBox[
+               StyleBox["x",
+                FontWeight->"Bold"], 
+               RowBox[{"(", "i", ")"}]], "|", 
+              StyleBox["z",
+               FontWeight->"Bold"]}], ")"}]}], "]"}]}]}], ")"}], ")"}], 
+      FractionBox[
+       RowBox[{"1", "+", " ", 
+        RowBox[{"d", " ", "\[Kappa]"}]}], 
+       RowBox[{"-", "2", " "}]]], "=", 
+     SuperscriptBox[
+      RowBox[{"(", " ", 
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{
+          SubscriptBox["exp", "\[Kappa]"], "(", 
+          RowBox[{
+           RowBox[{"-", "2"}], 
+           RowBox[{
+            RowBox[{
+             SubscriptBox["D", "\[Kappa]"], "(", 
+             RowBox[{
               RowBox[{
-               SubscriptBox["\[Integral]", 
-                RowBox[{
-                 StyleBox["z",
-                  FontWeight->"Bold"], "\[Element]", 
-                 SuperscriptBox["\[DoubleStruckCapitalR]", "d"]}]], 
+               SubsuperscriptBox["q", 
+                StyleBox["\[Phi]",
+                 FontWeight->"Bold"], 
+                RowBox[{"2", "/", 
+                 RowBox[{"(", 
+                  RowBox[{"1", "+", 
+                   RowBox[{"d", " ", "\[Kappa]"}]}], ")"}]}]], "(", 
                RowBox[{
+                StyleBox["z",
+                 FontWeight->"Bold"], "|", 
                 SuperscriptBox[
+                 StyleBox["x",
+                  FontWeight->"Bold"], 
+                 RowBox[{"(", "i", ")"}]]}], ")"}], "||", 
+              RowBox[{
+               SubsuperscriptBox["p", 
+                StyleBox["\[Theta]",
+                 FontWeight->"Bold"], 
+                RowBox[{"2", "/", 
+                 RowBox[{"(", 
+                  RowBox[{"1", "+", 
+                   RowBox[{"d", " ", "\[Kappa]"}]}], ")"}]}]], "(", 
+               StyleBox["z",
+                FontWeight->"Bold"], ")"}]}], ")"}], " ", 
+            SubscriptBox["\[CircleTimes]", "\[Kappa]"], 
+            RowBox[{
+             SubscriptBox["exp", "\[Kappa]"], "(", 
+             RowBox[{"2", 
+              RowBox[{
+               SubscriptBox["\[DoubleStruckCapitalE]", 
+                RowBox[{
+                 SubsuperscriptBox["q", 
+                  StyleBox["\[Phi]",
+                   FontWeight->"Bold"], 
+                  RowBox[{"(", 
+                   RowBox[{"2", ",", "d", ",", "\[Kappa]"}], ")"}]], "(", 
                  RowBox[{
-                  SubscriptBox["q", 
-                   StyleBox["\[Phi]",
-                    FontWeight->"Bold"]], "(", 
+                  StyleBox["z",
+                   FontWeight->"Bold"], "|", 
+                  SuperscriptBox[
+                   StyleBox["x",
+                    FontWeight->"Bold"], 
+                   RowBox[{"(", "i", ")"}]]}], ")"}]], "[", 
+               RowBox[{
+                SubscriptBox["log", "\[Kappa]"], 
+                RowBox[{
+                 SubsuperscriptBox["p", 
+                  StyleBox["\[Theta]",
+                   FontWeight->"Bold"], 
+                  RowBox[{"2", "/", 
+                   RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    RowBox[{"d", " ", "\[Kappa]"}]}], ")"}]}]], "(", 
+                 RowBox[{
+                  SuperscriptBox[
+                   StyleBox["x",
+                    FontWeight->"Bold"], 
+                   RowBox[{"(", "i", ")"}]], "|", 
+                  StyleBox["z",
+                   FontWeight->"Bold"]}], ")"}]}], "]"}]}], ")"}]}]}], ")"}], 
+         
+         FractionBox[
+          RowBox[{"1", "+", " ", 
+           RowBox[{"d", " ", "\[Kappa]"}]}], 
+          RowBox[{"-", "2", " "}]]], "=", 
+        RowBox[{
+         SuperscriptBox[
+          RowBox[{"(", 
+           RowBox[{"1", "+", 
+            RowBox[{"2", 
+             RowBox[{"\[Kappa]", "(", 
+              RowBox[{
+               RowBox[{
+                FractionBox[
+                 RowBox[{"-", "1"}], 
+                 RowBox[{"2", "\[Kappa]"}]], 
+                RowBox[{
+                 SubscriptBox["\[Integral]", 
                   RowBox[{
                    StyleBox["z",
-                    FontWeight->"Bold"], "|", 
-                   SuperscriptBox[
-                    StyleBox["x",
-                    FontWeight->"Bold"], 
-                    RowBox[{"(", "i", ")"}]]}], ")"}], 
-                 RowBox[{"1", "+", 
-                  FractionBox[
-                   RowBox[{"\[Alpha]", " ", "\[Kappa]"}], 
-                   RowBox[{"1", "+", 
-                    RowBox[{"d", " ", "\[Kappa]"}]}]]}]], 
-                RowBox[{"(", 
+                    FontWeight->"Bold"], "\[Element]", 
+                   SuperscriptBox["\[DoubleStruckCapitalR]", "d"]}]], 
                  RowBox[{
                   SuperscriptBox[
                    RowBox[{
@@ -5602,33 +5736,52 @@ for alpha and d gives\n",
                     StyleBox["x",
                     FontWeight->"Bold"], 
                     RowBox[{"(", "i", ")"}]]}], ")"}], 
-                   FractionBox[
+                   RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"2", " ", "\[Kappa]"}], 
+                    RowBox[{"1", "+", " ", 
+                    RowBox[{"d", " ", "\[Kappa]"}]}]]}]], 
+                  RowBox[{"(", 
+                   RowBox[{
+                    SuperscriptBox[
                     RowBox[{
-                    RowBox[{"-", "\[Alpha]"}], " ", "\[Kappa]", " "}], 
+                    SubscriptBox["q", 
+                    StyleBox["\[Phi]",
+                    FontWeight->"Bold"]], "(", 
+                    RowBox[{
+                    StyleBox["z",
+                    FontWeight->"Bold"], "|", 
+                    SuperscriptBox[
+                    StyleBox["x",
+                    FontWeight->"Bold"], 
+                    RowBox[{"(", "i", ")"}]]}], ")"}], 
+                    FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "2"}], " ", "\[Kappa]", " "}], 
                     RowBox[{"1", "+", 
                     RowBox[{"d", " ", "\[Kappa]"}]}]]], "-", 
-                  SuperscriptBox[
-                   RowBox[{
+                    SuperscriptBox[
+                    RowBox[{
                     SubscriptBox["p", 
                     StyleBox["\[Theta]",
                     FontWeight->"Bold"]], "(", 
                     StyleBox["z",
                     FontWeight->"Bold"], ")"}], 
-                   FractionBox[
+                    FractionBox[
                     RowBox[{
-                    RowBox[{"-", "\[Alpha]"}], " ", "\[Kappa]", " "}], 
+                    RowBox[{"-", "2"}], " ", "\[Kappa]", " "}], 
                     RowBox[{"1", "+", 
                     RowBox[{"d", " ", "\[Kappa]"}]}]]]}], ")"}], 
-                RowBox[{
-                 RowBox[{"\[DifferentialD]", "z"}], "/", 
-                 RowBox[{
-                  SubscriptBox["\[Integral]", 
+                  RowBox[{
+                   RowBox[{"\[DifferentialD]", "z"}], "/", 
                    RowBox[{
+                    SubscriptBox["\[Integral]", 
+                    RowBox[{
                     StyleBox["z",
                     FontWeight->"Bold"], "\[Element]", 
                     SuperscriptBox["\[DoubleStruckCapitalR]", "d"]}]], 
-                  RowBox[{
-                   SuperscriptBox[
+                    RowBox[{
+                    SuperscriptBox[
                     RowBox[{
                     SubscriptBox["q", 
                     StyleBox["\[Phi]",
@@ -5642,42 +5795,42 @@ for alpha and d gives\n",
                     RowBox[{"(", "i", ")"}]]}], ")"}], 
                     RowBox[{"1", "+", 
                     FractionBox[
-                    RowBox[{"\[Alpha]", " ", "\[Kappa]"}], 
+                    RowBox[{"2", " ", "\[Kappa]"}], 
                     RowBox[{"1", "+", 
                     RowBox[{"d", " ", "\[Kappa]"}]}]]}]], 
-                   RowBox[{"\[DifferentialD]", "z"}]}]}]}]}]}]}], "+", 
-             RowBox[{
-              FractionBox[
-               RowBox[{"-", "1"}], 
-               RowBox[{"2", "\[Kappa]"}]], 
-              RowBox[{
-               SubscriptBox["\[Integral]", 
-                RowBox[{
-                 StyleBox["z",
-                  FontWeight->"Bold"], "\[Element]", 
-                 SuperscriptBox["\[DoubleStruckCapitalR]", "d"]}]], 
+                    RowBox[{"\[DifferentialD]", "z"}]}]}]}]}]}]}], "+", 
                RowBox[{
-                SuperscriptBox[
-                 RowBox[{
-                  SubscriptBox["q", 
-                   StyleBox["\[Phi]",
-                    FontWeight->"Bold"]], "(", 
+                FractionBox[
+                 RowBox[{"-", "1"}], 
+                 RowBox[{"2", "\[Kappa]"}]], 
+                RowBox[{
+                 SubscriptBox["\[Integral]", 
                   RowBox[{
                    StyleBox["z",
-                    FontWeight->"Bold"], "|", 
-                   SuperscriptBox[
-                    StyleBox["x",
-                    FontWeight->"Bold"], 
-                    RowBox[{"(", "i", ")"}]]}], ")"}], 
-                 RowBox[{"1", "+", 
-                  FractionBox[
-                   RowBox[{"\[Alpha]", " ", "\[Kappa]"}], 
-                   RowBox[{"1", "+", 
-                    RowBox[{"d", " ", "\[Kappa]"}]}]]}]], 
-                RowBox[{"(", 
+                    FontWeight->"Bold"], "\[Element]", 
+                   SuperscriptBox["\[DoubleStruckCapitalR]", "d"]}]], 
                  RowBox[{
                   SuperscriptBox[
                    RowBox[{
+                    SubscriptBox["q", 
+                    StyleBox["\[Phi]",
+                    FontWeight->"Bold"]], "(", 
+                    RowBox[{
+                    StyleBox["z",
+                    FontWeight->"Bold"], "|", 
+                    SuperscriptBox[
+                    StyleBox["x",
+                    FontWeight->"Bold"], 
+                    RowBox[{"(", "i", ")"}]]}], ")"}], 
+                   RowBox[{"1", "+", 
+                    FractionBox[
+                    RowBox[{"2", " ", "\[Kappa]"}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"d", " ", "\[Kappa]"}]}]]}]], 
+                  RowBox[{"(", 
+                   RowBox[{
+                    SuperscriptBox[
+                    RowBox[{
                     SubscriptBox["p", 
                     StyleBox["\[Theta]",
                     FontWeight->"Bold"]], "(", 
@@ -5688,21 +5841,21 @@ for alpha and d gives\n",
                     RowBox[{"(", "i", ")"}]], "|", 
                     StyleBox["z",
                     FontWeight->"Bold"]}], ")"}], 
-                   FractionBox[
+                    FractionBox[
                     RowBox[{
-                    RowBox[{"-", "\[Alpha]"}], " ", "\[Kappa]", " "}], 
+                    RowBox[{"-", "2"}], " ", "\[Kappa]", " "}], 
                     RowBox[{"1", "+", 
                     RowBox[{"d", " ", "\[Kappa]"}]}]]], "-", "1"}], ")"}], 
-                RowBox[{
-                 RowBox[{"\[DifferentialD]", "z"}], "/", 
-                 RowBox[{
-                  SubscriptBox["\[Integral]", 
+                  RowBox[{
+                   RowBox[{"\[DifferentialD]", "z"}], "/", 
                    RowBox[{
+                    SubscriptBox["\[Integral]", 
+                    RowBox[{
                     StyleBox["z",
                     FontWeight->"Bold"], "\[Element]", 
                     SuperscriptBox["\[DoubleStruckCapitalR]", "d"]}]], 
-                  RowBox[{
-                   SuperscriptBox[
+                    RowBox[{
+                    SuperscriptBox[
                     RowBox[{
                     SubscriptBox["q", 
                     StyleBox["\[Phi]",
@@ -5716,44 +5869,25 @@ for alpha and d gives\n",
                     RowBox[{"(", "i", ")"}]]}], ")"}], 
                     RowBox[{"1", "+", 
                     FractionBox[
-                    RowBox[{"\[Alpha]", " ", "\[Kappa]"}], 
+                    RowBox[{"2", " ", "\[Kappa]"}], 
                     RowBox[{"1", "+", 
                     RowBox[{"d", " ", "\[Kappa]"}]}]]}]], 
-                   RowBox[{"\[DifferentialD]", "z"}]}]}]}]}]}]}]}], ")"}]}]}],
-          ")"}], 
-        FractionBox[
-         RowBox[{"1", "+", " ", 
-          RowBox[{"d", " ", "\[Kappa]"}]}], 
-         RowBox[{
-          RowBox[{"-", "2"}], " ", "\[Kappa]"}]]]}], "\[IndentingNewLine]", 
-      RowBox[{"=", 
-       RowBox[{"(", 
-        RowBox[{"1", "-", 
-         RowBox[{
-          SubscriptBox["\[Integral]", 
+                    RowBox[{"\[DifferentialD]", "z"}]}]}]}]}]}]}]}], 
+              ")"}]}]}], ")"}], 
+          FractionBox[
+           RowBox[{"1", "+", " ", 
+            RowBox[{"2", " ", "\[Kappa]"}]}], 
            RowBox[{
-            StyleBox["z",
-             FontWeight->"Bold"], "\[Element]", 
-            SuperscriptBox["\[DoubleStruckCapitalR]", "d"]}]], 
-          RowBox[{
-           SuperscriptBox[
-            RowBox[{
-             SubscriptBox["q", 
-              StyleBox["\[Phi]",
-               FontWeight->"Bold"]], "(", 
+            RowBox[{"-", "2"}], " ", "\[Kappa]"}]]], "\[IndentingNewLine]", 
+         "=", 
+         RowBox[{"(", 
+          RowBox[{"1", "-", 
+           RowBox[{
+            SubscriptBox["\[Integral]", 
              RowBox[{
               StyleBox["z",
-               FontWeight->"Bold"], "|", 
-              SuperscriptBox[
-               StyleBox["x",
-                FontWeight->"Bold"], 
-               RowBox[{"(", "i", ")"}]]}], ")"}], 
-            RowBox[{"1", "+", 
-             FractionBox[
-              RowBox[{"\[Alpha]", " ", "\[Kappa]"}], 
-              RowBox[{"1", "+", 
-               RowBox[{"d", " ", "\[Kappa]"}]}]]}]], 
-           RowBox[{"(", 
+               FontWeight->"Bold"], "\[Element]", 
+              SuperscriptBox["\[DoubleStruckCapitalR]", "d"]}]], 
             RowBox[{
              SuperscriptBox[
               RowBox[{
@@ -5767,125 +5901,145 @@ for alpha and d gives\n",
                  StyleBox["x",
                   FontWeight->"Bold"], 
                  RowBox[{"(", "i", ")"}]]}], ")"}], 
-              FractionBox[
-               RowBox[{
-                RowBox[{"-", "\[Alpha]"}], " ", "\[Kappa]", " "}], 
-               RowBox[{"1", "+", 
-                RowBox[{"d", " ", "\[Kappa]"}]}]]], "-", 
-             SuperscriptBox[
+              RowBox[{"1", "+", 
+               FractionBox[
+                RowBox[{"2", " ", "\[Kappa]"}], 
+                RowBox[{"1", "+", 
+                 RowBox[{"d", " ", "\[Kappa]"}]}]]}]], 
+             RowBox[{"(", 
               RowBox[{
-               SubscriptBox["p", 
-                StyleBox["\[Theta]",
-                 FontWeight->"Bold"]], "(", 
-               StyleBox["z",
-                FontWeight->"Bold"], ")"}], 
-              FractionBox[
-               RowBox[{
-                RowBox[{"-", "\[Alpha]"}], " ", "\[Kappa]", " "}], 
-               RowBox[{"1", "+", 
-                RowBox[{"d", " ", "\[Kappa]"}]}]]]}], ")"}], 
-           RowBox[{
-            RowBox[{"\[DifferentialD]", "z"}], "/", 
-            RowBox[{
-             SubscriptBox["\[Integral]", 
-              RowBox[{
-               StyleBox["z",
-                FontWeight->"Bold"], "\[Element]", 
-               SuperscriptBox["\[DoubleStruckCapitalR]", "d"]}]], 
+               SuperscriptBox[
+                RowBox[{
+                 SubscriptBox["q", 
+                  StyleBox["\[Phi]",
+                   FontWeight->"Bold"]], "(", 
+                 RowBox[{
+                  StyleBox["z",
+                   FontWeight->"Bold"], "|", 
+                  SuperscriptBox[
+                   StyleBox["x",
+                    FontWeight->"Bold"], 
+                   RowBox[{"(", "i", ")"}]]}], ")"}], 
+                FractionBox[
+                 RowBox[{
+                  RowBox[{"-", "2"}], " ", "\[Kappa]", " "}], 
+                 RowBox[{"1", "+", 
+                  RowBox[{"d", " ", "\[Kappa]"}]}]]], "-", 
+               SuperscriptBox[
+                RowBox[{
+                 SubscriptBox["p", 
+                  StyleBox["\[Theta]",
+                   FontWeight->"Bold"]], "(", 
+                 StyleBox["z",
+                  FontWeight->"Bold"], ")"}], 
+                FractionBox[
+                 RowBox[{
+                  RowBox[{"-", "2"}], " ", "\[Kappa]", " "}], 
+                 RowBox[{"1", "+", 
+                  RowBox[{"d", " ", "\[Kappa]"}]}]]]}], ")"}], 
              RowBox[{
-              SuperscriptBox[
-               RowBox[{
-                SubscriptBox["q", 
-                 StyleBox["\[Phi]",
-                  FontWeight->"Bold"]], "(", 
+              RowBox[{"\[DifferentialD]", "z"}], "/", 
+              RowBox[{
+               SubscriptBox["\[Integral]", 
                 RowBox[{
                  StyleBox["z",
-                  FontWeight->"Bold"], "|", 
-                 SuperscriptBox[
-                  StyleBox["x",
-                   FontWeight->"Bold"], 
-                  RowBox[{"(", "i", ")"}]]}], ")"}], 
-               RowBox[{"1", "+", 
-                FractionBox[
-                 RowBox[{"\[Alpha]", " ", "\[Kappa]"}], 
+                  FontWeight->"Bold"], "\[Element]", 
+                 SuperscriptBox["\[DoubleStruckCapitalR]", "d"]}]], 
+               RowBox[{
+                SuperscriptBox[
+                 RowBox[{
+                  SubscriptBox["q", 
+                   StyleBox["\[Phi]",
+                    FontWeight->"Bold"]], "(", 
+                  RowBox[{
+                   StyleBox["z",
+                    FontWeight->"Bold"], "|", 
+                   SuperscriptBox[
+                    StyleBox["x",
+                    FontWeight->"Bold"], 
+                    RowBox[{"(", "i", ")"}]]}], ")"}], 
                  RowBox[{"1", "+", 
-                  RowBox[{"d", " ", "\[Kappa]"}]}]]}]], 
-              RowBox[{"\[DifferentialD]", "z"}]}]}]}]}]}], "-", 
-         RowBox[{
-          SubscriptBox["\[Integral]", 
+                  FractionBox[
+                   RowBox[{"2", " ", "\[Kappa]"}], 
+                   RowBox[{"1", "+", 
+                    RowBox[{"d", " ", "\[Kappa]"}]}]]}]], 
+                RowBox[{"\[DifferentialD]", "z"}]}]}]}]}]}], "-", 
            RowBox[{
-            StyleBox["z",
-             FontWeight->"Bold"], "\[Element]", 
-            SuperscriptBox["\[DoubleStruckCapitalR]", "d"]}]], 
-          RowBox[{
-           SuperscriptBox[
-            RowBox[{
-             SubscriptBox["q", 
-              StyleBox["\[Phi]",
-               FontWeight->"Bold"]], "(", 
+            SubscriptBox["\[Integral]", 
              RowBox[{
               StyleBox["z",
-               FontWeight->"Bold"], "|", 
-              SuperscriptBox[
-               StyleBox["x",
-                FontWeight->"Bold"], 
-               RowBox[{"(", "i", ")"}]]}], ")"}], 
-            RowBox[{"1", "+", 
-             FractionBox[
-              RowBox[{"\[Alpha]", " ", "\[Kappa]"}], 
-              RowBox[{"1", "+", 
-               RowBox[{"d", " ", "\[Kappa]"}]}]]}]], 
-           RowBox[{"(", 
+               FontWeight->"Bold"], "\[Element]", 
+              SuperscriptBox["\[DoubleStruckCapitalR]", "d"]}]], 
             RowBox[{
              SuperscriptBox[
               RowBox[{
-               SubscriptBox["p", 
-                StyleBox["\[Theta]",
+               SubscriptBox["q", 
+                StyleBox["\[Phi]",
                  FontWeight->"Bold"]], "(", 
                RowBox[{
+                StyleBox["z",
+                 FontWeight->"Bold"], "|", 
                 SuperscriptBox[
                  StyleBox["x",
                   FontWeight->"Bold"], 
-                 RowBox[{"(", "i", ")"}]], "|", 
-                StyleBox["z",
-                 FontWeight->"Bold"]}], ")"}], 
-              FractionBox[
-               RowBox[{
-                RowBox[{"-", "\[Alpha]"}], " ", "\[Kappa]", " "}], 
-               RowBox[{"1", "+", 
-                RowBox[{"d", " ", "\[Kappa]"}]}]]], "-", "1"}], ")"}], 
-           RowBox[{
-            RowBox[{"\[DifferentialD]", "z"}], "/", 
-            RowBox[{
-             SubscriptBox["\[Integral]", 
+                 RowBox[{"(", "i", ")"}]]}], ")"}], 
+              RowBox[{"1", "+", 
+               FractionBox[
+                RowBox[{"2", " ", "\[Kappa]"}], 
+                RowBox[{"1", "+", 
+                 RowBox[{"d", " ", "\[Kappa]"}]}]]}]], 
+             RowBox[{"(", 
               RowBox[{
-               StyleBox["z",
-                FontWeight->"Bold"], "\[Element]", 
-               SuperscriptBox["\[DoubleStruckCapitalR]", "d"]}]], 
+               SuperscriptBox[
+                RowBox[{
+                 SubscriptBox["p", 
+                  StyleBox["\[Theta]",
+                   FontWeight->"Bold"]], "(", 
+                 RowBox[{
+                  SuperscriptBox[
+                   StyleBox["x",
+                    FontWeight->"Bold"], 
+                   RowBox[{"(", "i", ")"}]], "|", 
+                  StyleBox["z",
+                   FontWeight->"Bold"]}], ")"}], 
+                FractionBox[
+                 RowBox[{
+                  RowBox[{"-", "2"}], " ", "\[Kappa]", " "}], 
+                 RowBox[{"1", "+", 
+                  RowBox[{"d", " ", "\[Kappa]"}]}]]], "-", "1"}], ")"}], 
              RowBox[{
-              SuperscriptBox[
-               RowBox[{
-                SubscriptBox["q", 
-                 StyleBox["\[Phi]",
-                  FontWeight->"Bold"]], "(", 
+              RowBox[{"\[DifferentialD]", "z"}], "/", 
+              RowBox[{
+               SubscriptBox["\[Integral]", 
                 RowBox[{
                  StyleBox["z",
-                  FontWeight->"Bold"], "|", 
-                 SuperscriptBox[
-                  StyleBox["x",
-                   FontWeight->"Bold"], 
-                  RowBox[{"(", "i", ")"}]]}], ")"}], 
-               RowBox[{"1", "+", 
-                FractionBox[
-                 RowBox[{"\[Alpha]", " ", "\[Kappa]"}], 
+                  FontWeight->"Bold"], "\[Element]", 
+                 SuperscriptBox["\[DoubleStruckCapitalR]", "d"]}]], 
+               RowBox[{
+                SuperscriptBox[
+                 RowBox[{
+                  SubscriptBox["q", 
+                   StyleBox["\[Phi]",
+                    FontWeight->"Bold"]], "(", 
+                  RowBox[{
+                   StyleBox["z",
+                    FontWeight->"Bold"], "|", 
+                   SuperscriptBox[
+                    StyleBox["x",
+                    FontWeight->"Bold"], 
+                    RowBox[{"(", "i", ")"}]]}], ")"}], 
                  RowBox[{"1", "+", 
-                  RowBox[{"d", " ", "\[Kappa]"}]}]]}]], 
-              RowBox[{"\[DifferentialD]", "z"}]}]}]}]}]}]}], ")"}]}]}], ")"}], 
-    FractionBox[
-     RowBox[{"1", "+", " ", 
-      RowBox[{"d", " ", "\[Kappa]"}]}], 
-     RowBox[{
-      RowBox[{"-", "2"}], " ", "\[Kappa]"}]]], TraditionalForm]],
+                  FractionBox[
+                   RowBox[{"2", " ", "\[Kappa]"}], 
+                   RowBox[{"1", "+", 
+                    RowBox[{"d", " ", "\[Kappa]"}]}]]}]], 
+                RowBox[{"\[DifferentialD]", "z"}]}]}]}]}]}]}], ")"}]}]}], 
+       ")"}], 
+      FractionBox[
+       RowBox[{"1", "+", " ", 
+        RowBox[{"d", " ", "\[Kappa]"}]}], 
+       RowBox[{
+        RowBox[{"-", "2"}], " ", "\[Kappa]"}]]]}]}], TraditionalForm]],
   ExpressionUUID->"bac87a91-869a-4d69-a167-d8f7ad2265cb"]
 }], "Text",
  CellChangeTimes->{{3.825421506693245*^9, 3.825421844407288*^9}, {
@@ -5895,202 +6049,13 @@ for alpha and d gives\n",
   3.825423119074904*^9}, {3.825423397231291*^9, 3.8254233972323637`*^9}, {
   3.825423451651616*^9, 3.825423461493444*^9}, {3.82542349498059*^9, 
   3.825423495980858*^9}, {3.83120634946146*^9, 3.831206349462389*^9}, {
-  3.831214305051098*^9, 
-  3.831214337282238*^9}},ExpressionUUID->"9b3bd853-e61f-4916-8601-\
-beb30c8155b1"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell["Alternative Derivation", "Subsubsection",
- CellChangeTimes->{{3.8312064798798647`*^9, 
-  3.831206485080926*^9}},ExpressionUUID->"e2d4c2a2-aed2-4d39-82f0-\
-2fcefd60cda2"],
-
-Cell[TextData[Cell[BoxData[{
- FormBox[
-  RowBox[{
-   SuperscriptBox[
-    RowBox[{"(", 
-     RowBox[{
-      SubscriptBox["exp", "\[Kappa]"], "(", 
-      RowBox[{"2", 
-       RowBox[{"\[ScriptCapitalL]", "(", 
-        RowBox[{
-         StyleBox["\[Theta]",
-          FontWeight->"Bold"], ",", 
-         RowBox[{
-          StyleBox["\[Phi]",
-           FontWeight->"Bold"], ";", "\[Kappa]"}], ",", "2", ",", 
-         RowBox[{"1", ";", 
-          SuperscriptBox[
-           StyleBox["x",
-            FontWeight->"Bold"], 
-           RowBox[{"(", "i", ")"}]]}]}], ")"}]}], ")"}], ")"}], 
-    FractionBox[
-     RowBox[{"1", "+", 
-      RowBox[{"d", " ", "\[Kappa]"}]}], 
-     RowBox[{"-", "2", " "}]]], "=", 
-   SuperscriptBox[
-    RowBox[{"(", 
-     RowBox[{
-      SubscriptBox["exp", "\[Kappa]"], "(", 
-      RowBox[{
-       RowBox[{
-        RowBox[{"-", "2"}], 
-        RowBox[{
-         SubscriptBox["D", "\[Kappa]"], "(", 
-         RowBox[{
-          RowBox[{
-           SubsuperscriptBox["q", 
-            StyleBox["\[Phi]",
-             FontWeight->"Bold"], 
-            RowBox[{"\[Alpha]", "/", 
-             RowBox[{"(", 
-              RowBox[{"1", "+", 
-               RowBox[{"d", " ", "\[Kappa]"}]}], ")"}]}]], "(", 
-           RowBox[{
-            StyleBox["z",
-             FontWeight->"Bold"], "|", 
-            SuperscriptBox[
-             StyleBox["x",
-              FontWeight->"Bold"], 
-             RowBox[{"(", "i", ")"}]]}], ")"}], "||", 
-          RowBox[{
-           SubsuperscriptBox["p", 
-            StyleBox["\[Theta]",
-             FontWeight->"Bold"], 
-            RowBox[{"\[Alpha]", "/", 
-             RowBox[{"(", 
-              RowBox[{"1", "+", 
-               RowBox[{"d", " ", "\[Kappa]"}]}], ")"}]}]], "(", 
-           StyleBox["z",
-            FontWeight->"Bold"], ")"}]}], ")"}]}], " ", "+", " ", 
-       RowBox[{"2", 
-        RowBox[{
-         SubscriptBox["\[DoubleStruckCapitalE]", 
-          RowBox[{
-           SubsuperscriptBox["q", 
-            StyleBox["\[Phi]",
-             FontWeight->"Bold"], 
-            RowBox[{"(", 
-             RowBox[{"\[Alpha]", ",", "d", ",", "\[Kappa]"}], ")"}]], "(", 
-           RowBox[{
-            StyleBox["z",
-             FontWeight->"Bold"], "|", 
-            SuperscriptBox[
-             StyleBox["x",
-              FontWeight->"Bold"], 
-             RowBox[{"(", "i", ")"}]]}], ")"}]], "[", 
-         RowBox[{
-          SubscriptBox["log", "\[Kappa]"], 
-          RowBox[{
-           SubsuperscriptBox["p", 
-            StyleBox["\[Theta]",
-             FontWeight->"Bold"], 
-            RowBox[{"\[Alpha]", "/", 
-             RowBox[{"(", 
-              RowBox[{"1", "+", 
-               RowBox[{"d", " ", "\[Kappa]"}]}], ")"}]}]], "(", 
-           RowBox[{
-            SuperscriptBox[
-             StyleBox["x",
-              FontWeight->"Bold"], 
-             RowBox[{"(", "i", ")"}]], "|", 
-            StyleBox["z",
-             FontWeight->"Bold"]}], ")"}]}], "]"}]}]}], ")"}], ")"}], 
-    FractionBox[
-     RowBox[{"1", "+", " ", 
-      RowBox[{"d", " ", "\[Kappa]"}]}], 
-     RowBox[{"-", "2", " "}]]]}], TraditionalForm], "\[IndentingNewLine]", 
- FormBox[
-  RowBox[{"\t\t\t\t\t\t", 
-   RowBox[{"=", 
-    RowBox[{"(", " ", 
-     SuperscriptBox[
-      RowBox[{
-       SubscriptBox["exp", "\[Kappa]"], "(", 
-       RowBox[{
-        RowBox[{"-", "2"}], 
-        RowBox[{
-         RowBox[{
-          SubscriptBox["D", "\[Kappa]"], "(", 
-          RowBox[{
-           RowBox[{
-            SubsuperscriptBox["q", 
-             StyleBox["\[Phi]",
-              FontWeight->"Bold"], 
-             RowBox[{"\[Alpha]", "/", 
-              RowBox[{"(", 
-               RowBox[{"1", "+", 
-                RowBox[{"d", " ", "\[Kappa]"}]}], ")"}]}]], "(", 
-            RowBox[{
-             StyleBox["z",
-              FontWeight->"Bold"], "|", 
-             SuperscriptBox[
-              StyleBox["x",
-               FontWeight->"Bold"], 
-              RowBox[{"(", "i", ")"}]]}], ")"}], "||", 
-           RowBox[{
-            SubsuperscriptBox["p", 
-             StyleBox["\[Theta]",
-              FontWeight->"Bold"], 
-             RowBox[{"\[Alpha]", "/", 
-              RowBox[{"(", 
-               RowBox[{"1", "+", 
-                RowBox[{"d", " ", "\[Kappa]"}]}], ")"}]}]], "(", 
-            StyleBox["z",
-             FontWeight->"Bold"], ")"}]}], ")"}], " ", 
-         SubscriptBox["\[CircleTimes]", "\[Kappa]"], 
-         RowBox[{
-          SubscriptBox["exp", "\[Kappa]"], "(", 
-          RowBox[{"2", 
-           RowBox[{
-            SubscriptBox["\[DoubleStruckCapitalE]", 
-             RowBox[{
-              SubsuperscriptBox["q", 
-               StyleBox["\[Phi]",
-                FontWeight->"Bold"], 
-               RowBox[{"(", 
-                RowBox[{"\[Alpha]", ",", "d", ",", "\[Kappa]"}], ")"}]], "(", 
-              
-              RowBox[{
-               StyleBox["z",
-                FontWeight->"Bold"], "|", 
-               SuperscriptBox[
-                StyleBox["x",
-                 FontWeight->"Bold"], 
-                RowBox[{"(", "i", ")"}]]}], ")"}]], "[", 
-            RowBox[{
-             SubscriptBox["log", "\[Kappa]"], 
-             RowBox[{
-              SubsuperscriptBox["p", 
-               StyleBox["\[Theta]",
-                FontWeight->"Bold"], 
-               RowBox[{"\[Alpha]", "/", 
-                RowBox[{"(", 
-                 RowBox[{"1", "+", 
-                  RowBox[{"d", " ", "\[Kappa]"}]}], ")"}]}]], "(", 
-              RowBox[{
-               SuperscriptBox[
-                StyleBox["x",
-                 FontWeight->"Bold"], 
-                RowBox[{"(", "i", ")"}]], "|", 
-               StyleBox["z",
-                FontWeight->"Bold"]}], ")"}]}], "]"}]}], ")"}]}]}], ")"}], 
-      FractionBox[
-       RowBox[{"1", "+", " ", 
-        RowBox[{"d", " ", "\[Kappa]"}]}], 
-       RowBox[{"-", "2", " "}]]]}]}]}], 
-  TraditionalForm]}],ExpressionUUID->"1252e4a7-fbaf-4731-960d-1e4cd1764713"]],\
- "Text",
- CellChangeTimes->{{3.8312065431465054`*^9, 3.831206625521254*^9}, {
-  3.831206719003808*^9, 3.8312068015473967`*^9}, {3.831206846420293*^9, 
-  3.8312068937142963`*^9}, {3.831206968177311*^9, 3.831206974446521*^9}, {
-  3.8312142732346773`*^9, 
-  3.8312142855438833`*^9}},ExpressionUUID->"0f62b9e3-adc6-4b6c-acb7-\
-5185b3e0a824"]
-}, Open  ]],
+  3.831214305051098*^9, 3.831214337282238*^9}, {3.9333973601118917`*^9, 
+  3.933397368028213*^9}, {3.933397510859045*^9, 3.933397524138513*^9}, {
+  3.9333975613301353`*^9, 3.9333975635225058`*^9}, {3.933397630191362*^9, 
+  3.9333976949569283`*^9}, {3.933397855919467*^9, 3.9333978988571*^9}, {
+  3.933397985527873*^9, 
+  3.933398052053259*^9}},ExpressionUUID->"9b3bd853-e61f-4916-8601-\
+beb30c8155b1"],
 
 Cell[CellGroupData[{
 
@@ -6101,6 +6066,17 @@ ELBO and its components\
  CellChangeTimes->{{3.8359644391084003`*^9, 
   3.835964493641778*^9}},ExpressionUUID->"2a8bfab3-e2d5-456e-ae1e-\
 e95967e96621"],
+
+Cell["\<\
+Plan to replace this section with a clear explanation of the visulalization \
+including:\[LineSeparator]1) The histograms of the divergence and \
+log-likelihood terms are shown together
+2) Overlaying the two histograms are the Coupled ELBO Probability metrics, \
+which combine the metrics of the two histograms using the coupled product.\
+\>", "Text",
+ CellChangeTimes->{{3.9333982366273413`*^9, 
+  3.933398346130929*^9}},ExpressionUUID->"60865e3d-f1ba-4ca4-b9e3-\
+bebd63e05355"],
 
 Cell[TextData[{
  "In order to develop a graphical visualization of the Coupled ELBO and its \
@@ -6312,8 +6288,7 @@ its Appl., vol. 340, no. 1\[Dash]3, pp. 95\[Dash]101, 2004.\n\ta ",
  Cell[BoxData[
   FormBox[
    RowBox[{"(", 
-    SuperscriptBox["a", "\[Kappa]"]}], TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
+    SuperscriptBox["a", "\[Kappa]"]}], TraditionalForm]],ExpressionUUID->
   "c530eb64-ba79-4057-a42d-f8a71b0664f1"],
  " + ",
  Cell[BoxData[
@@ -6322,8 +6297,7 @@ its Appl., vol. 340, no. 1\[Dash]3, pp. 95\[Dash]101, 2004.\n\ta ",
     RowBox[{
      RowBox[{
       SuperscriptBox["b", "\[Kappa]"], "-", "1"}], ")"}], 
-    FractionBox["1", "\[Kappa]"]], TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
+    FractionBox["1", "\[Kappa]"]], TraditionalForm]],ExpressionUUID->
   "bf63d926-a299-4cdd-9546-7e8c91728e9e"],
  " ; a ",
  Cell[BoxData[
@@ -6334,8 +6308,7 @@ its Appl., vol. 340, no. 1\[Dash]3, pp. 95\[Dash]101, 2004.\n\ta ",
  Cell[BoxData[
   FormBox[
    RowBox[{"(", 
-    SuperscriptBox["a", "\[Kappa]"]}], TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
+    SuperscriptBox["a", "\[Kappa]"]}], TraditionalForm]],ExpressionUUID->
   "ed280c7e-254c-4996-99e9-4956eb6529ba"],
  " - ",
  Cell[BoxData[
@@ -6344,8 +6317,7 @@ its Appl., vol. 340, no. 1\[Dash]3, pp. 95\[Dash]101, 2004.\n\ta ",
     RowBox[{
      RowBox[{
       SuperscriptBox["b", "\[Kappa]"], "+", "1"}], ")"}], 
-    FractionBox["1", "\[Kappa]"]], TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
+    FractionBox["1", "\[Kappa]"]], TraditionalForm]],ExpressionUUID->
   "564f1d68-4139-4465-a9ab-e80749fcf1b0"],
  "\n\nThe difficulty is that the combination of the individual probabilities \
 involves the generalization. In contrast if the negative ELBO were defined \
@@ -6474,8 +6446,7 @@ standard multiplication and division then the function would be\t\n",
  " ",
  Cell[BoxData[
   FormBox[
-   RowBox[{"and", " "}], TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
+   RowBox[{"and", " "}], TraditionalForm]],ExpressionUUID->
   "cfab17c5-ca68-4701-bfc8-66e9ee9d9836"],
  "the coupled difference ",
  Cell[BoxData[
@@ -6498,8 +6469,7 @@ standard multiplication and division then the function would be\t\n",
   FormBox[
    FractionBox[
     RowBox[{"a", " ", "-", " ", "b", " "}], 
-    RowBox[{"1", "+", "\[Kappa]b"}]], TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
+    RowBox[{"1", "+", "\[Kappa]b"}]], TraditionalForm]],ExpressionUUID->
   "c4059183-92c9-4b81-bd39-46b9daf7f2cd"],
  "\n"
 }], "Text",
@@ -6797,10 +6767,8 @@ Cell[TextData[Cell[BoxData[{
          SuperscriptBox["a", "\[Kappa]"], 
          SuperscriptBox["b", 
           RowBox[{"-", "\[Kappa]"}]]}], "-", "1"}], ")"}]}]}]}]}], 
-  TraditionalForm]}],
- FormatType->
-  "TraditionalForm",ExpressionUUID->"d87a625b-bc56-4da7-bdb0-c8818e90f2b8"]], \
-"Text",
+  TraditionalForm]}],ExpressionUUID->"d87a625b-bc56-4da7-bdb0-c8818e90f2b8"]],\
+ "Text",
  CellChangeTimes->{{3.83596814072747*^9, 3.8359683139623833`*^9}, {
   3.835968445852566*^9, 3.835968452513878*^9}, {3.8359688931005383`*^9, 
   3.8359689367854433`*^9}, {3.8359690377009897`*^9, 3.835969079039175*^9}, {
@@ -6938,9 +6906,7 @@ Cell[TextData[{
              RowBox[{"(", "i", ")"}]], "|", 
             StyleBox["z",
              FontWeight->"Bold"]}], ")"}]}], "]"}], "]"}]}]}]}], "]"}], 
-   TraditionalForm]],
-  FormatType->"TraditionalForm",ExpressionUUID->
-  "a719e306-3ce5-4959-9aba-eb5d5cafd807"]
+   TraditionalForm]],ExpressionUUID->"a719e306-3ce5-4959-9aba-eb5d5cafd807"]
 }], "Text",
  CellChangeTimes->{{3.8254248384093723`*^9, 3.825424863545498*^9}, {
   3.825424901389102*^9, 3.8254249970481853`*^9}, {3.825425031500423*^9, 
@@ -7571,7 +7537,7 @@ Cell[BoxData[
         PlotRange -> {{-5, 5}, {0, 5}}], 
       "Specifications" :> {{{$CellContext`\[Sigma]$$, 0.5}, 0.05, 2}}, 
       "Options" :> {}, "DefaultOptions" :> {}],
-     ImageSizeCache->{505., {203., 210.}},
+     ImageSizeCache->{534., {234., 245.}},
      SingleEvaluation->True],
     Deinitialization:>None,
     DynamicModuleValues:>{},
@@ -8836,7 +8802,7 @@ xw==
          Part[#, 1]], 
         (Identity[#]& )[
          Part[#, 2]]}& )}},
-  PlotRange->{{0.01, 2}, {2.16*^-321, 0.999999943124095}},
+  PlotRange->{{0.01, 2}, {2.154*^-321, 0.999999943124095}},
   PlotRangeClipping->True,
   PlotRangePadding->{{
      Scaled[0.02], 
@@ -9599,10 +9565,10 @@ wb1r5YluFR3EDd+fs53cSkS39O+nV9Mhaz0mJTJbhPgfnw70BQ==
 }, Open  ]]
 }, Open  ]]
 },
-WindowSize->{1215, 889},
-WindowMargins->{{-10, Automatic}, {Automatic, 0}},
-Magnification:>1.25 Inherited,
-FrontEndVersion->"12.1 for Mac OS X x86 (64-bit) (June 19, 2020)",
+WindowSize->{1215, 847},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+Magnification->2.,
+FrontEndVersion->"13.0 for Mac OS X x86 (64-bit) (December 2, 2021)",
 StyleDefinitions->"Default.nb",
 ExpressionUUID->"fa6f2577-8fe8-486e-8f4b-a6facfa1cddb"
 ]
@@ -9618,60 +9584,60 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[580, 22, 263, 6, 84, "Section",ExpressionUUID->"7bbfc933-567c-4c38-8a98-03286ec26d55"],
-Cell[846, 30, 699, 12, 102, "Text",ExpressionUUID->"25d97bbf-8209-4541-a82e-d685db45b536"],
+Cell[580, 22, 263, 6, 210, "Section",ExpressionUUID->"7bbfc933-567c-4c38-8a98-03286ec26d55"],
+Cell[846, 30, 699, 12, 339, "Text",ExpressionUUID->"25d97bbf-8209-4541-a82e-d685db45b536"],
 Cell[CellGroupData[{
-Cell[1570, 46, 197, 3, 67, "Subsection",ExpressionUUID->"a369833e-d005-4129-ba19-3ca3f6f4c55c"],
-Cell[1770, 51, 346, 7, 44, "Text",ExpressionUUID->"741acfe1-1719-4af8-89cb-4d6cb95e64ab"],
-Cell[2119, 60, 302315, 4961, 497, "Input",ExpressionUUID->"275b988f-2cae-4bc7-ab1b-ffa5aca8a389"],
+Cell[1570, 46, 197, 3, 107, "Subsection",ExpressionUUID->"a369833e-d005-4129-ba19-3ca3f6f4c55c"],
+Cell[1770, 51, 346, 7, 114, "Text",ExpressionUUID->"741acfe1-1719-4af8-89cb-4d6cb95e64ab"],
+Cell[2119, 60, 302315, 4961, 536, "Input",ExpressionUUID->"275b988f-2cae-4bc7-ab1b-ffa5aca8a389"],
 Cell[CellGroupData[{
-Cell[304459, 5025, 241, 4, 56, "Subsubsection",ExpressionUUID->"9a47eb63-303b-4796-8bb1-546b01d6e288"],
-Cell[304703, 5031, 8878, 265, 168, "Text",ExpressionUUID->"0886526e-eef0-4b91-8465-3ac3ea674adb"],
-Cell[313584, 5298, 5150, 165, 179, "Text",ExpressionUUID->"579faf2f-7ffb-46d4-a62e-abd7f67882ce"],
-Cell[318737, 5465, 16196, 434, 333, "Text",ExpressionUUID->"9b3bd853-e61f-4916-8601-beb30c8155b1"]
+Cell[304459, 5025, 241, 4, 89, "Subsubsection",ExpressionUUID->"9a47eb63-303b-4796-8bb1-546b01d6e288"],
+Cell[304703, 5031, 8878, 265, 349, "Text",ExpressionUUID->"0886526e-eef0-4b91-8465-3ac3ea674adb"],
+Cell[313584, 5298, 5255, 165, 422, "Text",ExpressionUUID->"579faf2f-7ffb-46d4-a62e-abd7f67882ce"]
+}, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[334970, 5904, 175, 3, 56, "Subsubsection",ExpressionUUID->"e2d4c2a2-aed2-4d39-82f0-2fcefd60cda2"],
-Cell[335148, 5909, 6278, 182, 131, "Text",ExpressionUUID->"0f62b9e3-adc6-4b6c-acb7-5185b3e0a824"]
+Cell[318888, 5469, 200, 3, 107, "Subsection",ExpressionUUID->"178b8903-df24-447d-9cdd-98f3e260c1ce"],
+Cell[319091, 5474, 22193, 583, 1387, "Text",ExpressionUUID->"9b3bd853-e61f-4916-8601-beb30c8155b1"],
+Cell[CellGroupData[{
+Cell[341309, 6061, 260, 6, 140, "Subsubsection",ExpressionUUID->"2a8bfab3-e2d5-456e-ae1e-e95967e96621"],
+Cell[341572, 6069, 489, 9, 249, "Text",ExpressionUUID->"60865e3d-f1ba-4ca4-b9e3-bebd63e05355"],
+Cell[342064, 6080, 14473, 409, 1775, "Text",ExpressionUUID->"c7b576a6-ea49-48da-8868-e1a8a7f46b73"],
+Cell[356540, 6491, 152, 3, 59, "Input",ExpressionUUID->"a3f269eb-9ecd-49b6-99bd-beaeb02ed86c"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[341463, 6096, 260, 6, 56, "Subsubsection",ExpressionUUID->"2a8bfab3-e2d5-456e-ae1e-e95967e96621"],
-Cell[341726, 6104, 14671, 415, 820, "Text",ExpressionUUID->"c7b576a6-ea49-48da-8868-e1a8a7f46b73"],
-Cell[356400, 6521, 152, 3, 37, "Input",ExpressionUUID->"a3f269eb-9ecd-49b6-99bd-beaeb02ed86c"]
+Cell[356729, 6499, 247, 4, 89, "Subsubsection",ExpressionUUID->"22d7314a-1728-41d3-9548-3e5ac32ab130"],
+Cell[356979, 6505, 8576, 272, 787, "Text",ExpressionUUID->"c8763046-01ca-4706-8769-555e97ab9cde"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[356589, 6529, 247, 4, 56, "Subsubsection",ExpressionUUID->"22d7314a-1728-41d3-9548-3e5ac32ab130"],
-Cell[356839, 6535, 8611, 274, 506, "Text",ExpressionUUID->"c8763046-01ca-4706-8769-555e97ab9cde"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[365487, 6814, 232, 5, 56, "Subsubsection",ExpressionUUID->"54cd33d6-dc48-481c-a5c0-bda0404e4a03"],
-Cell[365722, 6821, 4207, 128, 122, "Text",ExpressionUUID->"0973c1a1-719f-477d-89c3-97b6a7d441f2"],
-Cell[369932, 6951, 10674, 339, 501, "Text",ExpressionUUID->"71cfea62-3e12-4943-b6da-6c2171d16c46"],
-Cell[380609, 7292, 505, 9, 73, "Text",ExpressionUUID->"3c46c120-36bf-4314-9a71-68688526ee1b"],
-Cell[381117, 7303, 3045, 107, 71, "Input",ExpressionUUID->"56abcbe0-4d12-4bfd-ae9f-76dc7c6901c8"],
-Cell[384165, 7412, 1281, 44, 40, "Input",ExpressionUUID->"03eca8be-c0a4-440c-818b-41ecccc5a5a7"]
+Cell[365592, 6782, 232, 5, 140, "Subsubsection",ExpressionUUID->"54cd33d6-dc48-481c-a5c0-bda0404e4a03"],
+Cell[365827, 6789, 4171, 126, 195, "Text",ExpressionUUID->"0973c1a1-719f-477d-89c3-97b6a7d441f2"],
+Cell[370001, 6917, 10674, 339, 801, "Text",ExpressionUUID->"71cfea62-3e12-4943-b6da-6c2171d16c46"],
+Cell[380678, 7258, 505, 9, 116, "Text",ExpressionUUID->"3c46c120-36bf-4314-9a71-68688526ee1b"],
+Cell[381186, 7269, 3045, 107, 113, "Input",ExpressionUUID->"56abcbe0-4d12-4bfd-ae9f-76dc7c6901c8"],
+Cell[384234, 7378, 1281, 44, 64, "Input",ExpressionUUID->"03eca8be-c0a4-440c-818b-41ecccc5a5a7"]
 }, Closed]]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[385507, 7463, 193, 3, 84, "Section",ExpressionUUID->"21ae7513-1662-42f1-8d22-735f54884085"],
+Cell[385576, 7429, 193, 3, 210, "Section",ExpressionUUID->"21ae7513-1662-42f1-8d22-735f54884085"],
 Cell[CellGroupData[{
-Cell[385725, 7470, 2707, 67, 334, "Input",ExpressionUUID->"2bc3ca63-f5af-45e5-973f-9b8c12eb47b0"],
-Cell[388435, 7539, 2545, 50, 436, "Output",ExpressionUUID->"43f48d61-aab8-4b9e-ba16-cf4a4e634ca1"]
+Cell[385794, 7436, 2707, 67, 604, "Input",ExpressionUUID->"2bc3ca63-f5af-45e5-973f-9b8c12eb47b0"],
+Cell[388504, 7505, 2545, 50, 537, "Output",ExpressionUUID->"43f48d61-aab8-4b9e-ba16-cf4a4e634ca1"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[391017, 7594, 201, 3, 37, "Input",ExpressionUUID->"22a426ff-b7fc-497b-b9ee-d59122017a61"],
-Cell[391221, 7599, 149, 2, 42, "Output",ExpressionUUID->"da109883-3c93-4b94-8a45-02f675ac4746"]
+Cell[391086, 7560, 201, 3, 81, "Input",ExpressionUUID->"22a426ff-b7fc-497b-b9ee-d59122017a61"],
+Cell[391290, 7565, 149, 2, 89, "Output",ExpressionUUID->"da109883-3c93-4b94-8a45-02f675ac4746"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[391407, 7606, 4923, 128, 580, "Input",ExpressionUUID->"9cfca1f0-91cb-4b27-9ef0-f7e8ade8835b"],
-Cell[396333, 7736, 39099, 748, 306, "Output",ExpressionUUID->"c1357ff3-65dd-4b43-ac72-095c0ed80864"]
+Cell[391476, 7572, 4923, 128, 1174, "Input",ExpressionUUID->"9cfca1f0-91cb-4b27-9ef0-f7e8ade8835b"],
+Cell[396402, 7702, 39099, 748, 509, "Output",ExpressionUUID->"c1357ff3-65dd-4b43-ac72-095c0ed80864"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[435469, 8489, 166, 3, 56, "Subsubsection",ExpressionUUID->"d9f5c20c-07ce-40fb-b749-494a424fe690"],
+Cell[435538, 8455, 166, 3, 89, "Subsubsection",ExpressionUUID->"d9f5c20c-07ce-40fb-b749-494a424fe690"],
 Cell[CellGroupData[{
-Cell[435660, 8496, 19796, 350, 307, "Input",ExpressionUUID->"30cf8a0e-7dab-4d23-aef1-b95b1da9bfc1"],
-Cell[455459, 8848, 39099, 748, 306, "Output",ExpressionUUID->"7b179b68-61ad-443e-a37e-58ef07f6044f"]
+Cell[435729, 8462, 19797, 350, 490, "Input",ExpressionUUID->"30cf8a0e-7dab-4d23-aef1-b95b1da9bfc1"],
+Cell[455529, 8814, 39099, 748, 509, "Output",ExpressionUUID->"7b179b68-61ad-443e-a37e-58ef07f6044f"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
