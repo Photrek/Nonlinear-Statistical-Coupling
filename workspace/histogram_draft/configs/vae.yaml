@@ -1,0 +1,40 @@
+#logging_params:
+#  save_dir: "D:/celeba_data/logs"
+
+model_params:
+  name: 'VanillaVAE'
+  in_channels: 3
+  latent_dim: 128
+  z_dim : 128
+
+
+data_params:
+  data_path: "D:/celeba_data/celeba/celeba"
+  train_batch_size: 64
+  val_batch_size:  64
+  patch_size: 64
+  num_workers: 4
+
+
+exp_params:
+  LR: 0.005
+  weight_decay: 0.0
+  scheduler_gamma: 0.95
+  kld_weight: 0.00025
+  manual_seed: 1265
+
+trainer_params:
+  max_epochs: 5
+  gradient_clip_val: 1.5 # Clip gradients to a max value of 1.5 to stabilize training and prevent gradient explosion
+#This setting is used in training neural networks to control the size of gradients during training.
+#What does this setting mean?
+#During neural network training, gradients are calculated during backpropagation to update the model's weights. 
+#Sometimes, gradients can become too large, causing problems like unstable training or even training failure in some cases.
+
+#gpus: [1]
+#max_epochs: 100
+
+logging_params:
+  save_dir: "logs/"
+  name: "VanillaVAE"
+  
