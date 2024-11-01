@@ -30,18 +30,18 @@ that the tensors going into further calculations don’t have zeros that could d
 
 def replace_tensor_zeros(tnsr, power=-300):
     """Replaces 0 elements in a 1D Tensor with 10^power."""
-    idx = torch.where(tnsr == 0)[0]  # الحصول على إندكسات الأصفار
+    idx = torch.where(tnsr == 0)[0]  
     values = torch.pow(torch.ones(idx.shape, dtype=tnsr.dtype) * 10, power)
 
-    # تحقق إذا كان هناك فهارس صفر
+   
     if idx.numel() == 0:
-        return tnsr  # إذا لم يكن هناك فهارس، إرجاع التنسور الأصلي
+        return tnsr  
     
-    # إنشاء sparse_tensor
+    
     sparse_tensor = torch.sparse.FloatTensor(
         idx.unsqueeze(0), 
         values.unsqueeze(0), 
-        torch.Size((1, tnsr.shape[0]))  # هنا، نحدد الأبعاد بشكل صحيح
+        torch.Size((1, tnsr.shape[0]))  
     )
     
     new_tnsr = tnsr + sparse_tensor.to_dense()
@@ -108,7 +108,7 @@ class GeneralizedMean:
         #   Otherwise, inv_n is calculated as 1/n, where n is the number of values in prob_values.
         if len(prob_values) == 0:
             print("Warning: prob_values is empty. Cannot calculate inv_n.")
-            self.inv_n = 0  # أو قم بإعطاء قيمة افتراضية مناسبة، حسب السياق
+            self.inv_n = 0  
         else:
             self.inv_n = 1 / len(prob_values)  # 1/n
         ##   Calculates metrics like decisiveness, accuracy, and robustness
@@ -133,7 +133,7 @@ class GeneralizedMean:
         This allows all calculated metrics to be gathered in one place.
         Values from log_prob_values are stored with the key, making them easy to access later.
         """
-        # استخدام pd.concat بدلاً من append
+       
         self.gmean_metrics = pd.concat([self.gmean_metrics, curr_metrics])
         self.gmean_log_prob_values[key] = log_prob_values
         
@@ -203,7 +203,7 @@ class GeneralizedMean:
             xlabel = 'Reconstruction Likelihood in Logscale'
             #power0 = -1000
             power0 = -5
-            xtick_powers_base_10 = np.array(range(power0, 1, 1))  # تعديلات تناسب القيم الأصغر
+            xtick_powers_base_10 = np.array(range(power0, 1, 1))  
             #xtick_powers_base_10 = np.array(range(power0, 0, 100))
             xtick_labels = [f'$10^{{{k}}}$' for k in xtick_powers_base_10]
             xticks = xtick_powers_base_10 * np.log(10)
