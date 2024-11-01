@@ -16,25 +16,25 @@ class VAEXperiment(pl.LightningModule):
     def __init__(self,
                  vae_model: BaseVAE,
                  params: dict,
-                 config: dict,  # تأكد من وجود فاصلة هنا
-                 tb_logger=None  # tb_logger معامل اختياري
+                 config: dict,  
+                 tb_logger=None  
                  ) -> None:
         super(VAEXperiment, self).__init__()
 
         self.config = config
-        self.tb_logger = tb_logger  # حفظ tb_logger
+        self.tb_logger = tb_logger  
         self.model = vae_model
         self.params = params
         self.curr_device = None
         self.hold_graph = params.get('retain_first_backpass', False)
-        self.automatic_optimization = False  # تعطيل التحسين التلقائي
+        self.automatic_optimization = False  
         """
         ll_values: refers to Reconstruction Loss values. These are the losses saved from reconstructing the input data.
         kl_values: refers to KLD Loss (Kullback-Leibler Divergence Loss). These are the losses saved from the difference
         between two distributions.
         """
-        self.ll_values = []  # لقيم Reconstruction Loss
-        self.kl_values = []  # لقيم KLD Loss
+        self.ll_values = []  
+        self.kl_values = []  
 
 
 
@@ -76,7 +76,7 @@ class VAEXperiment(pl.LightningModule):
                                               #optimizer_idx=optimizer_idx,
                                               batch_idx = batch_idx)
         ###########################
-        # حفظ القيم في قوائم للرجوع إليها لاحقًا
+        
         self.ll_values.append(train_loss['Reconstruction_Loss'].item()) 
         self.kl_values.append(train_loss['KLD'].item()) 
         ########################### 
@@ -86,7 +86,7 @@ class VAEXperiment(pl.LightningModule):
     ################################
     
         # Manually perform optimization
-        opt = self.optimizers()  # إذا كان لديك محسن واحد
+        opt = self.optimizers()  
         opt.zero_grad()
         self.manual_backward(train_loss['loss'])
         opt.step()
@@ -95,7 +95,7 @@ class VAEXperiment(pl.LightningModule):
         return train_loss['loss']
         #, self.ll_values[-1], self.kl_values[-1]
 ######################################
-        # إضافة دوال الاسترجاع
+       
     def get_ll_values(self):
         return self.ll_values
 
