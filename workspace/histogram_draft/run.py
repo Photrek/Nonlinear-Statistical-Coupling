@@ -42,8 +42,7 @@ def main():
 # For reproducibility
     seed_everything(config['exp_params']['manual_seed'], True)
 
-    # إضافة Generalized Mean هنا
-    # التأكد من وجود القيم قبل استخدامهما
+   
     if 'll_values' in locals() and 'kl_values' in locals():
         g_mean = GeneralizedMean(ll_values, kl_values, kappa, z_dim)
 
@@ -108,25 +107,25 @@ def main():
    
 
     # Save value after treaning
-    ll_values = experiment.get_ll_values()  # الحصول على القيم المحفوظة لـ Reconstruction Loss
-    kl_values = experiment.get_kl_values()  # الحصول على القيم المحفوظة لـ KLD Loss
+    ll_values = experiment.get_ll_values()  
+    kl_values = experiment.get_kl_values()  
     
 
     
-    kappa = 0.025  # قم بتعديل القيمة حسب الحاجة
+    kappa = 0.025  
     z_dim = config['model_params']['z_dim']  
 
-    # إنشاء g_mean بعد الحصول على ll_values و kl_values
+    
     g_mean = GeneralizedMean(ll_values, kl_values, kappa, z_dim)
 
-    # استدعاء دالة عرض الهيستوغرام
-    g_mean.display_histogram('recon')  # يمكنك استخدام 'kldiv' أو 'elbo' حسب الحاجة
+   
+    g_mean.display_histogram('recon') 
     #g_mean.display_histogram('kldiv')
     #g_mean.display_histogram('elbo')
 
 
 
-# كتابة القيم إلى ملف
+
     with open("loss_values.txt", "w") as file:
         for ll, kl in zip(ll_values, kl_values):
             file.write(f"Reconstruction Loss: {ll}, KLD Loss: {kl}\n")
